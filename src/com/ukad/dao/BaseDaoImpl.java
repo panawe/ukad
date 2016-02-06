@@ -1,0 +1,335 @@
+package com.ukad.dao;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+import org.springframework.stereotype.Repository;
+
+import com.ukad.model.BaseEntity;
+import com.ukad.model.News;
+import com.ukad.security.model.Menu;
+import com.ukad.security.model.User;
+
+
+@Repository("baseDao")
+@Scope("singleton")
+public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
+		implements BaseDao {
+
+	public BaseDaoImpl() {
+
+	}
+
+	@Autowired
+	public BaseDaoImpl(SessionFactory sessionFactory) {
+		setSessionFactory(sessionFactory);
+	}
+	
+	
+	public void delete(BaseEntity entity) {
+		getHibernateTemplate().delete(entity);
+	}
+
+	public BaseEntity getById(Class cl, final Long id) {
+		return (BaseEntity) getHibernateTemplate().get(cl, id);
+	}
+
+
+	public void update(BaseEntity entity, User user) {
+		entity.setModDate(new Date());
+		//entity.setSchool(user.getSchool());
+		entity.setModifiedBy(user.getId());
+		getHibernateTemplate().update(entity);
+	}
+
+	public void save(BaseEntity entity, User user) {
+		entity.setCreateDate(new Date());
+		entity.setModDate(new Date());
+		//entity.setSchool(user.getSchool());
+		entity.setModifiedBy(user.getId());
+		getHibernateTemplate().save(entity);
+	}
+	
+	public void save(BaseEntity entity) {
+		
+		entity.setModDate(new Date());
+		//entity.setSchool(user.getSchool());
+		entity.setModifiedBy(1L);
+		
+		if(entity.getId()==null){
+			entity.setCreateDate(new Date());
+			getHibernateTemplate().save(entity);
+		}else{
+			getHibernateTemplate().update(entity);
+		}
+	}
+
+
+	public BaseEntity load(BaseEntity entity) {
+		getHibernateTemplate().load(entity, entity.getId());
+		return entity;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<BaseEntity> loadAll(Class<? extends BaseEntity> cl) {
+		return (List<BaseEntity>) getHibernateTemplate().loadAll(cl);
+	}
+
+
+	public BaseEntity findByName(Class cl, String name, String parentName,
+			String parentProperty, String parentPropertyValue) {
+		BaseEntity entity = null;
+		DetachedCriteria crit = DetachedCriteria.forClass(cl);
+		crit.add(Restrictions.eq("name", name)).createCriteria(parentName)
+				.add(Restrictions.eq(parentProperty, parentPropertyValue));
+		// crit.add(Restrictions.eq(parentName, parentValue));
+
+		List l = getHibernateTemplate().findByCriteria(crit);
+
+		if (l.size() > 0)
+			entity = (BaseEntity) l.get(0);
+
+		return entity;
+	}
+	
+	
+	public BaseEntity findByParents(Class cl, String firstParent,
+			String firstParentName, String secondParent, String secondParentName) {
+
+		BaseEntity entity = null;
+		DetachedCriteria crit = DetachedCriteria.forClass(cl);
+		
+		if (firstParent != null)
+			crit.createCriteria(firstParent).add(Restrictions.eq("name", firstParentName));
+		
+		if (secondParent != null)
+			crit.createCriteria(secondParent).add(Restrictions.eq("name", secondParentName));
+
+		List l = getHibernateTemplate().findByCriteria(crit);
+
+		if (l.size() > 0)
+			entity = (BaseEntity) l.get(0);
+
+		return entity;
+
+	}
+
+	public BaseEntity findByParents(Class cl, String firstParent,
+			Long firstParentId, String secondParent, Long secondParentId) {
+
+		BaseEntity entity = null;
+		DetachedCriteria crit = DetachedCriteria.forClass(cl);
+		
+		if (firstParent != null)
+			crit.createCriteria(firstParent).add(Restrictions.eq("id", firstParentId));
+		
+		if (secondParent != null)
+			crit.createCriteria(secondParent).add(Restrictions.eq("id", secondParentId));
+
+		List l = getHibernateTemplate().findByCriteria(crit);
+
+		if (l.size() > 0)
+			entity = (BaseEntity) l.get(0);
+
+		return entity;
+
+	}
+
+	public void deleteByParentIds(String cl, Map<String, Long> parentNameIds) {
+		String sql = "DELETE FROM " + cl + " WHERE (1 = 1) ";
+
+		for (String name : parentNameIds.keySet()) {
+			sql += " AND " + name + ".id = " + parentNameIds.get(name);
+		}
+
+		Query query = getHibernateTemplate().getSessionFactory()
+				.getCurrentSession().createQuery(sql);
+		int rowCount = query.executeUpdate();
+	}
+	
+	public int executeDeleteQuery(String sqlQuery) {
+		Query query = getHibernateTemplate().getSessionFactory()
+				.getCurrentSession().createQuery(sqlQuery);
+		return query.executeUpdate();
+	}
+	
+	public int deleteExamMark(Long examId) {
+		String sql = "DELETE FROM Mark m WHERE m.exam.id = "+examId;
+		Query query = getHibernateTemplate().getSessionFactory()
+				.getCurrentSession().createQuery(sql);
+		return query.executeUpdate();
+	}
+	
+
+	public List<BaseEntity> findByParentsIds(Class<? extends BaseEntity> c,
+			String firstParentName, Long firstParentId,
+			String secondParentName, Long secondParentId) {
+		BaseEntity entity = null;
+		DetachedCriteria crit = DetachedCriteria.forClass(c);
+		
+		if (firstParentName != null)
+			crit.createCriteria(firstParentName).add(Restrictions.eq("id", firstParentId));
+		if (secondParentName != null)
+			crit.createCriteria(secondParentName).add(Restrictions.eq("id", secondParentId));
+
+		List l = getHibernateTemplate().findByCriteria(crit);
+
+		return l;
+	}
+
+	public List<BaseEntity> findByParentsIds(Class<? extends BaseEntity> c,
+			String firstParentName, Long firstParentId,
+			String secondParentName, Long secondParentId,
+			String thirdParentName, Long thirdParentId) {
+		BaseEntity entity = null;
+		DetachedCriteria crit = DetachedCriteria.forClass(c);
+		crit.createCriteria(firstParentName).add(
+				Restrictions.eq("id", firstParentId));
+		crit.createCriteria(secondParentName).add(
+				Restrictions.eq("id", secondParentId));
+		crit.createCriteria(thirdParentName).add(
+				Restrictions.eq("id", thirdParentId));
+		
+		List l = getHibernateTemplate().findByCriteria(crit);
+
+		return l;
+	}
+	
+
+	public BaseEntity findByColumn(Class cl, String columnName,
+			String columnValue ) {
+		BaseEntity entity = null;
+		DetachedCriteria crit = DetachedCriteria.forClass(cl);
+		crit.add(Restrictions.eq(columnName, columnValue));
+		List l = getHibernateTemplate().findByCriteria(crit);
+
+		if (l.size() > 0)
+			entity = (BaseEntity) l.get(0);
+
+		return entity;
+	}
+	
+	public List<BaseEntity> findByColumns(Class cl, List<String> columnNames,
+			List<String> columnValues) {
+		BaseEntity entity = null;
+		DetachedCriteria crit = DetachedCriteria.forClass(cl);
+		int i = 0;
+		for (String columnName : columnNames) {
+			crit.add(Restrictions.eq(columnName, columnValues.get(i)));
+			i++;
+		}
+		
+		List l = getHibernateTemplate().findByCriteria(crit);
+		return l;
+	}
+	
+	public List<BaseEntity> findByColumnsLike(Class cl, List<String> columnNames,
+			List<String> columnValues) {
+		BaseEntity entity = null;
+		DetachedCriteria crit = DetachedCriteria.forClass(cl);
+		int i = 0;
+		for (String columnName : columnNames) {
+			crit.add(Restrictions.like(columnName, columnValues.get(i)));
+			i++;
+		}
+		
+		List l = getHibernateTemplate().findByCriteria(crit);
+		return l;
+	}
+	
+	
+	public List<BaseEntity> loadAllByParentId(Class<? extends BaseEntity> c,
+			String parentName, String parentProperty, Long parentPropertyValue) {
+		DetachedCriteria crit = DetachedCriteria.forClass(c);
+		crit.createCriteria(parentName).add(
+				Restrictions.eq(parentProperty, parentPropertyValue));
+
+		List l = getHibernateTemplate().findByCriteria(crit);
+
+		return l;
+	}
+	
+	public List<BaseEntity> loadEntitiesByParentAndDateRange(Class<? extends BaseEntity> c,
+			String parentName, String parentProperty, Long parentPropertyValue, String dateColumn,  Date beginDate, Date endDate) {		
+		DetachedCriteria crit = DetachedCriteria.forClass(c);
+		crit.createCriteria(parentName).add(
+				Restrictions.eq(parentProperty, parentPropertyValue));
+		if (beginDate != null)
+			crit.add(Restrictions.ge(dateColumn, beginDate));
+		if (endDate != null)
+			crit.add(Restrictions.le(dateColumn, endDate));
+		
+		crit.addOrder(Order.desc(dateColumn));
+		List l = getHibernateTemplate().findByCriteria(crit);
+		return l;
+	}
+	
+	public List<BaseEntity> loadEntitiesByPropertyAndDateRange(Class<? extends BaseEntity> c,
+			String property, String propertyValue, String dateColumn,  Date beginDate, Date endDate) {
+		DetachedCriteria crit = DetachedCriteria.forClass(c);
+		crit.add(Restrictions.eq(property, propertyValue));
+		if (beginDate != null)
+			crit.add(Restrictions.ge(dateColumn, beginDate));
+		if (endDate != null)
+			crit.add(Restrictions.le(dateColumn, endDate));
+		
+		crit.addOrder(Order.desc(dateColumn));
+		List l = getHibernateTemplate().findByCriteria(crit);
+		return l;
+	}
+
+	@Override
+	public BaseEntity findByColumn(Class cl, String columnName, Integer columnValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Menu> loadAllMenus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<User> loadAllUsers() {
+		// TODO Auto-generated method stub
+		
+		DetachedCriteria crit = DetachedCriteria.forClass(User.class);
+		crit.add(Restrictions.gt("id", 1L));
+		List l = getHibernateTemplate().findByCriteria(crit);
+
+		return l;
+	}
+
+	@Override
+	public List<BaseEntity> getUsers(Class cl, String userName, String lastName, String firstName, User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BaseEntity> getMenus(Class cl, String menuName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<News> getAllSortedNews() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+}

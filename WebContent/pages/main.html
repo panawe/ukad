@@ -1,0 +1,241 @@
+
+<div id="carousel-example-generic"
+	class="carousel slide cover overlay overflow-hidden max-height-600 cover-navbar-large-top margin-none"
+	data-ride="carousel">
+	<ol class="carousel-indicators">
+		<li data-target="#carousel-example-generic" data-slide-to="0"
+			class="active"></li>
+		<li data-target="#carousel-example-generic" data-slide-to="1"></li>
+		<li data-target="#carousel-example-generic" data-slide-to="2"></li>
+	</ol>
+	<div class="carousel-inner" role="listbox">
+		<div class="item active">
+			<img src="images/ukad-main-1.jpg" alt="Slider" class="width-100pc">
+		</div>
+		<div class="item">
+			<img src="images/ukad-main-2.jpg" alt="Slider" class="width-100pc">
+		</div>
+		<div class="item">
+			<img src="images/ukad-main-3.jpg" alt="Slider" class="width-100pc">
+		</div>
+	</div>
+	<div class="overlay overlay-bg-black">
+		<div class="v-bottom">
+			<div class="container">
+				<div class="page-section">
+					<h1 class="text-h1 text-overlay">
+						<strong>U</strong>nion des <strong>K</strong>abyes en <strong>A</strong>llemagne
+						pour le <strong>D</strong>evelopement du Togo
+					</h1>
+					<p class="lead text-overlay">E-mail:ukadtogo@gmail.com | Tel.
+						+49 911 41080092</p>
+					<p class="lead text-overlay">
+						<strong>Prochaine Assemblee Generale: 25 Juin 2016</strong>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<a class="left carousel-control" href="#carousel-example-generic"
+		role="button" data-slide="prev"> <span
+		class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span
+		class="sr-only">Precedent</span>
+	</a> <a class="right carousel-control" href="#carousel-example-generic"
+		role="button" data-slide="next"> <span
+		class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span
+		class="sr-only">Suivant</span>
+	</a>
+</div>
+
+<div class="bg-white">
+	<div class="container">
+
+		<div class="page-section">
+			<div class="text-center">
+				<i class="fa fa-home fa-5x text-grey-300"></i>
+				<h1 class="text-h2">Photos albums des rencontres</h1>
+				<hr />
+				<p class="lead">Cliquez sur l'image pour voir les photos album
+					des rencontres</p>
+			</div>
+			<br />
+
+			<div class="slick-basic slick-slider" data-items="5"
+				data-items-lg="3" data-items-md="2" data-items-sm="2"
+				data-items-xs="1">
+
+				<div class="item" ng-repeat="aEvent in eventsWithAlbum">
+					<div class="panel panel-default relative">
+						<div
+							class="ribbon-heading text-h5 ribbon-primary inline left absolute margin-none">::aEvent.albumTag::</div>
+						<div class="cover hover overlay margin-none">
+							<img src="images/events/::aEvent.id::/::aEvent.id::_1.jpg" alt="location"
+								class="img-responsive" /> <a href="#pages/eventAlbum" ng-click="getEventAlbum(aEvent)"
+								class="overlay overlay-full overlay-bg-black overlay-hover">
+								<span class="v-center"> <span
+									class="btn btn-circle btn-white"><i class="fa fa-eye"></i></span>
+							</span>
+							</a>
+						</div>
+						<div class="panel-body">
+							<h4 class="margin-v-0-5">::aEvent.title::</h4>
+							<p class="small">
+								<span class="fa fa-fw fa-star text-yellow-800"></span> <span
+									class="fa fa-fw fa-star text-yellow-800"></span> <span
+									class="fa fa-fw fa-star text-yellow-800"></span> <span
+									class="fa fa-fw fa-star text-yellow-800"></span> <span
+									class="fa fa-fw fa-star text-yellow-800"></span>
+							</p>
+							<p>::aEvent.albumNote::</p>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+			<!-- // END .owl-basic -->
+
+		</div>
+
+
+		<div class="page-section">
+			<div class="page-header text-center">
+				<i class="fa fa-comments-o fa-5x text-grey-300"></i>
+				<h3 class="text-h2">Contact des dirigeants</h3>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="media">
+						<div class="media-left">
+							<img src="images/people/50/guy-6.jpg" alt="People"
+								class="img-circle media-object" />
+						</div>
+						<div class="media-body">
+							<p>President</p>
+							<p>
+								<strong>Alain Batana. <span class="text-muted">alino@hotmail.com</span></strong>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="media">
+						<div class="media-left">
+							<img src="images/people/50/guy-2.jpg" alt="People"
+								class="pull-left img-circle media-object" />
+						</div>
+						<div class="media-body">
+							<p>Secretaire General Charge des affaires courantes de
+								l'association</p>
+							<p>
+								<strong>Awui S. <span class="text-muted">awui@gmail.com</span></strong>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="media">
+						<div class="media-left">
+							<img src="images/people/50/guy-9.jpg" alt="People"
+								class="img-circle media-object" />
+						</div>
+						<div class="media-body">
+							<p>Tresorier</p>
+							<p>
+								<strong>Bagoubadi Nawdala L. <span class="text-muted">bagbad@hotmail.com</span></strong>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
+
+		<!-- // END .container -->
+
+	</div>
+	<!-- // END .bg-white -->
+
+	<section class="footer-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-6 col-md-2">
+					<h4>U.K.A.D Togo</h4>
+					<ul class="list-unstyled">
+						<li><a href="">Nos Objectifs</a></li>
+						<li><a href="/statuts">Nos Status</a></li>
+						<li><a href="">Nos Membres </a></li>
+						<li><a href="">Notre Budget</a></li>
+						<li><a href="">Nos Partenaires</a></li>
+					</ul>
+				</div>
+				<div class="col-xs-6 col-md-2">
+					<h4>Nos Activites</h4>
+					<ul class="list-unstyled">
+						<li><a href="">Nos Realisations</a></li>
+						<li><a href="">Calendrier des Evenement</a></li>
+						<li><a href="">Rapports de reunions</a></li>
+					</ul>
+				</div>
+				<div class="col-xs-12 col-md-4 text-center">
+
+					<div class="panel bg-transparent margin-none">
+						<div class="panel-body">
+							<p>
+								<button class="btn btn-info btn-icon-stacked"
+									ng-click="openInNewTab('https://www.facebook.com/profile.php?id=100011100343040')">
+									<i class="fa fa-2x fa-facebook"></i> <span>Rejoignez-nous
+										<br>Sur Facebook
+									</span>
+								</button>
+								<button class="btn btn-primary btn-icon-stacked"
+									ng-click="openInNewTab('https://twitter.com/ukadtogo')">
+									<i class="fa fa-2x fa-twitter"></i> <span>Rejoignez-nous
+										<br>Sur Twitter
+									</span>
+								</button>
+								<button class="btn btn-inverse btn-icon-stacked"
+									ng-click="openInNewTab('https://plus.google.com/u/0/107802844769259096446')">
+									<i class="fa fa-2x fa-google-plus"></i> <span>Rejoignez-nous
+										<br>Sur Gougle+
+									</span>
+								</button>
+								<button class="btn btn-inverse btn-icon-stacked"
+									ng-click="openInNewTab('https://www.linkedin.com/in/u-k-a-d-togo-e-v-b48a76112?trk=nav_responsive_tab_profile')">
+									<i class="fa fa-2x fa-linkedin"></i> <span>Rejoignez-nous
+										<br>Sur Linkedin
+									</span>
+								</button>
+
+							</p>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 col-md-4">
+					<div class="panel bg-transparent margin-none">
+						<div class="panel-body">
+							<div class="form-group form-control-default">
+								<label for="email">Email:</label> <input id="email"
+									class="form-control" type="text"
+									placeholder="Votre addresse E-mail.." />
+							</div>
+							<div class="form-group">
+								<button class="btn btn-pink-500">Souscrire</button>
+							</div>
+
+							<small class="help-block">* On ne va pas vendre votre
+								email</small>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-md-4"></div>
+			</div>
+		</div>
+	</section>
+
+</div>
+<!-- // END #content -->
+
