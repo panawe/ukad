@@ -98,6 +98,7 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter{
 	    commonsMultipartResolver.setMaxUploadSize(50000000);
 	    return commonsMultipartResolver;
 	}
+	   
 	
 	@Autowired
 	@Bean(name = "transactionManager")
