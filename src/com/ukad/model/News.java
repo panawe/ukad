@@ -36,12 +36,7 @@ public class News extends BaseEntity implements Comparable {
 
 	@Column(name = "AUTHOR")
 	private String author;
-
-	@Column(name="PICTURE")
-	private byte[] picture;
-
-
-	
+ 
 	public int compareTo(Object arg0) {
 		News aNews= (News)arg0;
 		return this.newsDate.compareTo(aNews.getNewsDate());
@@ -109,16 +104,6 @@ public class News extends BaseEntity implements Comparable {
 
 
 
-	public byte[] getPicture() {
-		return picture;
-	}
-
-
-
-	public void setPicture(byte[] picture) {
-		this.picture = picture;
-	}
-	
 	@Transient
 	public String getShortMessage() {
 		return message != null && message.length() > 170 ? Utils.truncateHTML(message,170,null) : message;
