@@ -6769,7 +6769,10 @@ require('./_timeline');
         'ngCookies',
         'smart-table',
         'textAngular',
-        'angularFileUpload'
+        'angularFileUpload',
+        'mwl.calendar', 
+        'ui.bootstrap', 
+        'ngAnimate'
     ]);
 
     var app = angular.module('app')
@@ -7244,8 +7247,8 @@ require('./_timeline');
 	    "use strict";
 
 	    angular.module('app')
-	                   .controller('AppCtrl', [ '$scope', '$state','$window','$cookieStore','$log','$http','FileUploader','$location',
-	            function ($scope, $state,$window, $cookieStore,$log,$http,FileUploader,$location) {
+	                   .controller('AppCtrl', [ '$scope', '$state','$window','$cookieStore','$log','$http','FileUploader','$location','moment', 
+	            function ($scope, $state,$window, $cookieStore,$log,$http,FileUploader,$location,moment) {
 
 	                $scope.app = {
 	                    settings: {
@@ -7829,7 +7832,70 @@ require('./_timeline');
   	  	  	  	      /**
   	  	  	  	  	   * End Show Modal
   	  	  	  	  	   */
-	  	  	  	                      
+  	  	  	  	          
+  	  	  	  	      /**
+  	  	  	  	       * Begin Event Calendar
+  	  	  	  	       */
+	  	  	  	     
+  	  	  	  	  var vm = this;
+
+  	  	      //These variables MUST be set as a minimum for the calendar to work
+  	  	      vm.calendarView = 'month';
+  	  	      vm.viewDate = new Date();
+  	  	      vm.events = [
+  	  	        {
+  	  	          title: 'An event',
+  	  	          type: 'warning',
+  	  	          startsAt: moment().startOf('week').subtract(2, 'days').add(8, 'hours').toDate(),
+  	  	          endsAt: moment().startOf('week').add(1, 'week').add(9, 'hours').toDate()
+  	  	        }, {
+  	  	          title: '<i class="glyphicon glyphicon-asterisk"></i> <span class="text-primary">Another event</span>, with a <i>html</i> title',
+  	  	          type: 'info',
+  	  	          startsAt: moment().subtract(1, 'day').toDate(),
+  	  	          endsAt: moment().add(5, 'days').toDate()
+  	  	        }, {
+  	  	          title: 'This is a really long event title that occurs on every year',
+  	  	          type: 'important',
+  	  	          startsAt: moment().startOf('day').add(7, 'hours').toDate(),
+  	  	          endsAt: moment().startOf('day').add(19, 'hours').toDate(),
+  	  	          recursOn: 'year',
+  	  	          draggable: true,
+  	  	          resizable: true
+  	  	        }
+  	  	      ];
+
+  	  	      vm.isCellOpen = true;
+
+  	  	      vm.eventClicked = function(event) {
+  	  	        //alert.show('Clicked', event);
+  	  	    	 $scope.currEvent = event;
+ 	  	        	  $('#myModalLabel').text(event.title);
+ 	  	        	  $('#myModal').modal('show');
+  	  	      };
+
+  	  	      vm.eventEdited = function(event) {
+  	  	        //alert.show('Edited', event);
+  	  	      };
+
+  	  	      vm.eventDeleted = function(event) {
+  	  	        //alert.show('Deleted', event);
+  	  	      };
+
+  	  	      vm.eventTimesChanged = function(event) {
+  	  	       // alert.show('Dropped or resized', event);
+  	  	      };
+
+  	  	      vm.toggle = function($event, field, event) {
+  	  	        $event.preventDefault();
+  	  	        $event.stopPropagation();
+  	  	        event[field] = !event[field];
+  	  	      };
+  	  	  	  	         
+  	  	      $scope.vm=vm;
+  	  	  	  	          
+  	  	  	  	          /**
+  	  	  	  	           * End Event Calendar
+  	  	  	  	           */
 	            } ]); 
 
 	})();},{}],"/Code/html/themes/themekit/src/js/themes/admin-angular/main.js":[function(require,module,exports){
