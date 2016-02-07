@@ -6877,6 +6877,30 @@ require('./_timeline');
                         controller: ['$scope', function($scope){
                             $scope.app.settings.htmlClass = 'st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2';
                         }]
+                    }).state('pages.projectsEndUser', {
+                        url: '/projectsEndUser',
+                        templateUrl: 'pages/projectsEndUser.html',
+                        controller: ['$scope', function($scope){
+                            $scope.app.settings.htmlClass = 'st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2';
+                        }]
+                    }).state('pages.eventCalendar', {
+                        url: '/eventCalendar',
+                        templateUrl: 'pages/eventCalendar.html',
+                        controller: ['$scope', function($scope){
+                            $scope.app.settings.htmlClass = 'st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2';
+                        }]
+                    }).state('pages.meetings', {
+                        url: '/meetings',
+                        templateUrl: 'pages/meetings.html',
+                        controller: ['$scope', function($scope){
+                            $scope.app.settings.htmlClass = 'st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2';
+                        }]
+                    }).state('pages.projects', {
+                        url: '/projects',
+                        templateUrl: 'pages/projects.html',
+                        controller: ['$scope', function($scope){
+                            $scope.app.settings.htmlClass = 'st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2';
+                        }]
                     })
                     
                     
