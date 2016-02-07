@@ -7258,7 +7258,7 @@ require('./_timeline');
 	                          //$log.info("UserName="+$scope.userName+", password="+$scope.password);
 	                          var User={"userName":$scope.userName, "password":$scope.password};
 	                            
-	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/user/login', data: User }).
+	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/login', data: User }).
 	                           success(function (data, status, headers, config) {
 	                                    $log.info("Call Successful"); 
 	                                    if(data!=null&&data!=''){
@@ -7303,7 +7303,7 @@ require('./_timeline');
 	                 */
 	                $scope.createUser = function() {  
 	                	
-	                     $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/user/createUser', data: $scope.newUser }).
+	                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/createUser', data: $scope.newUser }).
 	                     success(function (data, status, headers, config) {
 	                              $log.info("Call Successful"); 
 	                              if(data!=null&&data!=''){
@@ -7336,7 +7336,7 @@ require('./_timeline');
 	                 */
 	                $scope.saveUser = function() {  
 	                	$scope.saveUserSubmitted=true;
-	                     $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/user/saveUser', data: $scope.theUser }).
+	                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/saveUser', data: $scope.theUser }).
 	                     success(function (data, status, headers, config) {
 	                              $log.info("Call Successful"); 
 	                              if(data!=null&&data!=''){
@@ -7376,7 +7376,7 @@ require('./_timeline');
   	                       */
   	                      
   	        var userProfileUploader = $scope.userProfileUploader = new FileUploader({
-  	            url: 'http://ukadtg-esoftsystems.rhcloud.com/service/user/receiveFile'
+  	            url: 'http://localhost:8080/ukadtogo/service/user/receiveFile'
   	        });
   	        
   	
@@ -7406,7 +7406,7 @@ require('./_timeline');
 	                 */
 	                      $scope.getAllUsers = function() {
 	                            
-	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/user/getAllMembers', data: null }).
+	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getAllMembers', data: null }).
 	                           success(function (data, status, headers, config) {
 	                                    $log.info("Call Successful"); 
 	                                	$scope.users=data;
@@ -7439,7 +7439,7 @@ require('./_timeline');
 	  	    	            		 $scope.mailSent=false;
 	  	    	               } else{
 
-	  	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/user/sendMail', data: email}).
+	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/sendMail', data: email}).
 	  	                           success(function (data, status, headers, config) {
 	  	                                    $log.info("Call Successful"); 
 	  	                                  $scope.email=null;
@@ -7473,7 +7473,7 @@ require('./_timeline');
 	  	  	                 */
 	  	  	                      $scope.getPendingMembers = function() {
 	  	  	                            
-	  	  	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/user/getPendingMembers', data: $scope.mailContent}).
+	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getPendingMembers', data: $scope.mailContent}).
 	  	  	                           success(function (data, status, headers, config) {
 	  	  	                                    
 	  	  	                                $log.info("Call Successful"); 
@@ -7495,7 +7495,7 @@ require('./_timeline');
 	  	  	  	                 * 
 	  	  	  	                 */
 	  	  	  	                      $scope.findMembers = function() {
-	  	  	  	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/user/findMembers', data:{searchText:$scope.searchText}}).
+	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/findMembers', data:{searchText:$scope.searchText}}).
 	  	  	  	                           success(function (data, status, headers, config) {
 	  	  	  	                                    
 	  	  	  	                                $log.info("Call find Members Successful"); 
@@ -7523,7 +7523,7 @@ require('./_timeline');
 	  	  	  	                 */
 	  	  	  	                      $scope.approveMember = function(aUser) {
 	  	  	  	                            
-	  	  	  	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/user/approveMember', data: aUser}).
+	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/approveMember', data: aUser}).
 	  	  	  	                           success(function (data, status, headers, config) {
 	  	  	  	                                    
 	  	  	  	                                $log.info("Call Successful"); 
@@ -7545,7 +7545,7 @@ require('./_timeline');
 	  	  	  	  	                 */
 	  	  	  	  	                      $scope.rejectMember = function(aUser) {
 	  	  	  	  	                            
-	  	  	  	  	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/user/rejectMember', data: aUser}).
+	  	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/rejectMember', data: aUser}).
 	  	  	  	  	                           success(function (data, status, headers, config) {
 	  	  	  	  	                                    
 	  	  	  	  	                                $log.info("Call Successful"); 
@@ -7566,7 +7566,7 @@ require('./_timeline');
 	  	  	  	  	                       */
 	  	  	  	  	                      
 	  	  	  	  	        var uploader = $scope.uploader = new FileUploader({
-	  	  	  	  	            url: 'http://ukadtg-esoftsystems.rhcloud.com/service/event/receiveFile'
+	  	  	  	  	            url: 'http://localhost:8080/ukadtogo/service/event/receiveFile'
 	  	  	  	  	        });
 	  	  	  	  	        
 	  	  	  	  	
@@ -7668,7 +7668,7 @@ require('./_timeline');
   	  	  	                 */
   	  	  	                      $scope.getAllEvents = function() {
   	  	  	                            
-  	  	  	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/event/getAllEvents', data: null }).
+  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEvents', data: null }).
   	  	  	                           success(function (data, status, headers, config) {
   	  	  	                                    $log.info("Call get All Events Successful"); 
   	  	  	                                	$scope.events=data;
@@ -7691,7 +7691,7 @@ require('./_timeline');
   	  	  	  	                 */
   	  	  	  	                      $scope.getAllEventsWithAlbum = function() {
   	  	  	  	                            
-  	  	  	  	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/event/getAllEventsWithAlbum', data: null }).
+  	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithAlbum', data: null }).
   	  	  	  	                           success(function (data, status, headers, config) {
   	  	  	  	                                    $log.info("Call get All Events with album Successful"); 
   	  	  	  	                                	$scope.eventsWithAlbum=data;
@@ -7717,7 +7717,7 @@ require('./_timeline');
   	  	  	                	$scope.eventSaveSubmitted=true;
   	  	  	                	//$scope.theEvent.beginDateTime = $scope.beginEndDateTime.split("-")[0];
   	  	  	                	//$scope.theEvent.endDateTime = $scope.beginEndDateTime.split("-")[1];
-  	  	  	                     $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/event/createEvent', data: this.theEvent }).
+  	  	  	                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/createEvent', data: this.theEvent }).
   	  	  	                     success(function (data, status, headers, config) {
   	  	  	                              $log.info("Call Create event Successful"); 
   	  	  	                              $scope.eventSelected=true;
@@ -7750,7 +7750,7 @@ require('./_timeline');
   	  	  	                 */
   	  	  	                      $scope.deleteEvent = function(aEvent) {
   	  	  	                    	  aEvent.deleted=false;
-  	  	  	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/event/deleteEvent', data: aEvent}).
+  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/deleteEvent', data: aEvent}).
   	  	  	                           success(function (data, status, headers, config) {  	  	  	                                    
   	  	  	                                $log.info("Call deleteEvent Successful"); 
   	  	  	                                aEvent.deleted=true;
@@ -7772,7 +7772,7 @@ require('./_timeline');
   	  	  	  	                 */
   	  	  	  	                      $scope.getEventAlbum = function(aEvent) {
   	  	  	  	                            
-  	  	  	  	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/event/getEventAlbum', data: aEvent }).
+  	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getEventAlbum', data: aEvent }).
   	  	  	  	                           success(function (data, status, headers, config) {
   	  	  	  	                                    $log.info("Call get All Events photo Successful"); 
   	  	  	  	                                	$scope.EventPictures=data;
