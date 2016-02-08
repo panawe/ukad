@@ -13,14 +13,12 @@
 </div>
 
 <div class="bg-white">
-	<div class="container">
+	<div class="container" >
 
-		<div class="page-section">
-
-			<div class="container">
+			<div class="container" >
 				<h2>Les Evenements</h2>
 			</div>
-			<div id="exTab3" class="container">
+			<div id="exTab3" class="container" >
 				<ul class="nav nav-pills">
 					<li class="active"><a href="#1b" data-toggle="tab">Ajouter
 							un evenement</a></li>
@@ -28,6 +26,8 @@
 							evenements</a></li>
 					<li><a href="#3b" data-toggle="tab">Charger les images
 							d'un evenement</a></li>
+
+					<li><a href="#4b" data-toggle="tab">Rapport</a></li>
 
 				</ul>
 
@@ -50,7 +50,7 @@
 						</div>
 
 
-						<form role="form" >
+						<form role="form">
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group form-control-default">
@@ -60,7 +60,7 @@
 											placeholder="Titre de l'evenement">
 									</div>
 								</div>
-							<div class="col-md-6">
+								<div class="col-md-6">
 									<div class="form-group form-control-default">
 										<label for="exampleInputFirstName11">Ville de
 											l'evenement</label> <input ng-model="theEvent.city" type="text"
@@ -68,11 +68,11 @@
 											placeholder="Ville de l'evenement">
 									</div>
 								</div>
-								
+
 							</div>
 							<div class="row">
-								
-							<div class="col-md-6">
+
+								<div class="col-md-6">
 									<div class="form-group form-control-default">
 										<label for="exampleInputLastName1">Description</label>
 										<textarea rows="4" cols="50" ng-model="theEvent.description"
@@ -106,16 +106,15 @@
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group form-control-default">
-										<label for="albumTag">Titre photo Album
-										</label> <input ng-model="theEvent.albumTag" type="text"
-											class="form-control" id="albumTag"
-											placeholder="Titre photo Album">
+										<label for="albumTag">Titre photo Album </label> <input
+											ng-model="theEvent.albumTag" type="text" class="form-control"
+											id="albumTag" placeholder="Titre photo Album">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group form-control-default">
-										<label for="albumNote">Note photo Album
-										</label> <input ng-model="theEvent.albumNote" type="text"
+										<label for="albumNote">Note photo Album </label> <input
+											ng-model="theEvent.albumNote" type="text"
 											class="form-control" id="albumNote"
 											placeholder="Note photo Album">
 									</div>
@@ -123,11 +122,11 @@
 							</div>
 
 
-							<button  ng-click="createEvent()" type="submit"
+							<button ng-click="createEvent()" type="submit"
 								class="btn btn-primary">Enregistrer</button>
-								
-								&nbsp;&nbsp;&nbsp;
-							<button ng-click="clearEvent()"  type="submit"
+
+							&nbsp;&nbsp;&nbsp;
+							<button ng-click="clearEvent()" type="submit"
 								class="btn btn-danger">Effacer</button>
 						</form>
 
@@ -164,8 +163,8 @@
 									<tr ng-repeat="aEvent in events" ng-show="!aEvent.deleted">
 										<td>::aEvent.title::</td>
 										<td>::aEvent.description::</td>
-										<td>::aEvent.beginDateTime|date:'medium'::</td>
-										<td>::aEvent.endDateTime|date:'medium'::</td>
+										<td>::aEvent.startsAt|date:'medium'::</td>
+										<td>::aEvent.endsAt|date:'medium'::</td>
 										<td>::aEvent.city::</td>
 										<td>::aEvent.address::</td>
 										<td>::aEvent.albumTag::</td>
@@ -201,12 +200,16 @@
 					</div>
 					<div class="tab-pane" id="3b">
 						<div class="panel panel-default" ng-show="eventSelected">
-							<div class="panel-heading"><h3><strong>::theEvent.title::</strong></h3></div>
+							<div class="panel-heading">
+								<h3>
+									<strong>::theEvent.title::</strong>
+								</h3>
+							</div>
 							<div class="panel-body">
 								<ul>
 									<li>::theEvent.description::</li>
-									<li>De ::theEvent.beginDateTime|date:'medium'::
-										  a ::theEvent.endDateTime|date:'medium'::</li>
+									<li>De ::theEvent.startsAt|date:'medium':: a
+										::theEvent.endsAt|date:'medium'::</li>
 								</ul>
 							</div>
 
@@ -331,18 +334,52 @@
 						</div>
 
 					</div>
+
+
+					<div class="tab-pane" id="4b">
+						<h3 ng-show="eventSelected" class="page-section-heading">Rapport de l'evenement ::theEvent.title::</h3>
+
+						<div class="alert alert-danger" ng-show="!eventSelected">
+							<button type="button" class="close" data-dismiss="alert">
+								<span aria-hidden="true">&times;</span><span class="sr-only">Fermer</span>
+							</button>
+							Veuillez selectionner un evenement
+						</div>
+
+						<div class="panel panel-default" ng-show="eventSelected">
+							<form role="form">
+								<div class="alert alert-danger" ng-show="!mailSent && submitted">
+									<button type="button" class="close" data-dismiss="alert">
+										<span aria-hidden="true">&times;</span><span class="sr-only">Fermer</span>
+									</button>
+									::theMessage::
+								</div>
+
+								<div class="alert alert-success" ng-show="mailSent && submitted">
+									<button type="button" class="close" data-dismiss="alert">
+										<span aria-hidden="true">&times;</span><span class="sr-only">Fermer</span>
+									</button>
+									::theMessage::
+								</div>
+
+								<div class="container lighter">
+									<div text-angular ng-model="theEvent.report"></div>
+								</div>
+								<div class="text-right">
+									<button type="submit" ng-click="saveReportAndMail()"
+										class="btn btn-primary">
+										Envoyer <i class="fa fa-sign-in"></i>
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
 				</div>
 			</div>
-		</div>
-
-
-
+		
 	</div>
-
-
 	<br />
-
-
 	<!-- // END .container -->
 
 </div>

@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.ukad.security.model.User;
 
@@ -29,6 +30,9 @@ public class Mail extends BaseEntity{
 	
 	@Column(name="STATUS")
 	private Short status;
+	
+	@Transient
+	private Long eventId;
 	
 	@Column(name = "BODY")
 	private String body;
@@ -63,6 +67,12 @@ public class Mail extends BaseEntity{
 	}
 	public void setStatus(Short status) {
 		this.status = status;
+	}
+	public Long getEventId() {
+		return eventId;
+	}
+	public void setEventId(Long eventId) {
+		this.eventId = eventId;
 	}
 	
 	

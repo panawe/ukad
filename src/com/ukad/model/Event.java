@@ -12,10 +12,9 @@ import javax.persistence.Transient;
 
 import com.ukad.util.Utils;
 
-
 @Entity
 @Table(name = "EVENT")
-public class Event extends BaseEntity {
+public class Event extends BaseEntity implements Comparable<Event> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,21 +23,62 @@ public class Event extends BaseEntity {
 
 	@Column(name = "TITLE")
 	private String title;
-	
+
 	@Column(name = "DESCRIPTION")
 	private String description;
 
-	 
 	@Column(name = "BEGIN_TIME")
-	private Date beginDateTime;
-	
-	@Column(name ="ALBUM_TAG")
+	private Date startsAt;
+
+	@Column(name = "ALBUM_TAG")
 	private String albumTag;
-	
-	@Column(name="ALBUM_NOTE")
+
+	@Column(name = "ALBUM_NOTE")
 	private String albumNote;
+	@Transient
+	private String type = "info"; 
+	@Column(name="REPORT")
+	private String report;
+	@Transient
+	private boolean hasPhoto;
+	@Transient
+	private boolean hasReport;
+ 
 
  
+
+	public boolean isHasPhoto() {
+		return hasPhoto;
+	}
+
+	public void setHasPhoto(boolean hasPhoto) {
+		this.hasPhoto = hasPhoto;
+	}
+
+	public boolean isHasReport() {
+		return hasReport;
+	}
+
+	public void setHasReport(boolean hasReport) {
+		this.hasReport = hasReport;
+	}
+
+	public String getReport() {
+		return report;
+	}
+
+	public void setReport(String report) {
+		this.report = report;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public String getAlbumTag() {
 		return albumTag;
 	}
@@ -56,18 +96,16 @@ public class Event extends BaseEntity {
 	}
 
 	@Column(name = "END_TIME")
-	private Date endDateTime;
-	
-	
-	@Column(name="ADDRESS")
+	private Date endsAt;
+
+	@Column(name = "ADDRESS")
 	private String address;
-	
-	@Column(name="CITY")
+
+	@Column(name = "CITY")
 	private String city;
 
 	@Transient
 	private String beginEndDateTime;
-	
 
 	public String getBeginEndDateTime() {
 		return beginEndDateTime;
@@ -111,30 +149,31 @@ public class Event extends BaseEntity {
 
 	@Transient
 	public String getShortDescription() {
-		return description != null && description.length() > 170 ? Utils.truncateHTML(description,170,null) : description;
+		return description != null && description.length() > 170 ? Utils.truncateHTML(description, 170, null)
+				: description;
 	}
 
 	@Transient
 	public boolean getShowDescriptionLink() {
 		return description != null && description.length() > 170 ? true : false;
 	}
-	
-	public Date getBeginDateTime() {
-		return beginDateTime;
+
+	public Date getStartsAt() {
+		return startsAt;
 	}
 
-	public void setBeginDateTime(Date beginDateTime) {
-		this.beginDateTime = beginDateTime;
+	public void setStartsAt(Date startsAt) {
+		this.startsAt = startsAt;
 	}
 
-	public Date getEndDateTime() {
-		return endDateTime;
+	public Date getEndsAt() {
+		return endsAt;
 	}
 
-	public void setEndDateTime(Date endDateTime) {
-		this.endDateTime = endDateTime;
+	public void setEndsAt(Date endsAt) {
+		this.endsAt = endsAt;
 	}
-	
+
 	@Override
 	public Long getId() {
 		return id;
@@ -144,4 +183,11 @@ public class Event extends BaseEntity {
 		this.id = id;
 	}
 
+	public int compareTo(Event another) {
+        if (this.getStartsAt().before(another.getStartsAt())){
+            return -1;
+        }else{
+            return 1;
+        }
+    }
 }

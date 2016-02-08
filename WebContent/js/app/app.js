@@ -7840,30 +7840,8 @@ require('./_timeline');
   	  	  	  	  var vm = this;
 
   	  	      //These variables MUST be set as a minimum for the calendar to work
-  	  	      vm.calendarView = 'month';
+  	  	      vm.calendarView = 'year';
   	  	      vm.viewDate = new Date();
-  	  	      vm.events = [
-  	  	        {
-  	  	          title: 'An event',
-  	  	          type: 'warning',
-  	  	          startsAt: moment().startOf('week').subtract(2, 'days').add(8, 'hours').toDate(),
-  	  	          endsAt: moment().startOf('week').add(1, 'week').add(9, 'hours').toDate()
-  	  	        }, {
-  	  	          title: '<i class="glyphicon glyphicon-asterisk"></i> <span class="text-primary">Another event</span>, with a <i>html</i> title',
-  	  	          type: 'info',
-  	  	          startsAt: moment().subtract(1, 'day').toDate(),
-  	  	          endsAt: moment().add(5, 'days').toDate()
-  	  	        }, {
-  	  	          title: 'This is a really long event title that occurs on every year',
-  	  	          type: 'important',
-  	  	          startsAt: moment().startOf('day').add(7, 'hours').toDate(),
-  	  	          endsAt: moment().startOf('day').add(19, 'hours').toDate(),
-  	  	          recursOn: 'year',
-  	  	          draggable: true,
-  	  	          resizable: true
-  	  	        }
-  	  	      ];
-
   	  	      vm.isCellOpen = true;
 
   	  	      vm.eventClicked = function(event) {
@@ -7896,6 +7874,122 @@ require('./_timeline');
   	  	  	  	          /**
   	  	  	  	           * End Event Calendar
   	  	  	  	           */
+  	  	      
+                /**
+                 * Start send Mail
+                 *  
+                 */
+                      $scope.saveReportAndMail = function() { 
+                      $scope.submitted=true;
+                    $scope.theMessage='';
+    	               var email={body:$scope.theEvent.report, 
+                			  subject:'Raport de Reunion: '+$scope.theEvent.title,
+                			  sender:$scope.theUser,
+                			  eventId:$scope.theEvent.id};
+    	               if(this.emailBody=='' || this.emailSubject==''){
+    	            	 $scope.theMessage='Le Sujet et le message sont obligatoires';
+    	            		 $scope.mailSent=false;
+    	               } else{
+
+                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/saveReportAndMail', data: email}).
+                           success(function (data, status, headers, config) {
+                                    $log.info("Call Successful"); 
+                                  $scope.email=null;
+                                  if(data=='Success'){
+                                	 $scope.mailSent=true;
+                                	// $scope.emailBody='';
+ 	                                //$scope.emailSubject='';
+ 	                                $scope.theMessage='Votre annonce a ete envoye avec success';
+                                  }else{
+                                	 $scope.mailSent=false;
+                                	$scope.theMessage='Votre annonce ne peut etre envoyer en ce moment. Reessayer plus tard';
+                                  }
+                                 
+                               
+                                  $log.info($scope);
+                           }).error(function (data, status, headers, config) {
+                                    $log.info("Call Failed");
+                                    $log.info($scope);
+                                    $log.info($scope.email);
+                                  $scope.mailSent=false;
+                                $scope.theMessage='Votre annonce ne peut etre envoyer en ce moment. Reessayer plus tard';
+                           });
+    	               }
+                      };
+            	 /**
+            	  * End Send Mail
+            	  */
+                      
+      				/**
+                       * Start send Mail
+                       *  
+                       */
+                            $scope.saveReportAndMail = function() { 
+                            $scope.submitted=true;
+                          $scope.theMessage='';
+          	               var email={body:$scope.theEvent.report, 
+                      			  subject:'Raport de Reunion: '+$scope.theEvent.title,
+                      			  sender:$scope.theUser,
+                      			  eventId:$scope.theEvent.id};
+          	               if(this.emailBody=='' || this.emailSubject==''){
+          	            	 $scope.theMessage='Le Sujet et le message sont obligatoires';
+          	            		 $scope.mailSent=false;
+          	               } else{
+
+                                 $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/saveReportAndMail', data: email}).
+                                 success(function (data, status, headers, config) {
+                                          $log.info("Call Successful"); 
+                                        $scope.email=null;
+                                        if(data=='Success'){
+                                      	 $scope.mailSent=true;
+                                      	// $scope.emailBody='';
+       	                                //$scope.emailSubject='';
+       	                                $scope.theMessage='Votre annonce a ete envoye avec success';
+                                        }else{
+                                      	 $scope.mailSent=false;
+                                      	$scope.theMessage='Votre annonce ne peut etre envoyer en ce moment. Reessayer plus tard';
+                                        }
+                                       
+                                     
+                                        $log.info($scope);
+                                 }).error(function (data, status, headers, config) {
+                                          $log.info("Call Failed");
+                                          $log.info($scope);
+                                          $log.info($scope.email);
+                                        $scope.mailSent=false;
+                                      $scope.theMessage='Votre annonce ne peut etre envoyer en ce moment. Reessayer plus tard';
+                                 });
+          	               }
+                            };
+                  	 /**
+                  	  * End Send Mail
+                  	  */
+                            
+                            /**
+	  	  	  	                 * Start get Album Photo or Report
+	  	  	  	                 * Get the list photo of Events
+	  	  	  	                 */
+	  	  	  	                      $scope.getAllEventsWithAlbumOrRepport = function() {
+  	  	  	                            
+	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithAlbumOrRepport', data: null }).
+	  	  	  	                           success(function (data, status, headers, config) {
+	  	  	  	                                    $log.info("Call get All Events with album Successful"); 
+	  	  	  	                                	$scope.eventsWithAlbumReport=data;
+	  	  	  	                                   
+	  	  	  	                           }).error
+											$log.info($scope);
+	  	  	                                     //$cookieStore.put('eventsWithAlbum',data);
+	  	  	  	                                  r(function (data, status, headers, config) {
+	  	  	  	                                    $log.info("Call get All Event with album Failed");
+	  	  	  	                                    $log.info($scope);
+	  	  	                                     //$cookieStore.put('eventsWithAlbum',null);
+	  	  	  	                           });
+	  	  	  	              
+	  	  	  	                      };
+	  	  	  	            	 /**
+	  	  	  	            	  * End get all Events album photos or report
+	  	  	  	            	  */
+
 	            } ]); 
 
 	})();},{}],"/Code/html/themes/themekit/src/js/themes/admin-angular/main.js":[function(require,module,exports){
