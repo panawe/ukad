@@ -7700,6 +7700,7 @@ require('./_timeline');
   	  	  	                                    $log.info("Call get All Events Successful"); 
   	  	  	                                	$scope.events=data;
   	  	  	                                    $log.info($scope);
+  	  	  	                                    $log.info($scope.events);
   	  	                                     //$cookieStore.put('events',data);
   	  	  	                                    
   	  	  	                           }).error(function (data, status, headers, config) {

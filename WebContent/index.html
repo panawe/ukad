@@ -161,7 +161,7 @@
 					</a>
 						<ul class="dropdown-menu" role="menu" ng-show="theUser.id>0">
 							<li><a href="#pages/profile"><i class="fa fa-user"></i>Profile</a></li>
-							<li ng-show="theUser.status==1"><a href="#pages/events"><i
+							<li ng-show="theUser.status==1"><a  ng-click="getAllEvents()" href="#pages/events"><i
 									class="fa fa-wrench"></i>Evenement</a></li>
 							<li ng-show="theUser.status==1"><a href="#pages/email"><i
 									class="fa fa-wrench"></i>Annonces</a></li>
