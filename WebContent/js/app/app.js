@@ -6904,6 +6904,12 @@ require('./_timeline');
                         controller: ['$scope', function($scope){
                             $scope.app.settings.htmlClass = 'st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2';
                         }]
+                    }).state('pages.cotiser', {
+                        url: '/cotiser',
+                        templateUrl: 'pages/cotiser.html',
+                        controller: ['$scope', function($scope){
+                            $scope.app.settings.htmlClass = 'st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2';
+                        }]
                     })
                     
                     
@@ -7246,7 +7252,6 @@ require('./_timeline');
 (function () {
 	    "use strict";
 
-	    
 	    angular.module('app')
 	                   .controller('AppCtrl', [ '$scope', '$state','$window','$cookieStore','$log','$http','FileUploader','$location','moment', 
 	            function ($scope, $state,$window, $cookieStore,$log,$http,FileUploader,$location,moment) {
@@ -7275,7 +7280,24 @@ require('./_timeline');
 	                $scope.openInNewTab = function(link){
 	                        $window.open(link, '_blank');
 	                    };
+	                    
+	                $scope.paymentTypes=[{id:0,name:''},
+	                                    {id:1, name:'Cotisation mensuelle'},
+	                                    {id:2,name:'Cotisation Annuelle'},
+	                                    {id:3,name:'Don'}
+	                                    ];
+	               
+	                $scope.years=[{id:0,name:''},
+	                              {id:1,name:2016},
+	                              {id:2,name:2017},
+	                              {id:3,name:2018}, 
+	                              {id:4,name:2019}, 
+	                              {id:5,name:2020}];
 	                
+	                $scope.months=[{name:''},
+	                               {name:'Janvier'}, {name:'Fevrier'}, {name:'Mars'}, {name:'Avril'}, {name:'Mai'}, {name:'Juin'},
+	                               {name:'Juillet'},{name:'Aout'},{name:'Septembre'},{name:'October'},{name:'Novembre'},{name:'Decembre'}];
+	                	
 	                /**
 	                 * Start log on function
 	                 * Get userName and Password and return pass or failed login
@@ -7439,12 +7461,9 @@ require('./_timeline');
 	                                    $log.info("Call Successful"); 
 	                                	$scope.users=data;
 	                                    $log.info($scope);
-                                   //$cookieStore.put('users',data);
-	                                    
 	                           }).error(function (data, status, headers, config) {
 	                                    $log.info("Call Failed");
 	                                    $log.info($scope);
-                                  // $cookieStore.put('users',null);
 	                           });
 	              
 	                      };
@@ -7701,6 +7720,7 @@ require('./_timeline');
   	  	  	                                    $log.info("Call get All Events Successful"); 
   	  	  	                                	$scope.events=data;
   	  	  	                                    $log.info($scope);
+  	  	  	                                    $log.info($scope.events);
   	  	                                     //$cookieStore.put('events',data);
   	  	  	                                    
   	  	  	                           }).error(function (data, status, headers, config) {
@@ -7834,156 +7854,15 @@ require('./_timeline');
   	  	  	  	  	   * End Show Modal
   	  	  	  	  	   */
   	  	  	  	          
-  	  	  	  	  
-  	  	  	 	   /**
-  	  	  	        * Start create Event
-  	  	  	        */
-  	  	  	 	    
-  	  	  	 	    $scope.projectSelected=false;
-  	  	  	         $scope.projectSaved=false;
-  	  	  	         $scope.projectSaveSubmitted=false;
-  	  	  	         
-  	  	  	         var projectUploader = $scope.projectUploader = new FileUploader({
-  	  	  	 	            url: 'http://localhost:8080/ukadtogo/service/project/receiveFile'
-  	  	  	 	        });
-  	  	  	 	        
-  	  	  	 	
-  	  	  	 	        // FILTERS
-
-  	  	  	 	      projectUploader.filters.push({
-  	  	  	 	            name: 'customFilter',
-  	  	  	 	            fn: function(item /*{File|FileLikeObject}*/, options) {
-  	  	  	 	                return this.queue.length < 10;
-  	  	  	 	            }
-  	  	  	 	        });
-
-  	  	  	 	        // CALLBACKS
-  	  	  	 	    projectUploader.onBeforeUploadItem = function(item) {
-  	  	  	 	            console.info('onBeforeUploadItem', item);
-  	  	  	 	            item.formData.push({projectId: $scope.theProject.id});
-  	  	  	 	            $log.info(item);
-  	  	  	 	            
-  	  	  	 	        };
-  	  	  	 	        
-  	  	  	 	        
-  	  	  	 	    $scope.createProject = function() {  
-  	  	  	 	      	$scope.projectSaveSubmitted=true;	      	
-  	  	  	 	      	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/createProject', data: this.theProject }).
-  	  	  	 	      	success(function (data, status, headers, config) {
-  	  	  	                     $log.info("Call Create Project Successful"); 
-  	  	  	                     $scope.projectSelected=true;
-  	  	  	               $scope.projectSaved=true;
-  	  	  	               //this.theEvent='';
-  	  	  	                  	$cookieStore.put('theProject',data);
-  	  	  	                 	$scope.theProject=data;
-  	  	  	             $scope.theEventMessage='Realisation enregistree avec succes';
-  	  	  	                     $log.info($scope);
-  	  	  	                     
-  	  	  	                     
-  	  	  	            }).error(function (data, status, headers, config) {
-  	  	  	                     $log.info("Call Create Project Failed");
-  	  	  	                     $cookieStore.put('theProject','');
-  	  	  	               $scope.theProjectMessage='Realisation ne peut etre enregistrer. Essayer plus tard';
-  	  	  	                         $scope.theProject=null; 
-  	  	  	                   $scope.projectSaved=false;
-  	  	  	                   $scope.projectSelected=false;
-  	  	  	                         $log.info($scope);
-  	  	  	                   
-  	  	  	                });
-  	  	  	   
-  	  	  	           };
-  	  	  	           /**
-  	  	  	 	       * End Create Project
-  	  	  	 	       */
-  	  	  	        
-  	  	  	     /**
-                 * Start select Project
-                 * 
-                 */
-                      $scope.selectProject = function(aProject) {
-                    	  
-                    	  $scope.theProject = aProject;
-                    	  
-                    	  
-                    	  $scope.projectSelected=true;
-                          $log.info($scope.theProject.status); 
-                         	  	              
-                      };
-            	 /**
-            	  * End select Project
-            	  */
-  	  	  	        
-  	  	  	  	 /**
-	             * Start clear Project
-	             * 
-	             */
-	                  $scope.clearProject = function() {
-	                    	 
-	                	  $scope.theProject = '';  	  	   	  	  	                    	  
-	                	  $scope.projectSelected = false;
-	                      $log.info($scope); 
-	                     	  	              
-	                  };
-	        	 /**
-	        	  * End clear Event
-	        	  */
-  	  	                   
-	  	   	  	  	                      
-            /**
-             * Start get Projects
-             * Get the list of Projects
-             */
-              $scope.getAllProjects = function() {
-                    
-                   $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/getAllProjects', data: null }).
-                   success(function (data, status, headers, config) {
-                            $log.info("Call get All Projects Successful"); 
-                        	$scope.projects = data;
-                            $log.info($scope.projects);
-                         //$cookieStore.put('projects',data);
-                            
-                   }).error(function (data, status, headers, config) {
-                            $log.info("Call get All Project Failed");
-                            $log.info($scope);
-                         //$cookieStore.put('projects',null);
-                   });
-      
-              };
-        	 /**
-        	  * End get all Events
-        	  */
-  
-  	  	  	   /**
-  	  	       * Begin Event Calendar
-  	  	       */
+  	  	  	  	      /**
+  	  	  	  	       * Begin Event Calendar
+  	  	  	  	       */
 	  	  	  	     
   	  	  	  	  var vm = this;
 
   	  	      //These variables MUST be set as a minimum for the calendar to work
-  	  	      vm.calendarView = 'month';
+  	  	      vm.calendarView = 'year';
   	  	      vm.viewDate = new Date();
-  	  	      vm.events = [
-  	  	        {
-  	  	          title: 'An event',
-  	  	          type: 'warning',
-  	  	          startsAt: moment().startOf('week').subtract(2, 'days').add(8, 'hours').toDate(),
-  	  	          endsAt: moment().startOf('week').add(1, 'week').add(9, 'hours').toDate()
-  	  	        }, {
-  	  	          title: '<i class="glyphicon glyphicon-asterisk"></i> <span class="text-primary">Another event</span>, with a <i>html</i> title',
-  	  	          type: 'info',
-  	  	          startsAt: moment().subtract(1, 'day').toDate(),
-  	  	          endsAt: moment().add(5, 'days').toDate()
-  	  	        }, {
-  	  	          title: 'This is a really long event title that occurs on every year',
-  	  	          type: 'important',
-  	  	          startsAt: moment().startOf('day').add(7, 'hours').toDate(),
-  	  	          endsAt: moment().startOf('day').add(19, 'hours').toDate(),
-  	  	          recursOn: 'year',
-  	  	          draggable: true,
-  	  	          resizable: true
-  	  	        }
-  	  	      ];
-
   	  	      vm.isCellOpen = true;
 
   	  	      vm.eventClicked = function(event) {
@@ -8016,12 +7895,167 @@ require('./_timeline');
   	  	  	  	          /**
   	  	  	  	           * End Event Calendar
   	  	  	  	           */
+  	  	      
+                /**
+                 * Start send Mail
+                 *  
+                 */
+                      $scope.saveReportAndMail = function() { 
+                      $scope.submitted=true;
+                    $scope.theMessage='';
+    	               var email={body:$scope.theEvent.report, 
+                			  subject:'Raport de Reunion: '+$scope.theEvent.title,
+                			  sender:$scope.theUser,
+                			  eventId:$scope.theEvent.id};
+    	               if(this.emailBody=='' || this.emailSubject==''){
+    	            	 $scope.theMessage='Le Sujet et le message sont obligatoires';
+    	            		 $scope.mailSent=false;
+    	               } else{
+
+                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/saveReportAndMail', data: email}).
+                           success(function (data, status, headers, config) {
+                                    $log.info("Call Successful"); 
+                                  $scope.email=null;
+                                  if(data=='Success'){
+                                	 $scope.mailSent=true;
+                                	// $scope.emailBody='';
+ 	                                //$scope.emailSubject='';
+ 	                                $scope.theMessage='Votre annonce a ete envoye avec success';
+                                  }else{
+                                	 $scope.mailSent=false;
+                                	$scope.theMessage='Votre annonce ne peut etre envoyer en ce moment. Reessayer plus tard';
+                                  }
+                                 
+                               
+                                  $log.info($scope);
+                           }).error(function (data, status, headers, config) {
+                                    $log.info("Call Failed");
+                                    $log.info($scope);
+                                    $log.info($scope.email);
+                                  $scope.mailSent=false;
+                                $scope.theMessage='Votre annonce ne peut etre envoyer en ce moment. Reessayer plus tard';
+                           });
+    	               }
+                      };
+            	 /**
+            	  * End Send Mail
+            	  */
+                      
+      				/**
+                       * Start send Mail
+                       *  
+                       */
+                            $scope.saveReportAndMail = function() { 
+                            $scope.submitted=true;
+                          $scope.theMessage='';
+          	               var email={body:$scope.theEvent.report, 
+                      			  subject:'Raport de Reunion: '+$scope.theEvent.title,
+                      			  sender:$scope.theUser,
+                      			  eventId:$scope.theEvent.id};
+          	               if(this.emailBody=='' || this.emailSubject==''){
+          	            	 $scope.theMessage='Le Sujet et le message sont obligatoires';
+          	            		 $scope.mailSent=false;
+          	               } else{
+
+                                 $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/saveReportAndMail', data: email}).
+                                 success(function (data, status, headers, config) {
+                                          $log.info("Call Successful"); 
+                                        $scope.email=null;
+                                        if(data=='Success'){
+                                      	 $scope.mailSent=true;
+                                      	// $scope.emailBody='';
+       	                                //$scope.emailSubject='';
+       	                                $scope.theMessage='Votre annonce a ete envoye avec success';
+                                        }else{
+                                      	 $scope.mailSent=false;
+                                      	$scope.theMessage='Votre annonce ne peut etre envoyer en ce moment. Reessayer plus tard';
+                                        }
+                                       
+                                     
+                                        $log.info($scope);
+                                 }).error(function (data, status, headers, config) {
+                                          $log.info("Call Failed");
+                                          $log.info($scope);
+                                          $log.info($scope.email);
+                                        $scope.mailSent=false;
+                                      $scope.theMessage='Votre annonce ne peut etre envoyer en ce moment. Reessayer plus tard';
+                                 });
+          	               }
+                            };
+                  	 /**
+                  	  * End Send Mail
+                  	  */
+                            
+                            /**
+	  	  	  	                 * Start get Album Photo or Report
+	  	  	  	                 * Get the list photo of Events
+	  	  	  	                 */
+	  	  	  	                      $scope.getAllEventsWithAlbumOrRepport = function() {
+  	  	  	                            
+	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithAlbumOrRepport', data: null }).
+	  	  	  	                           success(function (data, status, headers, config) {
+	  	  	  	                                    $log.info("Call get All Events with album Successful"); 
+	  	  	  	                                	$scope.eventsWithAlbumReport=data;
+	  	  	  	                                   
+	  	  	  	                           }).error
+											$log.info($scope);
+	  	  	                                     //$cookieStore.put('eventsWithAlbum',data);
+	  	  	  	                                  r(function (data, status, headers, config) {
+	  	  	  	                                    $log.info("Call get All Event with album Failed");
+	  	  	  	                                    $log.info($scope);
+	  	  	                                     //$cookieStore.put('eventsWithAlbum',null);
+	  	  	  	                           });
+	  	  	  	              
+	  	  	  	                      };
+	  	  	  	            	 /**
+	  	  	  	            	  * End get all Events album photos or report
+	  	  	  	            	  */
+	  	  	  	                      
+	  	  	  	                /**
+	  	  	  	  	                 * Start create Payment
+	  	  	  	  	                 */
+	  	  	  	  	                $scope.makePayment = function() {  
+	  	  	  	  	                	var transaction={amount:this.amount,
+	  	  	  	  	                			comment:this.comment,
+	  	  	  	  	                			year:this.year,
+	  	  	  	  	                			month:this.month,
+	  	  	  	  	                			modifiedBy:$scope.theUser.id,
+	  	  	  	  	                			io:1,
+	  	  	  	  	                			rebate:0.0,
+	  	  	  	  	                			user:$scope.currUser,
+	  	  	  	  	                			paymentType: {id:this.paymentType}
+	  	  	  	  	                			
+	  	  	  	  	                	};
+	  	  	  	  	                	$scope.paymentSaveSubmitted=true;
+	  	  	  	  	                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/makePayment', data: transaction }).
+	  	  	  	  	                     success(function (data, status, headers, config) {
+	  	  	  	  	                     $log.info("Call makePayment Successful");  
+	  	  	  	  	                     $scope.paymentSaved=true; 
+	  	  	  	  	                     if(data=='Success'){
+	  	  	  	  	                    	 $scope.theEventMessage='Payement Effectue succes';
+	  	  	  	  	                     }else{
+	  	  	  	  	                    	 $scope.thePaymentMessage='Le payement a echoue';
+	  	  	  	  	                    	 $scope.paymentSaved=false;
+	  	  	  	  	                     }
+	  	  	  	  	                    
+	  	  	  	  	                     $log.info($scope);
+	  	  	  	  	                              
+	  	  	  	  	                              
+	  	  	  	  	                     }).error(function (data, status, headers, config) {
+	  	  	  	  	                        $log.info("Call makePayment Failed");
+	  	  	  	  	                        $scope.thePaymentMessage='Le payement a echoue';
+	  	  	  	  	                        $scope.paymentSaved=false;
+	  	  	  	  	                        $log.info($scope);
+	  	  	  	  	                        
+	  	  	  	  	                     });
+	  	  	  	  	        
+	  	  	  	  	                };
+	  	  	  	  	                /**
+	  	  	  	  	                 * End Create Payment
+	  	  	  	  	                 */
+
 	            } ]); 
 
-	    
-	   
-          
-          
 	})();},{}],"/Code/html/themes/themekit/src/js/themes/admin-angular/main.js":[function(require,module,exports){
 // Angular App
 require('./angular/app.js');

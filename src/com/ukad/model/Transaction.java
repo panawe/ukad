@@ -1,21 +1,21 @@
 package com.ukad.model;
-
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import com.ukad.security.model.User;
 
 @Entity
-@Table(name="PAYMENT")
-public class Payment extends BaseEntity {
+@Table(name="TRANSACTION")
+public class Transaction extends BaseEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="PAYMENT_ID")
+	@Column(name="TRANSACTION_ID")
 	private Long id;
 	
 	@Column(name ="AMOUNT")
@@ -25,23 +25,64 @@ public class Payment extends BaseEntity {
 	private Double rebate;
 	
 	@Column(name="MONTH_PAID")
-	private Date month;
+	private String month;
 	
 	@Column(name="YEAR_PAID")
-	private Date year;
+	private Integer year;
+	
+	@Column(name="IO")
+	private Short io;
 	
 	@Column(name="COMMENT")
 	private String comment;
-	
-	@Column(name="FREQUENCY")
-	private String frequency;
 
-	public String getFrequency() {
-		return frequency;
+	@ManyToOne
+	@JoinColumn(name="PAYMENT_TYPE_ID")
+	private PaymentType paymentType;
+	
+	@ManyToOne
+	@JoinColumn(name="USER_ID")
+	private User user;
+
+	
+	public String getMonth() {
+		return month;
 	}
 
-	public void setFrequency(String frequency) {
-		this.frequency = frequency;
+	public void setMonth(String month) {
+		this.month = month;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public Short getIo() {
+		return io;
+	}
+
+	public void setIo(Short io) {
+		this.io = io;
+	}
+
+	public PaymentType getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(PaymentType paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override
@@ -67,22 +108,6 @@ public class Payment extends BaseEntity {
 
 	public void setRebate(Double rebate) {
 		this.rebate = rebate;
-	}
-
-	public Date getMonth() {
-		return month;
-	}
-
-	public void setMonth(Date month) {
-		this.month = month;
-	}
-
-	public Date getYear() {
-		return year;
-	}
-
-	public void setYear(Date year) {
-		this.year = year;
 	}
 
 	public String getComment() {

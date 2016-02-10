@@ -241,4 +241,11 @@ INSERT INTO USERS (COUNTRY_ID,STATUS,USER_ID,pageSkin,`USER_NAME`, `PASSWORD`, `
 VALUES (5,0,1,'Rouge','panawe@gmail.com','123','Panawe','Batanado','panawe@gmail.com',now(), now(),1,'+1 678-314-5397',1,1,'1.jpg'),
 (5,1,2,'Rouge','ukadtogo@gmail.com','ukadtogo123','Alain','Batana','ukadtogo@gmail.com',now(), now(),1,'+49 12 34 56 78',4,1,'2.jpg'),
 (5,2,3,'Rouge','panawe@yahoo.fr','123','Lidaw','Batanado','panawe@yahoo.fr',now(), now(),1,'+228 12 34 56 78',1,0,'3.jpg');
+
+INSERT INTO PAYMENT_TYPE (  PAYMENT_TYPE_ID       , NAME       , FREQUENCY     , CREATE_DATE       , MOD_DATE      , MOD_BY  )
+VALUES(1,'Cotisation Mensuelle','MONTH',NOW(),NOW(),1);
+INSERT INTO PAYMENT_TYPE (  PAYMENT_TYPE_ID       , NAME       , FREQUENCY     , CREATE_DATE       , MOD_DATE      , MOD_BY  )
+VALUES(2,'Cotisation Annuelle','YEAR',NOW(),NOW(),1); 
+INSERT INTO PAYMENT_TYPE (  PAYMENT_TYPE_ID       , NAME       , FREQUENCY     , CREATE_DATE       , MOD_DATE      , MOD_BY  )
+VALUES(3,'Don','YEAR',NOW(),NOW(),1); 
 COMMIT;

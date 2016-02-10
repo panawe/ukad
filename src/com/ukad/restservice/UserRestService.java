@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ukad.model.Event;
 import com.ukad.model.Mail;
+import com.ukad.model.Transaction;
 import com.ukad.security.model.Search;
 import com.ukad.security.model.User;
 import com.ukad.security.service.UserService;
@@ -64,6 +65,36 @@ public class UserRestService {
 
 		return userService.getUser(user.getUserName(), user.getPassword());
 	}
+	
+	
+	@RequestMapping(value = "/makePayment", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody String makePayment(@RequestBody Transaction tran) {
+		System.out.println("makePayment called:" + tran);
+		
+		
+		try {
+			userService.save(tran);
+			/*
+			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
+			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV bien recue", mail, "ukadtogo@gmail.com",
+					user.getEmail(), "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
+
+			mail = "<blockquote><h2><b>Nom: " + user.getLastName() + "</b></h2><h2><b>Prenom:" + user.getFirstName()
+					+ "</b></h2><h2><b>E-mail:" + user.getEmail()
+					+ "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.ukadtogo.com \" target=\"\">www.ukadtogo.com </a></b></div></blockquote>";
+			SimpleMail.sendMail("Demand d'adhesion de " + user.getFirstName() + " " + user.getLastName(), mail,
+					"ukadtogo@gmail.com", "ukadtogo@gmail.com", "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
+					*/
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Failure";
+		}
+
+		return "Success";
+	}
+
 
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody User saveUser(@RequestBody User user) {
