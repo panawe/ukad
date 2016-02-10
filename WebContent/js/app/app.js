@@ -6904,6 +6904,12 @@ require('./_timeline');
                         controller: ['$scope', function($scope){
                             $scope.app.settings.htmlClass = 'st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2';
                         }]
+                    }).state('pages.cotiser', {
+                        url: '/cotiser',
+                        templateUrl: 'pages/cotiser.html',
+                        controller: ['$scope', function($scope){
+                            $scope.app.settings.htmlClass = 'st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2';
+                        }]
                     })
                     
                     
@@ -7274,7 +7280,24 @@ require('./_timeline');
 	                $scope.openInNewTab = function(link){
 	                        $window.open(link, '_blank');
 	                    };
+	                    
+	                $scope.paymentTypes=[{id:0,name:''},
+	                                    {id:1, name:'Cotisation mensuelle'},
+	                                    {id:2,name:'Cotisation Annuelle'},
+	                                    {id:3,name:'Don'}
+	                                    ];
+	               
+	                $scope.years=[{id:0,name:''},
+	                              {id:1,name:2016},
+	                              {id:2,name:2017},
+	                              {id:3,name:2018}, 
+	                              {id:4,name:2019}, 
+	                              {id:5,name:2020}];
 	                
+	                $scope.months=[{name:''},
+	                               {name:'Janvier'}, {name:'Fevrier'}, {name:'Mars'}, {name:'Avril'}, {name:'Mai'}, {name:'Juin'},
+	                               {name:'Juillet'},{name:'Aout'},{name:'Septembre'},{name:'October'},{name:'Novembre'},{name:'Decembre'}];
+	                	
 	                /**
 	                 * Start log on function
 	                 * Get userName and Password and return pass or failed login
@@ -7438,12 +7461,9 @@ require('./_timeline');
 	                                    $log.info("Call Successful"); 
 	                                	$scope.users=data;
 	                                    $log.info($scope);
-                                   //$cookieStore.put('users',data);
-	                                    
 	                           }).error(function (data, status, headers, config) {
 	                                    $log.info("Call Failed");
 	                                    $log.info($scope);
-                                  // $cookieStore.put('users',null);
 	                           });
 	              
 	                      };
@@ -7990,6 +8010,49 @@ require('./_timeline');
 	  	  	  	            	 /**
 	  	  	  	            	  * End get all Events album photos or report
 	  	  	  	            	  */
+	  	  	  	                      
+	  	  	  	                /**
+	  	  	  	  	                 * Start create Payment
+	  	  	  	  	                 */
+	  	  	  	  	                $scope.makePayment = function() {  
+	  	  	  	  	                	var transaction={amount:this.amount,
+	  	  	  	  	                			comment:this.comment,
+	  	  	  	  	                			year:this.year,
+	  	  	  	  	                			month:this.month,
+	  	  	  	  	                			modifiedBy:$scope.theUser.id,
+	  	  	  	  	                			io:1,
+	  	  	  	  	                			rebate:0.0,
+	  	  	  	  	                			user:$scope.currUser,
+	  	  	  	  	                			paymentType: {id:this.paymentType}
+	  	  	  	  	                			
+	  	  	  	  	                	};
+	  	  	  	  	                	$scope.paymentSaveSubmitted=true;
+	  	  	  	  	                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/makePayment', data: transaction }).
+	  	  	  	  	                     success(function (data, status, headers, config) {
+	  	  	  	  	                     $log.info("Call makePayment Successful");  
+	  	  	  	  	                     $scope.paymentSaved=true; 
+	  	  	  	  	                     if(data=='Success'){
+	  	  	  	  	                    	 $scope.theEventMessage='Payement Effectue succes';
+	  	  	  	  	                     }else{
+	  	  	  	  	                    	 $scope.thePaymentMessage='Le payement a echoue';
+	  	  	  	  	                    	 $scope.paymentSaved=false;
+	  	  	  	  	                     }
+	  	  	  	  	                    
+	  	  	  	  	                     $log.info($scope);
+	  	  	  	  	                              
+	  	  	  	  	                              
+	  	  	  	  	                     }).error(function (data, status, headers, config) {
+	  	  	  	  	                        $log.info("Call makePayment Failed");
+	  	  	  	  	                        $scope.thePaymentMessage='Le payement a echoue';
+	  	  	  	  	                        $scope.paymentSaved=false;
+	  	  	  	  	                        $log.info($scope);
+	  	  	  	  	                        
+	  	  	  	  	                     });
+	  	  	  	  	        
+	  	  	  	  	                };
+	  	  	  	  	                /**
+	  	  	  	  	                 * End Create Payment
+	  	  	  	  	                 */
 
 	            } ]); 
 
