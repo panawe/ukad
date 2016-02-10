@@ -3,6 +3,7 @@ package com.ukad.restservice;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -87,8 +88,8 @@ public class EventRestService {
 			}
 			String eventBeginEnd = event.getBeginEndDateTime();
 			if (eventBeginEnd != null && eventBeginEnd.contains("-")) {
-				event.setBeginDateTime(new Date(Date.parse(eventBeginEnd.split("-")[0])));
-				event.setEndDateTime(new Date(Date.parse(eventBeginEnd.split("-")[1])));
+				event.setStartsAt(new Date(Date.parse(eventBeginEnd.split("-")[0])));
+				event.setEndsAt(new Date(Date.parse(eventBeginEnd.split("-")[1])));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,7 +97,7 @@ public class EventRestService {
 		eventService.save(event);
 		Event ee= (Event) eventService.getById(Event.class, event.getId());
 		SimpleDateFormat df = new  SimpleDateFormat("dd/MM/yyyy hh:mm aaa");
-		ee.setBeginEndDateTime(df.format(ee.getBeginDateTime())+" - "+df.format(ee.getEndDateTime()));
+		ee.setBeginEndDateTime(df.format(ee.getStartsAt())+" - "+df.format(ee.getEndsAt()));
 		return ee;
 	}
 
@@ -112,7 +113,10 @@ public class EventRestService {
 	@RequestMapping(value = "/getAllEvents", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<Event> getEvents() {
 		System.out.println("Event list Requested - getEvents");
-		return (List<Event>) eventService.loadAllEvents(Event.class);
+		
+		List<Event> retList= (List<Event>) eventService.loadAllEvents(Event.class);
+		 Collections.reverse(retList);
+		 return retList;
 	}
 
 	@RequestMapping(value = "/getAllEventsWithAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -140,9 +144,48 @@ public class EventRestService {
 				retList.add(e);
 			}
 		 }
+		 Collections.reverse(retList);
 		 return retList;
 	}
-	
+
+	@RequestMapping(value = "/getAllEventsWithAlbumOrRepport", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<Event> getAllEventsWithAlbumOrRepport() {
+		System.out.println("Event list Requested - getAllEventsWithAlbumOrRepport");
+		 List<Event> events= eventService.loadAllEvents(Event.class);
+		 String storageDirectory = null;
+			
+			if (context != null) {
+				
+				storageDirectory = context.getRealPath("/") + 
+						File.separator + "images" + File.separator + "events";
+				
+				
+			} 
+			List<Event> retList= new ArrayList<Event>();
+		 for(Event e:events){
+			 File dir = new File(storageDirectory+
+						File.separator+e.getId());
+			 int fileCount=0;
+				if(dir.exists()){
+					fileCount=dir.listFiles().length;
+				}
+			if(e.getReport()!=null){
+				e.setHasReport(true);
+				 
+			}
+			if(fileCount>0){
+				e.setHasPhoto(true);				
+			}
+			
+			if(e.isHasPhoto()||e.isHasReport()){
+				retList.add(e);
+			}
+				
+		 	}
+		 Collections.reverse(retList);
+		 return retList;
+	}
+
 	@RequestMapping(value = "/getEventAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<String> getEventAlbum(@RequestBody Event event) {
 		System.out.println("getEventAlbum Event:" + event);
@@ -167,7 +210,7 @@ public class EventRestService {
 					}
 				}
 			 
-		 
+				 Collections.reverse(retList);
 		 return retList;
 		
 	}

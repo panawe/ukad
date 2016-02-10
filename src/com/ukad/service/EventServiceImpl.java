@@ -22,7 +22,7 @@ public class EventServiceImpl extends BaseServiceImpl implements EventService {
 			  events= new ArrayList<Event>();
 			for(BaseEntity be:ees){
 				Event ee=(Event)be;
-				ee.setBeginEndDateTime(df.format(ee.getBeginDateTime())+" - "+df.format(ee.getEndDateTime()));
+				ee.setBeginEndDateTime(df.format(ee.getStartsAt())+" - "+df.format(ee.getEndsAt()));
 				events.add(ee);
 			}
 			

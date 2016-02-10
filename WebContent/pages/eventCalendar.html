@@ -18,7 +18,7 @@
 		<div class="page-section">
 
 			<div class="container">
-				<h2>Les Evenements</h2>
+				<h2>Calendrier des Evenements</h2>
 			</div>
 			<h2 class="text-center">::vm.calendarTitle::</h2>
 
@@ -55,15 +55,11 @@
 			</div>
 
 			<br>
-
-			<mwl-calendar events="vm.events" view="vm.calendarView"
+			
+			<mwl-calendar events="events" view="vm.calendarView"
 				view-title="vm.calendarTitle" view-date="vm.viewDate"
 				on-event-click="vm.eventClicked(calendarEvent)"
 				on-event-times-changed="vm.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
-				edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"
-				delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
-				on-edit-event-click="vm.eventEdited(calendarEvent)"
-				on-delete-event-click="vm.eventDeleted(calendarEvent)"
 				cell-is-open="vm.isCellOpen" day-view-start="06:00"
 				day-view-end="22:00" day-view-split="30"
 				cell-modifier="vm.modifyCell(calendarCell)"> </mwl-calendar>
@@ -84,16 +80,16 @@
 							
 							<div class="row">
 								<h4 class="text-center">
-									<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.title::
+									<i class="fa fa-fw fa-bullhorn fa-2x"></i>::currEvent.description::
 								</h4>
 								<h4 class="text-center">
-									<i class="fa fa-fw fa-phone fa-2x"></i> ::currEvent.startsAt|date::
+									<i class="fa fa-fw fa-clock-o fa-2x"></i> Debut ::currEvent.startsAt|date:'medium'::
 								</h4>
 								<h4 class="text-center">
-									<i class="fa fa-fw fa-envelope-o fa-2x"></i> ::currEvent.endsAt|date::
+									<i class="fa fa-fw fa-clock-o fa-2x"></i>Fin ::currEvent.endsAt|date:'medium'::
 								</h4>
 								<h4 class="text-center">
-									<i class="fa fa-fw fa-user fa-2x"></i> Importance ::currEvent.type::
+									<i class="fa fa-fw fa-map-marker fa-2x"></i>  ::currEvent.address::
 								</h4>
 							</div>
 						</div>
