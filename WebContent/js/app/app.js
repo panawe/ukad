@@ -7854,6 +7854,127 @@ require('./_timeline');
   	  	  	  	  	   * End Show Modal
   	  	  	  	  	   */
   	  	  	  	          
+  	  	  	  	          
+  	    	  	  	  	  
+  	   	  	  	 	   /**
+  	   	  	  	        * Start create Project
+  	   	  	  	        */
+  	   	  	  	 	    
+  	   	  	  	 	    $scope.projectSelected=false;
+  	   	  	  	         $scope.projectSaved=false;
+  	   	  	  	         $scope.projectSaveSubmitted=false;
+  	   	  	  	         
+  	   	  	  	         var projectUploader = $scope.projectUploader = new FileUploader({
+  	   	  	  	 	            url: 'http://localhost:8080/ukadtogo/service/project/receiveFile'
+  	   	  	  	 	        });
+  	   	  	  	 	        
+  	   	  	  	 	
+  	   	  	  	 	        // FILTERS
+
+  	   	  	  	 	      projectUploader.filters.push({
+  	   	  	  	 	            name: 'customFilter',
+  	   	  	  	 	            fn: function(item /*{File|FileLikeObject}*/, options) {
+  	   	  	  	 	                return this.queue.length < 10;
+  	   	  	  	 	            }
+  	   	  	  	 	        });
+
+  	   	  	  	 	        // CALLBACKS
+  	   	  	  	 	    projectUploader.onBeforeUploadItem = function(item) {
+  	   	  	  	 	            console.info('onBeforeUploadItem', item);
+  	   	  	  	 	            item.formData.push({projectId: $scope.theProject.id});
+  	   	  	  	 	            $log.info(item);
+  	   	  	  	 	            
+  	   	  	  	 	        };
+  	   	  	  	 	        
+  	   	  	  	 	        
+  	   	  	  	 	    $scope.createProject = function() {  
+  	   	  	  	 	      	$scope.projectSaveSubmitted=true;	      	
+  	   	  	  	 	      	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/createProject', data: this.theProject }).
+  	   	  	  	 	      	success(function (data, status, headers, config) {
+  	   	  	  	                     $log.info("Call Create Project Successful"); 
+  	   	  	  	                     $scope.projectSelected=true;
+  	   	  	  	               $scope.projectSaved=true;
+  	   	  	  	               //this.theEvent='';
+  	   	  	  	                  	$cookieStore.put('theProject',data);
+  	   	  	  	                 	$scope.theProject=data;
+  	   	  	  	             $scope.theEventMessage='Realisation enregistree avec succes';
+  	   	  	  	                     $log.info($scope);
+  	   	  	  	                     
+  	   	  	  	                     
+  	   	  	  	            }).error(function (data, status, headers, config) {
+  	   	  	  	                     $log.info("Call Create Project Failed");
+  	   	  	  	                     $cookieStore.put('theProject','');
+  	   	  	  	               $scope.theProjectMessage='Realisation ne peut etre enregistrer. Essayer plus tard';
+  	   	  	  	                         $scope.theProject=null; 
+  	   	  	  	                   $scope.projectSaved=false;
+  	   	  	  	                   $scope.projectSelected=false;
+  	   	  	  	                         $log.info($scope);
+  	   	  	  	                   
+  	   	  	  	                });
+  	   	  	  	   
+  	   	  	  	           };
+  	   	  	  	           /**
+  	   	  	  	 	       * End Create Project
+  	   	  	  	 	       */
+  	   	  	  	        
+  	   	  	  	     /**
+  	                  * Start select Project
+  	                  * 
+  	                  */
+  	                       $scope.selectProject = function(aProject) {
+  	                     	  
+  	                     	  $scope.theProject = aProject;
+  	                     	  
+  	                     	  
+  	                     	  $scope.projectSelected=true;
+  	                           $log.info($scope.theProject.status); 
+  	                          	  	              
+  	                       };
+  	             	 /**
+  	             	  * End select Project
+  	             	  */
+  	   	  	  	        
+  	   	  	  	  	 /**
+  	 	             * Start clear Project
+  	 	             * 
+  	 	             */
+  	 	                  $scope.clearProject = function() {
+  	 	                    	 
+  	 	                	  $scope.theProject = '';  	  	   	  	  	                    	  
+  	 	                	  $scope.projectSelected = false;
+  	 	                      $log.info($scope); 
+  	 	                     	  	              
+  	 	                  };
+  	 	        	 /**
+  	 	        	  * End clear Project
+  	 	        	  */
+  	   	  	                   
+  	 	  	   	  	  	                      
+  	             /**
+  	              * Start get Projects
+  	              * Get the list of Projects
+  	              */
+  	               $scope.getAllProjects = function() {
+  	                     
+  	                    $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/getAllProjects', data: null }).
+  	                    success(function (data, status, headers, config) {
+  	                             $log.info("Call get All Projects Successful"); 
+  	                         	$scope.projects = data;
+  	                             $log.info($scope.projects);
+  	                          //$cookieStore.put('projects',data);
+  	                             
+  	                    }).error(function (data, status, headers, config) {
+  	                             $log.info("Call get All Project Failed");
+  	                             $log.info($scope);
+  	                          //$cookieStore.put('projects',null);
+  	                    });
+  	       
+  	               };
+  	         	 /**
+  	         	  * End get all Projects
+  	         	  */
+  	               
+  	  	  	  	          
   	  	  	  	      /**
   	  	  	  	       * Begin Event Calendar
   	  	  	  	       */
