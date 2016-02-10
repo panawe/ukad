@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name="PROJECT")
@@ -30,20 +33,36 @@ public class Project extends BaseEntity {
 	@Column(name ="BUDGET")
 	private Double budget;
 	
+	@JsonFormat(pattern = "MM/dd/yyyy")
 	@Column(name="PROJECTED_START_DATE")
-	private Double projectedStartDate;
+	private Date projectedStartDate;
 
+	@JsonFormat(pattern = "MM/dd/yyyy")
 	@Column(name="PROJECTED_END_DATE")
-	private Double projectEndDate;
+	private Date projectedEndDate;
 
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM/dd/yyyy")
 	@Column(name="START_DATE")
-	private Double startDate;
+	private Date startDate;
 
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM/dd/yyyy")
 	@Column(name="END_DATE")
-	private Double endDate;
+	private Date endDate;
 
 	@Column(name="STATUS")
 	private Short status;
+	
+	@Transient
+	public String getStatusDescription() {
+		String desc = "";
+		if (status == 0) desc = "Pas Commencee";
+		else if (status == 1) desc = "En cours"; 
+		else if (status == 2) desc = "Annulee"; 
+		else if (status == 3) desc = "Terminee"; 
+		else if (status == 4) desc = "Reportee"; 
+		
+		return desc;
+	}
 	
 	public String getTitle() {
 		return title;
@@ -77,35 +96,35 @@ public class Project extends BaseEntity {
 		this.budget = budget;
 	}
 
-	public Double getProjectedStartDate() {
+	public Date getProjectedStartDate() {
 		return projectedStartDate;
 	}
 
-	public void setProjectedStartDate(Double projectedStartDate) {
+	public void setProjectedStartDate(Date projectedStartDate) {
 		this.projectedStartDate = projectedStartDate;
 	}
 
-	public Double getProjectEndDate() {
-		return projectEndDate;
+	public Date getProjectedEndDate() {
+		return projectedEndDate;
 	}
 
-	public void setProjectEndDate(Double projectEndDate) {
-		this.projectEndDate = projectEndDate;
+	public void setProjectedEndDate(Date projectedEndDate) {
+		this.projectedEndDate = projectedEndDate;
 	}
 
-	public Double getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Double startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public Double getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Double endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
@@ -126,5 +145,5 @@ public class Project extends BaseEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 }
