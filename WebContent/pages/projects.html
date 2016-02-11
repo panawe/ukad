@@ -124,14 +124,14 @@
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-				                        <label for="status">Select</label>
+				                        <label for="status">Etat d'avancement</label>
 				                        <select name="select" class="form-control" ng-model="theProject.status" 
 				                        	data-style="btn-white" data-size="5">
-				                        	<option value="0">Pas Commencee</option>
+				                        	<option value="0">Pas Commence</option>
 				                        	<option value="1">En Cours</option>
-				                        	<option value="2">Annulee</option>
-				                        	<option value="3">Terminee</option>
-				                        	<option value="4">Reportee</option>
+				                        	<option value="2">Annule</option>
+				                        	<option value="3">Termine</option>
+				                        	<option value="4">Reporte</option>
 				                        </select>	
                       				</div>
 	                    		</div>
@@ -220,10 +220,7 @@
 							<div class="panel-body">
 								<ul>
 									<li>::theProject.description::</li>
-									<li>Projete de ::theProject.projectedStartDate::
-										  a ::theProject.projectedEndDate::</li>
-									<li>A eu lieu de ::theProject.startDate::
-									  a ::theProject.endDate::</li>
+									<li>Planifie pour ::theProject.projectedStartDate::</li>									
 								</ul>
 							</div>
 
