@@ -24,8 +24,8 @@
 				<ul class="nav nav-pills">
 					<li class="active"><a href="#1b" data-toggle="tab">Ajouter
 							une realisation</a></li>
-					<li><a href="#2b" ng-click="getAllProjects()" data-toggle="tab">Les
-							realisations</a></li>
+					<li><a href="#2b" ng-click="getAllProjects()"
+						data-toggle="tab">Les realisations</a></li>
 					<li><a href="#3b" data-toggle="tab">Charger les images
 							d'une realisation</a></li>
 
@@ -50,14 +50,13 @@
 						</div>
 
 
-						<form role="form" >
+						<form role="form">
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group form-control-default">
-										<label for="projectTitle">Titre de
-											la realisation</label> <input ng-model="theProject.title" type="text"
-											class="form-control" id="projectTitle"
-											placeholder="Titre de la realisation">
+										<label for="projectTitle">Titre de la realisation</label> <input
+											ng-model="theProject.title" type="text" class="form-control"
+											id="projectTitle" placeholder="Titre de la realisation">
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -67,79 +66,83 @@
 											type="text" class="form-control" id="projectDescription"
 											placeholder="Description" />
 									</div>
-								</div>								
+								</div>
 							</div>
-							
+
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group form-control-default">
-										<label for="sponsors">Sponsors
-										</label> <input ng-model="theProject.sponsors" type="text"
-											class="form-control" id="sponsors"
-											placeholder="Sponsors">
+										<label for="sponsors">Sponsors </label> <input
+											ng-model="theProject.sponsors" type="text"
+											class="form-control" id="sponsors" placeholder="Sponsors">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group form-control-default">
-										<label for="budget">Budjet
-										</label> <input ng-model="theProject.budget" type="text"
-											class="form-control" id="budjet"
-											placeholder="Budjet">
+										<div class="input-group">
+											<div class="input-group-addon">&euro;</div>
+											<input type="text" class="form-control"
+												ng-model="theProject.budget" id="budjet"
+												placeholder="Budjet">
+											<div class="input-group-addon">.00</div>
+										</div>
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group margin-none">
-	                      				<label for="projectedStartDate">Date de Debut Projetee</label>
-	                      				<input id="projectedStartDate" ng-model="theProject.projectedStartDate" type="text" 
-	                      				class="form-control datepicker">
-	                    			</div>
-	                    		</div>
+										<label for="projectedStartDate">Date de Debut Projetee</label>
+										<input id="projectedStartDate"
+											ng-model="theProject.projectedStartDate" type="text"
+											class="form-control datepicker">
+									</div>
+								</div>
 								<div class="col-md-6">
 									<div class="form-group margin-none">
-	                      				<label for="projectedEndDate">Date de Fin Projetee</label>
-	                      				<input id="projectedEndDate" ng-model="theProject.projectedEndDate" type="text" 
-	                      				class="form-control datepicker">
-	                    			</div>
-	                    		</div>
+										<label for="projectedEndDate">Date de Fin Projetee</label> <input
+											id="projectedEndDate" ng-model="theProject.projectedEndDate"
+											type="text" class="form-control datepicker">
+									</div>
+								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group margin-none">
-	                      				<label for="startDate">Date de Debut</label>
-	                      				<input id="startDate" ng-model="theProject.startDate" type="text" 
-	                      				class="form-control datepicker">
-	                    			</div>
-	                    		</div>
+										<label for="startDate">Date de Debut</label> <input
+											id="startDate" ng-model="theProject.startDate" type="text"
+											class="form-control datepicker">
+									</div>
+								</div>
 								<div class="col-md-6">
 									<div class="form-group margin-none">
-	                      				<label for="endDate">Date de Fin</label>
-	                      				<input id="endDate" ng-model="theProject.endDate" type="text" 
-	                      				class="form-control datepicker">
-	                    			</div>
-	                    		</div>
+										<label for="endDate">Date de Fin</label> <input id="endDate"
+											ng-model="theProject.endDate" type="text"
+											class="form-control datepicker">
+									</div>
+								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-				                        <label for="status">Etat d'avancement</label>
-				                        <select name="select" class="form-control" ng-model="theProject.status" 
-				                        	data-style="btn-white" data-size="5">
-				                        	<option value="0">Pas Commence</option>
-				                        	<option value="1">En Cours</option>
-				                        	<option value="2">Annule</option>
-				                        	<option value="3">Termine</option>
-				                        	<option value="4">Reporte</option>
-				                        </select>	
-                      				</div>
-	                    		</div>
+										<label for="status">Etat d'avancement</label> <select
+											name="select" class="form-control"
+											ng-model="theProject.status" data-style="btn-white"
+											data-size="5">
+											<option value="0">Pas Commence</option>
+											<option value="1">En Cours</option>
+											<option value="2">Annule</option>
+											<option value="3">Termine</option>
+											<option value="4">Reporte</option>
+										</select>
+									</div>
+								</div>
 							</div>
-							
-							<button  ng-click="createProject()" type="submit"
-								class="btn btn-primary">Enregistrer</button>								
-								&nbsp;&nbsp;&nbsp;								
+
+							<button ng-click="createProject()" type="submit"
+								class="btn btn-primary">Enregistrer</button>
+							&nbsp;&nbsp;&nbsp;
 							<button ng-click="clearProject()" type="submit"
 								class="btn btn-danger">Effacer</button>
 						</form>
@@ -175,7 +178,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="aProject in projects" >
+									<tr ng-repeat="aProject in projects">
 										<td>::aProject.title::</td>
 										<td>::aProject.description::</td>
 										<td>::aProject.sponsors::</td>
@@ -187,7 +190,8 @@
 										<td>::aProject.statusDescription::</td>
 										<td>
 											<button ng-show="theUser.canApprove" type="button"
-												ng-click="deleteProject(aProject)" class="btn btn-sm btn-danger">
+												ng-click="deleteProject(aProject)"
+												class="btn btn-sm btn-danger">
 												<i class="glyphicon glyphicon-remove-circle"> </i>
 											</button>
 										</td>
@@ -216,11 +220,15 @@
 					</div>
 					<div class="tab-pane" id="3b">
 						<div class="panel panel-default" ng-show="projectSelected">
-							<div class="panel-heading"><h3><strong>::theProject.title::</strong></h3></div>
+							<div class="panel-heading">
+								<h3>
+									<strong>::theProject.title::</strong>
+								</h3>
+							</div>
 							<div class="panel-body">
 								<ul>
 									<li>::theProject.description::</li>
-									<li>Planifie pour ::theProject.projectedStartDate::</li>									
+									<li>Planifie pour ::theProject.projectedStartDate::</li>
 								</ul>
 							</div>
 
@@ -239,8 +247,8 @@
 								<div ng-show="projectUploader.isHTML5">
 									<!-- 3. nv-file-over uploader="link" over-class="className" -->
 									<div class="well my-drop-zone" nv-file-over=""
-										uploader="projectUploader">Vous pouvez aussi drag-n-drop les
-										photos dans cette zone</div>
+										uploader="projectUploader">Vous pouvez aussi drag-n-drop
+										les photos dans cette zone</div>
 
 									<!-- Example: nv-file-drop="" uploader="{Object}" options="{Object}" filters="{String}" 
 									<div nv-file-drop="" uploader="uploader"
@@ -253,7 +261,8 @@
 							</div>
 
 							<!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
-							<input type="file" nv-file-select="" uploader="projectUploader" multiple /><br />
+							<input type="file" nv-file-select="" uploader="projectUploader"
+								multiple /><br />
 
 						</div>
 
@@ -361,7 +370,7 @@
 </div>
 <!-- // END .bg-white -->
 
-<div ng-include="'/ukadtogo/pages/footer.html'"></div>
+<div ng-include="'pages/footer.html'"></div>
 
 </div>
 <!-- // END #content -->
