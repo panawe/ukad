@@ -6874,6 +6874,12 @@ require('./_timeline');
                         controller: ['$scope', function($scope){
                             $scope.app.settings.htmlClass = 'st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2';
                         }]
+                    }).state('pages.projectAlbum', {
+                        url: '/projectAlbum',
+                        templateUrl: 'pages/projectAlbum.html',
+                        controller: ['$scope', function($scope){
+                            $scope.app.settings.htmlClass = 'st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2';
+                        }]
                     }).state('pages.searchResults', {
                         url: '/searchResults',
                         templateUrl: 'pages/searchResults.html',
@@ -7982,6 +7988,27 @@ require('./_timeline');
   	         	  * End get all Projects
   	         	  */
   	               
+  	             /**
+  	                 * Start get Project Album Photo
+  	                 * Get the list photo of Project
+  	                 */
+  	                      $scope.getProjectAlbum = function(aProject) {
+  	  	  	  	          
+  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/getProjectAlbum', data: aProject }).
+  	                           success(function (data, status, headers, config) {
+  	                                    $log.info("Call get All Projects photo Successful"); 
+  	                                	$scope.ProjectPictures=data;
+  	                                    $log.info($scope);
+  	                                    $scope.theProject=aProject;  	                                    
+  	                           }).error(function (data, status, headers, config) {
+  	                                    $log.info("Call get All Project phot Failed");
+  	                                    $log.info($scope);
+  	                           });
+  	              
+  	                      };
+  	  	  	  	      /**
+  	            	  * End get all Events album photos
+  	            	  */
   	  	  	  	          
   	  	  	  	      /**
   	  	  	  	       * Begin Event Calendar
@@ -8136,6 +8163,32 @@ require('./_timeline');
 	  	  	  	            	 /**
 	  	  	  	            	  * End get all Events album photos or report
 	  	  	  	            	  */
+	  	  	  	                      
+                   
+	  	  	  	                /**
+ 	                 * Start get Album Photo for project
+ 	                 * Get the list photo of Projects
+ 	                 */
+                   $scope.getAllProjectsWithAlbum = function() {
+                       
+                       $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/getAllProjectsWithAlbum', data: null }).
+                       success(function (data, status, headers, config) {
+                                $log.info("Call get All Projects with album Successful"); 
+                             $scope.projectsWithAlbum=data;
+                               
+                       }).error(function (data, status, headers, config) {
+                           
+                                $log.info("Call get All Projects with album Failed");
+                                $log.info($scope);
+                       });
+          
+                  };
+                          
+            	 /**
+            	  * End get all Events album photos or report
+            	  */
+                  
+                  
 	  	  	  	                      
 	  	  	  	                /**
 	  	  	  	  	                 * Start create Payment
