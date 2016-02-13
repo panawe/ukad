@@ -7911,7 +7911,7 @@ require('./_timeline');
   	   	  	  	               //this.theEvent='';
   	   	  	  	                  	$cookieStore.put('theProject',data);
   	   	  	  	                 	$scope.theProject=data;
-  	   	  	  	             $scope.theEventMessage='Realisation enregistree avec succes';
+  	   	  	  	             $scope.theProjectMessage='Realisation enregistree avec succes';
   	   	  	  	                     $log.info($scope);
   	   	  	  	                     
   	   	  	  	                     
