@@ -7,6 +7,7 @@ import com.ukad.model.BaseEntity;
 import com.ukad.model.News;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.User;
+import com.ukad.security.model.YearlySummary;
 
 public interface BaseDao {
 	
@@ -40,5 +41,6 @@ public interface BaseDao {
 	public BaseEntity findByParents(Class cl, String firstParent, String firstParentName, String secondParent,
 			String secondParentName);
 	public void save(BaseEntity entity) ;
+	public List<YearlySummary> getYearlySmry();
 	
 }

@@ -21,7 +21,8 @@ import com.ukad.security.model.Menu;
 import com.ukad.security.model.Roles;
 import com.ukad.security.model.RolesMenu;
 import com.ukad.security.model.RolesUser;
-import com.ukad.security.model.User; 
+import com.ukad.security.model.User;
+import com.ukad.security.model.YearlySummary; 
 
 @Service("baseService")
 //@Scope("singleton")
@@ -224,6 +225,11 @@ public class BaseServiceImpl implements BaseService {
 	public List<BaseEntity> getEntityByPropertyComparison(Class cl, String propertyName1, String propertyName2) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public List<YearlySummary> getYearlySmry() {
+		// TODO Auto-generated method stub
+		return baseDao.getYearlySmry();
 	}
 
 

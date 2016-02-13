@@ -1,4 +1,6 @@
 package com.ukad.dao;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +23,11 @@ import com.ukad.model.BaseEntity;
 import com.ukad.model.News;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.User;
-
+import com.ukad.security.model.YearlySummary;
 
 @Repository("baseDao")
 @Scope("singleton")
-public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
-		implements BaseDao {
+public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport implements BaseDao {
 
 	public BaseDaoImpl() {
 
@@ -36,8 +37,7 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 	public BaseDaoImpl(SessionFactory sessionFactory) {
 		setSessionFactory(sessionFactory);
 	}
-	
-	
+
 	public void delete(BaseEntity entity) {
 		getHibernateTemplate().delete(entity);
 	}
@@ -46,10 +46,9 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 		return (BaseEntity) getHibernateTemplate().get(cl, id);
 	}
 
-
 	public void update(BaseEntity entity, User user) {
 		entity.setModDate(new Date());
-		//entity.setSchool(user.getSchool());
+		// entity.setSchool(user.getSchool());
 		entity.setModifiedBy(user.getId());
 		getHibernateTemplate().update(entity);
 	}
@@ -57,25 +56,24 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 	public void save(BaseEntity entity, User user) {
 		entity.setCreateDate(new Date());
 		entity.setModDate(new Date());
-		//entity.setSchool(user.getSchool());
+		// entity.setSchool(user.getSchool());
 		entity.setModifiedBy(user.getId());
 		getHibernateTemplate().save(entity);
 	}
-	
+
 	public void save(BaseEntity entity) {
-		
+
 		entity.setModDate(new Date());
-		//entity.setSchool(user.getSchool());
+		// entity.setSchool(user.getSchool());
 		entity.setModifiedBy(1L);
-		
-		if(entity.getId()==null){
+
+		if (entity.getId() == null) {
 			entity.setCreateDate(new Date());
 			getHibernateTemplate().save(entity);
-		}else{
+		} else {
 			getHibernateTemplate().update(entity);
 		}
 	}
-
 
 	public BaseEntity load(BaseEntity entity) {
 		getHibernateTemplate().load(entity, entity.getId());
@@ -87,9 +85,8 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 		return (List<BaseEntity>) getHibernateTemplate().loadAll(cl);
 	}
 
-
-	public BaseEntity findByName(Class cl, String name, String parentName,
-			String parentProperty, String parentPropertyValue) {
+	public BaseEntity findByName(Class cl, String name, String parentName, String parentProperty,
+			String parentPropertyValue) {
 		BaseEntity entity = null;
 		DetachedCriteria crit = DetachedCriteria.forClass(cl);
 		crit.add(Restrictions.eq("name", name)).createCriteria(parentName)
@@ -103,17 +100,16 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 
 		return entity;
 	}
-	
-	
-	public BaseEntity findByParents(Class cl, String firstParent,
-			String firstParentName, String secondParent, String secondParentName) {
+
+	public BaseEntity findByParents(Class cl, String firstParent, String firstParentName, String secondParent,
+			String secondParentName) {
 
 		BaseEntity entity = null;
 		DetachedCriteria crit = DetachedCriteria.forClass(cl);
-		
+
 		if (firstParent != null)
 			crit.createCriteria(firstParent).add(Restrictions.eq("name", firstParentName));
-		
+
 		if (secondParent != null)
 			crit.createCriteria(secondParent).add(Restrictions.eq("name", secondParentName));
 
@@ -126,15 +122,15 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 
 	}
 
-	public BaseEntity findByParents(Class cl, String firstParent,
-			Long firstParentId, String secondParent, Long secondParentId) {
+	public BaseEntity findByParents(Class cl, String firstParent, Long firstParentId, String secondParent,
+			Long secondParentId) {
 
 		BaseEntity entity = null;
 		DetachedCriteria crit = DetachedCriteria.forClass(cl);
-		
+
 		if (firstParent != null)
 			crit.createCriteria(firstParent).add(Restrictions.eq("id", firstParentId));
-		
+
 		if (secondParent != null)
 			crit.createCriteria(secondParent).add(Restrictions.eq("id", secondParentId));
 
@@ -154,31 +150,26 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 			sql += " AND " + name + ".id = " + parentNameIds.get(name);
 		}
 
-		Query query = getHibernateTemplate().getSessionFactory()
-				.getCurrentSession().createQuery(sql);
+		Query query = getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(sql);
 		int rowCount = query.executeUpdate();
 	}
-	
-	public int executeDeleteQuery(String sqlQuery) {
-		Query query = getHibernateTemplate().getSessionFactory()
-				.getCurrentSession().createQuery(sqlQuery);
-		return query.executeUpdate();
-	}
-	
-	public int deleteExamMark(Long examId) {
-		String sql = "DELETE FROM Mark m WHERE m.exam.id = "+examId;
-		Query query = getHibernateTemplate().getSessionFactory()
-				.getCurrentSession().createQuery(sql);
-		return query.executeUpdate();
-	}
-	
 
-	public List<BaseEntity> findByParentsIds(Class<? extends BaseEntity> c,
-			String firstParentName, Long firstParentId,
+	public int executeDeleteQuery(String sqlQuery) {
+		Query query = getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(sqlQuery);
+		return query.executeUpdate();
+	}
+
+	public int deleteExamMark(Long examId) {
+		String sql = "DELETE FROM Mark m WHERE m.exam.id = " + examId;
+		Query query = getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(sql);
+		return query.executeUpdate();
+	}
+
+	public List<BaseEntity> findByParentsIds(Class<? extends BaseEntity> c, String firstParentName, Long firstParentId,
 			String secondParentName, Long secondParentId) {
 		BaseEntity entity = null;
 		DetachedCriteria crit = DetachedCriteria.forClass(c);
-		
+
 		if (firstParentName != null)
 			crit.createCriteria(firstParentName).add(Restrictions.eq("id", firstParentId));
 		if (secondParentName != null)
@@ -189,27 +180,20 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 		return l;
 	}
 
-	public List<BaseEntity> findByParentsIds(Class<? extends BaseEntity> c,
-			String firstParentName, Long firstParentId,
-			String secondParentName, Long secondParentId,
-			String thirdParentName, Long thirdParentId) {
+	public List<BaseEntity> findByParentsIds(Class<? extends BaseEntity> c, String firstParentName, Long firstParentId,
+			String secondParentName, Long secondParentId, String thirdParentName, Long thirdParentId) {
 		BaseEntity entity = null;
 		DetachedCriteria crit = DetachedCriteria.forClass(c);
-		crit.createCriteria(firstParentName).add(
-				Restrictions.eq("id", firstParentId));
-		crit.createCriteria(secondParentName).add(
-				Restrictions.eq("id", secondParentId));
-		crit.createCriteria(thirdParentName).add(
-				Restrictions.eq("id", thirdParentId));
-		
+		crit.createCriteria(firstParentName).add(Restrictions.eq("id", firstParentId));
+		crit.createCriteria(secondParentName).add(Restrictions.eq("id", secondParentId));
+		crit.createCriteria(thirdParentName).add(Restrictions.eq("id", thirdParentId));
+
 		List l = getHibernateTemplate().findByCriteria(crit);
 
 		return l;
 	}
-	
 
-	public BaseEntity findByColumn(Class cl, String columnName,
-			String columnValue ) {
+	public BaseEntity findByColumn(Class cl, String columnName, String columnValue) {
 		BaseEntity entity = null;
 		DetachedCriteria crit = DetachedCriteria.forClass(cl);
 		crit.add(Restrictions.eq(columnName, columnValue));
@@ -220,9 +204,8 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 
 		return entity;
 	}
-	
-	public List<BaseEntity> findByColumns(Class cl, List<String> columnNames,
-			List<String> columnValues) {
+
+	public List<BaseEntity> findByColumns(Class cl, List<String> columnNames, List<String> columnValues) {
 		BaseEntity entity = null;
 		DetachedCriteria crit = DetachedCriteria.forClass(cl);
 		int i = 0;
@@ -230,13 +213,12 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 			crit.add(Restrictions.eq(columnName, columnValues.get(i)));
 			i++;
 		}
-		
+
 		List l = getHibernateTemplate().findByCriteria(crit);
 		return l;
 	}
-	
-	public List<BaseEntity> findByColumnsLike(Class cl, List<String> columnNames,
-			List<String> columnValues) {
+
+	public List<BaseEntity> findByColumnsLike(Class cl, List<String> columnNames, List<String> columnValues) {
 		BaseEntity entity = null;
 		DetachedCriteria crit = DetachedCriteria.forClass(cl);
 		int i = 0;
@@ -244,47 +226,44 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 			crit.add(Restrictions.like(columnName, columnValues.get(i)));
 			i++;
 		}
-		
+
 		List l = getHibernateTemplate().findByCriteria(crit);
 		return l;
 	}
-	
-	
-	public List<BaseEntity> loadAllByParentId(Class<? extends BaseEntity> c,
-			String parentName, String parentProperty, Long parentPropertyValue) {
+
+	public List<BaseEntity> loadAllByParentId(Class<? extends BaseEntity> c, String parentName, String parentProperty,
+			Long parentPropertyValue) {
 		DetachedCriteria crit = DetachedCriteria.forClass(c);
-		crit.createCriteria(parentName).add(
-				Restrictions.eq(parentProperty, parentPropertyValue));
+		crit.createCriteria(parentName).add(Restrictions.eq(parentProperty, parentPropertyValue));
 
 		List l = getHibernateTemplate().findByCriteria(crit);
 
 		return l;
 	}
-	
-	public List<BaseEntity> loadEntitiesByParentAndDateRange(Class<? extends BaseEntity> c,
-			String parentName, String parentProperty, Long parentPropertyValue, String dateColumn,  Date beginDate, Date endDate) {		
+
+	public List<BaseEntity> loadEntitiesByParentAndDateRange(Class<? extends BaseEntity> c, String parentName,
+			String parentProperty, Long parentPropertyValue, String dateColumn, Date beginDate, Date endDate) {
 		DetachedCriteria crit = DetachedCriteria.forClass(c);
-		crit.createCriteria(parentName).add(
-				Restrictions.eq(parentProperty, parentPropertyValue));
+		crit.createCriteria(parentName).add(Restrictions.eq(parentProperty, parentPropertyValue));
 		if (beginDate != null)
 			crit.add(Restrictions.ge(dateColumn, beginDate));
 		if (endDate != null)
 			crit.add(Restrictions.le(dateColumn, endDate));
-		
+
 		crit.addOrder(Order.desc(dateColumn));
 		List l = getHibernateTemplate().findByCriteria(crit);
 		return l;
 	}
-	
-	public List<BaseEntity> loadEntitiesByPropertyAndDateRange(Class<? extends BaseEntity> c,
-			String property, String propertyValue, String dateColumn,  Date beginDate, Date endDate) {
+
+	public List<BaseEntity> loadEntitiesByPropertyAndDateRange(Class<? extends BaseEntity> c, String property,
+			String propertyValue, String dateColumn, Date beginDate, Date endDate) {
 		DetachedCriteria crit = DetachedCriteria.forClass(c);
 		crit.add(Restrictions.eq(property, propertyValue));
 		if (beginDate != null)
 			crit.add(Restrictions.ge(dateColumn, beginDate));
 		if (endDate != null)
 			crit.add(Restrictions.le(dateColumn, endDate));
-		
+
 		crit.addOrder(Order.desc(dateColumn));
 		List l = getHibernateTemplate().findByCriteria(crit);
 		return l;
@@ -305,7 +284,7 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 	@Override
 	public List<User> loadAllUsers() {
 		// TODO Auto-generated method stub
-		
+
 		DetachedCriteria crit = DetachedCriteria.forClass(User.class);
 		crit.add(Restrictions.gt("id", 1L));
 		List l = getHibernateTemplate().findByCriteria(crit);
@@ -331,5 +310,29 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport
 		return null;
 	}
 
+	public List<YearlySummary> getYearlySmry() {
+
+		String sqlQuery = "SELECT YEAR_PAID, SUM(CASE IO WHEN  0 THEN 0 ELSE  AMOUNT END ) INN,SUM(CASE IO WHEN 1 THEN 0 ELSE AMOUNT END ) OUTT FROM TRANSACTION GROUP BY YEAR_PAID ORDER BY YEAR_PAID";
+
+		// int parameterIndex = 0;
+		Session session = getHibernateTemplate().getSessionFactory().openSession();
+		Query query = session.createSQLQuery(sqlQuery);
+		// query.setParameter(parameterIndex, year);
+
+		List<Object[]> objects = query.list();
+
+		List<YearlySummary> yss = new ArrayList<YearlySummary>();
+		YearlySummary ys;
+		for (Object[] obj : objects) {
+			ys = new YearlySummary();
+			ys.setYear((Integer) obj[0]);
+			ys.setIn(new Double(obj[1].toString()));
+			ys.setOut(new Double(obj[2].toString()));
+
+			yss.add(ys);
+		}
+
+		return yss;
+	}
 
 }

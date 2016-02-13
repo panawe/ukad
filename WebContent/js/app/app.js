@@ -7286,7 +7286,15 @@ require('./_timeline');
 	                                    {id:2,name:'Cotisation Annuelle'},
 	                                    {id:3,name:'Don'}
 	                                    ];
-	               
+
+	                $scope.expenseTypes=[{id:0,name:''},
+		                                    {id:4, name:'Organisation Rencontre'},
+		                                    {id:5,name:'Projet'},
+		                                    {id:6,name:'Donation'},
+		                                    {id:7,name:'Frais de fonctionnement'},
+		                                    {id:8,name:'Autre'}
+		                                    ];
+	                
 	                $scope.years=[{id:0,name:''},
 	                              {id:1,name:2016},
 	                              {id:2,name:2017},
@@ -8118,13 +8126,10 @@ require('./_timeline');
 	  	  	  	                                    $log.info("Call get All Events with album Successful"); 
 	  	  	  	                                	$scope.eventsWithAlbumReport=data;
 	  	  	  	                                   
-	  	  	  	                           }).error
-											$log.info($scope);
-	  	  	                                     //$cookieStore.put('eventsWithAlbum',data);
-	  	  	  	                                  r(function (data, status, headers, config) {
+	  	  	  	                           }).error(function (data, status, headers, config) {
+	  	  	  	                        	   		 
 	  	  	  	                                    $log.info("Call get All Event with album Failed");
 	  	  	  	                                    $log.info($scope);
-	  	  	                                     //$cookieStore.put('eventsWithAlbum',null);
 	  	  	  	                           });
 	  	  	  	              
 	  	  	  	                      };
@@ -8153,7 +8158,8 @@ require('./_timeline');
 	  	  	  	  	                     $log.info("Call makePayment Successful");  
 	  	  	  	  	                     $scope.paymentSaved=true; 
 	  	  	  	  	                     if(data=='Success'){
-	  	  	  	  	                    	 $scope.theEventMessage='Payement Effectue succes';
+	  	  	  	  	                    	 $scope.thePaymentMessage='Payement Effectue succes';
+	  	  	  	  	                    	 
 	  	  	  	  	                     }else{
 	  	  	  	  	                    	 $scope.thePaymentMessage='Le payement a echoue';
 	  	  	  	  	                    	 $scope.paymentSaved=false;
@@ -8174,6 +8180,104 @@ require('./_timeline');
 	  	  	  	  	                /**
 	  	  	  	  	                 * End Create Payment
 	  	  	  	  	                 */
+
+	  	  	  	  	        /**
+	  	  	  	  	                 * Start create Expense
+	  	  	  	  	                 */
+	  	  	  	  	                $scope.saveExpense = function() {  
+	  	  	  	  	                	var transaction={amount:this.amount,
+	  	  	  	  	                			comment:this.comment,
+	  	  	  	  	                			year:this.year,
+	  	  	  	  	                			month:this.month,
+	  	  	  	  	                			modifiedBy:$scope.theUser.id,
+	  	  	  	  	                			io:0,
+	  	  	  	  	                			rebate:0.0,
+	  	  	  	  	                			paymentType: {id:this.expenseType}
+	  	  	  	  	                			
+	  	  	  	  	                	};
+	  	  	  	  	                	$scope.paymentSaveSubmitted=true;
+	  	  	  	  	                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/saveExpense', data: transaction }).
+	  	  	  	  	                     success(function (data, status, headers, config) {
+	  	  	  	  	                     $log.info("Call makePayment Successful");  
+	  	  	  	  	                     $scope.paymentSaved=true; 
+	  	  	  	  	                     if(data=='Success'){
+	  	  	  	  	                    	 $scope.thePaymentMessage='Payement Effectue succes';
+	  	  	  	  	                    	 
+	  	  	  	  	                     }else{
+	  	  	  	  	                    	 $scope.thePaymentMessage='Le payement a echoue';
+	  	  	  	  	                    	 $scope.paymentSaved=false;
+	  	  	  	  	                     }
+	  	  	  	  	                    
+	  	  	  	  	                     $log.info($scope);
+	  	  	  	  	                              
+	  	  	  	  	                              
+	  	  	  	  	                     }).error(function (data, status, headers, config) {
+	  	  	  	  	                        $log.info("Call makePayment Failed");
+	  	  	  	  	                        $scope.thePaymentMessage='Le payement a echoue';
+	  	  	  	  	                        $scope.paymentSaved=false;
+	  	  	  	  	                        $log.info($scope);
+	  	  	  	  	                        
+	  	  	  	  	                     });
+	  	  	  	  	        
+	  	  	  	  	                };
+	  	  	  	  	                /**
+	  	  	  	  	                 * End Create Expense
+	  	  	  	  	                 */
+	  	  	  	  	                
+	  	  	  	  	                /**
+	  	  	  	  	                 * Start clear Payment
+	  	  	  	  	                 */
+	  	  	  	  	                $scope.clearPayment = function() {   
+	  	  	  	  	                		$log.info('Clear Payment Called');
+	  	  	  	  	                		 $scope.paymentSaveSubmitted=false;
+	  	  	  	  	                    	 $scope.thePaymentMessage='';
+	  	  	  	  	                    	 $scope.month='';
+	  	  	  	  	                    	 $scope.year='';
+	  	  	  	  	                    	 $scope.comment='';
+	  	  	  	  	                    	 $scope.amount='';
+	  	  	  	  	                    	 $scope.paymentType='';	  	
+	  	  	  	  	                    	 $scope.paymentSaved=false;
+	  	  	  	  	                    	 $log.info($scope);
+	  	  	  	  	                };
+	  	  	  	  	                /**
+	  	  	  	  	                 * End clear Payment
+	  	  	  	  	                 */
+	  	  	  	  	                
+	  	  	  	  	                $scope.clearExpense = function() {   
+  	  	  	  	                		$log.info('Clear Expense Called');
+  	  	  	  	                		 $scope.paymentSaveSubmitted=false;
+  	  	  	  	                    	 $scope.thePaymentMessage='';
+  	  	  	  	                    	 $scope.month='';
+  	  	  	  	                    	 $scope.year='';
+  	  	  	  	                    	 $scope.comment='';
+  	  	  	  	                    	 $scope.amount='';
+  	  	  	  	                    	 $scope.expenseType='';	  	
+  	  	  	  	                    	 $scope.paymentSaved=false;
+  	  	  	  	                    	 $log.info($scope);
+  	  	  	  	                };
+  	  	  	  	                /**
+  	  	  	  	                 * End clear Payment
+  	  	  	  	                 */
+	  	  	  	  	        $scope.drawPayments = function() {
+	  	  	  	  	        	
+	  	  	  	  	        	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getYearlySummary', data: null }).
+	                           success(function (data, status, headers, config) {
+	                                    $log.info("Call get getYearlySummary"); 
+	                           	      Morris.Bar({
+	                	  	  	  	  	  element: 'bar-example',
+	                	  	  	  	  	  data:data,
+	                	  	  	  	  	  xkey: 'year',
+	                	  	  	  	  	  ykeys: ['in', 'out'],
+	                	  	  	  	  	  labels: ['Cotisations', 'Depenses']
+	                	  	  	  	  	});
+	                                   
+	                           }).error(function (data, status, headers, config) {
+	                        	   		 
+	                                    $log.info("Call get getYearlySummary Failed");
+	                                    $log.info($scope);
+	                           });	  	  	  	  	    
+	  	  	  	 
+	  	  	  	  	        };
 
 	            } ]); 
 

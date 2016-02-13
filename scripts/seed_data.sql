@@ -247,5 +247,10 @@ VALUES(1,'Cotisation Mensuelle','MONTH',NOW(),NOW(),1);
 INSERT INTO PAYMENT_TYPE (  PAYMENT_TYPE_ID       , NAME       , FREQUENCY     , CREATE_DATE       , MOD_DATE      , MOD_BY  )
 VALUES(2,'Cotisation Annuelle','YEAR',NOW(),NOW(),1); 
 INSERT INTO PAYMENT_TYPE (  PAYMENT_TYPE_ID       , NAME       , FREQUENCY     , CREATE_DATE       , MOD_DATE      , MOD_BY  )
-VALUES(3,'Don','YEAR',NOW(),NOW(),1); 
+VALUES(3,'Don','YEAR',NOW(),NOW(),1),
+(4,'Organisation Rencontre','YEAR',NOW(),NOW(),1),
+(5,'Projet','YEAR',NOW(),NOW(),1),
+(6,'Donnation','YEAR',NOW(),NOW(),1),
+(7,'Frais de fonctionnement','YEAR',NOW(),NOW(),1),
+(8,'Autre','YEAR',NOW(),NOW(),1);
 COMMIT;

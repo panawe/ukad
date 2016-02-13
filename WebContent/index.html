@@ -169,7 +169,7 @@
 								href="#pages/approveMembers" ng-click="getPendingMembers()"><i
 									class="fa fa-wrench"></i>Approver les membres</a></li>
 							<li ng-show="theUser.canApprove && theUser.status==1"><a
-								href="#pages/cotiser" ng-click="getAllUsers()"><i
+								href="#pages/cotiser" ng-click="getAllUsers();drawPayments();"><i
 									class="fa fa-wrench"></i>Cotisation</a></li>
 							<li ng-show="theUser.canApprove && theUser.status==1"><a
 								href="#pages/projects" ng-click="getAllProjects()"><i

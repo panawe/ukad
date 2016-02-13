@@ -8,6 +8,7 @@ import com.ukad.model.BaseEntity;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.Roles;
 import com.ukad.security.model.User;
+import com.ukad.security.model.YearlySummary;
 
 
 
@@ -67,5 +68,6 @@ public interface BaseService {
 	
 	public void delete(BaseEntity entity);
 
+	public List<YearlySummary> getYearlySmry();
 
 }
