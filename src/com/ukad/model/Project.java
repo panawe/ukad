@@ -53,6 +53,9 @@ public class Project extends BaseEntity {
 	private Short status;
 	
 	@Transient
+	private boolean hasPhoto;
+	
+	@Transient
 	public String getStatusDescription() {
 		String desc = "";
 		if (status == 0) desc = "Pas Commencee";
@@ -63,6 +66,15 @@ public class Project extends BaseEntity {
 		
 		return desc;
 	}
+	
+	public boolean isHasPhoto() {
+		return hasPhoto;
+	}
+
+	public void setHasPhoto(boolean hasPhoto) {
+		this.hasPhoto = hasPhoto;
+	}
+
 	
 	public String getTitle() {
 		return title;

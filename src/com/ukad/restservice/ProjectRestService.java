@@ -3,6 +3,7 @@ package com.ukad.restservice;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -104,4 +105,67 @@ public class ProjectRestService {
 		System.out.println("Project list Requested - getProjects");
 		return (List<Project>) projectService.loadAllProjects(Project.class);
 	}
+	
+	@RequestMapping(value = "/getAllProjectsWithAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<Project> getAllProjectsWithAlbum() {
+		System.out.println("Project list Requested - getAllProjectsWithAlbum");
+		 List<Project> projects= projectService.loadAllProjects(Project.class);
+		 String storageDirectory = null;
+			
+			if (context != null) {
+				
+				storageDirectory = context.getRealPath("/") + 
+						File.separator + "images" + File.separator + "projects";
+				
+				
+			} 
+			List<Project> retList= new ArrayList<Project>();
+			for(Project p : projects){
+				 File dir = new File(storageDirectory+
+							File.separator + p.getId());
+				 int fileCount=0;
+					if(dir.exists()){
+						fileCount=dir.listFiles().length;
+					}
+			
+				if(fileCount > 0){
+					p.setHasPhoto(true);	
+					retList.add(p);
+				}
+		}
+			
+		 Collections.reverse(retList);
+		 return retList;
+	}
+	
+	
+	@RequestMapping(value = "/getProjectAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<String> getProjectAlbum(@RequestBody Project project) {
+		System.out.println("getProjectAlbum Project:" + project);
+		 String storageDirectory = null;
+			
+			if (context != null) {
+				
+				storageDirectory = context.getRealPath("/") + 
+						File.separator + "images" + File.separator + "projects";
+				
+				
+			} 
+			List<String> retList= new ArrayList<String>();
+		 
+			 File dir = new File(storageDirectory+
+						File.separator + project.getId());
+			 
+				if(dir.exists()){
+					File[] files=dir.listFiles();
+					for(File file:files){
+						retList.add(file.getName());
+					}
+				}
+			 
+				 Collections.reverse(retList);
+		 return retList;
+		
+	}
+
 }

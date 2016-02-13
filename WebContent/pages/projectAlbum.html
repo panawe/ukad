@@ -1,0 +1,50 @@
+
+<div id="carousel-example-generic"
+	class="carousel slide cover overlay overflow-hidden max-height-100 cover-navbar-large-top margin-none"
+	data-ride="carousel">
+
+	<div class="carousel-inner" role="listbox">
+		<div class="item active">
+			<img src="images/ukad-main-min.jpg" alt="Slider" class="width-100pc">
+		</div>
+	</div>
+
+
+</div>
+
+<div class="bg-white">
+
+	<div class="container">
+		<h2>Photo Album ::theProject.title::</h2>
+	</div>
+	<div class="panel panel-default">
+		<div class="carousel-preview">
+			<div class="owl-carousel owl-thumb" data-sync="#owl-preview-1"
+				id="owl-thumb-1">
+				<div class="item text-center" ng-repeat="pic in ProjectPictures">
+					<img src="images/projects/::theProject.id::/::pic::" alt="" />
+				</div>
+			</div>
+
+			<div class="owl-carousel owl-preview" data-sync="#owl-thumb-1"
+				id="owl-preview-1">
+				<div class="item" ng-repeat="pic in ProjectPictures">
+					<img src="images/projects/::theProject.id::/::pic::" alt="" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br />
+
+
+	<!-- // END .container -->
+
+</div>
+<!-- // END .bg-white -->
+
+<div ng-include="'/ukadtogo/pages/footer.html'"></div>
+
+</div>
+<!-- // END #content -->
+
