@@ -12,7 +12,7 @@
 
 </div>
 
-<div class="bg-white">
+<div class="bg-white" ng-controller="eventCtrl">
 	<div class="container">
 
 		<div class="container">
@@ -87,7 +87,7 @@
 				<li class="active"><a href="#1b" data-toggle="tab">Ajouter
 						un evenement</a></li>
 						 
-				<li><a href="#2b" data-toggle="tab"  ng-click="getAllEvents()" >Les
+				<li><a href="#2b" data-toggle="tab" >Les
 						evenements</a></li>
 						 
 				<li><a href="#3b" data-toggle="tab">Charger les images d'un
@@ -446,12 +446,11 @@
 	</div>
 	<br />
 	<!-- // END .container -->
-
+<div ng-include="'pages/footer.html'"></div>
 </div>
 <!-- // END .bg-white -->
 
-<div ng-include="'pages/footer.html'"></div>
 
-</div>
+ 
 <!-- // END #content -->
 

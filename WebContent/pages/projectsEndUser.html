@@ -12,7 +12,7 @@
 
 </div>
 
-<div class="bg-white">
+<div class="bg-white" ng-controller="projectCtrl">
 	<div class="container">
 
 		<div class="container">
@@ -23,7 +23,7 @@
 			</p>
 			<div class="panel-group" id="accordion">
 				<div class="panel panel-default"
-					ng-repeat="aProject in projectsWithAlbum">
+					ng-repeat="aProject in projects">
 					<div class="panel-heading"
 						style="background-color: #26A69A; color: white;">
 						<h4 class="panel-title">
@@ -70,12 +70,12 @@
 
 
 	<!-- // END .container -->
-
+<div ng-include="'pages/footer.html'"></div>
 </div>
 <!-- // END .bg-white -->
 
-<div ng-include="'pages/footer.html'"></div>
 
-</div>
+
+ 
 <!-- // END #content -->
 

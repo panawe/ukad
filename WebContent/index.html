@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app" ng-controller="AppCtrl"
-	class="ng-class:app.settings.htmlClass">
+<html lang="en" ng-app="app" 
+	class="st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2">
 
 <head>
 <meta charset="utf-8">
@@ -22,7 +22,7 @@
 <body>
 
 	<!-- Fixed navbar -->
-	<div
+	<div ng-controller="userCtrl"
 		class="navbar navbar-main navbar-skin-cover navbar-static-top navbar-absolute-top navbar-size-large"
 		role="navigation">
 		<div class="container-fluid">
@@ -48,17 +48,17 @@
 							<li class="active"><a href="#pages/statuts">Nos Status</a></li>
 							<li><a href="#pages/reglements">Nos Reglements
 									Interieurs</a></li>
-							<li><a href="#pages/membres" ng-click="getAllUsers()">Nos
+							<li><a href="#pages/membres">Nos
 									Membres</a></li>
 						</ul></li>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown">Activites <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li class="dropdown-header">Activites</li>
-							<li><a ng-click="getAllProjectsWithAlbum()" href="#pages/projectsEndUser">Nos Realisations</a></li>
-							<li><a ng-click="getAllEvents()" href="#pages/eventCalendar">Calendrier des
+							<li><a  href="#pages/projectsEndUser">Nos Realisations</a></li>
+							<li><a  href="#pages/eventCalendar">Calendrier des
 									Evenements</a></li>
-							<li><a ng-click="getAllEventsWithAlbumOrRepport()" href="#pages/meetings">Rapports de Reunions</a></li>
+							<li><a href="#pages/meetings">Rapports de Reunions</a></li>
 						</ul></li>
 				</ul>
 				<form class="navbar-form navbar-left margin-none"
@@ -161,18 +161,18 @@
 					</a>
 						<ul class="dropdown-menu" role="menu" ng-show="theUser.id>0">
 							<li><a href="#pages/profile"><i class="fa fa-user"></i>Profile</a></li>
-							<li ng-show="theUser.status==1"><a  ng-click="getAllEvents()" href="#pages/events"><i
+							<li ng-show="theUser.status==1"><a href="#pages/events"><i
 									class="fa fa-wrench"></i>Evenement</a></li>
 							<li ng-show="theUser.status==1"><a href="#pages/email"><i
 									class="fa fa-wrench"></i>Annonces</a></li>
 							<li ng-show="theUser.canApprove && theUser.status==1"><a
-								href="#pages/approveMembers" ng-click="getPendingMembers()"><i
+								href="#pages/approveMembers"><i
 									class="fa fa-wrench"></i>Approver les membres</a></li>
 							<li ng-show="theUser.canApprove && theUser.status==1"><a
-								href="#pages/cotiser" ng-click="getAllUsers();drawPayments();"><i
+								href="#pages/cotiser"><i
 									class="fa fa-wrench"></i>Cotisation</a></li>
 							<li ng-show="theUser.canApprove && theUser.status==1"><a
-								href="#pages/projects" ng-click="getAllProjects()"><i
+								href="#pages/projects" ><i
 									class="fa fa-wrench"></i>Projets</a></li>
 							<li><a href="#/" ng-click="logout()"><i
 									class="fa fa-sign-out"></i>Deconnexion</a></li>
@@ -218,6 +218,10 @@
 				}
 			}
 		};
+		
+		var openInNewTab = function(link){
+            $window.open(link, '_blank');
+        };
 	</script>
 	<script src="js/vendor/all.js"></script>
 	<!-- Vendor Scripts Standalone Libraries -->
@@ -271,8 +275,12 @@
 	<script src="js/vendor/calendar-master/js/angular-animate.min.js"></script>
 	<!-- End - These imports are for the calendar -->
 	<script src="js/app/app.js"></script>
-
-
+	<!-- Controllers -->
+	<script src="js/app/custom/userController.js"></script>
+	<script src="js/app/custom/eventController.js"></script>
+	<script src="js/app/custom/mainController.js"></script>
+	<script src="js/app/custom/projectController.js"></script>
+	<script src="js/app/custom/paymentController.js"></script>
 
 </body>
 
