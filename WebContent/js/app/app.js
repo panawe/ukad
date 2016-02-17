@@ -7941,7 +7941,7 @@ require('./_timeline');
   	                     	  
   	                     	  
   	                     	  $scope.projectSelected=true;
-  	                           $log.info($scope.theProject.status); 
+  	                           $log.info($scope.theProject); 
   	                          	  	              
   	                       };
   	             	 /**
