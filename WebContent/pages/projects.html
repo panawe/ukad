@@ -24,9 +24,9 @@
 				<ul class="nav nav-pills">
 					<li class="active"><a href="#1b" data-toggle="tab">Ajouter
 							une realisation</a></li>
-					<li><a href="#2b" ng-click="getAllProjects()" data-toggle="tab">Les
+					<li><a href="#2b" ng-click="getAllProjects(); " data-toggle="tab">Les
 							realisations</a></li>
-					<li><a href="#3b" data-toggle="tab">Charger les images
+					<li><a href="#3b" ng-click="getProjectAlbum(theProject); " data-toggle="tab">Charger les images
 							d'une realisation</a></li>
 
 				</ul>
@@ -257,6 +257,19 @@
 
 						</div>
 
+						<div class="panel panel-default">
+							<div class="carousel-preview">
+								
+
+								<div class="owl-carousel owl-preview" data-sync="#owl-thumb-1"
+									id="owl-preview-1">
+									<div class="item" ng-repeat="pic in ProjectPictures">
+										<img src="images/projects/::theProject.id::/::pic::" alt="" />
+									</div>
+								</div>
+							</div>
+						</div>
+						
 						<div class="col-md-9" style="margin-bottom: 40px"
 							ng-show="projectSelected">
 							<h2>Choisissez seulement des photos</h2>
