@@ -40,42 +40,42 @@ public class ProjectRestService {
 
 	@RequestMapping(value = "/receiveFile", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 
-	public @ResponseBody String receiveFile(@RequestParam("file") MultipartFile file, @RequestParam("projectId") String projectId ) {
+	public @ResponseBody String receiveFile(@RequestParam("file") MultipartFile file,
+			@RequestParam("projectId") String projectId) {
 
 		if (!file.isEmpty()) {
 			try {
 				String originalFileExtension = file.getOriginalFilename()
 						.substring(file.getOriginalFilename().lastIndexOf("."));
-				
+
 				// transfer to upload folder
 				String storageDirectory = null;
 				int fileCount = 0;
 				if (context != null) {
-					
-					storageDirectory = context.getRealPath("/") + 
-							File.separator + "images" + File.separator + "projects"+
-							File.separator + projectId;
+
+					storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator
+							+ "projects" + File.separator + projectId;
 					File dir = new File(storageDirectory);
-					if(!dir.exists()){
+					if (!dir.exists()) {
 						dir.mkdirs();
 					}
-					fileCount=dir.listFiles().length;
-					
+					fileCount = dir.listFiles().length;
+
 				} else {
 					return "Failure";
-					
+
 				}
-				String newFilename = projectId + "_" + (fileCount+1) + ".jpg";
+				String newFilename = projectId + "_" + (fileCount + 1) + ".jpg";
 
 				File newFile = new File(storageDirectory + File.separator + newFilename);
 				file.transferTo(newFile);
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				return "Failure";
 			}
 		} else {
-			return "Failure"; 
+			return "Failure";
 		}
 
 		return "Success";
@@ -83,14 +83,13 @@ public class ProjectRestService {
 
 	@RequestMapping(value = "/createProject", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody Project createProject(@RequestBody Project project) {
-		
+
 		projectService.save(project);
-		
-		Project pr= (Project) projectService.getById(Project.class, project.getId());
-		SimpleDateFormat df = new  SimpleDateFormat("dd/MM/yyyy hh:mm aaa");
+
+		Project pr = (Project) projectService.getById(Project.class, project.getId());
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm aaa");
 		return pr;
 	}
-
 
 	@RequestMapping(value = "/deleteProject", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody String deleteProject(@RequestBody Project project) {
@@ -99,73 +98,84 @@ public class ProjectRestService {
 		return "Success";
 	}
 
-	
 	@RequestMapping(value = "/getAllProjects", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<Project> getProjects() {
 		System.out.println("Project list Requested - getProjects");
-		return (List<Project>) projectService.loadAllProjects(Project.class);
+		List<Project> projects = projectService.loadAllProjects(Project.class);
+		String storageDirectory = null;
+		if (context != null) {
+
+			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "projects";
+
+		}
+		for (Project p : projects) {
+			File dir = new File(storageDirectory + File.separator + p.getId());
+			int fileCount = 0;
+			if (dir.exists()) {
+				fileCount = dir.listFiles().length;
+			}
+
+			if (fileCount > 0) {
+				p.setHasPhoto(true);
+
+			}
+		}
+		return projects;
 	}
-	
+
 	@RequestMapping(value = "/getAllProjectsWithAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<Project> getAllProjectsWithAlbum() {
 		System.out.println("Project list Requested - getAllProjectsWithAlbum");
-		 List<Project> projects= projectService.loadAllProjects(Project.class);
-		 String storageDirectory = null;
-			
-			if (context != null) {
-				
-				storageDirectory = context.getRealPath("/") + 
-						File.separator + "images" + File.separator + "projects";
-				
-				
-			} 
-			List<Project> retList= new ArrayList<Project>();
-			for(Project p : projects){
-				 File dir = new File(storageDirectory+
-							File.separator + p.getId());
-				 int fileCount=0;
-					if(dir.exists()){
-						fileCount=dir.listFiles().length;
-					}
-			
-				if(fileCount > 0){
-					p.setHasPhoto(true);	
-					retList.add(p);
-				}
+		List<Project> projects = projectService.loadAllProjects(Project.class);
+		String storageDirectory = null;
+
+		if (context != null) {
+
+			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "projects";
+
 		}
-			
-		 Collections.reverse(retList);
-		 return retList;
+		List<Project> retList = new ArrayList<Project>();
+		for (Project p : projects) {
+			File dir = new File(storageDirectory + File.separator + p.getId());
+			int fileCount = 0;
+			if (dir.exists()) {
+				fileCount = dir.listFiles().length;
+			}
+
+			if (fileCount > 0) {
+				p.setHasPhoto(true);
+				retList.add(p);
+			}
+		}
+
+		Collections.reverse(retList);
+		return retList;
 	}
-	
-	
+
 	@RequestMapping(value = "/getProjectAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<String> getProjectAlbum(@RequestBody Project project) {
 		System.out.println("getProjectAlbum Project:" + project);
-		 String storageDirectory = null;
-			
-			if (context != null) {
-				
-				storageDirectory = context.getRealPath("/") + 
-						File.separator + "images" + File.separator + "projects";
-				
-				
-			} 
-			List<String> retList= new ArrayList<String>();
-		 
-			 File dir = new File(storageDirectory+
-						File.separator + project.getId());
-			 
-				if(dir.exists()){
-					File[] files=dir.listFiles();
-					for(File file:files){
-						retList.add(file.getName());
-					}
-				}
-			 
-				 Collections.reverse(retList);
-		 return retList;
-		
+		String storageDirectory = null;
+
+		if (context != null) {
+
+			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "projects";
+
+		}
+		List<String> retList = new ArrayList<String>();
+
+		File dir = new File(storageDirectory + File.separator + project.getId());
+
+		if (dir.exists()) {
+			File[] files = dir.listFiles();
+			for (File file : files) {
+				retList.add(file.getName());
+			}
+		}
+
+		Collections.reverse(retList);
+		return retList;
+
 	}
 
 }
