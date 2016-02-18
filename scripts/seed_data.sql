@@ -233,9 +233,14 @@ COMMIT;
 
 INSERT INTO POSITION (POSITION_ID,NAME,CREATE_DATE,MOD_DATE,MOD_BY) VALUES
 (1,'Membre',NOW(),NOW(),1),
-(2,'Tresorier General',NOW(),NOW(),1),
+(2,'President',NOW(),NOW(),1)
 (3,'Secretaire General',NOW(),NOW(),1),
-(4,'President',NOW(),NOW(),1);
+(4,'Tresorier General',NOW(),NOW(),1),
+(5,'Charge a l''information',NOW(),NOW(),1),
+(6,'Charge a l''organisation',NOW(),NOW(),1),
+(7,'Charge de la culture',NOW(),NOW(),1),
+(8,'Responsable des femmes',NOW(),NOW(),1),
+(9,'Conseille',NOW(),NOW(),1);
 
 INSERT INTO USERS (COUNTRY_ID,STATUS,USER_ID,pageSkin,`USER_NAME`, `PASSWORD`, `FIRST_NAME`, `LAST_NAME`, `E_MAIL`, `CREATE_DATE`, `MOD_DATE`, `MOD_BY`, `PHONE`, `POSITION_ID`, CAN_APPROVE,PIC)
 VALUES (5,0,1,'Rouge','panawe@gmail.com','123','Panawe','Batanado','panawe@gmail.com',now(), now(),1,'+1 678-314-5397',1,1,'1.jpg'),

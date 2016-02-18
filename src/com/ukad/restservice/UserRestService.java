@@ -188,6 +188,12 @@ public class UserRestService {
 		System.out.println("User list Requested -getPending ");
 		return userService.loadAllMembersPending();
 	}
+	
+	@RequestMapping(value = "/getLeaders", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<User> getLeaders() {
+		System.out.println("User list Requested -getPending ");
+		return userService.getLeaders();
+	}
 
 	@RequestMapping(value = "/getAllMembers", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<User> getAllMembers() {

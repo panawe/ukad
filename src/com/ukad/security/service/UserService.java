@@ -28,4 +28,6 @@ public interface UserService extends BaseService {
 	public List<User> loadAllMembersPending();
 
 	public List<User> findMembers(String searchText);
+
+	public List<User> getLeaders();
 }

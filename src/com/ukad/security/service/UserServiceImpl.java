@@ -123,4 +123,10 @@ public class UserServiceImpl extends BaseServiceImpl implements
 		return userDao.findMembers(searchText);
 	}
 
+	@Override
+	public List<User> getLeaders() {
+		// TODO Auto-generated method stub
+		return userDao.getLeaders();
+	}
+
 }
