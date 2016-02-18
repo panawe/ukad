@@ -98,56 +98,23 @@
 		</div>
 
 
-		<div class="page-section">
+		<div class="page-section" ng-controller="userCtrl">
 			<div class="page-header text-center">
 				<i class="fa fa-comments-o fa-5x text-grey-300"></i>
 				<h3 class="text-h2">Contact des dirigeants</h3>
 			</div>
 
 			<div class="row">
-				<div class="col-md-4">
-					<div class="media">
-						<div class="media-left">
-							<img src="images/people/50/guy-6.jpg" alt="People"
-								class="img-circle media-object" />
-						</div>
-						<div class="media-body">
-							<p>President</p>
-							<p>
-								<strong>Alain Batana. <span class="text-muted">alino@hotmail.com</span></strong>
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="media">
-						<div class="media-left">
-							<img src="images/people/50/guy-2.jpg" alt="People"
-								class="pull-left img-circle media-object" />
-						</div>
-						<div class="media-body">
-							<p>Secretaire General Charge des affaires courantes de
-								l'association</p>
-							<p>
-								<strong>Awui S. <span class="text-muted">awui@gmail.com</span></strong>
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="media">
-						<div class="media-left">
-							<img src="images/people/50/guy-9.jpg" alt="People"
-								class="img-circle media-object" />
-						</div>
-						<div class="media-body">
-							<p>Tresorier</p>
-							<p>
-								<strong>Bagoubadi Nawdala L. <span class="text-muted">bagbad@hotmail.com</span></strong>
-							</p>
-						</div>
-					</div>
-				</div>
+	
+			<div ng-repeat="u in leaders" class="col-xs-4 col-sm-2">
+				<a href="" ng-click="showUserModal(u)"><img
+					src="images/members/::u.id::.jpg" alt="Pas d'image"
+					class="img-thumbnail img-responsive img-circle"></a>
+				<h5 class="text-center"> <strong>::u.firstName+' '+u.lastName:: -  ::u.position.name::</strong></h5>
+				<h5 class="text-center"><a ng-href="mailto: ::leader.email::">Mail: ::u.email::</a></h5>
+				<hr>
+			</div>
+
 			</div>
 		</div>
 		<br />
@@ -157,7 +124,6 @@
 	</div>
 	<!-- // END .bg-white -->
 
-	<div ng-include="'pages/footer.html'"></div>
 
 </div>
 <!-- // END #content -->

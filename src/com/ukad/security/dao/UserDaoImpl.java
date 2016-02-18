@@ -6,6 +6,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -120,6 +121,14 @@ public class UserDaoImpl extends BaseDaoImpl {
 			}
 
 		}
+	}
+
+	public List<User> getLeaders() {
+		DetachedCriteria crit = DetachedCriteria.forClass(User.class);
+		crit.createCriteria("position").add(Restrictions.gt("id", 1L));
+		crit.addOrder(Order.asc("position.id"));
+		List l = getHibernateTemplate().findByCriteria(crit);
+		return l;
 	}
 
 }

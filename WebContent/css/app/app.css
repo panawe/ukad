@@ -186,12 +186,15 @@
   min-width: 320px;
 }
 .footer {
-  text-align: center;
-  color: #888;
+  text-align: left;
+ /* color: #888;
+ background: #fff;*/
+   background-color: #212121;
+  color: #757575;
   font-weight: 500;
-  background: #fff;
-  height: 45px;
-  line-height: 45px;
+  
+  height: 70px;
+  line-height: 22px;
   display: block;
 }
 .container-fluid .footer {
@@ -210,10 +213,10 @@
   z-index: 101;
 }
 .ls-bottom-footer body {
-  padding-bottom: 60px;
+  padding-bottom: 1px;
 }
 .bottom-footer body {
-  padding-bottom: 45px;
+  padding-bottom: 1px;
 }
 html.app-mobile {
   height: 100%;
@@ -23685,18 +23688,18 @@ hr {
   text-align: center;
 }
 .footer-section {
-  padding: 48px 0;
+  padding: 1px 0;
   background-color: #212121;
   color: #757575;
-  font-size: 1.15rem;
+  font-size: 1rem;
 }
 @media (min-width: 992px) {
   .footer-section {
-    padding: 32px 0;
+    padding: 1px 0;
   }
 }
 .footer-section ul > li {
-  margin-bottom: 8px;
+  margin-bottom: 1px;
 }
 .footer-section .form-control,
 .footer-section .form-control-default {

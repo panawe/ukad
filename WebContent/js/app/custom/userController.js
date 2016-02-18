@@ -18,7 +18,11 @@
 							function($scope, $state, $window, $cookieStore,
 									$log, $http, FileUploader, $location,
 									moment) {
-
+					            //function to open links in new tabs
+					            $scope.openInNewTab = function(link){
+					                    $window.open(link, '_blank');
+					                };
+					                
 								$scope.$state = $state;
 								$scope.theUser = $cookieStore.get('theUser');
 								$scope.submitted = false;
@@ -611,6 +615,35 @@
 								 * End Show Modal
 								 */
 								
+								/**
+								 * Start get All users Get the list of members
+								 */
+								$scope.getLeaders = function() {
+
+									$http(
+											{
+												method : 'POST',
+												url : 'http://localhost:8080/ukadtogo/service/user/getLeaders',
+												data : null
+											}).success(
+											function(data, status, headers,
+													config) {
+												$log.info("Call getLeaders Successful");
+												$scope.leaders = data;
+												$log.info($scope);
+											}).error(
+											function(data, status, headers,
+													config) {
+												$log.info("Call getLeaders Failed");
+												$log.info($scope);
+											});
+
+								};
+								/**
+								 * End get all users
+								 */
+								
+								//Fix for refresh
 								var url = $location.url();
 								$log.info('URL='+url);
 								
@@ -627,6 +660,8 @@
 									$scope.drawPayments();
 								}else if(url=='/pages/approveMembers'){
 									$scope.getPendingMembers();
+								}else if(url=='/pages/main'){									
+									$scope.getLeaders();
 								}
 
 							} ])

@@ -20,7 +20,7 @@
 	<div class="panel panel-default">
 		<div class="carousel-preview">
 			<div class="owl-carousel owl-thumb" data-sync="#owl-preview-1"
-				id="owl-thumb-1">
+				id="owl-thumb-1" ng-if="EventPictures">
 				<div class="item text-center" ng-repeat="pic in EventPictures">
 					<img src="images/events/::theEvent.id::/::pic::" alt="" />
 				</div>
@@ -36,11 +36,6 @@
 	</div>
 
 	<br />
-
-
-	<!-- // END .container -->
-<div ng-include="'pages/footer.html'"></div>
-
 </div>
 <!-- // END .bg-white -->
 
