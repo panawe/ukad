@@ -47,7 +47,7 @@ public class SimpleMail
 		message.setSubject(subject);
 		message.setContent(body, "text/html");
 		if (recipients.indexOf(',') > 0) 
-					message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
+					message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(recipients));
 		else
 					message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
  
