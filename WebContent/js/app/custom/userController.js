@@ -179,6 +179,7 @@
 							        	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getYearlySummary', data: null }).
 							   success(function (data, status, headers, config) {
 							            $log.info("Call get getYearlySummary"); 
+							            $( "#bar-example" ).empty(); 
 							   	      Morris.Bar({
 								  	  	  	  element: 'bar-example',
 								  	  	  	  data:data,

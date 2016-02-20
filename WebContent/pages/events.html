@@ -19,69 +19,6 @@
 			<h2>Les Evenements</h2>
 		</div>
 		
-		 <!-- 
-			<div class="panel panel-default" ng-show="true">
-						 
-						<table  st-table="events" class="table table-striped" cellspacing="0" width="100%">
-							<thead>
-								<tr>
-
-									<th colspan="5"><input st-search
-										placeholder="Rechercher un Evenement"
-										class="input-sm form-control" type="search" /></th>
-								</tr>
-								<tr>
-									<th>Titre</th>
-									<th>description</th>
-									<th>Debut</th>
-									<th>Fin</th>
-									<th>Ville</th>
-									<th>Addresse Complete</th>
-									<th>Titre Album</th>
-									<th>Note Album</th>
-									<th ng-show="theUser.canApprove">Supprimer</th>
-									<th ng-show="theUser.canApprove">Selectionner</th>
-
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="aEvent in events" ng-show="!aEvent.deleted">
-									<td>::aEvent.title::</td>
-									<td>::aEvent.description::</td>
-									<td>::aEvent.startsAt|date:'medium'::</td>
-									<td>::aEvent.endsAt|date:'medium'::</td>
-									<td>::aEvent.city::</td>
-									<td>::aEvent.address::</td>
-									<td>::aEvent.albumTag::</td>
-									<td>::aEvent.albumNote::</td>
-									<td>
-										<button ng-show="theUser.canApprove" type="button"
-											ng-click="deleteEvent(aEvent)" class="btn btn-sm btn-danger">
-											<i class="glyphicon glyphicon-remove-circle"> </i>
-										</button>
-									</td>
-									<td>
-										<button ng-show="theUser.canApprove" type="button"
-											ng-click="selectEvent(aEvent)" class="btn btn-success">
-											<i class="glyphicon glyphicon-ok"> </i>
-										</button>
-									</td>
-								</tr>
-
-							</tbody>
-							<tfoot>
-								<tr>
-									<td colspan="7" class="text-center">
-										<div st-pagination="" st-items-by-page="3"
-											st-displayed-pages="100"></div>
-									</td>
-								</tr>
-							</tfoot>
-						</table>
-						
-					</div>
-	 		
-		 -->
 		<div id="exTab3" class="container">
 			<ul class="nav nav-pills">
 				<li class="active"><a href="#1b" data-toggle="tab">Ajouter
@@ -202,7 +139,7 @@
 					<h1 class="page-section-heading">Les Evenements</h1>
 					<div class="panel panel-default">
 						 
-						<table  st-table="events"  class="table table-striped" cellspacing="0" width="100%">
+						<table  st-table="displayedCollection"  st-safe-src="events"  class="table table-striped" cellspacing="0" width="100%">
 							<thead>
 								<tr>
 
@@ -225,7 +162,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr ng-repeat="aEvent in events" ng-show="!aEvent.deleted">
+								<tr ng-repeat="aEvent in displayedCollection" ng-show="!aEvent.deleted">
 									<td>::aEvent.title::</td>
 									<td>::aEvent.description::</td>
 									<td>::aEvent.startsAt|date:'medium'::</td>
