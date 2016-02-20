@@ -132,6 +132,9 @@
               success(function (data, status, headers, config) {
                        $log.info("Call getProjectAlbum Successful"); 
                    	$scope.projectPictures=data;
+                   	
+                   	
+                   
                        $log.info($scope);
                        //$scope.theProject=aProject;  
                        $cookieStore.put(
