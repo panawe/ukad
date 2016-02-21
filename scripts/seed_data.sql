@@ -233,7 +233,7 @@ COMMIT;
 
 INSERT INTO POSITION (POSITION_ID,NAME,CREATE_DATE,MOD_DATE,MOD_BY) VALUES
 (1,'Membre',NOW(),NOW(),1),
-(2,'President',NOW(),NOW(),1)
+(2,'President',NOW(),NOW(),1),
 (3,'Secretaire General',NOW(),NOW(),1),
 (4,'Tresorier General',NOW(),NOW(),1),
 (5,'Charge a l''information',NOW(),NOW(),1),
@@ -242,10 +242,10 @@ INSERT INTO POSITION (POSITION_ID,NAME,CREATE_DATE,MOD_DATE,MOD_BY) VALUES
 (8,'Responsable des femmes',NOW(),NOW(),1),
 (9,'Conseille',NOW(),NOW(),1);
 
-INSERT INTO USERS (COUNTRY_ID,STATUS,USER_ID,pageSkin,`USER_NAME`, `PASSWORD`, `FIRST_NAME`, `LAST_NAME`, `E_MAIL`, `CREATE_DATE`, `MOD_DATE`, `MOD_BY`, `PHONE`, `POSITION_ID`, CAN_APPROVE,PIC)
-VALUES (5,0,1,'Rouge','panawe@gmail.com','123','Panawe','Batanado','panawe@gmail.com',now(), now(),1,'+1 678-314-5397',1,1,'1.jpg'),
-(5,1,2,'Rouge','ukadtogo@gmail.com','ukadtogo123','Alain','Batana','ukadtogo@gmail.com',now(), now(),1,'+49 12 34 56 78',4,1,'2.jpg'),
-(5,2,3,'Rouge','panawe@yahoo.fr','123','Lidaw','Batanado','panawe@yahoo.fr',now(), now(),1,'+228 12 34 56 78',1,0,'3.jpg');
+INSERT INTO USERS (COUNTRY_ID,STATUS,USER_ID,pageSkin,`USER_NAME`, `PASSWORD`, `FIRST_NAME`, `LAST_NAME`, `E_MAIL`, `CREATE_DATE`,`MEMBERSHIP_DATE`,  `MOD_DATE`, `MOD_BY`, `PHONE`, `POSITION_ID`, CAN_APPROVE,PIC)
+VALUES (5,0,1,'Rouge','panawe@gmail.com','123','Panawe','Batanado','panawe@gmail.com',now(),now(), now(),1,'+1 678-314-5397',1,1,'1.jpg'),
+(5,1,2,'Rouge','ukadtogo@gmail.com','ukadtogo123','Alain','Batana','ukadtogo@gmail.com',now(),now(), now(),1,'+49 12 34 56 78',1,1,'2.jpg'),
+(5,2,3,'Rouge','panawe@yahoo.fr','123','Lidaw','Batanado','panawe@yahoo.fr',now(),now(), now(),1,'+228 12 34 56 78',1,0,'3.jpg');
 
 INSERT INTO PAYMENT_TYPE (  PAYMENT_TYPE_ID       , NAME       , FREQUENCY     , CREATE_DATE       , MOD_DATE      , MOD_BY  )
 VALUES(1,'Cotisation Mensuelle','MONTH',NOW(),NOW(),1);

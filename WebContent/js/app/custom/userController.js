@@ -14,10 +14,10 @@
 							'$http',
 							'FileUploader',
 							'$location',
-							'moment',
+							'moment', 
 							function($scope, $state, $window, $cookieStore,
 									$log, $http, FileUploader, $location,
-									moment) {
+									moment ) {
 					            //function to open links in new tabs
 					            $scope.openInNewTab = function(link){
 					                    $window.open(link, '_blank');
@@ -52,6 +52,16 @@
 							                        {name:'Juillet'},{name:'Aout'},{name:'Septembre'},{name:'October'},{name:'Novembre'},{name:'Decembre'}];
 							         	
 
+							         $scope.positions=[{id:1,name:'Membre'},
+							                          {id:2,name:'President'}, 
+							                          {id:3,name:'Secretaire General'},
+							                          {id:4,name:'Tresorier General'},
+							                          {id:5,name:"Charge a l'information"},
+							                          {id:6,name:"Charge a l'organisation"},
+							                          {id:7,name:'Charge de la culture'},
+							                          {id:8,name:'Responsable des femmes'},
+							                          {id:9,name:'Conseille'}
+							                         ];
 
 							          /**
 							                 * Start create Payment
@@ -73,6 +83,8 @@
 							                     success(function (data, status, headers, config) {
 							                     $log.info("Call makePayment Successful");  
 							                     $scope.paymentSaved=true; 
+							                     $scope.drawPayments();
+							                     $scope.drawContributions();
 							                     if(data=='Success'){
 							                    	 $scope.thePaymentMessage='Payement Effectue succes';
 							                    	 
@@ -116,6 +128,8 @@
 							                     success(function (data, status, headers, config) {
 							                     $log.info("Call makePayment Successful");  
 							                     $scope.paymentSaved=true; 
+							                     $scope.drawPayments();
+							                     $scope.drawContributions();
 							                     if(data=='Success'){
 							                    	 $scope.thePaymentMessage='Payement Effectue succes';
 							                    	 
@@ -179,6 +193,7 @@
 							        	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getYearlySummary', data: null }).
 							   success(function (data, status, headers, config) {
 							            $log.info("Call get getYearlySummary"); 
+							            $( "#bar-example" ).empty(); 
 							   	      Morris.Bar({
 								  	  	  	  element: 'bar-example',
 								  	  	  	  data:data,
@@ -347,13 +362,13 @@
 								/**
 								 * Save Profile
 								 */
-								$scope.saveUser = function() {
+								$scope.saveUser = function(aUser) {
 									$scope.saveUserSubmitted = true;
 									$http(
 											{
 												method : 'POST',
 												url : 'http://localhost:8080/ukadtogo/service/user/saveUser',
-												data : $scope.theUser
+												data : aUser
 											})
 											.success(
 													function(data, status,
@@ -370,7 +385,7 @@
 
 														$cookieStore
 																.put('theUser',
-																		data);
+																		data);														
 														$scope.theUser = data;
 														$log.info($scope);
 														$scope.theUserMessage = 'Sauvegarde avec succes';
@@ -391,6 +406,46 @@
 
 								};
 
+								/**
+								 * Save Profile
+								 */
+								$scope.saveAUser = function(aUser) {
+									$scope.saveUserSubmitted = true;
+									$http(
+											{
+												method : 'POST',
+												url : 'http://localhost:8080/ukadtogo/service/user/saveUser',
+												data : aUser
+											})
+											.success(
+													function(data, status,
+															headers, config) {
+														$log
+																.info("Call Successful");
+														if (data != null
+																&& data != '') {
+															$scope.failedLogin = false;
+
+														} else {
+															$scope.failedLogin = true;
+														}
+
+														$log.info($scope);
+														$scope.theUserMessage = 'Sauvegarde avec succes';
+
+													})
+											.error(
+													function(data, status,
+															headers, config) {
+														$log
+																.info("Call Failed");
+														$scope.failedLogin = true;
+														$log.info($scope);
+														$scope.theUserMessage = 'Sauvegarde Echouee. Reessayer plus tard';
+													});
+
+								};
+								
 								$scope.resetUserMessage = function() {
 									$scope.saveUserSubmitted = false;
 									$scope.theUserMessage = '';
@@ -431,6 +486,8 @@
 								 * 
 								 */
 								$scope.findMembers = function() {
+									$scope.searchResult =null;
+									// $( "#usersearchList" ).refresh(); 
 									$http(
 											{
 												method : 'POST',
@@ -445,14 +502,8 @@
 														$cookieStore.put('searchText',$scope.searchText);
 														$log.info("Call find Members Successful");
 														$scope.searchResult = data;
-														$log.info($scope);
-														// $cookieStore.put('searchResult',data);
-														$location
-																.path('pages.searchResults');
-														$state
-																.go('pages.searchResults');
-
-													})
+														$log.info($scope.searchResult);
+														$location.url('/pages/searchResults');													})
 											.error(
 													function(data, status,
 															headers, config) {
@@ -544,7 +595,7 @@
 
 												$log.info("Call Successful");
 												$scope.pendingUsers = data;
-												$log.info($scope);
+												$log.info($scope.pendingUsers);
 												// $cookieStore.put('pendingMembers',data);
 
 											}).error(
@@ -642,14 +693,102 @@
 								/**
 								 * End get all users
 								 */
+								/**
+								 * Start get All expenses
+								 */
+								$scope.getAllExpenses = function() {
+
+									$http(
+											{
+												method : 'POST',
+												url : 'http://localhost:8080/ukadtogo/service/user/getAllExpenses',
+												data : null
+											}).success(
+											function(data, status, headers,
+													config) {
+												$log.info("Call getLeaders Successful");
+												$scope.expenses = data;
+												$log.info($scope.expenses);
+											}).error(
+											function(data, status, headers,
+													config) {
+												$log.info("Call getLeaders Failed");
+												$log.info($scope);
+											});
+
+								};
+								/**
+								 * End get all expenses
+								 */		
 								
+								/**
+								 * Start Delete Expense
+								 * 
+								 */
+								$scope.deleteExpense = function(exp) {
+									$http(
+											{
+												method : 'POST',
+												url : 'http://localhost:8080/ukadtogo/service/user/deleteExpense',
+												data : exp
+											})
+											.success(
+													function(data, status,
+															headers, config) {
+														$scope.getAllExpenses();
+														$scope.drawPayments();
+														$log
+																.info("Call deleteEvent Successful");
+														
+														$log.info($scope);
+													})
+											.error(
+													function(data, status,
+															headers, config) {
+														$log
+																.info("Call deleteEvent Failed");
+														$log.info($scope);
+
+													});
+
+								};
+								/**
+								 * End Delete
+								 */
+
+						        /**
+					             * End clear Payment
+					             */
+					        $scope.drawContributions = function() {
+					        	
+					        	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getContributions', data: null }).
+					   success(function (data, status, headers, config) {
+					            $log.info("Call get getContributions"); 
+					            $( "#contribution-bar" ).empty(); 
+					   	      Morris.Bar({
+						  	  	  	  element: 'contribution-bar',
+						  	  	  	  data:data,
+						  	  	  	  xkey: 'member',
+						  	  	  	  ykeys: ['amount'],
+						  	  	  	  labels:['Contribution']
+						  	  	  	});
+					           
+					   }).error(function (data, status, headers, config) {
+						   		 
+					            $log.info("Call get getYearlySummary Failed");
+					            $log.info($scope);
+					   });	  	  	  	  	    
+
+					        };
+
 								//Fix for refresh
 								var url = $location.url();
 								$log.info('URL='+url);
 								
 								if(url=='/pages/membres'){									
 									$scope.getAllUsers();
-								}else if(url=='/pages/searchResults'){
+								}else if(url=='/pages/searchResults'){									
+									
 								 //		
 									$scope.searchText= $cookieStore.get('searchText');
 									if($scope.searchText!=null &&$scope.searchText!=''){
@@ -658,6 +797,8 @@
 								}else if(url=='/pages/cotiser'){
 									$scope.getAllUsers();
 									$scope.drawPayments();
+									$scope.drawContributions();
+									$scope.getAllExpenses();
 								}else if(url=='/pages/approveMembers'){
 									$scope.getPendingMembers();
 								}else if(url=='/pages/main'){									

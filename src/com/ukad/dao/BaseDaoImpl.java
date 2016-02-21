@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ukad.model.BaseEntity;
 import com.ukad.model.News;
+import com.ukad.security.model.Contribution;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.User;
 import com.ukad.security.model.YearlySummary;
@@ -329,6 +330,29 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport imple
 			ys.setIn(new Double(obj[1].toString()));
 			ys.setOut(new Double(obj[2].toString()));
 
+			yss.add(ys);
+		}
+
+		return yss;
+	}
+
+	public List<Contribution> getContributions() {
+
+		String sqlQuery = "SELECT CONCAT_WS(' ',U.FIRST_NAME, U.LAST_NAME) MEMBER, SUM(AMOUNT) AMT FROM TRANSACTION T, USERS U WHERE U.USER_ID=T.USER_ID AND IO=1 GROUP BY CONCAT_WS(' ',U.FIRST_NAME, U.LAST_NAME) ORDER BY AMT DESC";
+
+		// int parameterIndex = 0;
+		Session session = getHibernateTemplate().getSessionFactory().openSession();
+		Query query = session.createSQLQuery(sqlQuery);
+		// query.setParameter(parameterIndex, year);
+
+		List<Object[]> objects = query.list();
+
+		List<Contribution> yss = new ArrayList<Contribution>();
+		Contribution ys;
+		for (Object[] obj : objects) {
+			ys = new Contribution();
+			ys.setMember( (String) obj[0]);
+			ys.setAmount(new Double(obj[1].toString()));
 			yss.add(ys);
 		}
 

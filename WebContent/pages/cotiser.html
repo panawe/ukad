@@ -21,7 +21,12 @@
 					class="height-150"></div>
 			</div>
 
-			<div id="exTab3" class="container">
+			<div class="panel panel-default">					
+					<div id="contribution-bar" 
+					class="height-150"></div>
+			</div>
+			
+			<div id="exTab3" class="container" ng-show="theUser.canApprove">
 				<ul class="nav nav-pills">
 					<li class="active"><a href="#1b" data-toggle="tab">Cotisation</a></li>
 					<li><a href="#2b" data-toggle="tab">Depenses</a></li>
@@ -29,11 +34,11 @@
 
 				<div class="tab-content clearfix">
 					<div class="tab-pane active" id="1b">
-						<h3 class="page-section-heading">Choisissez un membre pour
-							enregistrer un payement</h3>
+						<h5 class="page-section-heading">Choisissez un membre pour
+							enregistrer un payement</h5>
 						<div class="panel panel-default">
 							<!-- Data table -->
-							<table st-table="users" class="table table-striped"
+							<table st-table="displayedCollection" st-safe-src="users"  class="table table-striped"
 								cellspacing="0" width="100%">
 								<thead>
 									<tr>
@@ -55,7 +60,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="aUser in users">
+									<tr ng-repeat="aUser in displayedCollection">
 										<td>::aUser.lastName::</pbtd>
 										<td>::aUser.firstName::</td>
 										<td><a ng-href="mailto: ::aUser.email::">::aUser.email::</a></td>
@@ -75,7 +80,7 @@
 								<tfoot>
 									<tr>
 										<td colspan="5" class="text-center">
-											<div st-pagination="" st-items-by-page="20"
+											<div st-pagination="" st-items-by-page="10"
 												st-displayed-pages="100"></div>
 										</td>
 									</tr>
@@ -199,8 +204,6 @@
 									id="theYear" ng-model="year">
 									<option ng-repeat="y in years" value="::y.name::">::y.name::</option>
 								</select>
-
-
 							</div>
 							<div class="col-md-3">
 
@@ -217,8 +220,6 @@
 									ng-model="expenseType">
 									<option ng-repeat="y in expenseTypes" value="::y.id::">::y.name::</option>
 								</select>
-
-
 							</div>
 
 						</div>
@@ -262,6 +263,57 @@
 							class="btn btn-danger">Effacer</button>
 						<button type="submit" class="btn btn-success"
 							ng-click="saveExpense()">Sauvegarder</button>
+
+						<hr>
+
+						<div class="panel panel-default">
+							<!-- Data table -->
+							<table st-table="displayedCollection" st-safe-src="expenses"  class="table table-striped"
+								cellspacing="0" width="100%">
+								<thead>
+									<tr>
+
+										<th colspan="5"><input st-search
+											placeholder="Rechercher une depense"
+											class="input-sm form-control" type="search" /></th>
+									</tr>
+									<tr>
+										<th>Annee</th>
+										<th>Mois</th>
+										<th>Montant</th>
+										<th>Raison</th>
+										<th>Commentaire</th>
+										<th ng-show="theUser.canApprove">Supprimer</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="exp in displayedCollection">
+										<td>::exp.year::</pbtd>
+										<td>::exp.month::</td>
+										<td>::exp.amount::</td>
+										<td>::exp.paymentType.name::</td>
+										<td>::exp.comment::</td>
+										<td>
+											<button ng-show="theUser.canApprove" type="button"
+												ng-click="deleteExpense(exp)" class="btn btn-danger">
+												<i class="glyphicon glyphicon-ok"> </i>
+											</button>
+										</td>
+									</tr>
+
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="5" class="text-center">
+											<div st-pagination="" st-items-by-page="5"
+												st-displayed-pages="100"></div>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+							<!-- // Data table -->
+						</div>
 
 					</div>
 

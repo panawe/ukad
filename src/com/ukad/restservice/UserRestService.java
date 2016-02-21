@@ -2,6 +2,7 @@ package com.ukad.restservice;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ukad.model.Event;
 import com.ukad.model.Mail;
 import com.ukad.model.Transaction;
+import com.ukad.security.model.Contribution;
 import com.ukad.security.model.Search;
 import com.ukad.security.model.User;
 import com.ukad.security.model.YearlySummary;
@@ -45,7 +47,7 @@ public class UserRestService {
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody User createUser(@RequestBody User user) {
 		user.setUserName(user.getEmail());
-
+		user.setMembershipDate(new Date());
 		userService.add(user);
 		System.out.println("User Created:" + user);
 		try {
@@ -301,6 +303,26 @@ public class UserRestService {
 		System.out.println("YearlySummary list Requested - YearlySummary");
 		return userService.getYearlySmry();
 	}
+
+	@RequestMapping(value = "/getAllExpenses", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<Transaction> getAllExpenses() {
+		System.out.println("YearlySummary list Requested - getAllExpenses");
+		return userService.getAllExpenses();
+	}
+	
+	@RequestMapping(value = "/deleteExpense", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody String deleteExpense(@RequestBody Transaction exp) {
+		System.out.println("delete deleteExpense:" + exp);
+		userService.delete(exp);
+		return "Success";
+	}
+	
+	@RequestMapping(value = "/getContributions", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<Contribution> getContributions() {
+		System.out.println("getContributions list Requested - getContributions");
+		return userService.getContributions();
+	}
+
 
 
 }

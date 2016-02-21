@@ -20,7 +20,7 @@
 			<h1 class="page-section-heading">Nos Chers Membres</h1>
 			<div class="panel panel-default">
 				<!-- Data table -->
-				<table st-table="users"  
+				<table st-table="displayedCollection" st-safe-src="pendingUsers"  
 					class="table table-striped" cellspacing="0" width="100%">
 					<thead>
 						<tr>
@@ -42,7 +42,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="aUser in pendingUsers">
+						<tr ng-repeat="aUser in displayedCollection">
 							<td>::aUser.lastName::</pbtd>
 							<td>::aUser.firstName::</td>
 							<td><a ng-href="mailto: ::aUser.email::">::aUser.email::</a></td>

@@ -1,5 +1,6 @@
 package com.ukad.security.model;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ukad.model.BaseEntity;
 import com.ukad.model.Position;
 @Entity
@@ -54,9 +57,21 @@ public class User extends BaseEntity {
 	@Column(name="ADDRESS")
 	private String address;
 	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM/dd/yyyy")
+	@Column(name="MEMBERSHIP_DATE")
+	private Date membershipDate;
+	
 	@Column(name="CITY")
 	private String city;
 	
+	public Date getMembershipDate() {
+		return membershipDate;
+	}
+
+	public void setMembershipDate(Date membershipDate) {
+		this.membershipDate = membershipDate;
+	}
+
 	public String getCity() {
 		return city;
 	}
