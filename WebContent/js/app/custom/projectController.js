@@ -136,7 +136,7 @@
                    	
                    
                        $log.info($scope);
-                       //$scope.theProject=aProject;  
+                       $scope.theProject=aProject;  
                        $cookieStore.put(
 								'theProject',
 								aProject);
@@ -175,10 +175,15 @@
 		$log.info('URL='+url);
 		
 		if(url=='/pages/projectsEndUser'||url=='/pages/projects'){
-			
 			$scope.getAllProjects();
+			$cookieStore.put('projectAlbum_reload', null);
 		} else if(url=='/pages/projectAlbum' && ($scope.projectPictures==null||$scope.projectPictures=='')){
-			$scope.getProjectAlbum($cookieStore.get('theProject'));	
+			if ($cookieStore.get('projectAlbum_reload'))
+				$scope.getProjectAlbum($cookieStore.get('theProject'));	
+			if (!$cookieStore.get('projectAlbum_reload')) {
+				$cookieStore.put('projectAlbum_reload', "true");
+				window.location.reload();
+			}
 		}
            	  	  	                  
 }])
