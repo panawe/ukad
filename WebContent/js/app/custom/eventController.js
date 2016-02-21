@@ -458,12 +458,19 @@
 								if(url=='/pages/main'){
 									
 									$scope.getAllEventsWithAlbum();
-								}else if(url=='/pages/eventAlbum' &&  ($scope.EventPictures==null||$scope.EventPictures=='')){
-									$scope.getEventAlbum($cookieStore.get('theEvent'));									
+								}else if(url=='/pages/eventAlbum' &&  ($scope.EventPictures==null||$scope.EventPictures=='')){								
+									if ($cookieStore.get('eventAlbum_reload'))
+										$scope.getEventAlbum($cookieStore.get('theEvent'));		
+																		
+									if (!$cookieStore.get('eventAlbum_reload')) {
+										$cookieStore.put('eventAlbum_reload', "true");
+										window.location.reload();
+									}
 								}else if(url=='/pages/eventCalendar'||url=='/pages/events'){
 									$scope.getAllEvents();
 								}else if(url=='/pages/meetings'){
 									$scope.getAllEventsWithAlbumOrRepport();
+									$cookieStore.put('eventAlbum_reload', null)
 								}
 								
 
