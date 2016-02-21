@@ -500,19 +500,16 @@
 											.success(
 													function(data, status,
 															headers, config) {
-														$cookieStore.put('searchText',$scope.searchText);
+														
 														$log.info("Call find Members Successful");
-														
+														 $scope.searchResult = data;
 														$log.info($scope.searchResult);
-														var url = $location.url();														
-														if(url=='/pages/searchResults'){
-															// $( "#usersearchList" ).empty(); 
-															 $scope.searchResult = data;
-														}else{
-															$scope.searchResult = data;
-															$location.url('/pages/searchResults');	
-														}												
-														
+														$location.url('/pages/searchResults');	
+														if($cookieStore.get('searchText')!=$scope.searchText){
+															$cookieStore.put('searchText',$scope.searchText);
+															window.location.reload();
+														}
+
 														
 											}).error(
 													function(data, status,

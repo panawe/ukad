@@ -289,7 +289,7 @@ public class UserRestService {
 
 			mail.setStatus((short) 1);
 			userService.save(mail, mail.getSender());
-			userService.save(event, mail.getSender());
+			userService.update(event, mail.getSender());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

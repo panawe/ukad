@@ -458,6 +458,7 @@
 								if(url=='/pages/main'){
 									
 									$scope.getAllEventsWithAlbum();
+									$cookieStore.put('eventAlbum_reload', null);
 								}else if(url=='/pages/eventAlbum' &&  ($scope.EventPictures==null||$scope.EventPictures=='')){								
 									if ($cookieStore.get('eventAlbum_reload'))
 										$scope.getEventAlbum($cookieStore.get('theEvent'));		
@@ -470,7 +471,7 @@
 									$scope.getAllEvents();
 								}else if(url=='/pages/meetings'){
 									$scope.getAllEventsWithAlbumOrRepport();
-									$cookieStore.put('eventAlbum_reload', null)
+									$cookieStore.put('eventAlbum_reload', null);
 								}
 								
 
