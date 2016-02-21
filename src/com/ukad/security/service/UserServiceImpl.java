@@ -12,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ukad.model.BaseEntity;
 import com.ukad.model.Position;
+import com.ukad.model.Transaction;
 import com.ukad.security.dao.UserDaoImpl;
 import com.ukad.security.model.Roles;
 import com.ukad.security.model.RolesUser;
+import com.ukad.security.model.Contribution;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.User;
 import com.ukad.service.*;
@@ -127,6 +129,18 @@ public class UserServiceImpl extends BaseServiceImpl implements
 	public List<User> getLeaders() {
 		// TODO Auto-generated method stub
 		return userDao.getLeaders();
+	}
+
+	@Override
+	public List<Transaction> getAllExpenses() {
+		// TODO Auto-generated method stub
+		return userDao.getAllExpenses();
+	}
+
+	@Override
+	public List<Contribution> getContributions() {
+		// TODO Auto-generated method stub
+		return userDao.getContributions();
 	}
 
 }

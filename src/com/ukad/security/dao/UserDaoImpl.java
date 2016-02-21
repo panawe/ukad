@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.ukad.dao.BaseDaoImpl;
+import com.ukad.model.Transaction;
 import com.ukad.security.model.RolesUser;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.User;
@@ -127,6 +128,14 @@ public class UserDaoImpl extends BaseDaoImpl {
 		DetachedCriteria crit = DetachedCriteria.forClass(User.class);
 		crit.createCriteria("position").add(Restrictions.gt("id", 1L));
 		crit.addOrder(Order.asc("position.id"));
+		List l = getHibernateTemplate().findByCriteria(crit);
+		return l;
+	}
+
+	public List<Transaction> getAllExpenses() {
+		DetachedCriteria crit = DetachedCriteria.forClass(Transaction.class);
+		crit.add(Restrictions.eq("io", (short) 0));
+		crit.addOrder(Order.desc("createDate"));
 		List l = getHibernateTemplate().findByCriteria(crit);
 		return l;
 	}

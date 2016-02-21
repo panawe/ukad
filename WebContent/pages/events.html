@@ -21,21 +21,21 @@
 		
 		<div id="exTab3" class="container">
 			<ul class="nav nav-pills">
-				<li class="active"><a href="#1b" data-toggle="tab">Ajouter
+				<li class="active" ng-show="theUser.canApprove"><a href="#1b" data-toggle="tab">Ajouter
 						un evenement</a></li>
 						 
 				<li><a href="#2b" data-toggle="tab" >Les
 						evenements</a></li>
 						 
-				<li><a href="#3b" data-toggle="tab">Charger les images d'un
+				<li ng-show="theUser.canApprove"><a href="#3b" data-toggle="tab">Charger les images d'un
 						evenement</a></li>
 
-				<li><a href="#4b" data-toggle="tab">Rapport</a></li>
+				<li ng-show="theUser.canApprove"><a href="#4b" data-toggle="tab">Rapport</a></li>
 
 			</ul>
 
 			<div class="tab-content clearfix">
-				<div class="tab-pane active" id="1b">
+				<div class="tab-pane active" id="1b" ng-show="theUser.canApprove">
 					<div class="alert alert-danger"
 						ng-show="!eventSaved &&eventSaveSubmitted">
 						<button type="button" class="close" data-dismiss="alert">
@@ -199,7 +199,7 @@
 				</div>
 				
 				<!-- -->
-				<div class="tab-pane" id="3b">
+				<div class="tab-pane" id="3b" ng-show="theUser.canApprove">
 					<div class="panel panel-default" ng-show="eventSelected">
 						<div class="panel-heading">
 							<h3>
@@ -337,7 +337,7 @@
 				</div>
 
 
-				<div class="tab-pane" id="4b">
+				<div class="tab-pane" id="4b" ng-show="theUser.canApprove">
 					<h3 ng-show="eventSelected" class="page-section-heading">Rapport
 						de l'evenement ::theEvent.title::</h3>
 
