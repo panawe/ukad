@@ -34,7 +34,7 @@
 
 								var uploader = $scope.uploader = new FileUploader(
 										{
-											url : 'http://localhost:8080/ukadtogo/service/event/receiveFile'
+											url : 'http://ukadtg-esoftsystems.rhcloud.com/service/event/receiveFile'
 										});
 
 								// FILTERS
@@ -134,7 +134,7 @@
 										$http(
 												{
 													method : 'POST',
-													url : 'http://localhost:8080/ukadtogo/service/user/saveReportAndMail',
+													url : 'http://ukadtg-esoftsystems.rhcloud.com/service/user/saveReportAndMail',
 													data : email
 												})
 												.success(
@@ -179,7 +179,7 @@
 		  	  	                 */
 		  	  	                      $scope.getAllEventsWithAlbum = function() {
 		  	  	                            
-		  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithAlbum', data: null }).
+		  	  	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/event/getAllEventsWithAlbum', data: null }).
 		  	  	                           success(function (data, status, headers, config) {
 		  	  	                                    $log.info("Call get All Events with album Successful"); 
 		  	  	                                	$scope.eventsWithAlbum=data;
@@ -279,7 +279,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/getAllEvents',
+												url : 'http://ukadtg-esoftsystems.rhcloud.com/service/event/getAllEvents',
 												data : null
 											})
 											.success(
@@ -320,7 +320,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/createEvent',
+												url : 'http://ukadtg-esoftsystems.rhcloud.com/service/event/createEvent',
 												data : this.theEvent
 											})
 											.success(
@@ -367,7 +367,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/deleteEvent',
+												url : 'http://ukadtg-esoftsystems.rhcloud.com/service/event/deleteEvent',
 												data : aEvent
 											})
 											.success(
@@ -401,7 +401,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/getEventAlbum',
+												url : 'http://ukadtg-esoftsystems.rhcloud.com/service/event/getEventAlbum',
 												data : aEvent
 											})
 											.success(
@@ -411,7 +411,7 @@
 																.info("Call get All Events photo Successful");
 														$scope.EventPictures = data;
 														$log.info($scope);
-														//$scope.theEvent = aEvent;
+														$scope.theEvent = aEvent;
 														$cookieStore.put(
 																'theEvent',
 																aEvent);
@@ -435,7 +435,7 @@
 	  	  	  	                 */
 	  	  	  	                      $scope.getAllEventsWithAlbumOrRepport = function() {
  	  	  	                            
-	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithAlbumOrRepport', data: null }).
+	  	  	  	                           $http({ method: 'POST', url: 'http://ukadtg-esoftsystems.rhcloud.com/service/event/getAllEventsWithAlbumOrRepport', data: null }).
 	  	  	  	                           success(function (data, status, headers, config) {
 	  	  	  	                                    $log.info("Call get All Events with album Successful"); 
 	  	  	  	                                	$scope.eventsWithAlbumReport=data;
