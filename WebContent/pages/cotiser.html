@@ -17,15 +17,15 @@
 
 		<div class="page-section">
 			<div class="panel panel-default">
-				<div id="bar-example" 
-					class="height-150"></div>
+				<span class="label label-primary">Cotisations et Depenses</span>
+				<div id="bar-example" class="height-150"></div>
 			</div>
 
-			<div class="panel panel-default">					
-					<div id="contribution-bar" 
-					class="height-150"></div>
+			<div class="panel panel-default">
+				<span class="label label-primary">Cotisations par membres</span>
+				<div id="contribution-bar" class="height-150"></div>
 			</div>
-			
+
 			<div id="exTab3" class="container" ng-show="theUser.canApprove">
 				<ul class="nav nav-pills">
 					<li class="active"><a href="#1b" data-toggle="tab">Cotisation</a></li>
@@ -38,8 +38,8 @@
 							enregistrer un payement</h5>
 						<div class="panel panel-default">
 							<!-- Data table -->
-							<table st-table="displayedCollection" st-safe-src="users"  class="table table-striped"
-								cellspacing="0" width="100%">
+							<table st-table="displayedCollection" st-safe-src="users"
+								class="table table-striped" cellspacing="0" width="100%">
 								<thead>
 									<tr>
 
@@ -268,8 +268,8 @@
 
 						<div class="panel panel-default">
 							<!-- Data table -->
-							<table st-table="displayedCollection" st-safe-src="expenses"  class="table table-striped"
-								cellspacing="0" width="100%">
+							<table st-table="displayedCollection2" st-safe-src="expenses"
+								class="table table-striped" cellspacing="0" width="100%">
 								<thead>
 									<tr>
 
@@ -288,7 +288,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="exp in displayedCollection">
+									<tr ng-repeat="exp in displayedCollection2">
 										<td>::exp.year::</pbtd>
 										<td>::exp.month::</td>
 										<td>::exp.amount::</td>
