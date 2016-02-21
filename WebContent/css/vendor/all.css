@@ -1293,7 +1293,8 @@ img {
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
   display: inline-block;
-  max-width: 100%;
+  /*max-width: 100%;*/
+  max-width: 120px;
   height: auto;
 }
 .img-circle {

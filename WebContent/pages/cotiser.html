@@ -268,7 +268,7 @@
 
 						<div class="panel panel-default">
 							<!-- Data table -->
-							<table st-table="displayedCollection2" st-safe-src="expenses"
+							<table st-table="rowCollection" st-safe-src="expenses"
 								class="table table-striped" cellspacing="0" width="100%">
 								<thead>
 									<tr>
@@ -288,7 +288,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="exp in displayedCollection2">
+									<tr ng-repeat="exp in rowCollection">
 										<td>::exp.year::</pbtd>
 										<td>::exp.month::</td>
 										<td>::exp.amount::</td>
@@ -297,7 +297,7 @@
 										<td>
 											<button ng-show="theUser.canApprove" type="button"
 												ng-click="deleteExpense(exp)" class="btn btn-danger">
-												<i class="glyphicon glyphicon-ok"> </i>
+												<i class="glyphicon glyphicon-remove-circle"> </i>
 											</button>
 										</td>
 									</tr>

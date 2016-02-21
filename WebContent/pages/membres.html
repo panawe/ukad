@@ -23,7 +23,7 @@
 			<div ng-repeat="u in users" class="col-xs-4 col-sm-2">
 				<a href="" ng-click="showUserModal(u)"><img
 					src="images/members/::u.id::.jpg" alt="Pas d'image"
-					class="img-thumbnail img-responsive img-circle"></a>
+					class="img-thumbnail img-responsive img-circle" max-width="120px"></a>
 				<h5 class="text-center"> <strong>::u.firstName+' '+u.lastName:: </strong></h5>
 				<h5 class="text-center">::u.position.name:: depuis ::u.membershipDate|date:'yyyy'::  </h5>
 				<hr>

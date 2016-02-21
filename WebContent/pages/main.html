@@ -99,20 +99,19 @@
 
 
 		<div class="page-section" ng-controller="userCtrl">
-			<div class="page-header text-center">
+			<div class="page-header">
 				<i class="fa fa-envelope-o fa-5x text-green-300"></i>
 				<h3 class="text-h2">Contact des dirigeants</h3>
 			</div>
 
-			<div class="row">
-	
-			<div ng-repeat="u in leaders" class="col-xs-4 col-sm-2">
+			<div class="row">	
+			<div ng-repeat="u in leaders" class="col-xs-4 col-sm-2" >
 				<a href="" ng-click="showUserModal(u)"><img
 					src="images/members/::u.id::.jpg" alt="Pas d'image"
 					class="img-thumbnail img-responsive img-circle"></a>
-				<h5 class="text-center"> <strong>::u.firstName+' '+u.lastName:: -  ::u.position.name::</strong></h5>
-				<h5 class="text-center"><a ng-href="mailto: ::leader.email::">Mail: ::u.email::</a></h5>
-				<hr>
+				<h5 class="text-center"> <strong>::u.firstName+' '+u.lastName:: - <font color="red"> ::u.position.name::</font></strong></h5>
+				<h5 class="text-center"><a ng-href="mailto: ::leader.email::">::u.email::</a></h5>
+				 
 			</div>
 
 			</div>

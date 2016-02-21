@@ -488,6 +488,7 @@
 								$scope.findMembers = function() {
 									$scope.searchResult =null;
 									// $( "#usersearchList" ).refresh(); 
+									
 									$http(
 											{
 												method : 'POST',
@@ -501,10 +502,19 @@
 															headers, config) {
 														$cookieStore.put('searchText',$scope.searchText);
 														$log.info("Call find Members Successful");
-														$scope.searchResult = data;
+														
 														$log.info($scope.searchResult);
-														$location.url('/pages/searchResults');													})
-											.error(
+														var url = $location.url();														
+														if(url=='/pages/searchResults'){
+															// $( "#usersearchList" ).empty(); 
+															 $scope.searchResult = data;
+														}else{
+															$scope.searchResult = data;
+															$location.url('/pages/searchResults');	
+														}												
+														
+														
+											}).error(
 													function(data, status,
 															headers, config) {
 														$log
@@ -706,13 +716,13 @@
 											}).success(
 											function(data, status, headers,
 													config) {
-												$log.info("Call getLeaders Successful");
+												$log.info("Call expenses Successful");
 												$scope.expenses = data;
 												$log.info($scope.expenses);
 											}).error(
 											function(data, status, headers,
 													config) {
-												$log.info("Call getLeaders Failed");
+												$log.info("Call expenses Failed");
 												$log.info($scope);
 											});
 
