@@ -397,7 +397,12 @@
 								 * Events
 								 */
 								$scope.getEventAlbum = function(aEvent) {
-
+									//report too big for cookies
+									if(aEvent!=null){
+										aEvent.report=null;
+									}
+									$cookieStore.remove("theEvent");
+									$cookieStore.put('theEvent',aEvent);
 									$http(
 											{
 												method : 'POST',
@@ -411,10 +416,7 @@
 																.info("Call get All Events photo Successful");
 														$scope.EventPictures = data;
 														$log.info($scope);
-														$scope.theEvent = aEvent;
-														$cookieStore.put(
-																'theEvent',
-																aEvent);
+														$scope.theEvent = aEvent;												
 
 													})
 											.error(
@@ -458,7 +460,7 @@
 								if(url=='/pages/main'){
 									
 									$scope.getAllEventsWithAlbum();
-									$cookieStore.put('eventAlbum_reload', null);
+									$cookieStore.remove("eventAlbum_reload");
 								}else if(url=='/pages/eventAlbum' &&  ($scope.EventPictures==null||$scope.EventPictures=='')){								
 									if ($cookieStore.get('eventAlbum_reload'))
 										$scope.getEventAlbum($cookieStore.get('theEvent'));		
@@ -471,7 +473,7 @@
 									$scope.getAllEvents();
 								}else if(url=='/pages/meetings'){
 									$scope.getAllEventsWithAlbumOrRepport();
-									$cookieStore.put('eventAlbum_reload', null);
+									$cookieStore.remove("eventAlbum_reload");									
 								}
 								
 
