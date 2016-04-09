@@ -62,7 +62,7 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter{
 	    dataSource.setUsername("adminNS2PNM8");
 	    dataSource.setPassword("FijgbfVYcX7m");  
 	   	*/
-	    dataSource.setUrl("jdbc:mysql://localhost:3306/ukad");
+	    dataSource.setUrl("jdbc:mysql://localhost:3306/assogabon");
 	    dataSource.setUsername("root");
 	    dataSource.setPassword("admin");
 	    
