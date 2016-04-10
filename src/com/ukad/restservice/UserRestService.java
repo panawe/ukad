@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ import com.ukad.model.Mail;
 import com.ukad.model.Transaction;
 import com.ukad.security.model.Contribution;
 import com.ukad.security.model.Search;
+import com.ukad.security.model.SessionHistory;
 import com.ukad.security.model.User;
 import com.ukad.security.model.YearlySummary;
 import com.ukad.security.service.UserService;
@@ -37,11 +39,41 @@ public class UserRestService {
 	UserService userService;
 	@Autowired
 	ServletContext context;
+	@Autowired
+	private HttpServletRequest request;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody User login(@RequestBody User user) {
 		System.out.println("User Login :" + user);
-		return userService.getUser(user.getUserName(), user.getPassword());
+		user = userService.getUser(user.getUserName(), user.getPassword());
+		
+		if (user != null) {
+			request.getSession().setAttribute("userId", user.getId());
+			SessionHistory sessionHistory = new SessionHistory();
+			sessionHistory.setBeginDate(new Date());
+			sessionHistory.setUser(user);
+			sessionHistory.setSessionId(request.getSession().getId());
+			sessionHistory.setHostIp(request.getRemoteAddr());
+			sessionHistory.setHostName(request.getRemoteHost());
+			sessionHistory.setLanguage(request.getLocalName());
+			sessionHistory.setOsuser(request.getRemoteUser());
+			sessionHistory.setBrowser(request.getHeader("User-Agent"));
+			userService.save(sessionHistory, user);
+			request.getSession().setAttribute("sessionHistoryId", sessionHistory.getId());
+		}
+		
+		return user;
+	}
+
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody Boolean logout() {
+		System.out.println("User Logout :" + request.getSession().getAttribute("userId"));
+		
+		request.getSession().setAttribute("userId", null);
+		request.getSession().setAttribute("sessionHistoryId", null);
+		
+		return true;
 	}
 
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST, headers = "Accept=application/json")
