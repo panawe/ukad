@@ -351,7 +351,7 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport imple
 		Contribution ys;
 		for (Object[] obj : objects) {
 			ys = new Contribution();
-			ys.setMember( (String) obj[0]);
+			ys.setMember((String) obj[0]);
 			ys.setAmount(new Double(obj[1].toString()));
 			yss.add(ys);
 		}

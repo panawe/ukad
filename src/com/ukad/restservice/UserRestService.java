@@ -100,26 +100,30 @@ public class UserRestService {
 
 		return userService.getUser(user.getUserName(), user.getPassword());
 	}
-	
-	
+
 	@RequestMapping(value = "/makePayment", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody String makePayment(@RequestBody Transaction tran) {
 		System.out.println("makePayment called:" + tran);
-		
-		
+
 		try {
 			userService.save(tran);
 			/*
-			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV bien recue", mail, "ukadtogo@gmail.com",
-					user.getEmail(), "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
-
-			mail = "<blockquote><h2><b>Nom: " + user.getLastName() + "</b></h2><h2><b>Prenom:" + user.getFirstName()
-					+ "</b></h2><h2><b>E-mail:" + user.getEmail()
-					+ "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.ukadtogo.com \" target=\"\">www.ukadtogo.com </a></b></div></blockquote>";
-			SimpleMail.sendMail("Demand d'adhesion de " + user.getFirstName() + " " + user.getLastName(), mail,
-					"ukadtogo@gmail.com", "ukadtogo@gmail.com", "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
-					*/
+			 * String mail =
+			 * "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>"
+			 * ; SimpleMail.sendMail(
+			 * "Votre demande d'adhesion a UKAD eV bien recue", mail,
+			 * "ukadtogo@gmail.com", user.getEmail(), "smtp.gmail.com",
+			 * "ukadtogo@gmail.com", "ukadtogo123");
+			 * 
+			 * mail = "<blockquote><h2><b>Nom: " + user.getLastName() +
+			 * "</b></h2><h2><b>Prenom:" + user.getFirstName() +
+			 * "</b></h2><h2><b>E-mail:" + user.getEmail() +
+			 * "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.ukadtogo.com \" target=\"\">www.ukadtogo.com </a></b></div></blockquote>"
+			 * ; SimpleMail.sendMail("Demand d'adhesion de " +
+			 * user.getFirstName() + " " + user.getLastName(), mail,
+			 * "ukadtogo@gmail.com", "ukadtogo@gmail.com", "smtp.gmail.com",
+			 * "ukadtogo@gmail.com", "ukadtogo123");
+			 */
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -130,25 +134,29 @@ public class UserRestService {
 		return "Success";
 	}
 
-	
 	@RequestMapping(value = "/saveExpense", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody String saveExpense(@RequestBody Transaction tran) {
 		System.out.println("saveExpense called:" + tran);
-		
-		
+
 		try {
 			userService.save(tran);
 			/*
-			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV bien recue", mail, "ukadtogo@gmail.com",
-					user.getEmail(), "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
-
-			mail = "<blockquote><h2><b>Nom: " + user.getLastName() + "</b></h2><h2><b>Prenom:" + user.getFirstName()
-					+ "</b></h2><h2><b>E-mail:" + user.getEmail()
-					+ "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.ukadtogo.com \" target=\"\">www.ukadtogo.com </a></b></div></blockquote>";
-			SimpleMail.sendMail("Demand d'adhesion de " + user.getFirstName() + " " + user.getLastName(), mail,
-					"ukadtogo@gmail.com", "ukadtogo@gmail.com", "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
-					*/
+			 * String mail =
+			 * "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>"
+			 * ; SimpleMail.sendMail(
+			 * "Votre demande d'adhesion a UKAD eV bien recue", mail,
+			 * "ukadtogo@gmail.com", user.getEmail(), "smtp.gmail.com",
+			 * "ukadtogo@gmail.com", "ukadtogo123");
+			 * 
+			 * mail = "<blockquote><h2><b>Nom: " + user.getLastName() +
+			 * "</b></h2><h2><b>Prenom:" + user.getFirstName() +
+			 * "</b></h2><h2><b>E-mail:" + user.getEmail() +
+			 * "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.ukadtogo.com \" target=\"\">www.ukadtogo.com </a></b></div></blockquote>"
+			 * ; SimpleMail.sendMail("Demand d'adhesion de " +
+			 * user.getFirstName() + " " + user.getLastName(), mail,
+			 * "ukadtogo@gmail.com", "ukadtogo@gmail.com", "smtp.gmail.com",
+			 * "ukadtogo@gmail.com", "ukadtogo123");
+			 */
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -158,7 +166,6 @@ public class UserRestService {
 
 		return "Success";
 	}
-
 
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody User saveUser(@RequestBody User user) {
@@ -222,7 +229,7 @@ public class UserRestService {
 		System.out.println("User list Requested -getPending ");
 		return userService.loadAllMembersPending();
 	}
-	
+
 	@RequestMapping(value = "/getLeaders", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<User> getLeaders() {
 		System.out.println("User list Requested -getPending ");
@@ -306,7 +313,7 @@ public class UserRestService {
 
 		Event event = (Event) userService.getById(Event.class, mail.getEventId());
 
-		event.setReport(mail.getBody()); 
+		event.setReport(mail.getBody());
 
 		List<User> users = userService.loadAllMembers();
 		StringBuffer sb = new StringBuffer();
@@ -329,7 +336,7 @@ public class UserRestService {
 
 		return "Success";
 	}
-	
+
 	@RequestMapping(value = "/getYearlySummary", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<YearlySummary> getYearlySummary() {
 		System.out.println("YearlySummary list Requested - YearlySummary");
@@ -341,20 +348,18 @@ public class UserRestService {
 		System.out.println("YearlySummary list Requested - getAllExpenses");
 		return userService.getAllExpenses();
 	}
-	
+
 	@RequestMapping(value = "/deleteExpense", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody String deleteExpense(@RequestBody Transaction exp) {
 		System.out.println("delete deleteExpense:" + exp);
 		userService.delete(exp);
 		return "Success";
 	}
-	
+
 	@RequestMapping(value = "/getContributions", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<Contribution> getContributions() {
 		System.out.println("getContributions list Requested - getContributions");
 		return userService.getContributions();
 	}
-
-
 
 }

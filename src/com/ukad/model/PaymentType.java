@@ -8,18 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="PAYMENT_TYPE")
+@Table(name = "PAYMENT_TYPE")
 public class PaymentType extends BaseEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="PAYMENT_TYPE_ID")
+	@Column(name = "PAYMENT_TYPE_ID")
 	private Long id;
-	
-	@Column(name="NAME")
+
+	@Column(name = "NAME")
 	private String name;
-	
-	@Column(name="FREQUENCY")
+
+	@Column(name = "FREQUENCY")
 	private String frequency;
 
 	public String getFrequency() {
@@ -51,6 +51,5 @@ public class PaymentType extends BaseEntity {
 	public String toString() {
 		return name;
 	}
-	
 
 }

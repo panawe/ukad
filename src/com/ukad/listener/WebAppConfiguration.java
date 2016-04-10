@@ -24,28 +24,27 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
- 
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan(basePackages = "com.ukad.*")
-public class WebAppConfiguration extends WebMvcConfigurerAdapter{
-     
+public class WebAppConfiguration extends WebMvcConfigurerAdapter {
+
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		//converters.add(createXmlHttpMessageConverter());
+		// converters.add(createXmlHttpMessageConverter());
 		converters.add(new MappingJackson2HttpMessageConverter());
 		System.out.println("configureMessageConverters is callled");
 		super.configureMessageConverters(converters);
 	}
-	
-	 @Override
-	    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		 System.out.println("addResourceHandlers is called");
-	        //registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-	        registry.addResourceHandler("/**").addResourceLocations("/");
-	    }
-	 
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		System.out.println("addResourceHandlers is called");
+		// registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+		registry.addResourceHandler("/**").addResourceLocations("/");
+	}
+
 	@Bean(name = "viewResolver")
 	public InternalResourceViewResolver getViewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -53,36 +52,38 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter{
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
-	
+
 	@Bean(name = "dataSource")
 	public DataSource getDataSource() {
-	    DriverManagerDataSource dataSource = new DriverManagerDataSource();
-	    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-	    /* dataSource.setUrl("jdbc:mysql://569b062789f5cf15b600002a-esoftsystems.rhcloud.com:55136/ukad");
-	    dataSource.setUsername("adminNS2PNM8");
-	    dataSource.setPassword("FijgbfVYcX7m");  
-	   	*/
-	    dataSource.setUrl("jdbc:mysql://localhost:3306/assogabon");
-	    dataSource.setUsername("root");
-	    dataSource.setPassword("admin");
-	    
-	    Properties connectionProperties = new Properties();
-	    connectionProperties.setProperty("defaultTransactionIsolation", "2");
-	    connectionProperties.setProperty("initialSize", "10");
-	    connectionProperties.setProperty("maxActive", "-1");
-	    connectionProperties.setProperty("defaultAutoCommit", "false");
-	    connectionProperties.setProperty("minIdle", "0");
-	    connectionProperties.setProperty("maxIdle", "-1");
-	    connectionProperties.setProperty("maxWait", "20000");
-	    connectionProperties.setProperty("removeAbandoned", "true");
-	    connectionProperties.setProperty("removeAbandonedTimeout", "300");
-	    connectionProperties.setProperty("logAbandoned", "true");
-	    connectionProperties.setProperty("validationQuery", "select 1 from dual");
-		dataSource.setConnectionProperties(connectionProperties );
-	    
-	    return dataSource;
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		/*
+		 * dataSource.setUrl(
+		 * "jdbc:mysql://569b062789f5cf15b600002a-esoftsystems.rhcloud.com:55136/ukad"
+		 * ); dataSource.setUsername("adminNS2PNM8");
+		 * dataSource.setPassword("FijgbfVYcX7m");
+		 */
+		dataSource.setUrl("jdbc:mysql://localhost:3306/assogabon");
+		dataSource.setUsername("root");
+		dataSource.setPassword("admin");
+
+		Properties connectionProperties = new Properties();
+		connectionProperties.setProperty("defaultTransactionIsolation", "2");
+		connectionProperties.setProperty("initialSize", "10");
+		connectionProperties.setProperty("maxActive", "-1");
+		connectionProperties.setProperty("defaultAutoCommit", "false");
+		connectionProperties.setProperty("minIdle", "0");
+		connectionProperties.setProperty("maxIdle", "-1");
+		connectionProperties.setProperty("maxWait", "20000");
+		connectionProperties.setProperty("removeAbandoned", "true");
+		connectionProperties.setProperty("removeAbandonedTimeout", "300");
+		connectionProperties.setProperty("logAbandoned", "true");
+		connectionProperties.setProperty("validationQuery", "select 1 from dual");
+		dataSource.setConnectionProperties(connectionProperties);
+
+		return dataSource;
 	}
-	
+
 	@Autowired
 	@Bean(name = "sessionFactory")
 	public SessionFactory getSessionFactory(DataSource dataSource) {
@@ -93,37 +94,32 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter{
 		sessionBuilder.setProperty("checkWriteOperations", "false");
 		sessionBuilder.setProperty("flushMode", "COMMIT");
 		return sessionBuilder.buildSessionFactory();
-		
+
 	}
-	
-	@Bean(name ="multipartResolver")
-	public CommonsMultipartResolver commonsMultipartResolver(){
-	    CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-	    commonsMultipartResolver.setDefaultEncoding("utf-8");
-	    commonsMultipartResolver.setMaxUploadSize(50000000);
-	    return commonsMultipartResolver;
+
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver commonsMultipartResolver() {
+		CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+		commonsMultipartResolver.setDefaultEncoding("utf-8");
+		commonsMultipartResolver.setMaxUploadSize(50000000);
+		return commonsMultipartResolver;
 	}
-	   
-	
+
 	@Autowired
 	@Bean(name = "transactionManager")
-	public HibernateTransactionManager getTransactionManager(
-	        SessionFactory sessionFactory) {
-	    HibernateTransactionManager transactionManager = new HibernateTransactionManager(
-	            sessionFactory);
-	 
-	    return transactionManager;
-	}
-	
-	@Bean
-    public MultipartConfigElement multipartConfigElement() {
-        MultipartConfigFactory factory = new MultipartConfigFactory();
-        factory.setMaxFileSize("4096KB");
-        factory.setMaxRequestSize("4096KB");
-        factory.setLocation("c:\\TEMP");
-        return factory.createMultipartConfig();
-    }
+	public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
+		HibernateTransactionManager transactionManager = new HibernateTransactionManager(sessionFactory);
 
-	
- 
+		return transactionManager;
+	}
+
+	@Bean
+	public MultipartConfigElement multipartConfigElement() {
+		MultipartConfigFactory factory = new MultipartConfigFactory();
+		factory.setMaxFileSize("4096KB");
+		factory.setMaxRequestSize("4096KB");
+		factory.setLocation("c:\\TEMP");
+		return factory.createMultipartConfig();
+	}
+
 }

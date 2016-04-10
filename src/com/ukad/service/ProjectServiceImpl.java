@@ -16,13 +16,13 @@ public class ProjectServiceImpl extends BaseServiceImpl implements ProjectServic
 		// TODO Auto-generated method stub
 		List<BaseEntity> prjts = loadAll(class1);
 		List<Project> projects = null;
-		if(prjts != null){
+		if (prjts != null) {
 			projects = new ArrayList<Project>();
-			for(BaseEntity p : prjts){
+			for (BaseEntity p : prjts) {
 				Project pr = (Project) p;
 				projects.add(pr);
 			}
-			
+
 		}
 		return projects;
 	}

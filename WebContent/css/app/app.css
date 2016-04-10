@@ -8713,7 +8713,7 @@ html.st-layout body,
 html.st-layout .st-container,
 html.st-layout .st-pusher,
 html.st-layout .st-content {
-  height: 100%;
+ /* height: 100%;*/
 }
 html.st-layout,
 html.st-layout body,
@@ -8738,7 +8738,7 @@ html.st-layout .st-content {
 }
 .top-navbar .st-container,
 .ls-top-navbar .st-container {
-  padding-top: 50px;
+  padding-top: 0px;
 }
 .top-navbar-small .st-container,
 .ls-top-navbar-small .st-container {
@@ -8806,6 +8806,8 @@ html.st-layout .st-content {
   position: absolute !important;
   visibility: hidden;
   z-index: 100;
+  top:100px;
+   opacity: 1;
 }
 @media (min-width: 768px) {
   .st-container .sidebar.sidebar-visible-desktop {
