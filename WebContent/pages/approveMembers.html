@@ -1,86 +1,84 @@
-
-<div id="carousel-example-generic"
-	class="carousel slide cover overlay overflow-hidden max-height-100 cover-navbar-large-top margin-none"
-	data-ride="carousel">
-
-	<div class="carousel-inner" role="listbox">
-		<div class="item active">
-			<img src="images/ukad-main-min.jpg" alt="Slider" class="width-100pc">
-		</div>
-	</div>
-
-
-</div>
-
+<div ng-include="'pages/menubg.html'"></div>
 <div class="bg-white" ng-controller="userCtrl">
 	<div class="container">
+		<div class="row">
+			<div class="item col-lg-9 col-md-6 col-xs-12">
+				<div class="page-section">
 
-		<div class="page-section">
+					<h1 class="page-section-heading">Nos Chers Membres</h1>
+					<div class="panel panel-default">
+						<!-- Data table -->
+						<table st-table="displayedCollection" st-safe-src="pendingUsers"
+							class="table table-striped" cellspacing="0" width="100%">
+							<thead>
+								<tr>
 
-			<h1 class="page-section-heading">Nos Chers Membres</h1>
-			<div class="panel panel-default">
-				<!-- Data table -->
-				<table st-table="displayedCollection" st-safe-src="pendingUsers"  
-					class="table table-striped" cellspacing="0" width="100%">
-					<thead>
-						<tr>
+									<th colspan="5"><input st-search
+										placeholder="Rechercher un membre"
+										class="input-sm form-control" type="search" /></th>
+								</tr>
+								<tr>
+									<th>Nom</th>
+									<th>Prenom</th>
+									<th>E-mail</th>
+									<th>Position</th>
+									<th>Telephone</th>
+									<th>Ville de residence</th>
+									<th>Membre depuis</th>
+									<th ng-show="theUser.canApprove">Rejeter</th>
+									<th ng-show="theUser.canApprove">Approver</th>
 
-							<th colspan="5"><input st-search placeholder="Rechercher un membre"
-								class="input-sm form-control" type="search" /></th>
-						</tr>
-						<tr>
-							<th>Nom</th>
-							<th>Prenom</th>
-							<th>E-mail</th>
-							<th>Position</th>
-							<th>Telephone</th>
-							<th>Ville de residence</th>
-							<th>Membre depuis</th>
-							<th ng-show="theUser.canApprove">Rejeter</th>
-							<th ng-show="theUser.canApprove">Approver</th>
-							 
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="aUser in displayedCollection">
-							<td>::aUser.lastName::</pbtd>
-							<td>::aUser.firstName::</td>
-							<td><a ng-href="mailto: ::aUser.email::">::aUser.email::</a></td>
-							<td>::aUser.position.name::</td>
-							<td>::aUser.phone::</td>
-							<td>::aUser.city::</td>
-							<td>::aUser.createDate|date::</td>
-							<td>
-								<button ng-show="theUser.canApprove && aUser.status!=1 && aUser.status!=2" type="button" ng-click="rejectMember(aUser)"
-									class="btn btn-sm btn-danger">
-									<i class="glyphicon glyphicon-remove-circle"> </i>
-								</button>
-							</td>
-							<td>
-								<button ng-show="theUser.canApprove && aUser.status!=1" type="button" ng-click="approveMember(aUser)"
-									class="btn btn-success">
-									<i class="glyphicon glyphicon-ok"> </i>
-								</button>
-							</td>
-						</tr>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="aUser in displayedCollection">
+									<td>::aUser.lastName::</pbtd>
+									<td>::aUser.firstName::</td>
+									<td><a ng-href="mailto: ::aUser.email::">::aUser.email::</a></td>
+									<td>::aUser.position.name::</td>
+									<td>::aUser.phone::</td>
+									<td>::aUser.city::</td>
+									<td>::aUser.createDate|date::</td>
+									<td>
+										<button
+											ng-show="theUser.canApprove && aUser.status!=1 && aUser.status!=2"
+											type="button" ng-click="rejectMember(aUser)"
+											class="btn btn-sm btn-danger">
+											<i class="glyphicon glyphicon-remove-circle"> </i>
+										</button>
+									</td>
+									<td>
+										<button ng-show="theUser.canApprove && aUser.status!=1"
+											type="button" ng-click="approveMember(aUser)"
+											class="btn btn-success">
+											<i class="glyphicon glyphicon-ok"> </i>
+										</button>
+									</td>
+								</tr>
 
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="5" class="text-center">
-								<div st-pagination="" st-items-by-page="20"
-									st-displayed-pages="100"></div>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-				<!-- // Data table -->
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="5" class="text-center">
+										<div st-pagination="" st-items-by-page="20"
+											st-displayed-pages="100"></div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+						<!-- // Data table -->
+					</div>
+
+
+				</div>
+
 			</div>
-
-
+			<div class="item col-lg-3 col-md-6 col-xs-12">
+				<div class="page-section">
+					<div ng-include="'pages/sidebar.html'"></div>
+				</div>
+			</div>
 		</div>
-
-
 		<br />
 
 	</div>

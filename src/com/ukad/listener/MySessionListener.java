@@ -10,7 +10,6 @@ public class MySessionListener implements HttpSessionListener {
 
 		try {
 
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -20,13 +19,13 @@ public class MySessionListener implements HttpSessionListener {
 
 	public void sessionDestroyed(HttpSessionEvent se) {
 		try {
-			
-			/*UserBean ub = (UserBean)se.getSession().getAttribute("userBean");
-			if(ub!=null){
-				SessionHistory sh = ub.getSessionHistory();
-				sh.setEndDate(new Date());
-				ub.getUserService().update(sh, ub.getUser());				
-			}*/
+
+			/*
+			 * UserBean ub = (UserBean)se.getSession().getAttribute("userBean");
+			 * if(ub!=null){ SessionHistory sh = ub.getSessionHistory();
+			 * sh.setEndDate(new Date()); ub.getUserService().update(sh,
+			 * ub.getUser()); }
+			 */
 		} catch (Exception e) {
 			System.out.println("Impossible to close connection");
 			e.printStackTrace();

@@ -1,20 +1,9 @@
-
-<div id="carousel-example-generic"
-	class="carousel slide cover overlay overflow-hidden max-height-100 cover-navbar-large-top margin-none"
-	data-ride="carousel">
-
-	<div class="carousel-inner" role="listbox">
-		<div class="item active">
-			<img src="images/ukad-main-min.jpg" alt="Slider" class="width-100pc">
-		</div>
-	</div>
-
-
-</div>
+<div ng-include="'pages/menubg.html'"></div>
 
 <div class="bg-white">
 	<div class="container">
-
+		<div class="row">
+			<div class="item col-lg-9 col-md-6 col-xs-12">
 		<div class="page-section" ng-controller="eventCtrl">
 
 			<div class="container">
@@ -106,7 +95,13 @@
 
 		</div>
 
-
+</div>
+			<div class="item col-lg-3 col-md-6 col-xs-12">
+				<div class="page-section">
+					<div ng-include="'pages/sidebar.html'"></div>
+				</div>
+			</div>
+		</div>
 
 	</div>
 

@@ -36,16 +36,13 @@ public class Event extends BaseEntity implements Comparable<Event> {
 	@Column(name = "ALBUM_NOTE")
 	private String albumNote;
 	@Transient
-	private String type = "info"; 
-	@Column(name="REPORT")
+	private String type = "info";
+	@Column(name = "REPORT")
 	private String report;
 	@Transient
 	private boolean hasPhoto;
 	@Transient
 	private boolean hasReport;
- 
-
- 
 
 	public boolean isHasPhoto() {
 		return hasPhoto;
@@ -184,10 +181,10 @@ public class Event extends BaseEntity implements Comparable<Event> {
 	}
 
 	public int compareTo(Event another) {
-        if (this.getStartsAt().before(another.getStartsAt())){
-            return -1;
-        }else{
-            return 1;
-        }
-    }
+		if (this.getStartsAt().before(another.getStartsAt())) {
+			return -1;
+		} else {
+			return 1;
+		}
+	}
 }

@@ -104,17 +104,17 @@ public class UserDaoImpl extends BaseDaoImpl {
 			DetachedCriteria crit = DetachedCriteria.forClass(User.class);
 			String ab[] = searchText.split(" ");
 			if (ab.length == 1) {
-				Criterion c1 = Restrictions.like("firstName", "%"+searchText.toLowerCase()+"%").ignoreCase();
-				Criterion c2 = Restrictions.like("lastName", "%"+searchText.toLowerCase()+"%").ignoreCase();
+				Criterion c1 = Restrictions.like("firstName", "%" + searchText.toLowerCase() + "%").ignoreCase();
+				Criterion c2 = Restrictions.like("lastName", "%" + searchText.toLowerCase() + "%").ignoreCase();
 				Criterion c3 = Restrictions.eq("status", (short) 1);
 				crit.add(Restrictions.or(c1, c2));
 				crit.add(Restrictions.and(c3));
 				return (List<User>) getHibernateTemplate().findByCriteria(crit);
 			} else {// take first 2
-				Criterion c1 = Restrictions.like("firstName", "%"+ab[0].toLowerCase()+"%").ignoreCase();
-				Criterion c2 = Restrictions.like("lastName", "%"+ab[1].toLowerCase()+"%").ignoreCase();
-				Criterion c3 = Restrictions.like("firstName", "%"+ab[1].toLowerCase()+"%").ignoreCase();
-				Criterion c4 = Restrictions.like("lastName", "%"+ab[0].toLowerCase()+"%").ignoreCase();
+				Criterion c1 = Restrictions.like("firstName", "%" + ab[0].toLowerCase() + "%").ignoreCase();
+				Criterion c2 = Restrictions.like("lastName", "%" + ab[1].toLowerCase() + "%").ignoreCase();
+				Criterion c3 = Restrictions.like("firstName", "%" + ab[1].toLowerCase() + "%").ignoreCase();
+				Criterion c4 = Restrictions.like("lastName", "%" + ab[0].toLowerCase() + "%").ignoreCase();
 				Criterion c5 = Restrictions.eq("status", (short) 1);
 				crit.add(Restrictions.or(c1, c2, c3, c4));
 				crit.add(Restrictions.and(c5));
