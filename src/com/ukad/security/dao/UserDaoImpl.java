@@ -97,14 +97,15 @@ public class UserDaoImpl extends BaseDaoImpl {
 	}
 	
 	public List<User> loadAllUsersWithOnlineStatus() {
-		final String sql = "SELECT u.user_id, u.user_name, u.password, u.first_name, u.last_name, sh2.create_date, sh2.end_date "
-					+	"FROM users u "
-					+ 	"JOIN (SELECT user_id, max(create_date) AS create_date FROM session_history GROUP BY user_id) sh "
-					+ 	"	ON u.user_id = sh.user_id "
-					+	"JOIN session_history sh2 ON sh.user_id = sh2.user_id AND sh.create_date = sh2.create_date "
-					+ 	"WHERE sh2.end_date is NULL "
-					//+ "u.status = 1 "
-					;
+		final String sql = "SELECT U.USER_ID, U.USER_NAME, U.PASSWORD, U.FIRST_NAME, U.LAST_NAME, SH2.CREATE_DATE, SH2.END_DATE "
+				+	"FROM USERS U "
+				+ 	"JOIN (SELECT USER_ID, MAX(CREATE_DATE) AS CREATE_DATE FROM SESSION_HISTORY GROUP BY USER_ID) SH "
+				+ 	"	ON U.USER_ID = SH.USER_ID "
+				+	"JOIN SESSION_HISTORY SH2 ON SH.USER_ID = SH2.USER_ID AND SH.CREATE_DATE = SH2.CREATE_DATE "
+				+ 	"WHERE SH2.END_DATE IS NULL "
+				//+ "U.STATUS = 1 "
+				;
+
 
 		List<Object[]> list = (List)getHibernateTemplate().execute(
 				new HibernateCallback() {

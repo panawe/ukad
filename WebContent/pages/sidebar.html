@@ -69,7 +69,7 @@
 		</header>
 		<div class="panel-body">
 
-			<table st-table="displayedCollection" st-safe-src="futureEvents"
+			<table st-table="displayedCollection2" st-safe-src="futureEvents"
 				class="table table-striped" cellspacing="0" width="100%">
 				<thead>
 					<tr>
@@ -83,7 +83,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="e in displayedCollection">
+					<tr ng-repeat="e in displayedCollection2">
 						<td><a href="" ng-click="showUserModal(e)">::e.title::</a></td>
 						<td><a href="" ng-click="showUserModal(e)">::e.startsAt|date:'medium'::</a></td>
 					</tr>
@@ -114,25 +114,25 @@
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row">
-							<div class="col-xs-4 col-sm-2">
-								<h4 class="text-center" ng-show="currEvent.description">
+							 
+								<h4 class="text-justify" ng-show="currEvent.description">
 									<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.description::
 								</h4>
-							</div>
+							 
 						</div>
 						<hr>
 						<div class="row">
-							<h4 class="text-center" ng-show="currEvent.city">
+							<h4 class="text-justify" ng-show="currEvent.city">
 								<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.city::
 							</h4>
-							<h4 class="text-center" ng-show="currEvent.address">
+							<h4 class="text-justify" ng-show="currEvent.address">
 								<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.address::
 							</h4>
-							<h4 class="text-center" ng-show="currEvent.startsAt">
+							<h4 class="text-justify" ng-show="currEvent.startsAt">
 								<i class="fa fa-fw fa-clock-o fa-2x"></i>
 								::currEvent.startsAt|date:'medium'::
 							</h4>
-							<h4 class="text-center" ng-show="currEvent.endsAt">
+							<h4 class="text-justify" ng-show="currEvent.endsAt">
 								<i class="fa fa-fw fa-clock-o fa-2x"></i>::currEvent.endsAt|date:'medium'::
 							</h4>
 
