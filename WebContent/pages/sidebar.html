@@ -1,35 +1,150 @@
-<section class="panel panel-info">
-	<header class="panel-heading">
-		<h3 class="panel-title">Sponsors</h3>
-	</header>
-	<div class="panel-body">
-		<p>Panel content</p>
-	</div>
-</section>
+<div ng-controller="sideBarCtrl">
+	<section class="panel panel-info">
+		<header class="panel-heading">
+			<h3 class="panel-title">Sponsors</h3>
+		</header>
+		<div class="panel-body">
+			<p>
+				<a href="#"> <img border="0" alt="Sponsors"
+					src="images/sponsors.gif" class="img-responsive">
+				</a>
+			</p>
+		</div>
+	</section>
 
-<section class="panel panel-info">
-	<header class="panel-heading">
-		<h3 class="panel-title">Donateurs</h3>
-	</header>
-	<div class="panel-body">
-		<p>Panel content</p>
-	</div>
-</section>
+	<section class="panel panel-info">
+		<header class="panel-heading">
+			<h3 class="panel-title">Donateurs</h3>
+		</header>
+		<div class="panel-body">
 
-<section class="panel panel-info">
-	<header class="panel-heading">
-		<h3 class="panel-title">Contribuer</h3>
-	</header>
-	<div class="panel-body"> 
-		<p>Panel content</p>
-	</div>
-</section>
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post"
+				target="PayPal">
+				<input name="cmd" value="_s-xclick" type="hidden"> <input
+					name="hosted_button_id" value="8AGYNX8B7PGSQ" type="hidden">
+				<input
+					src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"
+					name="submit"
+					alt="        PayPal - The safer, easier way to pay online!"
+					border="0" type="image"> <img alt=""
+					src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"
+					height="1" border="0" width="1">
+			</form>
 
-<section class="panel panel-info">
-	<header class="panel-heading">
-		<h3 class="panel-title">Evenements prochains</h3>
-	</header>
-	<div class="panel-body">
-		<p>Panel content</p>
+			<table st-table="displayedCollection" st-safe-src="contributions"
+				class="table table-striped" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+
+						<th colspan="5">Merci a tous nos genereux donateurs</th>
+					</tr>
+					<tr>
+						<th>Nom</th>
+						<th>Montant</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="donateur in displayedCollection">
+						<td>::donateur.member::</td>
+						<td>::donateur.amount | currency::</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3" class="text-center">
+							<div st-pagination="" st-items-by-page="5"
+								st-displayed-pages="100"></div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</section>
+
+
+	<section class="panel panel-info">
+		<header class="panel-heading">
+			<h3 class="panel-title">Evenements prochains</h3>
+		</header>
+		<div class="panel-body">
+
+			<table st-table="displayedCollection" st-safe-src="futureEvents"
+				class="table table-striped" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+
+						<th colspan="5">Marquez vos calendriers</th>
+					</tr>
+					<tr>
+						<th>Evenement</th>
+						<th>Date</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="e in displayedCollection">
+						<td><a href="" ng-click="showUserModal(e)">::e.title::</a></td>
+						<td><a href="" ng-click="showUserModal(e)">::e.startsAt|date:'medium'::</a></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3" class="text-center">
+							<div st-pagination="" st-items-by-page="5"
+								st-displayed-pages="100"></div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+
+		</div>
+	</section>
+
+	<!--/modal-->
+	<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">X</button>
+					<h1 id="myModalLabel" class="text-center"></h1>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-4 col-sm-2">
+								<h4 class="text-center" ng-show="currEvent.description">
+									<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.description::
+								</h4>
+							</div>
+						</div>
+						<hr>
+						<div class="row">
+							<h4 class="text-center" ng-show="currEvent.city">
+								<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.city::
+							</h4>
+							<h4 class="text-center" ng-show="currEvent.address">
+								<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.address::
+							</h4>
+							<h4 class="text-center" ng-show="currEvent.startsAt">
+								<i class="fa fa-fw fa-clock-o fa-2x"></i>
+								::currEvent.startsAt|date:'medium'::
+							</h4>
+							<h4 class="text-center" ng-show="currEvent.endsAt">
+								<i class="fa fa-fw fa-clock-o fa-2x"></i>::currEvent.endsAt|date:'medium'::
+							</h4>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer bg-info">
+					<button class="btn btn-lg btn-default center-block"
+						data-dismiss="modal" aria-hidden="true">Fermer</button>
+				</div>
+			</div>
+		</div>
 	</div>
-</section>
+	<!--/modal-->
+</div>

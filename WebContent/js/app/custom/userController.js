@@ -55,12 +55,12 @@
 							         $scope.positions=[{id:1,name:'Membre'},
 							                          {id:2,name:'President'}, 
 							                          {id:3,name:'Secretaire General'},
-							                          {id:4,name:'Tresorier General'},
-							                          {id:5,name:"Charge a l'information"},
-							                          {id:6,name:"Charge a l'organisation"},
-							                          {id:7,name:'Charge de la culture'},
-							                          {id:8,name:'Responsable des femmes'},
-							                          {id:9,name:'Conseille'}
+							                          {id:4,name:'Secretaire General Adjoint'},
+							                          {id:5,name:'Tresorier'},
+							                          {id:6,name:'Tresorier Adjoint'},
+							                          {id:7,name:"Charge de la communication"},
+							                          {id:8,name:"Charge a l'organisation et de la discipline"},
+							                          {id:9,name:'Commissaire aux comptes'} 
 							                         ];
 
 							          /**
@@ -798,6 +798,32 @@
 					   });	  	  	  	  	    
 
 					        };
+					        
+
+							$scope.getContributions = function() {
+
+								$http(
+										{
+											method : 'POST',
+											url : 'http://localhost:8080/ukadtogo/service/user/getContributions',
+											data : null
+										})
+										.success(
+												function(data, status,
+														headers, config) {
+													$log.info("Call get getContributions");
+													$scope.contributions = data;
+
+												})
+										.error(
+												function(data, status,
+														headers, config) {
+
+													$log.info("Call get getContributions Failed");
+													$log.info($scope);
+												});
+
+							};
 
 								//Fix for refresh
 								var url = $location.url();
