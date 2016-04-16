@@ -1,6 +1,11 @@
 package com.ukad.listener;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
@@ -8,6 +13,7 @@ import javax.servlet.http.HttpSessionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.util.concurrent.AtomicLongMap;
 import com.ukad.security.model.SessionHistory;
 import com.ukad.security.model.User;
 import com.ukad.security.service.UserService;
@@ -17,11 +23,12 @@ public class MySessionListener implements HttpSessionListener {
 	@Autowired
 	UserService userService;
 	
+	public static Set<String> sessions = new HashSet<String>();
+	
 	public void sessionCreated(HttpSessionEvent se) {
 
 		try {
-
-
+	
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,13 +42,16 @@ public class MySessionListener implements HttpSessionListener {
 
 			Long userId = (Long)se.getSession().getAttribute("userId");
 			Long sessionHistoryId = (Long)se.getSession().getAttribute("sessionHistoryId");
-			User user = new User();
-			user.setId(userId);
-			if (user != null) {
-				SessionHistory sh = (SessionHistory) userService.getById(SessionHistory.class, sessionHistoryId);
+			SessionHistory sh = (SessionHistory) userService.getById(SessionHistory.class, sessionHistoryId);
+			if (sh != null) {
 				sh.setEndDate(new Date());
-				userService.update(sh, user);				
+				
+				if (userId != null) {
+					User user = (User) userService.getById(User.class, userId);
+					userService.update(sh, user);				
+				}
 			}
+			sessions.remove(se.getSession().getId());
 		} catch (Exception e) {
 			System.out.println("Impossible to close connection");
 			e.printStackTrace();

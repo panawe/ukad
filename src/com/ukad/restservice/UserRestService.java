@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ukad.listener.MySessionListener;
 import com.ukad.model.Event;
 import com.ukad.model.Mail;
 import com.ukad.model.Transaction;
@@ -48,23 +49,40 @@ public class UserRestService {
 		user = userService.getUser(user.getUserName(), user.getPassword());
 		
 		if (user != null) {
+			Long sessionHistoryId = (Long)request.getSession().getAttribute("sessionHistoryId");
 			request.getSession().setAttribute("userId", user.getId());
-			SessionHistory sessionHistory = new SessionHistory();
-			sessionHistory.setBeginDate(new Date());
-			sessionHistory.setUser(user);
-			sessionHistory.setSessionId(request.getSession().getId());
-			sessionHistory.setHostIp(request.getRemoteAddr());
-			sessionHistory.setHostName(request.getRemoteHost());
-			sessionHistory.setLanguage(request.getLocalName());
-			sessionHistory.setOsuser(request.getRemoteUser());
-			sessionHistory.setBrowser(request.getHeader("User-Agent"));
-			userService.save(sessionHistory, user);
-			request.getSession().setAttribute("sessionHistoryId", sessionHistory.getId());
+			SessionHistory sh = (SessionHistory) userService.getById(SessionHistory.class, sessionHistoryId);
+			sh.setUser(user);
+			userService.update(sh, user);			
 		}
 		
 		return user;
 	}
 
+	
+	@RequestMapping(value = "/addGuestCount", method = RequestMethod.POST, headers = "Accept=application/json")
+	public void addGuestCount() {
+		MySessionListener.sessions.add(request.getSession().getId());
+		
+		SessionHistory sessionHistory = new SessionHistory();
+		sessionHistory.setBeginDate(new Date());
+		sessionHistory.setUser(null);
+		sessionHistory.setSessionId(request.getSession().getId());
+		sessionHistory.setHostIp(request.getRemoteAddr());
+		sessionHistory.setHostName(request.getRemoteHost());
+		sessionHistory.setLanguage(request.getLocalName());
+		sessionHistory.setOsuser(request.getRemoteUser());
+		sessionHistory.setBrowser(request.getHeader("User-Agent"));
+		userService.save(sessionHistory);
+		
+		request.getSession().setAttribute("sessionHistoryId", sessionHistory.getId());	
+	}
+	
+	
+	@RequestMapping(value = "/getGuestCount", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody Long getGuestCount() {
+		return (long) MySessionListener.sessions.size();
+	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody Boolean logout() {
@@ -74,6 +92,14 @@ public class UserRestService {
 		request.getSession().setAttribute("sessionHistoryId", null);
 		
 		return true;
+	}
+	
+	@RequestMapping(value = "/getMessagingUsers", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<User> getMessagingUsers() {
+		
+		List<User> members = userService.loadAllMembersWithOnlineStatus();
+		
+		return members;
 	}
 
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST, headers = "Accept=application/json")
