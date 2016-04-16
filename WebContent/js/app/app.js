@@ -6798,16 +6798,30 @@ require('./_timeline');
     'use strict';
 
     angular.module('app')
-        .run([ '$rootScope', '$state', '$stateParams',
-            function ($rootScope, $state, $stateParams) {
+        .run([ '$http', '$rootScope', '$state', '$stateParams',
+            function ($http, $rootScope, $state, $stateParams) {
                 $rootScope.$state = $state;
                 $rootScope.$stateParams = $stateParams;
+                
+            	if ($rootScope.count == null) {	
+            		$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/addGuestCount', data : null }).
+        	        success(function (data, status, headers, config) {
+        	        	$log.info("Call Successful");    	                 
+        	        }).error(function (data, status, headers, config) {
+        	            $log.info("Call Failed");
+        	        });
+            	
+            		$rootScope.count = 'true';
+            	}
+                
             }
         ])
         .config(
         [ '$stateProvider', '$urlRouterProvider',
             function ($stateProvider, $urlRouterProvider) {
 
+        	
+        	
                 $urlRouterProvider
                     .otherwise('/pages/main');
 

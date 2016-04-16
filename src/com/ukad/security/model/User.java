@@ -65,6 +65,9 @@ public class User extends BaseEntity {
 	@Column(name = "CITY")
 	private String city;
 
+	@Transient
+	private boolean isOnline;
+	
 	public Date getMembershipDate() {
 		return membershipDate;
 	}
@@ -273,6 +276,14 @@ public class User extends BaseEntity {
 		this.csvDelimiter = csvDelimiter;
 	}
 
+	public boolean isOnline() {
+		return isOnline;
+	}
+
+	public void setOnline(boolean isOnline) {
+		this.isOnline = isOnline;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 
@@ -291,4 +302,5 @@ public class User extends BaseEntity {
 		return id + " " + userName + " " + firstName + " " + lastName;
 	}
 
+	
 }

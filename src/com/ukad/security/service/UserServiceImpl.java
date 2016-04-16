@@ -136,4 +136,8 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		return userDao.getContributions();
 	}
 
+	@Override
+	public List<User> loadAllMembersWithOnlineStatus() {
+		return userDao.loadAllUsersWithOnlineStatus();
+	}
 }

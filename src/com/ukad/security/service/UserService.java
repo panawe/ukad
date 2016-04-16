@@ -36,4 +36,6 @@ public interface UserService extends BaseService {
 	public List<Transaction> getAllExpenses();
 
 	public List<Contribution> getContributions();
+	
+	public List<User> loadAllMembersWithOnlineStatus();
 }

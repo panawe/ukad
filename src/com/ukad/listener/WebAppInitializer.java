@@ -25,5 +25,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     public void onStartup(ServletContext servletContext) throws ServletException {
         super.onStartup(servletContext);
         servletContext.addListener(new DelegationListener());
+        servletContext.addFilter("/*", new DelegationFilter());
     }
 }

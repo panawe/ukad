@@ -1,8 +1,14 @@
 package com.ukad.security.dao;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -10,6 +16,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.stereotype.Repository;
 
 import com.ukad.dao.BaseDaoImpl;
@@ -88,6 +95,45 @@ public class UserDaoImpl extends BaseDaoImpl {
 
 		return l;
 	}
+	
+	public List<User> loadAllUsersWithOnlineStatus() {
+		final String sql = "SELECT u.user_id, u.user_name, u.password, u.first_name, u.last_name, sh2.create_date, sh2.end_date "
+					+	"FROM users u "
+					+ 	"JOIN (SELECT user_id, max(create_date) AS create_date FROM session_history GROUP BY user_id) sh "
+					+ 	"	ON u.user_id = sh.user_id "
+					+	"JOIN session_history sh2 ON sh.user_id = sh2.user_id AND sh.create_date = sh2.create_date "
+					+ 	"WHERE sh2.end_date is NULL "
+					//+ "u.status = 1 "
+					;
+
+		List<Object[]> list = (List)getHibernateTemplate().execute(
+				new HibernateCallback() {
+				public Object doInHibernate(Session session) throws HibernateException {
+				SQLQuery sq =session.createSQLQuery(sql);
+				//sq.addScalar("TEST_TABLE_ID", Hibernate.INTEGER);
+				//sq.addScalar("NAME", Hibernate.STRING);
+				//sq.addScalar("TEST_DATE", Hibernate.DATE);
+				return sq.list();
+				}});
+
+		List<User> users = new ArrayList<User>();
+		
+		if(list.size() > 0){
+			for(Object[] row : list){
+				User user = new User();
+				user.setId(((BigInteger) row[0]).longValue());
+				user.setUserName((String) row[1]);
+				user.setPassword((String) row[2]);
+				user.setFirstName((String) row[3]);
+				user.setLastName(((String) row[4]).substring(0, 1));
+				user.setOnline(row[6] != null);
+				
+				users.add(user);
+			}
+		}
+				
+		return users;
+	}
 
 	public List<User> loadAllMembersPending() {
 		DetachedCriteria crit = DetachedCriteria.forClass(User.class);
@@ -139,5 +185,4 @@ public class UserDaoImpl extends BaseDaoImpl {
 		List l = getHibernateTemplate().findByCriteria(crit);
 		return l;
 	}
-
 }
