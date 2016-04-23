@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ukad.model.BaseEntity;
+import com.ukad.model.Event;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.Roles;
 import com.ukad.security.model.User;
@@ -83,5 +84,7 @@ public interface BaseService {
 	public void delete(BaseEntity entity);
 
 	public List<YearlySummary> getYearlySmry();
+
+
 
 }

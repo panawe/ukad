@@ -117,6 +117,16 @@ public class EventRestService {
 		return retList;
 	}
 
+	@RequestMapping(value = "/getFutureEvents", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<Event> getFutureEvents() {
+		System.out.println("Event list Requested - getFutureEvents");
+
+		List<Event> retList = (List<Event>) eventService.loadFutureEvents(Event.class);
+		Collections.reverse(retList);
+		return retList;
+	}
+	
+	
 	@RequestMapping(value = "/getAllEventsWithAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<Event> getAllEventsWithAlbum() {
 		System.out.println("Event list Requested - getAllEventsWithAlbum");

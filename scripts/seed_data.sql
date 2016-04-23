@@ -235,17 +235,17 @@ INSERT INTO POSITION (POSITION_ID,NAME,CREATE_DATE,MOD_DATE,MOD_BY) VALUES
 (1,'Membre',NOW(),NOW(),1),
 (2,'President',NOW(),NOW(),1),
 (3,'Secretaire General',NOW(),NOW(),1),
-(4,'Tresorier General',NOW(),NOW(),1),
-(5,'Charge a l''information',NOW(),NOW(),1),
-(6,'Charge a l''organisation',NOW(),NOW(),1),
-(7,'Charge de la culture',NOW(),NOW(),1),
-(8,'Responsable des femmes',NOW(),NOW(),1),
-(9,'Conseille',NOW(),NOW(),1);
+(4,'Secretaire General Adjoint',NOW(),NOW(),1),
+(5,'Tresorier',NOW(),NOW(),1),
+(6,'Tresorier Adjoint',NOW(),NOW(),1),
+(7,'Charge de la communication',NOW(),NOW(),1),
+(8,'Charge a l''organisation et de la discipline',NOW(),NOW(),1),
+(9,'Commissaire aux comptes',NOW(),NOW(),1);
 
 INSERT INTO USERS (COUNTRY_ID,STATUS,USER_ID,pageSkin,`USER_NAME`, `PASSWORD`, `FIRST_NAME`, `LAST_NAME`, `E_MAIL`, `CREATE_DATE`,`MEMBERSHIP_DATE`,  `MOD_DATE`, `MOD_BY`, `PHONE`, `POSITION_ID`, CAN_APPROVE,PIC)
-VALUES (5,0,1,'Rouge','panawe@gmail.com','123','Panawe','Batanado','panawe@gmail.com',now(),now(), now(),1,'+1 678-314-5397',1,1,'1.jpg'),
-(5,1,2,'Rouge','assogabon@gmail.com','123','Alain','Batana','ukadtogo@gmail.com',now(),now(), now(),1,'+49 12 34 56 78',1,1,'2.jpg'),
-(5,2,3,'Rouge','ericgbekou@hotmail.com','123','Eric','Egbekou','egbekou@hotmail.com',now(),now(), now(),1,'+228 12 34 56 78',1,0,'3.jpg');
+VALUES (5,1,1,'Rouge','alberto.consultant@gmail.com','123','Alberto','Mounguengui','alberto.consultant@gmail.com',now(),now(), now(),1,'+1 678-314-5397',1,1,'1.jpg'),
+(5,1,2,'Rouge','agwe@gmail.com','123','Panawe','Batanado','agwe@gmail.com',now(),now(), now(),1,'+49 12 34 56 78',1,1,'2.jpg'),
+(5,1,3,'Rouge','ericgbekou@hotmail.com','123','Eric','Egbekou','egbekou@hotmail.com',now(),now(), now(),1,'+228 12 34 56 78',1,1,'3.jpg');
 
 INSERT INTO PAYMENT_TYPE (  PAYMENT_TYPE_ID       , NAME       , FREQUENCY     , CREATE_DATE       , MOD_DATE      , MOD_BY  )
 VALUES(1,'Cotisation Mensuelle','MONTH',NOW(),NOW(),1);

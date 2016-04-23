@@ -55,8 +55,7 @@ public class UserRestService {
 				SessionHistory sh = (SessionHistory) userService.getById(SessionHistory.class, sessionHistoryId);
 				sh.setUser(user);
 				userService.update(sh, user);	
-			}
-		}
+			}		}
 		
 		return user;
 	}
