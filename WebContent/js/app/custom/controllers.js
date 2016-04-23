@@ -11,7 +11,7 @@
   	  	                 */
   	  	                      $scope.getAllEventsWithAlbum = function() {
   	  	                            
-  	  	                           $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/event/getAllEventsWithAlbum', data: null }).
+  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithAlbum', data: null }).
   	  	                           success(function (data, status, headers, config) {
   	  	                                    $log.info("Call get All Events with album Successful"); 
   	  	                                	$scope.eventsWithAlbum=data;
@@ -49,7 +49,7 @@
               //$log.info("UserName="+$scope.userName+", password="+$scope.password);
               var User={"userName":$scope.userName, "password":$scope.password};
                 
-               $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/login', data: User }).
+               $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/login', data: User }).
                success(function (data, status, headers, config) {
                         $log.info("Call Successful"); 
                         if(data!=null&&data!=''){
@@ -81,7 +81,7 @@
            * Start Logout
            */
     $scope.logout=function(){
-        $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/logout' }).
+        $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/logout' }).
         success(function (data, status, headers, config) {
         	$log.info("Call Successful"); 
             $cookieStore.put('theUser',data);
@@ -105,7 +105,7 @@
      */
     $scope.createUser = function() {  
     	
-         $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/createUser', data: $scope.newUser }).
+         $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/createUser', data: $scope.newUser }).
          success(function (data, status, headers, config) {
                   $log.info("Call Successful"); 
                   if(data!=null&&data!=''){
@@ -138,7 +138,7 @@
      */
     $scope.saveUser = function() {  
     	$scope.saveUserSubmitted=true;
-         $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/saveUser', data: $scope.theUser }).
+         $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/saveUser', data: $scope.theUser }).
          success(function (data, status, headers, config) {
                   $log.info("Call Successful"); 
                   if(data!=null&&data!=''){
@@ -178,7 +178,7 @@
      */
           $scope.getAllUsers = function() {
                 
-               $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/getAllMembers', data: null }).
+               $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getAllMembers', data: null }).
                success(function (data, status, headers, config) {
                         $log.info("Call Successful"); 
                     	$scope.users=data;
@@ -197,7 +197,7 @@
                  * 
                  */
                       $scope.findMembers = function() {
-                           $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/findMembers', data:{searchText:$scope.searchText}}).
+                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/findMembers', data:{searchText:$scope.searchText}}).
                            success(function (data, status, headers, config) {
                                     
                                 $log.info("Call find Members Successful"); 
@@ -225,7 +225,7 @@
                  */
                       $scope.approveMember = function(aUser) {
                             
-                           $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/approveMember', data: aUser}).
+                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/approveMember', data: aUser}).
                            success(function (data, status, headers, config) {
                                     
                                 $log.info("Call Successful"); 
@@ -247,7 +247,7 @@
   	                 */
   	                      $scope.rejectMember = function(aUser) {
   	                            
-  	                           $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/rejectMember', data: aUser}).
+  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/rejectMember', data: aUser}).
   	                           success(function (data, status, headers, config) {
   	                                    
   	                                $log.info("Call Successful"); 
@@ -269,7 +269,7 @@
 	  	  	                 */
 	  	  	                      $scope.getPendingMembers = function() {
 	  	  	                            
-	  	  	                           $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/getPendingMembers', data: $scope.mailContent}).
+	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getPendingMembers', data: $scope.mailContent}).
 	  	  	                           success(function (data, status, headers, config) {
 	  	  	                                    
 	  	  	                                $log.info("Call Successful"); 
@@ -324,7 +324,7 @@
 	  	  	  	  	  	                 */
 	  	  	  	  	  	                      $scope.getAllEvents = function() {
 	  	  	  	  	  	                            
-	  	  	  	  	  	                           $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/event/getAllEvents', data: null }).
+	  	  	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEvents', data: null }).
 	  	  	  	  	  	                           success(function (data, status, headers, config) {
 	  	  	  	  	  	                                    $log.info("Call get All Events Successful"); 
 	  	  	  	  	  	                                	$scope.events=data;
@@ -352,7 +352,7 @@
 	  	  	  	  	  	                	$scope.eventSaveSubmitted=true;
 	  	  	  	  	  	                	//$scope.theEvent.beginDateTime = $scope.beginEndDateTime.split("-")[0];
 	  	  	  	  	  	                	//$scope.theEvent.endDateTime = $scope.beginEndDateTime.split("-")[1];
-	  	  	  	  	  	                     $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/event/createEvent', data: this.theEvent }).
+	  	  	  	  	  	                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/createEvent', data: this.theEvent }).
 	  	  	  	  	  	                     success(function (data, status, headers, config) {
 	  	  	  	  	  	                              $log.info("Call Create event Successful"); 
 	  	  	  	  	  	                              $scope.eventSelected=true;
@@ -385,7 +385,7 @@
 	  	  	  	  	  	                 */
 	  	  	  	  	  	                      $scope.deleteEvent = function(aEvent) {
 	  	  	  	  	  	                    	  aEvent.deleted=false;
-	  	  	  	  	  	                           $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/event/deleteEvent', data: aEvent}).
+	  	  	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/deleteEvent', data: aEvent}).
 	  	  	  	  	  	                           success(function (data, status, headers, config) {  	  	  	                                    
 	  	  	  	  	  	                                $log.info("Call deleteEvent Successful"); 
 	  	  	  	  	  	                                aEvent.deleted=true;
@@ -407,7 +407,7 @@
 	  	  	  	  	  	  	                 */
 	  	  	  	  	  	  	                      $scope.getEventAlbum = function(aEvent) {
 	  	  	  	  	  	  	                            
-	  	  	  	  	  	  	                           $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/event/getEventAlbum', data: aEvent }).
+	  	  	  	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getEventAlbum', data: aEvent }).
 	  	  	  	  	  	  	                           success(function (data, status, headers, config) {
 	  	  	  	  	  	  	                                    $log.info("Call get All Events photo Successful"); 
 	  	  	  	  	  	  	                                	$scope.EventPictures=data;
@@ -457,7 +457,7 @@
              */
             
 var uploader = $scope.uploader = new FileUploader({
-  url: 'http://agwe-esoftsystems.rhcloud.com/service/event/receiveFile'
+  url: 'http://localhost:8080/ukadtogo/service/event/receiveFile'
 });
 
 
@@ -533,7 +533,7 @@ console.info('uploader', uploader);
     		 $scope.mailSent=false;
        } else{
 
-           $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/saveReportAndMail', data: email}).
+           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/saveReportAndMail', data: email}).
            success(function (data, status, headers, config) {
                     $log.info("Call Successful"); 
                   $scope.email=null;
@@ -621,7 +621,7 @@ console.info('uploader', uploader);
   	         $scope.projectSaveSubmitted=false;
   	         
   	         var projectUploader = $scope.projectUploader = new FileUploader({
-  	 	            url: 'http://agwe-esoftsystems.rhcloud.com/service/project/receiveFile'
+  	 	            url: 'http://localhost:8080/ukadtogo/service/project/receiveFile'
   	 	        });
   	 	        
   	 	
@@ -645,7 +645,7 @@ console.info('uploader', uploader);
   	 	        
   	 	    $scope.createProject = function() {  
   	 	      	$scope.projectSaveSubmitted=true;	      	
-  	 	      	$http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/project/createProject', data: this.theProject }).
+  	 	      	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/createProject', data: this.theProject }).
   	 	      	success(function (data, status, headers, config) {
   	                     $log.info("Call Create Project Successful"); 
   	                     $scope.projectSelected=true;
@@ -712,7 +712,7 @@ console.info('uploader', uploader);
  */
   $scope.getAllProjects = function() {
         
-       $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/project/getAllProjects', data: null }).
+       $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/getAllProjects', data: null }).
        success(function (data, status, headers, config) {
                 $log.info("Call get All Projects Successful"); 
             	$scope.projects = data;
@@ -736,7 +736,7 @@ console.info('uploader', uploader);
     */
          $scope.getProjectAlbum = function(aProject) {
  	          
-              $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/project/getProjectAlbum', data: aProject }).
+              $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/getProjectAlbum', data: aProject }).
               success(function (data, status, headers, config) {
                        $log.info("Call get All Projects photo Successful"); 
                    	$scope.ProjectPictures=data;
@@ -757,7 +757,7 @@ console.info('uploader', uploader);
            */
         $scope.getAllProjectsWithAlbum = function() {
             
-            $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/project/getAllProjectsWithAlbum', data: null }).
+            $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/getAllProjectsWithAlbum', data: null }).
             success(function (data, status, headers, config) {
                      $log.info("Call get All Projects with album Successful"); 
                   $scope.projectsWithAlbum=data;
@@ -813,7 +813,7 @@ console.info('uploader', uploader);
                 			
                 	};
                 	$scope.paymentSaveSubmitted=true;
-                     $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/makePayment', data: transaction }).
+                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/makePayment', data: transaction }).
                      success(function (data, status, headers, config) {
                      $log.info("Call makePayment Successful");  
                      $scope.paymentSaved=true; 
@@ -856,7 +856,7 @@ console.info('uploader', uploader);
                 			
                 	};
                 	$scope.paymentSaveSubmitted=true;
-                     $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/saveExpense', data: transaction }).
+                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/saveExpense', data: transaction }).
                      success(function (data, status, headers, config) {
                      $log.info("Call makePayment Successful");  
                      $scope.paymentSaved=true; 
@@ -920,7 +920,7 @@ console.info('uploader', uploader);
              */
         $scope.drawPayments = function() {
         	
-        	$http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/getYearlySummary', data: null }).
+        	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getYearlySummary', data: null }).
    success(function (data, status, headers, config) {
             $log.info("Call get getYearlySummary"); 
    	      Morris.Bar({
