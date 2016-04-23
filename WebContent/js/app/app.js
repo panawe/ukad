@@ -6878,6 +6878,9 @@ require('./_timeline');
                     }).state('pages.projects', {
                         url: '/projects',
                         templateUrl: 'pages/projects.html' 
+                    }).state('pages.sponsors', {
+                        url: '/sponsors',
+                        templateUrl: 'pages/sponsors.html' 
                     }).state('pages.cotiser', {
                         url: '/cotiser',
                         templateUrl: 'pages/cotiser.html' 

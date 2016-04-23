@@ -49,16 +49,13 @@ public class UserRestService {
 		user = userService.getUser(user.getUserName(), user.getPassword());
 		
 		if (user != null) {
-			try{
-				Long sessionHistoryId = (Long)request.getSession().getAttribute("sessionHistoryId");
-				request.getSession().setAttribute("userId", user.getId());			 
+			Long sessionHistoryId = (Long)request.getSession().getAttribute("sessionHistoryId");
+			request.getSession().setAttribute("userId", user.getId());
+			if (sessionHistoryId != null) {
 				SessionHistory sh = (SessionHistory) userService.getById(SessionHistory.class, sessionHistoryId);
 				sh.setUser(user);
 				userService.update(sh, user);	
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
+			}		}
 		
 		return user;
 	}
