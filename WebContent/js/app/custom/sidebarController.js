@@ -24,7 +24,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/getContributions',
+												url : 'http://localhost:8080/ukadtogo/service/user/getContributions',
 												data : null
 											})
 											.success(
@@ -52,7 +52,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/event/getFutureEvents',
+												url : 'http://localhost:8080/ukadtogo/service/event/getFutureEvents',
 												data : null
 											})
 											.success(
