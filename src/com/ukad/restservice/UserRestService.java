@@ -51,9 +51,11 @@ public class UserRestService {
 		if (user != null) {
 			Long sessionHistoryId = (Long)request.getSession().getAttribute("sessionHistoryId");
 			request.getSession().setAttribute("userId", user.getId());
-			SessionHistory sh = (SessionHistory) userService.getById(SessionHistory.class, sessionHistoryId);
-			sh.setUser(user);
-			userService.update(sh, user);			
+			if (sessionHistoryId != null) {
+				SessionHistory sh = (SessionHistory) userService.getById(SessionHistory.class, sessionHistoryId);
+				sh.setUser(user);
+				userService.update(sh, user);	
+			}
 		}
 		
 		return user;
