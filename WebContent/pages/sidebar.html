@@ -18,18 +18,18 @@
 		</header>
 		<div class="panel-body">
 
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post"
-				target="PayPal">
-				<input name="cmd" value="_s-xclick" type="hidden"> <input
-					name="hosted_button_id" value="8AGYNX8B7PGSQ" type="hidden">
-				<input
-					src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"
-					name="submit"
-					alt="        PayPal - The safer, easier way to pay online!"
-					border="0" type="image"> <img alt=""
-					src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"
-					height="1" border="0" width="1">
+			<form ng-submit="submitDonation()">
+				<div class="form-group form-control-default">
+					<div class="input-group">
+						<div class="input-group-addon">$</div>
+						<input type="text" class="form-control" ng-model="amount"
+							id="exampleInputAmount" placeholder="Montant">
+						<div class="input-group-addon">.00</div>
+					</div>
+					<button class="btn btn-success">Donner</button>
+				</div> 
 			</form>
+ 
 
 			<table st-table="displayedCollection" st-safe-src="contributions"
 				class="table table-striped" cellspacing="0" width="100%">
@@ -114,11 +114,11 @@
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row">
-							 
-								<h4 class="text-justify" ng-show="currEvent.description">
-									<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.description::
-								</h4>
-							 
+
+							<h4 class="text-justify" ng-show="currEvent.description">
+								<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.description::
+							</h4>
+
 						</div>
 						<hr>
 						<div class="row">
