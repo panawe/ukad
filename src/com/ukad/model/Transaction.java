@@ -1,5 +1,9 @@
 package com.ukad.model;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,12 +12,27 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import com.ukad.security.model.User;
+import com.ukad.model.PaymentHistory;
 
 @Entity
 @Table(name = "TRANSACTION")
 public class Transaction extends BaseEntity {
 
+	public Transaction(){super();}
+	
+	public Transaction(PaymentHistory pay){
+		io=1;
+		amount=pay.getAmount();
+		comment=pay.getDescription();
+		rebate=0D;
+		paymentType=pay.getPaymentType();
+		user=pay.getUser();
+		Calendar c = Calendar.getInstance();     
+		year=new Date().getYear();
+		month=c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.FRANCE ) ;
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "TRANSACTION_ID")

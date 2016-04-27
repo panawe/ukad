@@ -147,7 +147,8 @@
 												data : {													
 													paymentId:$scope.paymentId,
 													token:$scope.token,
-													PayerID:$scope.PayerID 
+													PayerID:$scope.PayerID,
+													userId:$scope.theUser.id||1
 												}
 											})
 											.success(

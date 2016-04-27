@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,10 +35,14 @@ import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentExecution;
-import com.paypal.api.payments.RedirectUrls;
-import com.paypal.api.payments.Transaction;
+import com.paypal.api.payments.RedirectUrls; 
 import com.ukad.model.Mail;
+import com.ukad.model.PaymentHistory;
+import com.ukad.model.PaymentType;
+import com.ukad.model.Transaction;
 import com.ukad.security.model.User;
+import com.ukad.service.EventService;
+import com.ukad.service.PaymentService;
 import com.ukad.util.GenerateAccessToken;
 import com.ukad.util.ResultPrinter;
 import com.paypal.base.rest.APIContext;
@@ -54,7 +59,8 @@ import com.paypal.base.rest.PayPalResource;
 @RequestMapping("/service/payment")
 
 public class PaymentRestService {
-
+	@Autowired
+	PaymentService paymentService;
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOGGER = Logger.getLogger(PaymentRestService.class);
@@ -83,30 +89,9 @@ public class PaymentRestService {
 			e.printStackTrace();
 		} 
 		
-//		Payment pay= pp.createPayment();
-		
-	/*	System.out.println("");
-		
-		pay.getLinks().get(1);
-		
-		String accessToken = "Bearer A101.TBAANnc6UB8GGYzFjUN71hRg_iklCrgpcO8A5zNsdsBfCp6CbL8Q_Els3GLEvoRx.4qRYIQkSg4biBRYns624bUuEe6y";
-		APIContext apiContext = new APIContext(accessToken);
-		apiContext.setConfigurationMap(sdkConfig);
-
-		Payment payment = new Payment("PAY-3RX95691919558119K4ORIQY");
-		PaymentExecution paymentExecute = new PaymentExecution();
-		paymentExecute.setPayerId("LP67TK98L744U");
-		payment.execute(apiContext, paymentExecute);*/
-		
-		//System.out.print(pay);
+ 
 	}
-
-/*	@RequestMapping(value = "/cancel", method = RequestMethod.POST, headers = "Accept=application/json")
-	public @ResponseBody Payment createPayment(@RequestBody User user) {
-		
-		
-	}*/
-	
+ 
 	@RequestMapping(value = "/createPayment", method = RequestMethod.POST, headers = "Accept=application/json")
 	public  @ResponseBody String  createPayment(@RequestBody Payment payment) {
 		Payment createdPayment = null;
@@ -168,6 +153,7 @@ public class PaymentRestService {
 		String paymentId=null;
 		String token=null;
 		String payerId=null;
+		Long userId=null;
 		try{
 		String theData[] = data.toString().replaceAll("\\{", "").replaceAll("\\}", "").split(",");
 		for (String a:theData){
@@ -178,6 +164,8 @@ public class PaymentRestService {
 				token=b[1];
 			}else if(b[0].trim().equals("PayerID")){
 				payerId=b[1];
+			}else if(b[0].trim().equals("userId")){
+				userId=b[1]==null?null:new Long(b[1]);
 			}
 		}
 		}catch(Exception e){
@@ -202,18 +190,27 @@ public class PaymentRestService {
 		}
 
 	 	try {
-	 		
-	 		/*String accessToken = "Bearer A101.7jG3RdU33VJYIORnl57CbhAR3xtXIdIolQ_tnViuYwJ7A79XrN4XPg14VFzBTMNM.itofwTu_b8ZMcJgd12d_DaTiDHa";
-	 		APIContext apiContext = new APIContext(accessToken);
-	 		apiContext.setConfigurationMap(sdkConfig);*/
-
+ 
 	 		Payment payment = new Payment();
 	 		payment.setId(paymentId);
 	 		PaymentExecution paymentExecute = new PaymentExecution();
 	 		paymentExecute.setPayerId(payerId);
 	 		Payment resultPayment=payment.execute(apiContext, paymentExecute);
+	 		PaymentHistory ph= new PaymentHistory(resultPayment);
+	 		if(userId!=null && userId>0){
+	 			User user=(User) paymentService.getById(User.class, userId);
+	 			ph.setUser(user);
+	 		}
+	 		//3 == Don.
+	 		PaymentType pType=(PaymentType) paymentService.getById(PaymentType.class, 3L);
+	 		ph.setPaymentType(pType);
+	 		paymentService.save(ph);
+	 		Transaction trans= new Transaction(ph);
+	 		paymentService.save(trans);
 	 		System.out.println("------------------------------");
-	 		System.out.println(resultPayment);
+	 		System.out.println(resultPayment);	 		
+	 		System.out.println("------------------------------");
+	 		System.out.println(ph);
 	 		System.out.println("------------------------------");
 	 		
 		} catch (PayPalRESTException e) {
