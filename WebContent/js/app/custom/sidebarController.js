@@ -101,8 +101,8 @@
 												        }
 												    ],
 												    "redirectUrls": {
-												        return_url: "http://www.google.com",
-												        cancel_url: "http://www.yahoo.fr"
+												        return_url: "http://localhost:8080/ukadtogo/#/pages/donate",
+												        cancel_url: "http://localhost:8080/ukadtogo/#/pages/cancelDonate"
 												    }
 												}
 											})
@@ -119,6 +119,8 @@
 															headers, config) {
 														$log.info("Call Create payment Failed");
 														$log.info($scope); 
+														$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
+
 													});
 
 								};
@@ -148,13 +150,14 @@
 													paymentId:$scope.paymentId,
 													token:$scope.token,
 													PayerID:$scope.PayerID,
-													userId:$scope.theUser.id||1
+													userId:typeof $scope.theUser=='undefined'?1:$scope.theUser.id 
 												}
 											})
 											.success(
 													function(data, status,
 															headers, config) {
-														$log.info("Call get Make Payment Successful");													 
+														$log.info("Call get Make Payment Successful");	
+														$scope.pay=data;
 														$log.info(data); 
 														//$window.location.href=data;
 													})
@@ -163,6 +166,7 @@
 															headers, config) {
 														$log.info("Call Make payment Failed");
 														$log.info($scope); 
+														$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
 													});
 								};
 																

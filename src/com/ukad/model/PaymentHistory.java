@@ -58,7 +58,7 @@ public class PaymentHistory extends BaseEntity  {
 		protectionEligibilityType=rr.getOrder()==null?null:rr.getOrder().getProtectionEligibilityType();
 		fee=new Double(rr.getSale().getTransactionFee().getValue());
 		merchantId=pay.getPayee()==null?null:pay.getPayee().getMerchantId();
-		description=t.getDescription();
+		description=t.getDescription(); 
 		
 	}
 	@Id
