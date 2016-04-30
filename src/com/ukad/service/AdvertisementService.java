@@ -8,7 +8,7 @@ import com.ukad.model.Project;
 
 public interface AdvertisementService extends BaseService {
 
-	List<Advertisement> loadAllAdvertisements(Class<Advertisement> class1);
+	List<Advertisement> loadActiveAdvertisements(Class<Advertisement> class1);
 	
 	List<Advertisement> loadAllAdvertisementsBySponsor(Class<Advertisement> class1, Long sponsorId);
 

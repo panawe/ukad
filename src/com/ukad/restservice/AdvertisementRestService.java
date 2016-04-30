@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ukad.model.Advertisement;
 import com.ukad.model.Event;
+import com.ukad.model.Project;
 import com.ukad.model.Sponsor;
 import com.ukad.security.model.User;
 import com.ukad.security.service.UserService;
@@ -107,6 +108,46 @@ public class AdvertisementRestService {
 				.loadAllAdvertisementsBySponsor(Advertisement.class, Long.valueOf(sponsorId));
 		Collections.reverse(retList);
 		return retList;
+	}
+
+	@RequestMapping(value = "/getActiveAdvertisements", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<Advertisement> getActiveAdvertisements() {
+		System.out.println("Advertisement list requested");
+
+		List<Advertisement> retList = (List<Advertisement>) advertisementService.findByColumn(Advertisement.class, "status", 0);
+			
+		Collections.reverse(retList);
+		return retList;
+	}
+	
+	@RequestMapping(value = "/getProjectAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<String> getProjectAlbum(@RequestBody Project project) {
+		System.out.println("getProjectAlbum Project:" + project);
+		String storageDirectory = null;
+
+		List<Advertisement> advList = (List<Advertisement>) advertisementService.loadActiveAdvertisements(Advertisement.class);
+		
+		if (advList.isEmpty()) {
+			return null;
+		}
+		
+		if (context != null) {
+			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "advertisements";
+		}
+		List<String> retList = new ArrayList<String>();
+
+		for (Advertisement adv : advList) {
+			File dir = new File(storageDirectory + File.separator + adv.getId());
+			if (dir.exists()) {
+				File[] files = dir.listFiles();
+				for (File file : files) {
+					retList.add(file.getName());
+				}
+			}
+		}
+		Collections.reverse(retList);
+		return retList;
+
 	}
 
 }

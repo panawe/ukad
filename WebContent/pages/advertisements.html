@@ -81,6 +81,17 @@
 					
 					<div class="row">
 						<div class="col-md-6">
+							<div class="form-group">
+								<label for="status">Etat</label> <select
+									name="select" class="form-control"
+									ng-model="theAdvertisement.status" data-style="btn-white"
+									data-size="5">
+									<option value="0">Active</option>
+									<option value="1">Deactive</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-6">
 							<div class="form-group margin-none">
 								<label for="amount">Amount</label> 
 								<div class="input-group">
@@ -126,6 +137,7 @@
 								<th>Description</th>
 								<th>Debut</th>
 								<th>Fin</th>
+								<th>Status</th>
 								<th>Rating</th>
 								<th ng-show="theUser.canApprove">Supprimer</th>
 								<th ng-show="theUser.canApprove">Selectionner</th>
@@ -139,6 +151,7 @@
 								<td>::aAdvertisement.description::</td>
 								<td>::aAdvertisement.beginDate::</td>
 								<td>::aAdvertisement.endDate::</td>
+								<td>::aAdvertisement.statusDescription::</td>
 								<td>::aAdvertisement.rating::</td>
 								<td>
 									<button ng-show="theUser.canApprove" type="button"

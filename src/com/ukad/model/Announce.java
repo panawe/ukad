@@ -16,20 +16,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ukad.util.Utils;
 
 @Entity
-@Table(name = "ADVERTISEMENT")
-public class Advertisement extends BaseEntity {
+@Table(name = "ANNOUNCE")
+public class Announce extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ADVERTISEMENT_ID")
+	@Column(name = "ANNOUNCE_ID")
 	private Long id;
-
-	@ManyToOne
-	@JoinColumn(name = "SPONSOR_ID")
-	private Sponsor sponsor;
-
-	@Transient
-	private String sponsorId;
 	
 	@Column(name = "DESCRIPTION")
 	private String description;
@@ -45,11 +38,6 @@ public class Advertisement extends BaseEntity {
 	@Column(name = "END_DATE")
 	private Date endDate;
 	
-	@Column(name = "RATING")
-	private Integer rating;
-
-	@Column(name = "AMOUNT")
-	private Double amount;
 	
 	public Long getId() {
 		return id;
@@ -57,14 +45,6 @@ public class Advertisement extends BaseEntity {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Sponsor getSponsor() {
-		return sponsor;
-	}
-
-	public void setSponsor(Sponsor sponsor) {
-		this.sponsor = sponsor;
 	}
 
 	public String getDescription() {
@@ -99,30 +79,6 @@ public class Advertisement extends BaseEntity {
 		this.endDate = endDate;
 	}
 
-	public Integer getRating() {
-		return rating;
-	}
-
-	public void setRating(Integer rating) {
-		this.rating = rating;
-	}
-
-	public Double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(Double amount) {
-		this.amount = amount;
-	}
-
-	public String getSponsorId() {
-		return sponsorId;
-	}
-
-	public void setSponsorId(String sponsorId) {
-		this.sponsorId = sponsorId;
-	}
-	
 	@Transient
 	public String getStatusDescription() {
 		String desc = "";

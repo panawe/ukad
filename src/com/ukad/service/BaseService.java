@@ -85,6 +85,6 @@ public interface BaseService {
 
 	public List<YearlySummary> getYearlySmry();
 
-
+	public List<BaseEntity> loadAllByColumn(Class cl, String columnName, Integer columnValue);
 
 }

@@ -2,8 +2,13 @@
 <section class="footer-section" ng-controller="userCtrl">
 	<div class="container">
 		<div class="row">
+			<div class="col-xs-6 col-xs-2" ng-controller="weblinkCtrl">			 
+				<ul class="list-unstyled">
+        			<li ng-repeat="activeWeblink in activeWeblinks"><a target="_blank" ng-href="::activeWeblink.address::">::activeWeblink.address::</a></li></li>
+				</ul>
+			</div>
+			
 			<div class="col-xs-6 col-xs-2">
-				 
 				<ul class="list-unstyled">
 
 					<li class="active"><a href="#pages/statuts">Nos Status</a></li>

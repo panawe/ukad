@@ -13,9 +13,9 @@ import com.ukad.model.Project;
 public class AdvertisementServiceImpl extends BaseServiceImpl implements AdvertisementService {
 
 	@Override
-	public List<Advertisement> loadAllAdvertisements(Class<Advertisement> class1) {
+	public List<Advertisement> loadActiveAdvertisements(Class<Advertisement> class1) {
 		// TODO Auto-generated method stub
-		List<BaseEntity> advts = loadAll(class1);
+		List<BaseEntity> advts = (List<BaseEntity>) findByColumn(class1, "status", 0);
 		List<Advertisement> advertisements = null;
 		if (advts != null) {
 			advertisements = new ArrayList<Advertisement>();

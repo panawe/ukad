@@ -186,6 +186,10 @@
 									href="#pages/projects"><i class="fa fa-wrench"></i>Projets</a></li>
 								<li ng-show="theUser.canApprove && theUser.status==1"><a
 									href="#pages/sponsors"><i class="fa fa-wrench"></i>Sponsors</a></li>
+								<li ng-show="theUser.canApprove && theUser.status==1"><a
+									href="#pages/announces"><i class="fa fa-wrench"></i>Announces</a></li>
+								<li ng-show="theUser.canApprove && theUser.status==1"><a
+									href="#pages/weblinks"><i class="fa fa-wrench"></i>Weblinks</a></li>
 								<li><a href="#/" ng-click="logout()"><i
 										class="fa fa-sign-out"></i>Deconnexion</a></li>
 							</ul></li>
@@ -346,6 +350,8 @@
 	<script src="js/app/custom/sidebarController.js"></script>	
 	<script src="js/app/custom/sponsorController.js"></script>
 	<script src="js/app/custom/advertisementController.js"></script>
+	<script src="js/app/custom/announceController.js"></script>
+	<script src="js/app/custom/weblinkController.js"></script>
 </body>
 
 </html>

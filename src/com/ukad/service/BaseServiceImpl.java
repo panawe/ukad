@@ -220,4 +220,8 @@ public class BaseServiceImpl implements BaseService {
 		return baseDao.getYearlySmry();
 	}
 
+	@Override
+	public List<BaseEntity> loadAllByColumn(Class cl, String columnName, Integer columnValue) {
+		return baseDao.loadAllByColumn(cl, columnName, columnValue);
+	}
 }
