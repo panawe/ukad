@@ -14206,7 +14206,7 @@ input[type=radio]:focus + label::before {
   width: 100% !important;
 }
 .form-control-default {
-  padding: 6px 12px;
+  /*padding: 6px 12px;*/
   background-color: #f7f7f7;
   border: 1px solid #efefef;
   border-radius: 4px;
@@ -14224,7 +14224,7 @@ input[type=radio]:focus + label::before {
   -webkit-transition: none;
           transition: none;
   border: none;
-  padding: 6px 0;
+  /*padding: 6px 0;*/
 }
 .form-control-default.required:after {
   color: #bd362f;

@@ -243,9 +243,10 @@ INSERT INTO POSITION (POSITION_ID,NAME,CREATE_DATE,MOD_DATE,MOD_BY) VALUES
 (9,'Commissaire aux comptes',NOW(),NOW(),1);
 
 INSERT INTO USERS (COUNTRY_ID,STATUS,USER_ID,pageSkin,`USER_NAME`, `PASSWORD`, `FIRST_NAME`, `LAST_NAME`, `E_MAIL`, `CREATE_DATE`,`MEMBERSHIP_DATE`,  `MOD_DATE`, `MOD_BY`, `PHONE`, `POSITION_ID`, CAN_APPROVE,PIC)
-VALUES (5,1,1,'Rouge','alberto.consultant@gmail.com','123','Alberto','Mounguengui','alberto.consultant@gmail.com',now(),now(), now(),1,'+1 678-314-5397',1,1,'1.jpg'),
-(5,1,2,'Rouge','agwe@gmail.com','123','Panawe','Batanado','agwe@gmail.com',now(),now(), now(),1,'+49 12 34 56 78',1,1,'2.jpg'),
-(5,1,3,'Rouge','ericgbekou@hotmail.com','123','Eric','Egbekou','egbekou@hotmail.com',now(),now(), now(),1,'+228 12 34 56 78',1,1,'3.jpg');
+VALUES (5,2,1,'Rouge','donateur.anonyme@anonyme.com','123','Donateur','Anonyme','donateur.anonyme@anonyme.com',now(),now(), now(),1,'-',1,0,'0.jpg'),
+(5,1,2,'Rouge','alberto.consultant@gmail.com','123','Alberto','Mounguengui','alberto.consultant@gmail.com',now(),now(), now(),1,'+1 678-314-5397',1,1,'1.jpg'),
+(5,1,3,'Rouge','agwe@gmail.com','123','Panawe','Batanado','agwe@gmail.com',now(),now(), now(),1,'+49 12 34 56 78',1,1,'2.jpg'),
+(5,1,4,'Rouge','ericgbekou@hotmail.com','123','Eric','Egbekou','egbekou@hotmail.com',now(),now(), now(),1,'+228 12 34 56 78',1,1,'3.jpg');
 
 INSERT INTO PAYMENT_TYPE (  PAYMENT_TYPE_ID       , NAME       , FREQUENCY     , CREATE_DATE       , MOD_DATE      , MOD_BY  )
 VALUES(1,'Cotisation Mensuelle','MONTH',NOW(),NOW(),1);
