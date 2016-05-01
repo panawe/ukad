@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
@@ -52,6 +53,28 @@ public class MySessionListener implements HttpSessionListener {
 				}
 			}
 			sessions.remove(se.getSession().getId());
+		} catch (Exception e) {
+			System.out.println("Impossible to close connection");
+			e.printStackTrace();
+		}
+	}
+	
+	public void sessionDestroyed(HttpServletRequest sr) {
+		try {
+			System.out.println("Closing the session ...");
+
+			Long userId = (Long)sr.getSession().getAttribute("userId");
+			Long sessionHistoryId = (Long)sr.getSession().getAttribute("sessionHistoryId");
+			SessionHistory sh = (SessionHistory) userService.getById(SessionHistory.class, sessionHistoryId);
+			if (sh != null) {
+				sh.setEndDate(new Date());
+				
+				if (userId != null) {
+					User user = (User) userService.getById(User.class, userId);
+					userService.update(sh, user);				
+				}
+			}
+			sessions.remove(sr.getSession().getId());
 		} catch (Exception e) {
 			System.out.println("Impossible to close connection");
 			e.printStackTrace();

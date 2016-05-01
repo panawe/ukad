@@ -41,6 +41,8 @@ public class UserRestService {
 	@Autowired
 	UserService userService;
 	@Autowired
+	MySessionListener mySessionListener;
+	@Autowired
 	ServletContext context;
 	@Autowired
 	private HttpServletRequest request;
@@ -52,6 +54,10 @@ public class UserRestService {
 		
 		if (user != null) {
 			Long sessionHistoryId = (Long)request.getSession().getAttribute("sessionHistoryId");
+			if (sessionHistoryId == null)
+				addGuestCount();
+			sessionHistoryId = (Long)request.getSession().getAttribute("sessionHistoryId");
+			
 			request.getSession().setAttribute("userId", user.getId());
 			if (sessionHistoryId != null) {
 				SessionHistory sh = (SessionHistory) userService.getById(SessionHistory.class, sessionHistoryId);
@@ -90,6 +96,8 @@ public class UserRestService {
 	@RequestMapping(value = "/logout", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody Boolean logout() {
 		System.out.println("User Logout :" + request.getSession().getAttribute("userId"));
+
+		mySessionListener.sessionDestroyed(request);
 		
 		request.getSession().setAttribute("userId", null);
 		request.getSession().setAttribute("sessionHistoryId", null);
