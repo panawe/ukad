@@ -20,6 +20,8 @@ import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.stereotype.Repository;
 
 import com.ukad.dao.BaseDaoImpl;
+import com.ukad.model.BaseEntity;
+import com.ukad.model.Configuration;
 import com.ukad.model.Transaction;
 import com.ukad.security.model.RolesUser;
 import com.ukad.security.model.Menu;
@@ -82,6 +84,11 @@ public class UserDaoImpl extends BaseDaoImpl {
 			 * for (RolesUser gu : user.getRolesUser()) { ;
 			 * Hibernate.initialize(gu.getRoles().getRolesMenus()); }
 			 */
+		}
+		
+		Configuration be= (Configuration) findByColumn(Configuration.class,"name","ANNUAL_FEE");
+		if(user.getMembershipRenewDate()==null||user.getMembershipRenewDate().before(new Date())){
+			 user.setFee(new Double(be.getValue()));
 		}
 
 		return user;

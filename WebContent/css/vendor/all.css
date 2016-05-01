@@ -4129,6 +4129,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-pills > li.active > a:focus {
   color: #ffffff;
   background-color: #26a69a;
+  /*background-color:#38CA57;*/
 }
 .nav-stacked > li {
   float: none;
@@ -5697,7 +5698,8 @@ a.list-group-item-danger.active:focus {
 }
 .panel-info > .panel-heading {
   color: #31708f;
-  background-color: #d9edf7;
+  /*background-color: #d9edf7;*/
+  background-color:#93C7F1;
   border-color: #bce8f1;
 }
 .panel-info > .panel-heading + .panel-collapse > .panel-body {

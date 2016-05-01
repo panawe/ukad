@@ -61,6 +61,9 @@ public class User extends BaseEntity {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
 	@Column(name = "MEMBERSHIP_DATE")
 	private Date membershipDate;
+	
+	@Column(name = "MEMBERSHIP_RENEW_DATE")
+	private Date membershipRenewDate;	
 
 	@Column(name = "CITY")
 	private String city;
@@ -68,6 +71,14 @@ public class User extends BaseEntity {
 	@Transient
 	private boolean isOnline;
 	
+	public Date getMembershipRenewDate() {
+		return membershipRenewDate;
+	}
+
+	public void setMembershipRenewDate(Date membershipRenewDate) {
+		this.membershipRenewDate = membershipRenewDate;
+	}
+
 	public Date getMembershipDate() {
 		return membershipDate;
 	}
@@ -117,6 +128,17 @@ public class User extends BaseEntity {
 
 	@Transient
 	private String allergy;
+	
+	@Transient
+	private Double fee=0.0;
+
+	public Double getFee() {
+		return fee;
+	}
+
+	public void setFee(Double fee) {
+		this.fee = fee;
+	}
 
 	@Transient
 	private byte[] image;

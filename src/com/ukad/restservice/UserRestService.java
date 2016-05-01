@@ -2,7 +2,9 @@ package com.ukad.restservice;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -107,6 +109,14 @@ public class UserRestService {
 	public @ResponseBody User createUser(@RequestBody User user) {
 		user.setUserName(user.getEmail());
 		user.setMembershipDate(new Date());
+
+		Calendar date = new GregorianCalendar();
+		date.set(Calendar.HOUR_OF_DAY, 0);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+		
+		user.setMembershipRenewDate(date.getTime());
 		userService.add(user);
 		System.out.println("User Created:" + user);
 		try {
