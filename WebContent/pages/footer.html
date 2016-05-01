@@ -2,12 +2,11 @@
 <section class="footer-section" ng-controller="userCtrl">
 	<div class="container">
 		<div class="row">
-			<div class="col-xs-6 col-xs-2" ng-controller="weblinkCtrl">			 
+			<div class="col-xs-6 col-xs-2" ng-controller="weblinkCtrl">	
 				<ul class="list-unstyled">
-        			<li ng-repeat="activeWeblink in activeWeblinks"><a target="_blank" ng-href="::activeWeblink.address::">::activeWeblink.description::</a></li></li>
 				</ul>
 			</div>
-			
+
 			<div class="col-xs-6 col-xs-2">
 				<ul class="list-unstyled">
 
@@ -17,7 +16,7 @@
 				</ul>
 			</div>
 			<div class="col-xs-6 col-xs-2">
-				 
+
 				<ul class="list-unstyled">
 					<li><a href="#pages/projectsEndUser">Nos Realisations</a></li>
 					<li><a href="#pages/eventCalendar">Calendrier des
@@ -27,40 +26,35 @@
 			</div>
 			<div class="col-xs-12 col-xs-3 text-center">
 
-			 
-
-						<button class="btn btn-info btn-icon-stacked"
-							ng-click="openInNewTab('https://fr-fr.facebook.com/GABON-43794681635')">
-							<i class="fa fa-2x fa-facebook"></i> <span>Rejoignez-nous
-								<br>Sur Facebook
-							</span>
-						</button>
-						<button class="btn btn-primary btn-icon-stacked"
-							ng-click="openInNewTab('https://twitter.com/hashtag/gabon')">
-							<i class="fa fa-2x fa-twitter"></i> <span>Rejoignez-nous <br>Sur
-								Twitter
-							</span>
-						</button>
-				 
+				<button class="btn btn-info btn-icon-stacked"
+					ng-click="openInNewTab('https://fr-fr.facebook.com/GABON-43794681635')">
+					<i class="fa fa-2x fa-facebook"></i> <span>Rejoignez-nous <br>Sur
+						Facebook
+					</span>
+				</button>
+				<button class="btn btn-primary btn-icon-stacked"
+					ng-click="openInNewTab('https://twitter.com/hashtag/gabon')">
+					<i class="fa fa-2x fa-twitter"></i> <span>Rejoignez-nous <br>Sur
+						Twitter
+					</span>
+				</button>
 			</div>
 
 
 			<div class="col-xs-12 col-xs-3 text-center">
+				<button class="btn btn-inverse btn-icon-stacked"
+					ng-click="openInNewTab('https://plus.google.com/116819204976582833123/videos')">
+					<i class="fa fa-2x fa-google-plus"></i> <span>Rejoignez-nous
+						<br>Sur Gougle+
+					</span>
+				</button>
+				<button class="btn btn-inverse btn-icon-stacked"
+					ng-click="openInNewTab('https://www.linkedin.com/company/linkedin')">
+					<i class="fa fa-2x fa-linkedin"></i> <span>Rejoignez-nous <br>Sur
+						Linkedin
+					</span>
+				</button>
 
-			 
-						<button class="btn btn-inverse btn-icon-stacked"
-							ng-click="openInNewTab('https://plus.google.com/116819204976582833123/videos')">
-							<i class="fa fa-2x fa-google-plus"></i> <span>Rejoignez-nous
-								<br>Sur Gougle+
-							</span>
-						</button>
-						<button class="btn btn-inverse btn-icon-stacked"
-							ng-click="openInNewTab('https://www.linkedin.com/company/linkedin')">
-							<i class="fa fa-2x fa-linkedin"></i> <span>Rejoignez-nous
-								<br>Sur Linkedin
-							</span>
-						</button>
-				 
 			</div>
 		</div>
 	</div>

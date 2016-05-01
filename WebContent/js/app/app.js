@@ -6886,12 +6886,16 @@ require('./_timeline');
                         templateUrl: 'pages/donate.html' 
                     }).state('pages.cancelDonate', {
                         url: '/cancelDonate',
-                        templateUrl: 'pages/cancelDonate.html'                     }).state('pages.announces', {
+                        templateUrl: 'pages/cancelDonate.html'                     
+                    }).state('pages.announces', {
                         url: '/announces',
                         templateUrl: 'pages/announces.html' 
                     }).state('pages.weblinks', {
                         url: '/weblinks',
                         templateUrl: 'pages/weblinks.html' 
+                    }).state('pages.fees', {
+                        url: '/fees',
+                        templateUrl: 'pages/fees.html' 
                     }).state('pages.cotiser', {
                         url: '/cotiser',
                         templateUrl: 'pages/cotiser.html' 

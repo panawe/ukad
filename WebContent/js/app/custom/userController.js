@@ -280,6 +280,10 @@
 																		data);
 														$scope.theUser = data;
 														$log.info($scope);
+														if($scope.theUser.fee>0.0){
+															$scope.theUser.status=0;
+															$window.location.href="http://localhost:8080/ukadtogo/#/pages/fees";
+														}
 
 													})
 											.error(
@@ -351,6 +355,10 @@
 																		data);
 														$scope.theUser = data;
 														$log.info($scope);
+														if($scope.theUser.fee>0.0){
+															$scope.theUser.status=0;
+															$window.location.href="http://localhost:8080/ukadtogo/#/pages/fees";
+														}
 
 													})
 											.error(
@@ -825,9 +833,174 @@
 
 							};
 
-								//Fix for refresh
+
+							/**
+							 * Start get Events Get the list of Events
+							 */
+							$scope.submitDonation = function() {
+
+								$http(
+										{
+											method : 'POST',
+											url : 'http://localhost:8080/ukadtogo/service/payment/createPayment',
+											data : {
+											    "intent": "sale",
+											    "payer": {
+											        "payment_method": "paypal"
+											    },
+											    "transactions": [
+											        {
+											            "amount": {
+											                "currency": "USD",
+											                "total": $scope.amount
+											            },
+											            "description": "Don pour l'Association des Gabonais de Washington, D.C et ses Environs (A.G.W.E)."
+											        }
+											    ],
+											    "redirectUrls": {
+											        return_url: "http://localhost:8080/ukadtogo/#/pages/donate",
+											        cancel_url: "http://localhost:8080/ukadtogo/#/pages/cancelDonate"
+											    }
+											}
+										})
+										.success(
+												function(data, status,
+														headers, config) {
+													$log.info("Call get Create Payment Successful");													 
+													$log.info(data); 
+													$window.location.href=data;
+
+												})
+										.error(
+												function(data, status,
+														headers, config) {
+													$log.info("Call Create payment Failed");
+													$log.info($scope); 
+													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
+
+												});
+
+							};
+
+							
+							/**
+							 * Start Submit Fee
+							 */
+							$scope.submitFee = function() {
+
+								$http(
+										{
+											method : 'POST',
+											url : 'http://localhost:8080/ukadtogo/service/payment/submitFee',
+											data : {
+											    "intent": "sale",
+											    "payer": {
+											        "payment_method": "paypal"
+											    },
+											    "transactions": [
+											        {
+											            "amount": {
+											                "currency": "USD",
+											                "total": $scope.theUser.fee
+											            },
+											            "description": "Frais Annuel de membre pour l'Association des Gabonais de Washington, D.C et ses Environs (A.G.W.E)."
+											        }
+											    ],
+											    "redirectUrls": {
+											        return_url: "http://localhost:8080/ukadtogo/#/pages/fees",
+											        cancel_url: "http://localhost:8080/ukadtogo/#/pages/cancelDonate"
+											    }
+											}
+										})
+										.success(
+												function(data, status,
+														headers, config) {
+													$log.info("Call get Create Payment Successful");													 
+													$log.info(data); 
+													$window.location.href=data;
+
+												})
+										.error(
+												function(data, status,
+														headers, config) {
+													$log.info("Call Create payment Failed");
+													$log.info($scope); 
+													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
+
+												});
+
+							};
+
+							/**
+							 * Start get Events Get the list of Events
+							 */
+							$scope.makePayment = function() {
+
+								$http(
+										{
+											method : 'POST',
+											url : 'http://localhost:8080/ukadtogo/service/payment/makePayment',
+											data : {													
+												paymentId:$scope.paymentId,
+												token:$scope.token,
+												PayerID:$scope.PayerID,
+												userId:typeof $scope.theUser=='undefined'?1:$scope.theUser.id 
+											}
+										})
+										.success(
+												function(data, status,
+														headers, config) {
+													$log.info("Call get Make Payment Successful");	
+													$scope.pay=data;
+													$log.info(data); 
+													//$window.location.href=data;
+												})
+										.error(
+												function(data, status,
+														headers, config) {
+													$log.info("Call Make payment Failed");
+													$log.info($scope); 
+													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
+												});
+							};
+
+							/**
+							 * Start get Events Get the list of Events
+							 */
+							$scope.payFee = function() {
+
+								$http(
+										{
+											method : 'POST',
+											url : 'http://localhost:8080/ukadtogo/service/payment/payFee',
+											data : {													
+												paymentId:$scope.paymentId,
+												token:$scope.token,
+												PayerID:$scope.PayerID,
+												userId:typeof $scope.theUser=='undefined'?1:$scope.theUser.id 
+											}
+										})
+										.success(
+												function(data, status,
+														headers, config) {
+													$log.info("Call get Make Payment Successful");	
+													$scope.pay=data;
+													$log.info(data); 
+													//$window.location.href=data;
+												})
+										.error(
+												function(data, status,
+														headers, config) {
+													$log.info("Call Make payment Failed");
+													$log.info($scope); 
+													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
+												});
+							};
+							
+							//Fix for refresh
 								var url = $location.url();
-								$log.info('URL='+url);
+								$log.info('URL='+url); 
+								
 								
 								if(url=='/pages/membres'){									
 									$scope.getAllUsers();
@@ -847,6 +1020,27 @@
 									$scope.getPendingMembers();
 								}else if(url=='/pages/main'){									
 									$scope.getLeaders();
+								}else if(url.startsWith('/pages/donate')){									
+									$scope.paymentId = $location.search().paymentId;
+									$scope.token = $location.search().token; 
+									$scope.PayerID = $location.search().PayerID; 
+									
+									$log.info('PayerID='+$scope.PayerID);
+									$log.info('paymentId='+$scope.paymentId);
+									$log.info('token='+$scope.token);
+									$scope.makePayment();
+								}else if(url.startsWith('/pages/fees')){
+									$scope.paymentId = $location.search().paymentId;
+									$scope.token = $location.search().token; 
+									$scope.PayerID = $location.search().PayerID; 
+									$log.info('PayerID='+$scope.PayerID);
+									$log.info('paymentId='+$scope.paymentId);
+									$log.info('token='+$scope.token);
+									$log.info('theUser='+$scope.theUser);
+									if(typeof $scope.paymentId!='undefined'){
+										$scope.payFee();
+									}
+									
 								}
 
 							} ])

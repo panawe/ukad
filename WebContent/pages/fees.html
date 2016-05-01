@@ -4,20 +4,21 @@
 		<div class="row">
 			<div class="item col-lg-9 col-md-6 col-xs-12">
 				<div class="container">
-					<div class="row">
+					<div class="row" ng-show="paymentId">
 						<div class="col-xs-12">
 							<i class="fa fa-thumbs-up fa-5x text-green-300"> Merci pour
-								votre don!</i>
+								votre payement</i>
 							<hr />
 							<div class="invoice-title">
-								<h2>Recu - une copie vous a ete envoyee a l'email suivant: ::pay.email::</h2>
-								<h3 class="pull-right">Don # ::pay.paymentId::</h3>
+								<h2>Recu - une copie vous a ete envoyee a l'email suivant:
+									::pay.email::</h2>
+								<h3 class="pull-right">Payement # ::pay.paymentId::</h3>
 							</div>
 							<hr>
 							<div class="row">
 								<div class="col-xs-6">
 									<address>
-										<strong>Donateur:</strong><br> ::pay.firstName||'
+										<strong>Payeur:</strong><br> ::pay.firstName||'
 										'||pay.lastName:: <br> ::pay.baLine1::<br>
 										::pay.baLine2:: <br> ::pay.baCity||', '||pay.baState||'
 										'||pay.baPostalCode:: <br>::pay.baCountryCode::
@@ -40,14 +41,15 @@
 								</div>
 								<div class="col-xs-6 text-right">
 									<address>
-										<strong>Date de don:</strong><br> ::pay.createDate|date::<br>
+										<strong>Date de payment:</strong><br> ::pay.createDate|date::<br>
 										<br>
 									</address>
 								</div>
 							</div>
 						</div>
 					</div>
-
+					<br/>
+					<button class="btn btn-success" ng-click="submitFee()" ng-show="!paymentId">Payer</button>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="panel panel-default">
@@ -70,17 +72,17 @@
 											<tbody>
 												<!-- foreach ($order->lineItems as $line) or some such thing here -->
 												<tr>
-													<td>::pay.description::</td>
-													<td class="text-center">$::pay.amount::</td>
+													<td>Frais annuel de membre ::theUser.firstName::</td>
+													<td class="text-center">$::theUser.fee::</td>
 													<td class="text-center">1</td>
-													<td class="text-right">$::pay.amount::</td>
+													<td class="text-right">$::theUser.fee::</td>
 												</tr>
 
 												<tr>
 													<td class="thick-line"></td>
 													<td class="thick-line"></td>
 													<td class="thick-line text-center"><strong>Sous-total</strong></td>
-													<td class="thick-line text-right">$::pay.amount::</td>
+													<td class="thick-line text-right">$::theUser.fee::</td>
 												</tr>
 												<tr>
 													<td class="no-line"></td>
@@ -92,15 +94,25 @@
 													<td class="no-line"></td>
 													<td class="no-line"></td>
 													<td class="no-line text-center"><strong>Total</strong></td>
-													<td class="no-line text-right">$::pay.amount::</td>
+													<td class="no-line text-right">$::theUser.fee::</td>
+												</tr>
+												<tr>
+													<td class="no-line"></td>
+													<td class="no-line"></td>
+													<td class="no-line text-center"> </td>
+													<td class="no-line text-right"> <button class="btn btn-success" ng-click="submitFee()" ng-show="!paymentId">Payer</button></td>
 												</tr>
 											</tbody>
 										</table>
+										
 									</div>
+									
 								</div>
 							</div>
-						</div>
-					</div>
+						</div>	
+											
+					</div>					
+					
 				</div>
 
 			</div>
