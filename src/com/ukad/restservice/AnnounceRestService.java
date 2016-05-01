@@ -25,6 +25,7 @@ import com.ukad.model.Announce;
 import com.ukad.model.Event;
 import com.ukad.model.Project;
 import com.ukad.model.Sponsor;
+import com.ukad.model.Weblink;
 import com.ukad.security.model.User;
 import com.ukad.security.service.UserService;
 import com.ukad.service.AdvertisementService;
@@ -103,7 +104,7 @@ public class AnnounceRestService {
 	public @ResponseBody List<Announce> getActiveAnnounces() {
 		System.out.println("Announce list requested");
 
-		List<Announce> retList = (List<Announce>) announceService.findByColumn(Announce.class, "status", 0);
+		List<Announce> retList = (List<Announce>) announceService.loadActiveAnnounces(Announce.class);
 			
 		Collections.reverse(retList);
 		return retList;

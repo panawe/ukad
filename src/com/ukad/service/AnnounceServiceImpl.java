@@ -17,7 +17,7 @@ public class AnnounceServiceImpl extends BaseServiceImpl implements AnnounceServ
 	@Override
 	public List<Announce> loadActiveAnnounces(Class<Announce> class1) {
 		// TODO Auto-generated method stub
-		List<BaseEntity> ances = (List<BaseEntity>) findByColumn(class1, "status", 0);
+		List<BaseEntity> ances = (List<BaseEntity>) loadAllByColumn(class1, "status", 0);
 		List<Announce> announces = null;
 		if (ances != null) {
 			announces = new ArrayList<Announce>();

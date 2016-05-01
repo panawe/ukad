@@ -101,6 +101,37 @@
 		</div>
 	</section>
 
+	<section class="panel panel-info">
+		<header class="panel-heading">
+			<h3 class="panel-title">Announces</h3>
+		</header>
+		<div class="panel-body">
+
+			<table st-table="displayedCollection3" st-safe-src="activeAnnounces"
+				class="table table-striped" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>Title</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="a in displayedCollection3">
+						<td><a href="" ng-click="showAnnounceModal(a)">::a.title::</a></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3" class="text-center">
+							<div st-pagination="" st-items-by-page="5"
+								st-displayed-pages="100"></div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+
+		</div>
+	</section>
+	
 	<!--/modal-->
 	<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
@@ -146,5 +177,32 @@
 			</div>
 		</div>
 	</div>
+	
+	<div id="myAnnounceModal" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myAnnounceModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">X</button>
+					<h1 id="myAnnounceModalLabel" class="text-center"></h1>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<div class="row">
+							<h4 class="text-justify" ng-show="currAnnounce.description">
+								<i class="fa fa-fw fa-map-marker fa-2x"></i>::currAnnounce.description::
+							</h4>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer bg-info">
+					<button class="btn btn-lg btn-default center-block"
+						data-dismiss="modal" aria-hidden="true">Fermer</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<!--/modal-->
 </div>

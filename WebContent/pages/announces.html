@@ -38,6 +38,13 @@
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group form-control-default">
+												<label for="announceTitle">Title:</label> <input
+													ng-model="theAnnounce.title" type="text" id="announceTitle"
+													class="form-control" placeholder="announceTitle">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group form-control-default">
 												<label for="announceDescription">Description</label>
 												<textarea rows="4" cols="50" ng-model="theAnnounce.description"
 													type="text" class="form-control" id="announceDescription"
@@ -101,6 +108,7 @@
 												</th>
 											</tr>
 											<tr>
+												<th>Title</th>
 												<th>Description</th>
 												<th>Debut</th>
 												<th>Fin</th>
@@ -113,6 +121,7 @@
 										<tbody>
 											<tr ng-repeat="aAnnounce in displayedCollection"
 												ng-show="!aAnnounce.deleted">
+												<td>::aAnnounce.title::</td>
 												<td>::aAnnounce.description::</td>
 												<td>::aAnnounce.beginDate::</td>
 												<td>::aAnnounce.endDate::</td>

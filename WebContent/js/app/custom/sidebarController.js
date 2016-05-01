@@ -44,6 +44,38 @@
 
 								};
 								
+
+								/**
+								 * Start get announces
+								 */
+								$scope.getActiveAnnounces = function() {
+
+									$http(
+											{
+												method : 'POST',
+												url : 'http://localhost:8080/ukadtogo/service/announce/getActiveAnnounces',
+												data : null
+											})
+											.success(
+													function(data, status,
+															headers, config) {
+														$log
+																.info("Call get Active Announces Successful");
+														$scope.activeAnnounces = data;
+														$log.info($scope);
+													})
+											.error(
+													function(data, status,
+															headers, config) {
+														$log
+																.info("Call get Active Announces Failed");
+														$log.info($scope);
+													});
+
+								};
+
+								
+								
 								/**
 								 * Start get Events Get the list of Events
 								 */
@@ -89,10 +121,24 @@
 								/**
 								 * End show Modal
 								 * 
+								 * /
+						
+								/**
+								 * Begin Show Modal
+								 */
+								$scope.showAnnounceModal = function(announce) {
+									$scope.currAnnounce = announce;
+									$('#myAnnounceModalLabel').text(announce.title);
+									$('#myAnnounceModal').modal('show');
+								}
+								/**
+								 * End get all Events
 								 */
 
+								
 								$scope.getFutureEvents();
 								$scope.getContributions();
+								$scope.getActiveAnnounces();
 								
 
 
