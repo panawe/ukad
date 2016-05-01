@@ -234,7 +234,7 @@
 					<div class="split-vertical-cell">
 						<div data-scrollable>					
 							<ul class="chat-contacts">
-								<li class="online" data-user-id="1" ng-repeat="onlineMember in onlineMembers"><a href="#">
+								<li class="::onlineMember.online ? 'online' : 'offline'::" data-user-id="1" ng-repeat="onlineMember in onlineMembers"><a href="#">
 										<div class="media">
 											<div class="pull-left">
 												<span class="status"></span> <img
@@ -243,7 +243,7 @@
 											</div>
 											<div class="media-body">
 												<div class="contact-name">::onlineMember.firstName:: ::onlineMember.lastName::</div>
-												<small>"Free Today"</small>
+												<!-- <small>"Free Today"</small> -->
 											</div>
 										</div>
 								</a></li>
