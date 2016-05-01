@@ -80,15 +80,11 @@ public class UserDaoImpl extends BaseDaoImpl {
 		if (list.size() > 0) {
 
 			user = (User) list.get(0);
-			/*
-			 * for (RolesUser gu : user.getRolesUser()) { ;
-			 * Hibernate.initialize(gu.getRoles().getRolesMenus()); }
-			 */
-		}
-		
-		Configuration be= (Configuration) findByColumn(Configuration.class,"name","ANNUAL_FEE");
-		if(user.getMembershipRenewDate()==null||user.getMembershipRenewDate().before(new Date())){
-			 user.setFee(new Double(be.getValue()));
+			
+			Configuration be= (Configuration) findByColumn(Configuration.class,"name","ANNUAL_FEE");
+			if(user.getMembershipRenewDate()==null||user.getMembershipRenewDate().before(new Date())){
+				 user.setFee(new Double(be.getValue()));
+			}
 		}
 
 		return user;

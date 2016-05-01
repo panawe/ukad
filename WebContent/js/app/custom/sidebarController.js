@@ -24,7 +24,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/getContributions',
+												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/getContributions',
 												data : null
 											})
 											.success(
@@ -53,7 +53,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/announce/getActiveAnnounces',
+												url : 'http://agwe-esoftsystems.rhcloud.com/service/announce/getActiveAnnounces',
 												data : null
 											})
 											.success(
@@ -84,7 +84,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/getFutureEvents',
+												url : 'http://agwe-esoftsystems.rhcloud.com/service/event/getFutureEvents',
 												data : null
 											})
 											.success(
@@ -141,7 +141,7 @@
 									$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/advertisement/getActiveAdvertisements',
+											url : 'http://agwe-esoftsystems.rhcloud.com/service/advertisement/getActiveAdvertisements',
 											data : null
 										})
 									.success(

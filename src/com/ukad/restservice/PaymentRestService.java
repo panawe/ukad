@@ -128,8 +128,8 @@ public class PaymentRestService {
 
 			// ###Redirect URLs
 			RedirectUrls redirectUrls = new RedirectUrls();
-			redirectUrls.setCancelUrl("http://localhost:8080/ukadtogo/#/pages/cancelDonate");
-			redirectUrls.setReturnUrl("http://localhost:8080/ukadtogo/#/pages/donate");
+			redirectUrls.setCancelUrl("http://agwe-esoftsystems.rhcloud.com/#/pages/cancelDonate");
+			redirectUrls.setReturnUrl("http://agwe-esoftsystems.rhcloud.com/#/pages/donate");
 			payment.setRedirectUrls(redirectUrls);
 
 			createdPayment = payment.create(apiContext);
@@ -186,8 +186,8 @@ public class PaymentRestService {
 
 			// ###Redirect URLs
 			RedirectUrls redirectUrls = new RedirectUrls();
-			redirectUrls.setCancelUrl("http://localhost:8080/ukadtogo/#/pages/cancelDonate");
-			redirectUrls.setReturnUrl("http://localhost:8080/ukadtogo/#/pages/fees");
+			redirectUrls.setCancelUrl("http://agwe-esoftsystems.rhcloud.com/#/pages/cancelDonate");
+			redirectUrls.setReturnUrl("http://agwe-esoftsystems.rhcloud.com/#/pages/fees");
 			payment.setRedirectUrls(redirectUrls);
 
 			createdPayment = payment.create(apiContext);
