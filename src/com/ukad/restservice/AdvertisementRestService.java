@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ukad.model.Advertisement;
+import com.ukad.model.Announce;
 import com.ukad.model.Event;
 import com.ukad.model.Project;
 import com.ukad.model.Sponsor;
@@ -114,40 +115,32 @@ public class AdvertisementRestService {
 	public @ResponseBody List<Advertisement> getActiveAdvertisements() {
 		System.out.println("Advertisement list requested");
 
-		List<Advertisement> retList = (List<Advertisement>) advertisementService.findByColumn(Advertisement.class, "status", 0);
-			
-		Collections.reverse(retList);
-		return retList;
-	}
-	
-	@RequestMapping(value = "/getProjectAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
-	public @ResponseBody List<String> getProjectAlbum(@RequestBody Project project) {
-		System.out.println("getProjectAlbum Project:" + project);
+		List<Advertisement> advertisements = (List<Advertisement>) advertisementService.loadActiveAdvertisements(Advertisement.class);
+		List<Advertisement> retList = new ArrayList<Advertisement>();
 		String storageDirectory = null;
-
-		List<Advertisement> advList = (List<Advertisement>) advertisementService.loadActiveAdvertisements(Advertisement.class);
-		
-		if (advList.isEmpty()) {
-			return null;
-		}
-		
 		if (context != null) {
-			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "advertisements";
-		}
-		List<String> retList = new ArrayList<String>();
 
-		for (Advertisement adv : advList) {
-			File dir = new File(storageDirectory + File.separator + adv.getId());
+			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "advertisements";
+
+		}
+		
+		for (Advertisement a : advertisements) {
+			File dir = new File(storageDirectory + File.separator + a.getId());
+			int fileCount = 0;
 			if (dir.exists()) {
-				File[] files = dir.listFiles();
-				for (File file : files) {
-					retList.add(file.getName());
-				}
+				fileCount = dir.listFiles().length;
+			}
+
+			if (fileCount > 0) {
+				a.setHasImage(true);
+				a.setImagePath("images/advertisements/" + a.getId() + "/" + a.getId() + "_1.jpg");
+				retList.add(a);
+
 			}
 		}
+		
 		Collections.reverse(retList);
 		return retList;
-
 	}
 
 }

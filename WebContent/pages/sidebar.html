@@ -4,11 +4,23 @@
 			<h3 class="panel-title">Sponsors</h3>
 		</header>
 		<div class="panel-body">
-			<p>
-				<a href="#"> <img border="0" alt="Sponsors"
-					src="images/sponsors.gif" class="img-responsive">
-				</a>
-			</p>
+			<div id="carousel-example-generic_adv" class="carousel slide overlay overflow-hidden max-height-200" data-ride="carousel">
+			  <!-- Indicators -->
+			  <!-- <ol class="carousel-indicators" id="carousel-indicators_adv"></ol> -->
+			  <!-- Wrapper for slides -->
+			  <div class="carousel-inner"  id="carousel-inner_adv">
+			  		<div class="item" ng-class="{active:!$index}" ng-show="::advertisement.hasImage::" ng-repeat="advertisement in activeAdvertisements">
+            			<img src=::advertisement.imagePath:: > </image>
+        			</div>
+              </div>
+			  <!-- Controls -->
+			  <a class="left carousel-control" href="#carousel-example-generic_adv" data-slide="prev">
+			    <span class="glyphicon glyphicon-chevron-left"></span>
+			  </a>
+			  <a class="right carousel-control" href="#carousel-example-generic_adv" data-slide="next">
+			    <span class="glyphicon glyphicon-chevron-right"></span>
+			  </a>
+			</div>
 		</div>
 	</section>
 

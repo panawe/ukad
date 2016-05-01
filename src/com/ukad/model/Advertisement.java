@@ -51,6 +51,13 @@ public class Advertisement extends BaseEntity {
 	@Column(name = "AMOUNT")
 	private Double amount;
 	
+	@Transient
+	private boolean hasImage;
+	
+	@Transient
+	private String imagePath;
+
+	
 	public Long getId() {
 		return id;
 	}
@@ -132,5 +139,21 @@ public class Advertisement extends BaseEntity {
 			desc = "Desactive";
 		
 		return desc;
+	}
+
+	public boolean isHasImage() {
+		return hasImage;
+	}
+
+	public void setHasImage(boolean hasImage) {
+		this.hasImage = hasImage;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 }
