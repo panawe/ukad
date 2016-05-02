@@ -123,7 +123,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/makePayment',
+												url : 'http://localhost:8080/ukadtogo/service/user/makePayment',
 												data : transaction
 											})
 											.success(
@@ -180,7 +180,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/saveExpense',
+												url : 'http://localhost:8080/ukadtogo/service/user/saveExpense',
 												data : transaction
 											})
 											.success(
@@ -255,7 +255,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/getYearlySummary',
+												url : 'http://localhost:8080/ukadtogo/service/user/getYearlySummary',
 												data : null
 											})
 											.success(

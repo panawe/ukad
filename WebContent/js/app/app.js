@@ -6804,7 +6804,7 @@ require('./_timeline');
                 $rootScope.$stateParams = $stateParams;
                 
             	if ($rootScope.count == null) {	
-            		$http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/addGuestCount', data : null }).
+            		$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/addGuestCount', data : null }).
         	        success(function (data, status, headers, config) {
         	        	$log.info("Call Successful");    	                 
         	        }).error(function (data, status, headers, config) {

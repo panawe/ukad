@@ -37,7 +37,8 @@ public class FindReplace {
 	            	if(f.getName().endsWith("java") ||f.getName().endsWith("js")){
 
 		                System.out.println( "File:" + f.getAbsoluteFile() );
-	            		files.add(f);
+		                if(!f.getName().endsWith("FindReplace.java"))
+		                	files.add(f);
 	            	}
 	            }
 	        }
@@ -55,8 +56,8 @@ public class FindReplace {
 	        fw.walk("C:\\My Projects\\ukadtogo" );
 	        for(File f:fw.getFiles()){
 	        	try {
-					fw.replaceFileString("agwe-esoftsystems.rhcloud.com", "agwe-esoftsystems.rhcloud.com", f);
-					//fw.replaceFileString("agwe-esoftsystems.rhcloud.com", "agwe-esoftsystems.rhcloud.com", f);
+					//fw.replaceFileString("localhost:8080/ukadtogo", "agwe-esoftsystems.rhcloud.com", f);
+					fw.replaceFileString("agwe-esoftsystems.rhcloud.com", "localhost:8080/ukadtogo", f);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

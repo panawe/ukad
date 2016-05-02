@@ -13,7 +13,7 @@
   	        $scope.theUser = $cookieStore.get('theUser');
   	         
   	         var advertisementUploader = $scope.advertisementUploader = new FileUploader({
-  	 	            url: 'http://agwe-esoftsystems.rhcloud.com/service/advetisement/receiveFile'
+  	 	            url: 'http://localhost:8080/ukadtogo/service/advetisement/receiveFile'
   	 	        });
   	 	        
   	 	
@@ -37,7 +37,7 @@
   	 	        
   	 	    $scope.createAdvertisement = function() {  
   	 	      	$scope.advertisementSaveSubmitted=true;	      	
-  	 	      	$http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/advertisement/createAdvertisement', data: this.theAdvertisement }).
+  	 	      	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/advertisement/createAdvertisement', data: this.theAdvertisement }).
   	 	      	success(function (data, status, headers, config) {
   	                    $log.info("Call Create Advertisement Successful"); 
   	                    $scope.advertisementSelected=true;
@@ -103,7 +103,7 @@
  */
   $scope.getAllAdvertisements = function() {
         
-       $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/advertisement/getAllAdvertisements', data: null }).
+       $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/advertisement/getAllAdvertisements', data: null }).
        success(function (data, status, headers, config) {
                 $log.info("Call get All Advertisements Successful"); 
             	$scope.advertisements = data;

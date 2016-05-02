@@ -79,7 +79,7 @@
 							                			
 							                	};
 							                	$scope.paymentSaveSubmitted=true;
-							                     $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/makePayment', data: transaction }).
+							                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/makePayment', data: transaction }).
 							                     success(function (data, status, headers, config) {
 							                     $log.info("Call makePayment Successful");  
 							                     $scope.paymentSaved=true; 
@@ -124,7 +124,7 @@
 							                			
 							                	};
 							                	$scope.paymentSaveSubmitted=true;
-							                     $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/saveExpense', data: transaction }).
+							                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/saveExpense', data: transaction }).
 							                     success(function (data, status, headers, config) {
 							                     $log.info("Call makePayment Successful");  
 							                     $scope.paymentSaved=true; 
@@ -190,7 +190,7 @@
 							             */
 							        $scope.drawPayments = function() {
 							        	
-							        	$http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/getYearlySummary', data: null }).
+							        	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getYearlySummary', data: null }).
 							   success(function (data, status, headers, config) {
 							            $log.info("Call get getYearlySummary"); 
 							            $( "#bar-example" ).empty(); 
@@ -216,7 +216,7 @@
 
 								var userProfileUploader = $scope.userProfileUploader = new FileUploader(
 										{
-											url : 'http://agwe-esoftsystems.rhcloud.com/service/user/receiveFile'
+											url : 'http://localhost:8080/ukadtogo/service/user/receiveFile'
 										});
 
 								// FILTERS
@@ -259,7 +259,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/login',
+												url : 'http://localhost:8080/ukadtogo/service/user/login',
 												data : User
 											})
 											.success(
@@ -282,7 +282,7 @@
 														$log.info($scope);
 														if($scope.theUser.fee>0.0){
 															$scope.theUser.status=0;
-															$window.location.href="http://agwe-esoftsystems.rhcloud.com/#/pages/fees";
+															$window.location.href="http://localhost:8080/ukadtogo/#/pages/fees";
 														}
 
 													})
@@ -307,7 +307,7 @@
 								 * Start Logout
 								 */
 								$scope.logout=function(){
-							        $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/logout' }).
+							        $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/logout' }).
 							        success(function (data, status, headers, config) {
 							        	$log.info("Call Successful"); 
 							            $cookieStore.put('theUser',data);
@@ -334,7 +334,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/createUser',
+												url : 'http://localhost:8080/ukadtogo/service/user/createUser',
 												data : $scope.newUser
 											})
 											.success(
@@ -357,7 +357,7 @@
 														$log.info($scope);
 														if($scope.theUser.fee>0.0){
 															$scope.theUser.status=0;
-															$window.location.href="http://agwe-esoftsystems.rhcloud.com/#/pages/fees";
+															$window.location.href="http://localhost:8080/ukadtogo/#/pages/fees";
 														}
 
 													})
@@ -386,7 +386,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/saveUser',
+												url : 'http://localhost:8080/ukadtogo/service/user/saveUser',
 												data : aUser
 											})
 											.success(
@@ -433,7 +433,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/saveUser',
+												url : 'http://localhost:8080/ukadtogo/service/user/saveUser',
 												data : aUser
 											})
 											.success(
@@ -481,7 +481,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/getAllMembers',
+												url : 'http://localhost:8080/ukadtogo/service/user/getAllMembers',
 												data : null
 											}).success(
 											function(data, status, headers,
@@ -511,7 +511,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/findMembers',
+												url : 'http://localhost:8080/ukadtogo/service/user/findMembers',
 												data : {
 													searchText : $scope.searchText
 												}
@@ -553,7 +553,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/approveMember',
+												url : 'http://localhost:8080/ukadtogo/service/user/approveMember',
 												data : aUser
 											}).success(
 											function(data, status, headers,
@@ -583,7 +583,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/rejectMember',
+												url : 'http://localhost:8080/ukadtogo/service/user/rejectMember',
 												data : aUser
 											}).success(
 											function(data, status, headers,
@@ -613,7 +613,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/getPendingMembers',
+												url : 'http://localhost:8080/ukadtogo/service/user/getPendingMembers',
 												data : $scope.mailContent
 											}).success(
 											function(data, status, headers,
@@ -649,7 +649,7 @@
 							          		 $scope.mailSent=false;
 							             } else{
 
-							                 $http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/sendMail', data: email}).
+							                 $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/sendMail', data: email}).
 							                 success(function (data, status, headers, config) {
 							                          $log.info("Call Successful"); 
 							                        $scope.email=null;
@@ -700,7 +700,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/getLeaders',
+												url : 'http://localhost:8080/ukadtogo/service/user/getLeaders',
 												data : null
 											}).success(
 											function(data, status, headers,
@@ -727,7 +727,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/getAllExpenses',
+												url : 'http://localhost:8080/ukadtogo/service/user/getAllExpenses',
 												data : null
 											}).success(
 											function(data, status, headers,
@@ -755,7 +755,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://agwe-esoftsystems.rhcloud.com/service/user/deleteExpense',
+												url : 'http://localhost:8080/ukadtogo/service/user/deleteExpense',
 												data : exp
 											})
 											.success(
@@ -787,7 +787,7 @@
 					             */
 					        $scope.drawContributions = function() {
 					        	
-					        	$http({ method: 'POST', url: 'http://agwe-esoftsystems.rhcloud.com/service/user/getContributions', data: null }).
+					        	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getContributions', data: null }).
 					   success(function (data, status, headers, config) {
 					            $log.info("Call get getContributions"); 
 					            $( "#contribution-bar" ).empty(); 
@@ -813,7 +813,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://agwe-esoftsystems.rhcloud.com/service/user/getContributions',
+											url : 'http://localhost:8080/ukadtogo/service/user/getContributions',
 											data : null
 										})
 										.success(
@@ -842,7 +842,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://agwe-esoftsystems.rhcloud.com/service/payment/createPayment',
+											url : 'http://localhost:8080/ukadtogo/service/payment/createPayment',
 											data : {
 											    "intent": "sale",
 											    "payer": {
@@ -858,8 +858,8 @@
 											        }
 											    ],
 											    "redirectUrls": {
-											        return_url: "http://agwe-esoftsystems.rhcloud.com/#/pages/donate",
-											        cancel_url: "http://agwe-esoftsystems.rhcloud.com/#/pages/cancelDonate"
+											        return_url: "http://localhost:8080/ukadtogo/#/pages/donate",
+											        cancel_url: "http://localhost:8080/ukadtogo/#/pages/cancelDonate"
 											    }
 											}
 										})
@@ -876,7 +876,7 @@
 														headers, config) {
 													$log.info("Call Create payment Failed");
 													$log.info($scope); 
-													$window.location.href="http://agwe-esoftsystems.rhcloud.com/#/pages/cancelDonate";
+													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
 
 												});
 
@@ -891,7 +891,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://agwe-esoftsystems.rhcloud.com/service/payment/submitFee',
+											url : 'http://localhost:8080/ukadtogo/service/payment/submitFee',
 											data : {
 											    "intent": "sale",
 											    "payer": {
@@ -907,8 +907,8 @@
 											        }
 											    ],
 											    "redirectUrls": {
-											        return_url: "http://agwe-esoftsystems.rhcloud.com/#/pages/fees",
-											        cancel_url: "http://agwe-esoftsystems.rhcloud.com/#/pages/cancelDonate"
+											        return_url: "http://localhost:8080/ukadtogo/#/pages/fees",
+											        cancel_url: "http://localhost:8080/ukadtogo/#/pages/cancelDonate"
 											    }
 											}
 										})
@@ -925,7 +925,7 @@
 														headers, config) {
 													$log.info("Call Create payment Failed");
 													$log.info($scope); 
-													$window.location.href="http://agwe-esoftsystems.rhcloud.com/#/pages/cancelDonate";
+													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
 
 												});
 
@@ -939,7 +939,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://agwe-esoftsystems.rhcloud.com/service/payment/makePayment',
+											url : 'http://localhost:8080/ukadtogo/service/payment/makePayment',
 											data : {													
 												paymentId:$scope.paymentId,
 												token:$scope.token,
@@ -960,7 +960,7 @@
 														headers, config) {
 													$log.info("Call Make payment Failed");
 													$log.info($scope); 
-													$window.location.href="http://agwe-esoftsystems.rhcloud.com/#/pages/cancelDonate";
+													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
 												});
 							};
 
@@ -972,7 +972,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://agwe-esoftsystems.rhcloud.com/service/payment/payFee',
+											url : 'http://localhost:8080/ukadtogo/service/payment/payFee',
 											data : {													
 												paymentId:$scope.paymentId,
 												token:$scope.token,
@@ -993,7 +993,7 @@
 														headers, config) {
 													$log.info("Call Make payment Failed");
 													$log.info($scope); 
-													$window.location.href="http://agwe-esoftsystems.rhcloud.com/#/pages/cancelDonate";
+													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
 												});
 							};
 							
@@ -1002,7 +1002,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://agwe-esoftsystems.rhcloud.com/service/user/getContributions',
+											url : 'http://localhost:8080/ukadtogo/service/user/getContributions',
 											data : null
 										})
 										.success(
