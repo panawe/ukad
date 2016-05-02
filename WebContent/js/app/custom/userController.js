@@ -997,6 +997,32 @@
 												});
 							};
 							
+							$scope.getContributions = function() {
+
+								$http(
+										{
+											method : 'POST',
+											url : 'http://agwe-esoftsystems.rhcloud.com/service/user/getContributions',
+											data : null
+										})
+										.success(
+												function(data, status,
+														headers, config) {
+													$log.info("Call get getContributions");
+													$scope.contributions = data;
+
+												})
+										.error(
+												function(data, status,
+														headers, config) {
+
+													$log.info("Call get getContributions Failed");
+													$log.info($scope);
+												});
+
+							};
+							
+							$scope.getContributions();
 							//Fix for refresh
 								var url = $location.url();
 								$log.info('URL='+url); 

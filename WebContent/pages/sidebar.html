@@ -1,5 +1,5 @@
-<div ng-controller="sideBarCtrl">
-	<section class="panel panel-info">
+<div >
+	<section ng-controller="sideBarCtrl" class="panel panel-info">
 		<header class="panel-heading">
 			<h3 class="panel-title">Sponsors</h3>
 		</header>
@@ -24,7 +24,7 @@
 		</div>
 	</section>
 
-	<section class="panel panel-info">
+	<section ng-controller="userCtrl" class="panel panel-info">
 		<header class="panel-heading">
 			<h3 class="panel-title">Donateurs</h3>
 		</header>
@@ -75,7 +75,7 @@
 	</section>
 
 
-	<section class="panel panel-info">
+	<section ng-controller="sideBarCtrl" class="panel panel-info">
 		<header class="panel-heading">
 			<h3 class="panel-title">Evenements prochains</h3>
 		</header>
@@ -113,7 +113,7 @@
 		</div>
 	</section>
 
-	<section class="panel panel-info">
+	<section ng-controller="sideBarCtrl" class="panel panel-info">
 		<header class="panel-heading">
 			<h3 class="panel-title">Announces</h3>
 		</header>
@@ -121,11 +121,7 @@
 
 			<table st-table="displayedCollection3" st-safe-src="activeAnnounces"
 				class="table table-striped" cellspacing="0" width="100%">
-				<thead>
-					<tr>
-						<th>Title</th>
-					</tr>
-				</thead>
+ 
 				<tbody>
 					<tr ng-repeat="a in displayedCollection3">
 						<td><a href="" ng-click="showAnnounceModal(a)">::a.title::</a></td>
