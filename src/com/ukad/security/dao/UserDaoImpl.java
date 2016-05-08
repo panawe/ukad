@@ -84,6 +84,7 @@ public class UserDaoImpl extends BaseDaoImpl {
 			Configuration be= (Configuration) findByColumn(Configuration.class,"name","ANNUAL_FEE");
 			if(user.getMembershipRenewDate()==null||user.getMembershipRenewDate().before(new Date())){
 				 user.setFee(new Double(be.getValue()));
+				 user.setStatus((short) 0);
 			}
 		}
 
