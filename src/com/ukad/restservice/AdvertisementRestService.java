@@ -32,7 +32,7 @@ import com.ukad.service.EventService;
 import com.ukad.util.SimpleMail;
 
 @RestController
-@RequestMapping("/service/advertisement")
+@RequestMapping("/service/marketing")
 
 public class AdvertisementRestService {
 
@@ -56,7 +56,7 @@ public class AdvertisementRestService {
 				int fileCount = 0;
 				if (context != null) {
 
-					storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "advertisements"
+					storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "marketings"
 							+ File.separator + advertisementId;
 					File dir = new File(storageDirectory);
 					if (!dir.exists()) {
@@ -68,7 +68,7 @@ public class AdvertisementRestService {
 					return "Failure";
 
 				}
-				String newFilename = advertisementId + "_" + (fileCount + 1) + ".jpg";
+				String newFilename = advertisementId + "_1.jpg";
 
 				File newFile = new File(storageDirectory + File.separator + newFilename);
 				file.transferTo(newFile);
@@ -84,7 +84,7 @@ public class AdvertisementRestService {
 		return "Success";
 	}
 
-	@RequestMapping(value = "/createAdvertisement", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "/createMarketing", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody Advertisement createAdvertisement(@RequestBody Advertisement advertisement) {
 		System.out.println("Advertisement Created:" + advertisement);
 		Sponsor sponsor = new Sponsor();
@@ -94,24 +94,27 @@ public class AdvertisementRestService {
 		return advertisement;
 	}
 
-	@RequestMapping(value = "/deleteAdvertisement", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "/deleteMarketing", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody String deleteAdvertisement(@RequestBody Advertisement advertisement) {
 		System.out.println("delete Advertisement:" + advertisement);
 		advertisementService.delete(advertisement);
 		return "Success";
 	}
 
-	@RequestMapping(value = "/getAllAdvertisementsBySponsor", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "/getAllMarketingsBySponsor", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<Advertisement> getAllAdvertisementsBySponsor(@RequestBody String sponsorId) {
 		System.out.println("Event list Requested - getAdvertisements By Id");
 
 		List<Advertisement> retList = (List<Advertisement>) advertisementService
 				.loadAllAdvertisementsBySponsor(Advertisement.class, Long.valueOf(sponsorId));
+		for (Advertisement a : retList) { 
+				a.setImagePath("images/marketings/" + a.getId() + "/" + a.getId() + "_1.jpg");			 
+		}
 		Collections.reverse(retList);
 		return retList;
 	}
 
-	@RequestMapping(value = "/getActiveAdvertisements", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "/getActiveMarketings", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<Advertisement> getActiveAdvertisements() {
 		System.out.println("Advertisement list requested");
 
@@ -120,7 +123,7 @@ public class AdvertisementRestService {
 		String storageDirectory = null;
 		if (context != null) {
 
-			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "advertisements";
+			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "marketings";
 
 		}
 		
@@ -133,7 +136,7 @@ public class AdvertisementRestService {
 
 			if (fileCount > 0) {
 				a.setHasImage(true);
-				a.setImagePath("images/advertisements/" + a.getId() + "/" + a.getId() + "_1.jpg");
+				a.setImagePath("images/marketings/" + a.getId() + "/" + a.getId() + "_1.jpg");
 				retList.add(a);
 
 			}

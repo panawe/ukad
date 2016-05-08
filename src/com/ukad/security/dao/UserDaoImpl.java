@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -103,24 +104,17 @@ public class UserDaoImpl extends BaseDaoImpl {
 	public List<User> loadAllUsersWithOnlineStatus() {
 		final String sql = "SELECT DISTINCT  U.USER_ID, U.USER_NAME, U.PASSWORD, U.FIRST_NAME, U.LAST_NAME FROM USERS U INNER JOIN SESSION_HISTORY SH ON "
 				+ "SH.USER_ID = U.USER_ID WHERE SH.END_DATE IS NULL AND SH.BEGIN_DATE > "
-				+ "DATE_SUB(CURDATE(), INTERVAL 1 DAY) ORDER BY U.FIRST_NAME, U.LAST_NAME "
-				;
+				+ "DATE_SUB(CURDATE(), INTERVAL 1 DAY) ORDER BY U.FIRST_NAME, U.LAST_NAME ";
+		
+		Session session = getHibernateTemplate().getSessionFactory().openSession();
+		Query query = session.createSQLQuery(sql);
 
-
-		List<Object[]> list = (List)getHibernateTemplate().execute(
-				new HibernateCallback() {
-				public Object doInHibernate(Session session) throws HibernateException {
-				SQLQuery sq =session.createSQLQuery(sql);
-				//sq.addScalar("TEST_TABLE_ID", Hibernate.INTEGER);
-				//sq.addScalar("NAME", Hibernate.STRING);
-				//sq.addScalar("TEST_DATE", Hibernate.DATE);
-				return sq.list();
-				}});
+		List<Object[]> objects = query.list();
 
 		List<User> users = new ArrayList<User>();
 		
-		if(list.size() > 0){
-			for(Object[] row : list){
+		if(objects!=null){
+			for(Object[] row : objects){
 				User user = new User();
 				user.setId(((BigInteger) row[0]).longValue());
 				user.setUserName((String) row[1]);

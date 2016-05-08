@@ -1,25 +1,33 @@
-<div >
+<div>
 	<section ng-controller="sideBarCtrl" class="panel panel-info">
 		<header class="panel-heading">
 			<h3 class="panel-title">Sponsors</h3>
 		</header>
 		<div class="panel-body">
-			<div id="carousel-example-generic_adv" class="carousel slide overlay overflow-hidden max-height-200" data-ride="carousel">
-			  <!-- Indicators -->
-			  <!-- <ol class="carousel-indicators" id="carousel-indicators_adv"></ol> -->
-			  <!-- Wrapper for slides -->
-			  <div class="carousel-inner"  id="carousel-inner_adv">
-			  		<div class="item" ng-class="{active:!$index}" ng-show="::advertisement.hasImage::" ng-repeat="advertisement in activeAdvertisements">
-            			<img src=::advertisement.imagePath:: > </image>
-        			</div>
-              </div>
-			  <!-- Controls -->
-			  <a class="left carousel-control" href="#carousel-example-generic_adv" data-slide="prev">
-			    <span class="glyphicon glyphicon-chevron-left"></span>
-			  </a>
-			  <a class="right carousel-control" href="#carousel-example-generic_adv" data-slide="next">
-			    <span class="glyphicon glyphicon-chevron-right"></span>
-			  </a>
+			<div id="carousel-example-generic_adv"
+				class="carousel slide overlay overflow-hidden max-height-200"
+				data-ride="carousel">
+				<!-- Indicators -->
+				<!-- <ol class="carousel-indicators" id="carousel-indicators_adv"></ol> -->
+				<!-- Wrapper for slides -->
+				<div class="carousel-inner" id="carousel-inner_adv">
+					<div class="item" ng-class="{active:!$index}"
+						ng-show="::advertisement.hasImage::"
+						ng-repeat="advertisement in activeAdvertisements">
+						<a href="::advertisement.link::"
+							ng-click="openInNewTab(::advertisement.link::)"> <img
+							src="::advertisement.imagePath::" max-height="200px"> </image>
+						</a> 
+					</div>
+				</div>
+				<!-- Controls -->
+				<a class="left carousel-control"
+					href="#carousel-example-generic_adv" data-slide="prev"> <span
+					class="glyphicon glyphicon-chevron-left"></span>
+				</a> <a class="right carousel-control"
+					href="#carousel-example-generic_adv" data-slide="next"> <span
+					class="glyphicon glyphicon-chevron-right"></span>
+				</a>
 			</div>
 		</div>
 	</section>
@@ -36,12 +44,14 @@
 						<div class="input-group-addon">$</div>
 						<input type="number" class="form-control" ng-model="amount"
 							id="exampleInputAmount" placeholder="Montant">
-						<div class="input-group-addon"><button class="btn btn-success">Donner</button></div>
+						<div class="input-group-addon">
+							<button class="btn btn-success">Donner</button>
+						</div>
 					</div>
-					
-				</div> 
+
+				</div>
 			</form>
- 
+
 
 			<table st-table="displayedCollection" st-safe-src="contributions"
 				class="table table-striped" cellspacing="0" width="100%">
@@ -121,7 +131,7 @@
 
 			<table st-table="displayedCollection3" st-safe-src="activeAnnounces"
 				class="table table-striped" cellspacing="0" width="100%">
- 
+
 				<tbody>
 					<tr ng-repeat="a in displayedCollection3">
 						<td><a href="" ng-click="showAnnounceModal(a)">::a.title::</a></td>
@@ -139,9 +149,9 @@
 
 		</div>
 	</section>
-	
+
 	<!--/modal-->
-	<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
+	<div id="myEventModal" class="modal fade" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -185,9 +195,10 @@
 			</div>
 		</div>
 	</div>
-	
-	<div id="myAnnounceModal" class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="myAnnounceModalLabel" aria-hidden="true">
+
+	<div id="myAnnounceModal" class="modal fade" tabindex="-1"
+		role="dialog" aria-labelledby="myAnnounceModalLabel"
+		aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-info">
@@ -211,6 +222,6 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!--/modal-->
 </div>

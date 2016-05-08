@@ -19,7 +19,10 @@
 									$log, $http, FileUploader, $location,
 									moment) {
 
-			
+								   //function to open links in new tabs
+					            $scope.openInNewTab = function(link){
+					                    $window.open(link, '_blank');
+					                };
 
 								/**
 								 * Start get announces
@@ -92,7 +95,7 @@
 								$scope.showUserModal = function(event) {
 									$scope.currEvent = event;
 									$('#myModalLabel').text(event.title);
-									$('#myModal').modal('show');
+									$('#myEventModal').modal('show');
 								}
 								/**
 								 * End show Modal
@@ -117,7 +120,7 @@
 									$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/advertisement/getActiveAdvertisements',
+											url : 'http://localhost:8080/ukadtogo/service/marketing/getActiveMarketings',
 											data : null
 										})
 									.success(
