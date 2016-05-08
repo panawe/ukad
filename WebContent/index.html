@@ -3,13 +3,14 @@
 	class="st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2">
 
 <head>
- 
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>Association des Gabonais de Washington, D.C et ses Environs (A.G.W.E).</title>
+<title>Association des Gabonais de Washington, D.C et ses
+	Environs (A.G.W.E).</title>
 <!-- my Custom script comes here me -->
 <link href="css/vendor/all.css" rel="stylesheet">
 
@@ -22,7 +23,7 @@
 
 </head>
 
-<body>	
+<body>
 
 	<div class="st-container">
 
@@ -79,8 +80,8 @@
 					</form>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="hidden-xs"><a href="#sidebar-chat"
-							data-toggle="sidebar-menu"> <i class="fa fa-users"></i> <span ng-controller="refreshCtrl"
-								class="badge badge-primary">::guestCount::</span>
+							data-toggle="sidebar-menu"> <i class="fa fa-users"></i> <span
+								ng-controller="refreshCtrl" class="badge badge-primary">::guestCount::</span>
 						</a></li>
 						<!-- Login -->
 
@@ -206,12 +207,12 @@
 
 		</div>
 
-		<div class="row" >
+		<div class="row">
 
-			 
-				<div ui-view class="ui-view-main"></div>
-			 
-			
+
+			<div ui-view class="ui-view-main"></div>
+
+
 
 		</div>
 		<!-- Footer -->
@@ -225,16 +226,12 @@
 					<input type="text" class="form-control" placeholder="Search" />
 				</div>
 
-				<ul class="chat-filter nav nav-pills ">
-					<li class="active"><a href="#" data-target="li">All</a></li>
-					<li><a href="#" data-target=".online">Online</a></li>
-					<li><a href="#" data-target=".offline">Offline</a></li>
-				</ul>
 				<div class="split-vertical-body">
 					<div class="split-vertical-cell">
-						<div data-scrollable>					
+						<div data-scrollable>
 							<ul class="chat-contacts">
-								<li class="::onlineMember.online ? 'online' : 'offline'::" data-user-id="1" ng-repeat="onlineMember in onlineMembers"><a href="#">
+								<li class="online" data-user-id="1"
+									ng-repeat="onlineMember in onlineMembers"><a href="#">
 										<div class="media">
 											<div class="pull-left">
 												<span class="status"></span> <img
@@ -242,13 +239,13 @@
 													class="img-circle" />
 											</div>
 											<div class="media-body">
-												<div class="contact-name">::onlineMember.firstName:: ::onlineMember.lastName::</div>
-												<!-- <small>"Free Today"</small> -->
+												<div class="contact-name">::onlineMember.firstName::
+													::onlineMember.lastName::</div> 
 											</div>
 										</div>
 								</a></li>
 							</ul>
-						
+
 						</div>
 					</div>
 				</div>
@@ -347,7 +344,7 @@
 	<script src="js/app/custom/eventController.js"></script>
 	<script src="js/app/custom/projectController.js"></script>
 	<script src="js/app/custom/refreshController.js"></script>
-	<script src="js/app/custom/sidebarController.js"></script>	
+	<script src="js/app/custom/sidebarController.js"></script>
 	<script src="js/app/custom/sponsorController.js"></script>
 	<script src="js/app/custom/advertisementController.js"></script>
 	<script src="js/app/custom/announceController.js"></script>

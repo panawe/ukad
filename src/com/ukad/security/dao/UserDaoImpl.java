@@ -100,14 +100,9 @@ public class UserDaoImpl extends BaseDaoImpl {
 	}
 	
 	public List<User> loadAllUsersWithOnlineStatus() {
-		final String sql = "SELECT U.USER_ID, U.USER_NAME, U.PASSWORD, U.FIRST_NAME, U.LAST_NAME, SH2.CREATE_DATE, SH2.END_DATE "
-				+	"FROM USERS U "
-				+ 	"LEFT OUTER JOIN (SELECT USER_ID, MAX(CREATE_DATE) AS CREATE_DATE FROM SESSION_HISTORY GROUP BY USER_ID) SH "
-				+ 	"	ON U.USER_ID = SH.USER_ID "
-				+	"LEFT OUTER JOIN SESSION_HISTORY SH2 ON SH.USER_ID = SH2.USER_ID AND SH.CREATE_DATE = SH2.CREATE_DATE "
-				+ 	"ORDER BY SH2.CREATE_DATE DESC, U.FIRST_NAME, U.LAST_NAME"
-				//+ 	"WHERE SH2.END_DATE IS NULL "
-				//+ "U.STATUS = 1 "
+		final String sql = "SELECT DISTINCT  U.USER_ID, U.USER_NAME, U.PASSWORD, U.FIRST_NAME, U.LAST_NAME FROM USERS U INNER JOIN SESSION_HISTORY SH ON "
+				+ "SH.USER_ID = U.USER_ID WHERE SH.END_DATE IS NULL AND SH.BEGIN_DATE > "
+				+ "DATE_SUB(CURDATE(), INTERVAL 1 DAY) ORDER BY U.FIRST_NAME, U.LAST_NAME "
 				;
 
 
@@ -131,7 +126,7 @@ public class UserDaoImpl extends BaseDaoImpl {
 				user.setPassword((String) row[2]);
 				user.setFirstName((String) row[3]);
 				user.setLastName(((String) row[4]).substring(0, 1));
-				user.setOnline(row[5] != null && row[6] == null);
+				user.setOnline(true);
 				
 				users.add(user);
 			}

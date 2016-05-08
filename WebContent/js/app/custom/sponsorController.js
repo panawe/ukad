@@ -47,13 +47,11 @@
      * Start select Sponsor
      * 
      */
-          $scope.selectSponsor = function(aSponsor) {
-        	  
-        	  $scope.theSponsor = aSponsor;
-        	  
-        	  
+          $scope.selectSponsor = function(aSponsor) {        	  
+        	  $scope.theSponsor = aSponsor; 
         	  $scope.sponsorSelected = true;
-              $log.info($scope.theSponsor.status); 
+        	  $log.info("$scope.sponsorSelected= "+$scope.sponsorSelected); 
+             // $log.info($scope.theSponsor.status); 
              	  	              
           };
 	 /**
