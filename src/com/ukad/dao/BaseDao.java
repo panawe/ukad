@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ukad.model.BaseEntity;
+import com.ukad.model.Configuration;
 import com.ukad.model.News;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.User;
@@ -67,5 +68,7 @@ public interface BaseDao {
 	public List<YearlySummary> getYearlySmry();
 
 	public List<BaseEntity> loadAllByColumn(Class cl, String columnName, Integer columnValue);
+
+	public Configuration getConfig(String prop);
 
 }

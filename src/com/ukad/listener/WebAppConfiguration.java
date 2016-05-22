@@ -59,15 +59,15 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 
 		/*	
-		 dataSource.setUrl("jdbc:mysql://127.8.74.2:3306/agwe")	;	 
-		 dataSource.setUsername("admincP1ajAb");
-		 dataSource.setPassword("LjEdcY-5nevb");
-		 
-*/
-		 
-		  dataSource.setUrl("jdbc:mysql://localhost:3306/assogabon");
+		 dataSource.setUrl("jdbc:mysql://569b062789f5cf15b600002a-esoftsystems.rhcloud.com:55136/ukad")	;	 
+		 dataSource.setUsername("adminNS2PNM8");
+		 dataSource.setPassword("FijgbfVYcX7m");
+
+		 */
+		  dataSource.setUrl("jdbc:mysql://localhost:3306/ukad");
 		  dataSource.setUsername("root"); 
 		  dataSource.setPassword("admin");
+		  
 		 
 		Properties connectionProperties = new Properties();
 		connectionProperties.setProperty("defaultTransactionIsolation", "2");
@@ -92,7 +92,7 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 		sessionBuilder.scanPackages("com.ukad.model");
 		sessionBuilder.scanPackages("com.ukad.security.model");
-		sessionBuilder.setProperty("hibernate.show_sql", "true");
+		sessionBuilder.setProperty("hibernate.show_sql", "false");
 		sessionBuilder.setProperty("checkWriteOperations", "false");
 		sessionBuilder.setProperty("flushMode", "COMMIT");
 		return sessionBuilder.buildSessionFactory();

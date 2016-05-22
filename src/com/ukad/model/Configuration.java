@@ -22,12 +22,23 @@ public class Configuration extends BaseEntity {
 	@Column(name = "VALUE")
 	private String value;
 	
+	@Column(name = "DATA_TYPE")
+	private String dataType;
+	
 	@Column(name = "DESCRIPTION")
 	private String description;
  
 	@Override
 	public Long getId() {
 		return id;
+	}
+
+	public String getDataType() {
+		return dataType;
+	}
+
+	public void setDataType(String dataType) {
+		this.dataType = dataType;
 	}
 
 	public void setId(Long id) {

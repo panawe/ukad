@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ukad.dao.BaseDao;
 import com.ukad.model.BaseEntity;
+import com.ukad.model.Configuration;
 import com.ukad.model.News;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.Roles;
@@ -223,5 +224,11 @@ public class BaseServiceImpl implements BaseService {
 	@Override
 	public List<BaseEntity> loadAllByColumn(Class cl, String columnName, Integer columnValue) {
 		return baseDao.loadAllByColumn(cl, columnName, columnValue);
+	}
+
+	@Override
+	public Configuration getConfig(String prop) {
+		// TODO Auto-generated method stub
+		return baseDao.getConfig(prop);
 	}
 }

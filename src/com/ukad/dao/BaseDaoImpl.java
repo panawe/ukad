@@ -20,6 +20,7 @@ import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.ukad.model.BaseEntity;
+import com.ukad.model.Configuration;
 import com.ukad.model.News;
 import com.ukad.security.model.Contribution;
 import com.ukad.security.model.Menu;
@@ -374,6 +375,12 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport imple
 		}
 
 		return yss;
+	}
+
+	@Override
+	public Configuration getConfig(String prop) {
+		// TODO Auto-generated method stub
+		return  (Configuration) findByColumn(Configuration.class,"name",prop);
 	}
 
 }

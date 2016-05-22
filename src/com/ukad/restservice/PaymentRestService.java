@@ -300,9 +300,9 @@ public class PaymentRestService {
 						"				</div> <br>                                                                  "+
 						"				<div class=\"col-xs-6 text-right\">                                      "+
 						"					<address>                                                            "+
-						"						<strong>En faveur de:</strong><br> Association des               "+
-						"						Gabonais de Washington, D.C et ses Environs (A.G.W.E). <br>      "+
-						"						1234 Main<br> Washington DC, DC 54321                            "+
+						"						<strong>En faveur de:</strong><br>                "+
+						paymentService.getConfig("ORG_NAME").getValue()+" <br>      "+
+						paymentService.getConfig("ORG_ADDRESS").getValue()+
 						"					</address>                                                           "+
 						"				</div>                                                                   "+
 						"			</div>    <br>                                                                   "+
@@ -323,10 +323,9 @@ public class PaymentRestService {
 						"		</div>                                                                           "+
 						"	</div>                                                                               ";
 
-				
-				SimpleMail.sendMail("Merci pour votre Don de $"+ph.getAmount()+" a A.G.W.E", mail,
-						"agwedc@gmail.com", ph.getEmail(), "smtp.gmail.com", "agwedc@gmail.com",
-						"agwedc123");
+				SimpleMail.sendMail("Merci pour votre Don de $"+ph.getAmount()+" a "+paymentService.getConfig("ORG_NAME").getValue(), mail,
+						paymentService.getConfig("ORG_EMAIL").getValue(), ph.getEmail(), paymentService.getConfig("ORG_SMTP").getValue(), paymentService.getConfig("ORG_EMAIL").getValue(),
+						paymentService.getConfig("ORG_EMAIL_PASSWORD").getValue());
 
 			} catch (Exception e) {
 				LOGGER.error(e);
@@ -442,9 +441,9 @@ public class PaymentRestService {
 						"				</div> <br>                                                              "+
 						"				<div class=\"col-xs-6 text-right\">                                      "+
 						"					<address>                                                            "+
-						"						<strong>En faveur de:</strong><br> Association des               "+
-						"						Gabonais de Washington, D.C et ses Environs (A.G.W.E). <br>      "+
-						"						1234 Main<br> Washington DC, DC 54321                            "+
+						"						<strong>En faveur de:</strong><br>               "+
+						paymentService.getConfig("ORG_NAME").getValue()+" <br>      "+
+						paymentService.getConfig("ORG_ADDRESS").getValue()+
 						"					</address>                                                           "+
 						"				</div>                                                                   "+
 						"			</div>    <br>                                                               "+
@@ -466,9 +465,9 @@ public class PaymentRestService {
 						"	</div>                                                                               ";
 
 				
-				SimpleMail.sendMail("Merci d'avoir paye vos frais de membre annuel de "+ph.getAmount()+" a A.G.W.E", mail,
-						"agwedc@gmail.com", ph.getEmail(), "smtp.gmail.com", "agwedc@gmail.com",
-						"agwedc123");
+				SimpleMail.sendMail("Merci d'avoir paye vos frais de membre annuel de "+ph.getAmount()+" a "+paymentService.getConfig("ORG_NAME").getValue(), mail,
+						paymentService.getConfig("ORG_EMAIL").getValue(), ph.getEmail(), paymentService.getConfig("ORG_SMTP").getValue(), paymentService.getConfig("ORG_EMAIL").getValue(),
+						paymentService.getConfig("ORG_EMAIL_PASSWORD").getValue());
 
 			} catch (Exception e) {
 				LOGGER.error(e);

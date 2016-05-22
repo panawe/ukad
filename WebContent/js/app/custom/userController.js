@@ -355,7 +355,7 @@
 																		data);
 														$scope.theUser = data;
 														$log.info($scope);
-														if($scope.theUser.fee>0.0){
+														if($scope.theUser.directToPayFee){
 															$scope.theUser.status=0;
 															$window.location.href="http://localhost:8080/ukadtogo/#/pages/fees";
 														}
