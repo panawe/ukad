@@ -1,201 +1,262 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app" 
+<html lang="en" ng-app="app"
 	class="st-layout ls-top-navbar ls-bottom-footer show-sidebar sidebar-l2">
 
 <head>
-<meta charset="utf-8">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>U.K.A.D - Togo e.V</title>
+<title>Association des Gabonais de Washington, D.C et ses
+	Environs (A.G.W.E).</title>
 <!-- my Custom script comes here me -->
 <link href="css/vendor/all.css" rel="stylesheet">
 
 <link href="css/app/app.css" rel="stylesheet">
 
 <link href="js/vendor/textAngular/textAngular.css" rel="stylesheet">
-<link href="js/vendor/calendar-master/css/angular-bootstrap-calendar.min.css" rel="stylesheet">
+<link
+	href="js/vendor/calendar-master/css/angular-bootstrap-calendar.min.css"
+	rel="stylesheet">
 
 </head>
 
 <body>
 
-	<!-- Fixed navbar -->
-	<div ng-controller="userCtrl"
-		class="navbar navbar-main navbar-skin-cover navbar-static-top navbar-absolute-top navbar-size-large"
-		role="navigation">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed"
-					data-toggle="collapse" data-target="#main-nav">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#/"><img
-							src="images/logo.gif" alt="" height="100%" /></a>
-			</div>
+	<div class="st-container">
 
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" id="main-nav">
-				<ul class="nav navbar-nav">
-					<li class="dropdown active"><a href="#"
-						class="dropdown-toggle" data-toggle="dropdown">Notre
-							association <span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu">
-							<li class="dropdown-header">U.K.A.D Togo e.V</li>
-							<li class="active"><a href="#pages/statuts">Nos Status</a></li>
-							<li><a href="#pages/reglements">Nos Reglements
-									Interieurs</a></li>
-							<li><a href="#pages/membres">Nos
-									Membres</a></li>
-						</ul></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown">Activites <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li class="dropdown-header">Activites</li>
-							<li><a  href="#pages/projectsEndUser">Nos Realisations</a></li>
-							<li><a  href="#pages/eventCalendar">Calendrier des
-									Evenements</a></li>
-							<li><a href="#pages/meetings">Rapports de Reunions</a></li>
-						</ul></li>
-				</ul>
-				<form class="navbar-form navbar-left margin-none"
-					ng-submit="findMembers()">
-					<div class="search-1">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="icon-search"></i></span>
-							<input ng-model="searchText" type="text"
-								class="form-control form-control-w-250"
-								placeholder="Rechercher un membre ...">
+		<!-- Fixed navbar -->
+		<div ng-controller="userCtrl"
+			class="navbar navbar-main navbar-skin-cover navbar-static-top navbar-absolute-top navbar-size-large"
+			role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#main-nav">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#/"><img src="images/logo.png"
+						alt="" height="100%" /></a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="main-nav">
+					<ul class="nav navbar-nav">
+						<li class="dropdown active"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown">Notre
+								association <span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-header">A.G.W.E</li>
+								<li class="active"><a href="#pages/statuts">Nos Status</a></li>
+								<li><a href="#pages/reglements">Nos Reglements
+										Interieurs</a></li>
+								<li><a href="#pages/membres">Nos Membres</a></li>
+							</ul></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">Activites <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li class="dropdown-header">Activites</li>
+								<li><a href="#pages/projectsEndUser">Nos Realisations</a></li>
+								<li><a href="#pages/eventCalendar">Calendrier des
+										Evenements</a></li>
+								<li><a href="#pages/meetings">Rapports de Reunions</a></li>
+							</ul></li>
+					</ul>
+					<form class="navbar-form navbar-left margin-none"
+						ng-submit="findMembers()">
+						<div class="search-1">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="icon-search"></i></span>
+								<input ng-model="searchText" type="text"
+									class="form-control form-control-w-250"
+									placeholder="Rechercher un membre ...">
+							</div>
 						</div>
-					</div>
-				</form>
-				<ul class="nav navbar-nav navbar-right">
-					<!-- Login -->
+					</form>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="hidden-xs"><a href="#sidebar-chat"
+							data-toggle="sidebar-menu"> <i class="fa fa-users"></i> <span
+								ng-controller="refreshCtrl" class="badge badge-primary">::guestCount::</span>
+						</a></li>
+						<!-- Login -->
 
-					<li class="dropdown" ng-show="!theUser.id>0" ng-cloak><a
-						href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
-							class="fa fa-fw fa-lock"></i> Connexion
-					</a>
-						<div class="dropdown-menu dropdown-size-280">
-							<form role="form" ng-submit="login()">
-								<div class="alert alert-danger" ng-show="failedLogin">
-									<button type="button" class="close" data-dismiss="alert">
-										<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-									</button>
-									Nom d'utilisateur/mot de passe invalide.
-								</div>
-								<div class="form-group">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-user"></i></span>
-										<input type="email" class="form-control"
-											placeholder="Address E-mail" ng-model="userName">
+						<li class="dropdown" ng-show="!theUser.id>0" ng-cloak><a
+							href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
+								class="fa fa-fw fa-lock"></i> Connexion
+						</a>
+							<div class="dropdown-menu dropdown-size-280">
+								<form role="form" ng-submit="login()">
+									<div class="alert alert-danger" ng-show="failedLogin">
+										<button type="button" class="close" data-dismiss="alert">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+										</button>
+										Nom d'utilisateur/mot de passe invalide.
 									</div>
-								</div>
-								<div class="form-group">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-shield"></i></span>
-										<input type="password" class="form-control"
-											placeholder="Mot de passe" ng-model="password">
-									</div>
-								</div>
-
-								<div class="text-right">
-									<button type="submit" class="btn btn-primary">
-										Connexion <i class="fa fa-sign-in"></i>
-									</button>
-								</div>
-							</form>
-						</div></li>
-
-
-					<!-- // END login -->
-					<!-- Sign up -->
-					<li class="dropdown" ng-show="!theUser.id>0" ng-cloak><a
-						href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
-							class="fa fa-fw fa-plus"></i> Devenir Membre
-					</a>
-						<div class="dropdown-menu dropdown-size-280">
-							<form role="form" ng-submit="createUser()">
-								<div class="row">
-									<div class="col-md-6">
-										<div class="form-group form-control-default">
-											<label for="exampleInputFirstName">Prenom</label> <input
-												ng-model="newUser.firstName" type="text"
-												class="form-control" id="exampleInputFirstName"
-												placeholder="Your first name">
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-user"></i></span>
+											<input type="email" class="form-control"
+												placeholder="Address E-mail" ng-model="userName">
 										</div>
 									</div>
-									<div class="col-md-6">
-										<div class="form-group form-control-default">
-											<label for="exampleInputLastName">Nom</label> <input
-												ng-model="newUser.lastName" type="text" class="form-control"
-												id="exampleInputLastName" placeholder="Your last name">
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon"><i
+												class="fa fa-shield"></i></span> <input type="password"
+												class="form-control" placeholder="Mot de passe"
+												ng-model="password">
 										</div>
 									</div>
-								</div>
-								<div class="form-group form-control-default required">
-									<label for="exampleInputEmail1">Addresse Email</label> <input
-										ng-model="newUser.email" type="email" class="form-control"
-										id="exampleInputEmail1" placeholder="Enter email">
-								</div>
-								<div class="form-group form-control-default required">
-									<label for="exampleInputPassword1">Mot de passe</label> <input
-										ng-model="newUser.password" type="password"
-										class="form-control" id="exampleInputPassword1"
-										placeholder="Password">
-								</div>
-								<button type="submit" class="btn btn-primary">Enregistrer</button>
-							</form>
-						</div></li>
 
-					<!-- // END sign up -->
-					<!-- user -->
+									<div class="text-right">
+										<button type="submit" class="btn btn-primary">
+											Connexion <i class="fa fa-sign-in"></i>
+										</button>
+									</div>
+								</form>
+							</div></li>
 
-					<li class="dropdown user" ng-show="theUser.id>0" ng-cloak><a
-						href="#" class="dropdown-toggle" data-toggle="dropdown"> <img
-							src="images/members/::theUser.id::.jpg" alt="" class="img-circle" />::theUser.firstName
-							+' '+theUser.lastName::<span class="caret"></span>
-					</a>
-						<ul class="dropdown-menu" role="menu" ng-show="theUser.id>0">
-							<li><a href="#pages/profile"><i class="fa fa-user"></i>Profile</a></li>
-							<li ng-show="theUser.canApprove && theUser.status==1"><a href="#pages/events"><i
-									class="fa fa-wrench"></i>Evenement</a></li>
-							<li ng-show="theUser.status==1"><a href="#pages/email"><i
-									class="fa fa-wrench"></i>Annonces</a></li>
-							<li ng-show="theUser.canApprove && theUser.status==1"><a
-								href="#pages/approveMembers"><i
-									class="fa fa-wrench"></i>Approver les membres</a></li>
-							<li ng-show="theUser.status==1"><a
-								href="#pages/cotiser"><i
-									class="fa fa-wrench"></i>Cotisation</a></li>
-							<li ng-show="theUser.canApprove && theUser.status==1"><a
-								href="#pages/projects" ><i
-									class="fa fa-wrench"></i>Projets</a></li>
-							<li><a href="#/" ng-click="logout()"><i
-									class="fa fa-sign-out"></i>Deconnexion</a></li>
-						</ul></li>
 
-					<!-- // END user -->
-				</ul>
+						<!-- // END login -->
+						<!-- Sign up -->
+						<li class="dropdown" ng-show="!theUser.id>0" ng-cloak><a
+							href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
+								class="fa fa-fw fa-plus"></i> Devenir Membre
+						</a>
+							<div class="dropdown-menu dropdown-size-280">
+								<form role="form" ng-submit="createUser()">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group form-control-default">
+												<label for="exampleInputFirstName">Prenom</label> <input
+													ng-model="newUser.firstName" type="text"
+													class="form-control" id="exampleInputFirstName"
+													placeholder="Your first name">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group form-control-default">
+												<label for="exampleInputLastName">Nom</label> <input
+													ng-model="newUser.lastName" type="text"
+													class="form-control" id="exampleInputLastName"
+													placeholder="Your last name">
+											</div>
+										</div>
+									</div>
+									<div class="form-group form-control-default required">
+										<label for="exampleInputEmail1">Addresse Email</label> <input
+											ng-model="newUser.email" type="email" class="form-control"
+											id="exampleInputEmail1" placeholder="Enter email">
+									</div>
+									<div class="form-group form-control-default required">
+										<label for="exampleInputPassword1">Mot de passe</label> <input
+											ng-model="newUser.password" type="password"
+											class="form-control" id="exampleInputPassword1"
+											placeholder="Password">
+									</div>
+									<button type="submit" class="btn btn-primary">Enregistrer</button>
+								</form>
+							</div></li>
+
+						<!-- // END sign up -->
+						<!-- user -->
+
+						<li class="dropdown user" ng-show="theUser.id>0" ng-cloak><a
+							href="#" class="dropdown-toggle" data-toggle="dropdown"> <img
+								src="images/members/::theUser.id::.jpg" alt=""
+								class="img-circle" />::theUser.firstName +'
+								'+theUser.lastName::<span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu" role="menu" ng-show="theUser.id>0">
+								<li><a href="#pages/profile"><i class="fa fa-user"></i>Profile</a></li>
+								<li ng-show="theUser.canApprove && theUser.status==1"><a
+									href="#pages/events"><i class="fa fa-wrench"></i>Evenement</a></li>
+								<li ng-show="theUser.status==1"><a href="#pages/email"><i
+										class="fa fa-wrench"></i>Nouvelles</a></li>
+								<li ng-show="theUser.canApprove && theUser.status==1"><a
+									href="#pages/approveMembers"><i class="fa fa-wrench"></i>Approver
+										les membres</a></li>
+								<li ng-show="theUser.status==1"><a href="#pages/cotiser"><i
+										class="fa fa-wrench"></i>Cotisation</a></li>
+								<li ng-show="theUser.canApprove && theUser.status==1"><a
+									href="#pages/projects"><i class="fa fa-wrench"></i>Projets</a></li>
+								<li ng-show="theUser.canApprove && theUser.status==1"><a
+									href="#pages/sponsors"><i class="fa fa-wrench"></i>Sponsors</a></li>
+								<li ng-show="theUser.canApprove && theUser.status==1"><a
+									href="#pages/announces"><i class="fa fa-wrench"></i>Annonces</a></li>
+								<li ng-show="theUser.canApprove && theUser.status==1"><a
+									href="#pages/weblinks"><i class="fa fa-wrench"></i>Liens</a></li>
+								<li><a href="#/" ng-click="logout()"><i
+										class="fa fa-sign-out"></i>Deconnexion</a></li>
+							</ul></li>
+
+						<!-- // END user -->
+
+
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+
 			</div>
-			<!-- /.navbar-collapse -->
+
 
 		</div>
+
+		<div class="row">
+
+
+			<div ui-view class="ui-view-main"></div>
+
+
+
+		</div>
+		<!-- Footer -->
+
+		<!-- Sidebar component with st-effect-1 (set on the toggle button within the navbar) -->
+		<div ng-controller="refreshCtrl"
+			class="sidebar sidebar-chat right sidebar-size-2 sidebar-offset-0 chat-skin-white"
+			id=sidebar-chat>
+			<div class="split-vertical">
+				<div class="chat-search">
+					<input type="text" class="form-control" placeholder="Search" />
+				</div>
+
+				<div class="split-vertical-body">
+					<div class="split-vertical-cell">
+						<div data-scrollable>
+							<ul class="chat-contacts">
+								<li class="online" data-user-id="1"
+									ng-repeat="onlineMember in onlineMembers"><a href="#">
+										<div class="media">
+											<div class="pull-left">
+												<span class="status"></span> <img
+													src="images/members/::onlineMember.id::.jpg" width="40"
+													class="img-circle" />
+											</div>
+											<div class="media-body">
+												<div class="contact-name">::onlineMember.firstName::
+													::onlineMember.lastName::</div> 
+											</div>
+										</div>
+								</a></li>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="footer">
+			<div ng-include="'pages/footer.html'">
+		</footer>
+		<!-- // Footer -->
 	</div>
-
-	<div ui-view class="ui-view-main"></div>
-	<!-- Footer -->
-
-	
-	<footer class="footer" >
-	<div ng-include="'pages/footer.html'">		
-	</footer>
-	<!-- // Footer -->
-
 	<!-- Inline Script for colors and config objects; used by various external scripts; -->
 	<script>
 		var colors = {
@@ -219,10 +280,10 @@
 				}
 			}
 		};
-		
-		var openInNewTab = function(link){
-            $window.open(link, '_blank');
-        };
+
+		var openInNewTab = function(link) {
+			$window.open(link, '_blank');
+		};
 	</script>
 	<script src="js/vendor/all.js"></script>
 	<!-- Vendor Scripts Standalone Libraries -->
@@ -270,9 +331,11 @@
 	<script src="js/vendor/textAngular/textAngular-sanitize.min.js"></script>
 	<script src="js/vendor/textAngular/textAngular.min.js"></script>
 	<!-- Start - These imports are for the calendar -->
-	<script src="js/vendor/calendar-master/js/angular-bootstrap-calendar-tpls.min.js"></script>
+	<script
+		src="js/vendor/calendar-master/js/angular-bootstrap-calendar-tpls.min.js"></script>
 	<script src="js/vendor/calendar-master/js/moment.js"></script>
-	<script src="js/vendor/calendar-master/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+	<script
+		src="js/vendor/calendar-master/js/ui-bootstrap-tpls-0.14.3.min.js"></script>
 	<script src="js/vendor/calendar-master/js/angular-animate.min.js"></script>
 	<!-- End - These imports are for the calendar -->
 	<script src="js/app/app.js"></script>
@@ -280,7 +343,11 @@
 	<script src="js/app/custom/userController.js"></script>
 	<script src="js/app/custom/eventController.js"></script>
 	<script src="js/app/custom/projectController.js"></script>
-
+	<script src="js/app/custom/refreshController.js"></script>
+	<script src="js/app/custom/sidebarController.js"></script>
+	<script src="js/app/custom/sponsorController.js"></script>
+	<script src="js/app/custom/announceController.js"></script>
+	<script src="js/app/custom/weblinkController.js"></script>
 </body>
 
 </html>

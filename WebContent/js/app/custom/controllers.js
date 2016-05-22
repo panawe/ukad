@@ -81,6 +81,17 @@
            * Start Logout
            */
     $scope.logout=function(){
+        $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/logout' }).
+        success(function (data, status, headers, config) {
+        	$log.info("Call Successful"); 
+            $cookieStore.put('theUser',data);
+            $scope.theUser=data;
+            $log.info($scope);
+                 
+        }).error(function (data, status, headers, config) {
+            $log.info("Call Failed");
+        });
+    	
         $cookieStore.put('theUser','');
         $scope.theUser='';
         $log.info($scope);

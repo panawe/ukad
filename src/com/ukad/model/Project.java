@@ -13,60 +13,65 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name="PROJECT")
+@Table(name = "PROJECT")
 public class Project extends BaseEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="PROJECT_ID")
+	@Column(name = "PROJECT_ID")
 	private Long id;
-	
-	@Column(name="TITLE")
+
+	@Column(name = "TITLE")
 	private String title;
-	
-	@Column(name="DESCRIPTION")
+
+	@Column(name = "DESCRIPTION")
 	private String description;
-	
-	@Column(name="SPONSORS")
+
+	@Column(name = "SPONSORS")
 	private String sponsors;
 
-	@Column(name ="BUDGET")
+	@Column(name = "BUDGET")
 	private Double budget;
-	
+
 	@JsonFormat(pattern = "MM/dd/yyyy")
-	@Column(name="PROJECTED_START_DATE")
+	@Column(name = "PROJECTED_START_DATE")
 	private Date projectedStartDate;
 
 	@JsonFormat(pattern = "MM/dd/yyyy")
-	@Column(name="PROJECTED_END_DATE")
+	@Column(name = "PROJECTED_END_DATE")
 	private Date projectedEndDate;
 
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM/dd/yyyy")
-	@Column(name="START_DATE")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
+	@Column(name = "START_DATE")
 	private Date startDate;
 
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM/dd/yyyy")
-	@Column(name="END_DATE")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
+	@Column(name = "END_DATE")
 	private Date endDate;
 
-	@Column(name="STATUS")
+	@Column(name = "STATUS")
 	private Short status;
-	
+
 	@Transient
 	private boolean hasPhoto;
-	
+
 	@Transient
 	public String getStatusDescription() {
 		String desc = "";
-		if (status == 0) desc = "Pas Commencee";
-		else if (status == 1) desc = "En cours"; 
-		else if (status == 2) desc = "Annulee"; 
-		else if (status == 3) desc = "Terminee"; 
-		else if (status == 4) desc = "Reportee"; 
-		
+		if (status == 0)
+			desc = "Pas Commencee";
+		else if (status == 1)
+			desc = "En cours";
+		else if (status == 2)
+			desc = "Annulee";
+		else if (status == 3)
+			desc = "Terminee";
+		else if (status == 4)
+			desc = "Reportee";
+
 		return desc;
 	}
-	
+
 	public boolean isHasPhoto() {
 		return hasPhoto;
 	}
@@ -75,7 +80,6 @@ public class Project extends BaseEntity {
 		this.hasPhoto = hasPhoto;
 	}
 
-	
 	public String getTitle() {
 		return title;
 	}
@@ -147,7 +151,6 @@ public class Project extends BaseEntity {
 	public void setStatus(Short status) {
 		this.status = status;
 	}
-	
 
 	@Override
 	public Long getId() {
@@ -157,5 +160,5 @@ public class Project extends BaseEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 }

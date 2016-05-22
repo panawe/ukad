@@ -15,11 +15,10 @@ public interface UserService extends BaseService {
 
 	public User getUser(String nom, String password);
 
-	public void savePickedList(Long loginId, Long userId,
-		   List<Long> availableItemKeys, List<Long> selectedItemKeys);
-	
+	public void savePickedList(Long loginId, Long userId, List<Long> availableItemKeys, List<Long> selectedItemKeys);
+
 	public List<Menu> getSubMenus(Long parentId);
-	
+
 	public List<Long> getRolesIdsForUser(Long idParameter, Class<User> class1);
 
 	public List<Roles> getAllRoles();
@@ -27,6 +26,7 @@ public interface UserService extends BaseService {
 	public void add(User user);
 
 	public List<User> loadAllMembers();
+
 	public List<User> loadAllMembersPending();
 
 	public List<User> findMembers(String searchText);
@@ -36,4 +36,6 @@ public interface UserService extends BaseService {
 	public List<Transaction> getAllExpenses();
 
 	public List<Contribution> getContributions();
+	
+	public List<User> loadAllMembersWithOnlineStatus();
 }

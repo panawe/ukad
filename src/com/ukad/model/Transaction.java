@@ -1,4 +1,9 @@
 package com.ukad.model;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,44 +12,58 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import com.ukad.security.model.User;
+import com.ukad.model.PaymentHistory;
 
 @Entity
-@Table(name="TRANSACTION")
+@Table(name = "TRANSACTION")
 public class Transaction extends BaseEntity {
+
+	public Transaction(){super();}
 	
+	public Transaction(PaymentHistory pay){
+		io=1;
+		amount=pay.getAmount();
+		comment=pay.getDescription();
+		rebate=0D;
+		paymentType=pay.getPaymentType();
+		user=pay.getUser();
+		Calendar c = Calendar.getInstance();     
+		year=new Date().getYear();
+		month=c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.FRANCE ) ;
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="TRANSACTION_ID")
+	@Column(name = "TRANSACTION_ID")
 	private Long id;
-	
-	@Column(name ="AMOUNT")
+
+	@Column(name = "AMOUNT")
 	private Double amount;
-	
-	@Column(name="REBATE")
+
+	@Column(name = "REBATE")
 	private Double rebate;
-	
-	@Column(name="MONTH_PAID")
+
+	@Column(name = "MONTH_PAID")
 	private String month;
-	
-	@Column(name="YEAR_PAID")
+
+	@Column(name = "YEAR_PAID")
 	private Integer year;
-	
-	@Column(name="IO")
+
+	@Column(name = "IO")
 	private Short io;
-	
-	@Column(name="COMMENT")
+
+	@Column(name = "COMMENT")
 	private String comment;
 
 	@ManyToOne
-	@JoinColumn(name="PAYMENT_TYPE_ID")
+	@JoinColumn(name = "PAYMENT_TYPE_ID")
 	private PaymentType paymentType;
-	
+
 	@ManyToOne
-	@JoinColumn(name="USER_ID")
+	@JoinColumn(name = "USER_ID")
 	private User user;
 
-	
 	public String getMonth() {
 		return month;
 	}

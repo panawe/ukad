@@ -1,69 +1,68 @@
-
-<div id="carousel-example-generic"
-	class="carousel slide cover overlay overflow-hidden max-height-100 cover-navbar-large-top margin-none"
-	data-ride="carousel">
-
-	<div class="carousel-inner" role="listbox">
-		<div class="item active">
-			<img src="images/ukad-main-min.jpg" alt="Slider" class="width-100pc">
-		</div>
-	</div>
-
-
-</div>
+<div ng-include="'pages/menubg.html'"></div>
 
 <div class="bg-white" ng-controller="projectCtrl">
+
 	<div class="container">
-
-		<div class="container">
-			<h2>Realisations</h2>
-			<p>
-				<strong>Note:</strong> Cliquez sur l'entete pour voir les details ou
-				l'album photo.
-			</p>
-			<div class="panel-group" id="accordion">
-				<div class="panel panel-default"
-					ng-repeat="aProject in projects">
-					<div class="panel-heading"
-						style="background-color: #26A69A; color: white;">
-						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion"
-								href="#::aProject.id::">::aProject.title:: |
-								::aProject.projectedStartDate|date:: - ::aProject.projectedEndDate|date::</a>
-						</h4>
-					</div>
-					<div id="::aProject.id::" class="panel-collapse collapse">
-					<div class="panel-body" escape="false">
-					 
-					<p ng-bind-html="aProject.description"></p>
-					</div>
-						<div ng-show="aProject.hasPhoto" class="panel-body">
-						
-							<div class="panel panel-default relative">
-								<div
-									class="ribbon-heading text-h5 ribbon-primary inline left absolute margin-none">::aProject.albumTag::</div>
-								<div class="cover hover overlay margin-none">
-									<img src="images/projects/::aProject.id::/::aProject.id::_1.jpg"
-										alt="location" class="img-responsive" /> <a
-										href="#pages/projectAlbum" ng-click="getProjectAlbum(aProject)"
-										class="overlay overlay-full overlay-bg-black overlay-hover">
-										<span class="v-center"> <span
-											class="btn btn-circle btn-white"><i class="fa fa-eye"></i></span>
-									</span>
-									</a>
-								</div>
-
-							</div>
+		<div class="row">
+			<div class="item col-lg-9 col-md-6 col-xs-12">
+				<h2>Realisations</h2>
+				<p>
+					<strong>Note:</strong> Cliquez sur l'entete pour voir les details
+					ou l'album photo.
+				</p>
+				<div class="panel-group" id="accordion">
+					<div class="panel panel-default" ng-repeat="aProject in projects">
+						<div class="panel-heading"
+							style="background-color: #26A69A; color: white;">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion"
+									href="#::aProject.id::">::aProject.title:: |
+									::aProject.projectedStartDate|date:: -
+									::aProject.projectedEndDate|date::</a>
+							</h4>
 						</div>
-						
+						<div id="::aProject.id::" class="panel-collapse collapse">
+							<div class="panel-body" escape="false">
+
+								<p ng-bind-html="aProject.description"></p>
+							</div>
+							<div ng-show="aProject.hasPhoto" class="panel-body">
+
+								<div class="panel panel-default relative">
+									<div
+										class="ribbon-heading text-h5 ribbon-primary inline left absolute margin-none">::aProject.albumTag::</div>
+									<div class="cover hover overlay margin-none">
+										<img
+											src="images/projects/::aProject.id::/::aProject.id::_1.jpg"
+											alt="location" class="img-responsive" /> <a
+											href="#pages/projectAlbum"
+											ng-click="getProjectAlbum(aProject)"
+											class="overlay overlay-full overlay-bg-black overlay-hover">
+											<span class="v-center"> <span
+												class="btn btn-circle btn-white"><i class="fa fa-eye"></i></span>
+										</span>
+										</a>
+									</div>
+
+								</div>
+							</div>
+
+						</div>
 					</div>
+
+
 				</div>
 
 
 			</div>
+			<div class="item col-lg-3 col-md-6 col-xs-12">
+				<div class="page-section">
+					<div ng-include="'pages/sidebar.html'"></div>
+				</div>
+			</div>
 		</div>
-
 	</div>
+	<!-- End Container -->
 
 
 	<br />
@@ -74,6 +73,6 @@
 
 
 
- 
+
 <!-- // END #content -->
 

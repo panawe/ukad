@@ -22,9 +22,8 @@ import com.ukad.security.model.User;
 import com.ukad.service.*;
 
 @Service("userService")
-//@Scope("session")
-public class UserServiceImpl extends BaseServiceImpl implements
-		UserService {
+// @Scope("session")
+public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
 	@Autowired
 	@Qualifier("userDao")
@@ -32,8 +31,7 @@ public class UserServiceImpl extends BaseServiceImpl implements
 
 	@Transactional(readOnly = true)
 	public List<Long> getRolesIdsByUser(Long userId) {
-		return userDao
-				.getRolesUserListByUser(userId);
+		return userDao.getRolesUserListByUser(userId);
 	}
 
 	@Transactional(readOnly = false)
@@ -42,21 +40,17 @@ public class UserServiceImpl extends BaseServiceImpl implements
 	}
 
 	@Transactional(readOnly = false)
-	public void savePickedList(Long loginId, Long userId,
-			List<Long> availableItemKeys, List<Long> selectedItemKeys) {
+	public void savePickedList(Long loginId, Long userId, List<Long> availableItemKeys, List<Long> selectedItemKeys) {
 		Set<RolesUser> groupUsersToAdd = new HashSet<RolesUser>();
-		//userDao.setUserId(loginId);
-		User user = (User) userDao.getById(
-				User.class, userId);
+		// userDao.setUserId(loginId);
+		User user = (User) userDao.getById(User.class, userId);
 		// load the current associations.
-		List<Long> groupIds = userDao
-				.getRolesUserListByUser(userId);
+		List<Long> groupIds = userDao.getRolesUserListByUser(userId);
 
 		// Check to see if any group get associated to the user after we
 		// retrieved our pickList.
 		for (Long groupId : groupIds) {
-			if (!(availableItemKeys.contains(groupId) || selectedItemKeys
-					.contains(groupId)))
+			if (!(availableItemKeys.contains(groupId) || selectedItemKeys.contains(groupId)))
 				selectedItemKeys.add(groupId);
 
 			if (availableItemKeys.contains(groupId))
@@ -68,13 +62,12 @@ public class UserServiceImpl extends BaseServiceImpl implements
 		}
 
 		for (Long groupId : selectedItemKeys) {
-			Roles group = (Roles) userDao.getById(Roles.class,
-					groupId);
+			Roles group = (Roles) userDao.getById(Roles.class, groupId);
 			RolesUser gu = new RolesUser();
 			gu.setRoles(group);
 			gu.setUser(user);
 
-			userDao.update(gu,user);
+			userDao.update(gu, user);
 		}
 	}
 
@@ -82,17 +75,17 @@ public class UserServiceImpl extends BaseServiceImpl implements
 		// TODO Auto-generated method stub
 		return userDao.getSubMenus(parentId);
 	}
-	
 
 	public List<Long> getGroupeIdsByUser(Long utilisateurId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Transactional(readOnly = false)
 	public void add(User user) {
 		// TODO Auto-generated method stub
-		if(user.getPosition()==null){
-			user.setPosition((Position) getById(Position.class,1L));
+		if (user.getPosition() == null) {
+			user.setPosition((Position) getById(Position.class, 1L));
 		}
 		userDao.save(user);
 	}
@@ -143,4 +136,8 @@ public class UserServiceImpl extends BaseServiceImpl implements
 		return userDao.getContributions();
 	}
 
+	@Override
+	public List<User> loadAllMembersWithOnlineStatus() {
+		return userDao.loadAllUsersWithOnlineStatus();
+	}
 }

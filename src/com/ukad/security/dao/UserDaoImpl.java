@@ -1,8 +1,15 @@
 package com.ukad.security.dao;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -10,9 +17,12 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.stereotype.Repository;
 
 import com.ukad.dao.BaseDaoImpl;
+import com.ukad.model.BaseEntity;
+import com.ukad.model.Configuration;
 import com.ukad.model.Transaction;
 import com.ukad.security.model.RolesUser;
 import com.ukad.security.model.Menu;
@@ -71,10 +81,12 @@ public class UserDaoImpl extends BaseDaoImpl {
 		if (list.size() > 0) {
 
 			user = (User) list.get(0);
-			/*
-			 * for (RolesUser gu : user.getRolesUser()) { ;
-			 * Hibernate.initialize(gu.getRoles().getRolesMenus()); }
-			 */
+			
+			Configuration be= (Configuration) findByColumn(Configuration.class,"name","ANNUAL_FEE");
+			if(user.getMembershipRenewDate()==null||user.getMembershipRenewDate().before(new Date())){
+				 user.setFee(new Double(be.getValue()));
+				 user.setStatus((short) 0);
+			}
 		}
 
 		return user;
@@ -87,6 +99,35 @@ public class UserDaoImpl extends BaseDaoImpl {
 		List l = getHibernateTemplate().findByCriteria(crit);
 
 		return l;
+	}
+	
+	public List<User> loadAllUsersWithOnlineStatus() {
+		final String sql = "SELECT DISTINCT  U.USER_ID, U.USER_NAME, U.PASSWORD, U.FIRST_NAME, U.LAST_NAME FROM USERS U INNER JOIN SESSION_HISTORY SH ON "
+				+ "SH.USER_ID = U.USER_ID WHERE SH.END_DATE IS NULL AND SH.BEGIN_DATE > "
+				+ "DATE_SUB(CURDATE(), INTERVAL 1 DAY) ORDER BY U.FIRST_NAME, U.LAST_NAME ";
+		
+		Session session = getHibernateTemplate().getSessionFactory().openSession();
+		Query query = session.createSQLQuery(sql);
+
+		List<Object[]> objects = query.list();
+
+		List<User> users = new ArrayList<User>();
+		
+		if(objects!=null){
+			for(Object[] row : objects){
+				User user = new User();
+				user.setId(((BigInteger) row[0]).longValue());
+				user.setUserName((String) row[1]);
+				user.setPassword((String) row[2]);
+				user.setFirstName((String) row[3]);
+				user.setLastName(((String) row[4]).substring(0, 1));
+				user.setOnline(true);
+				
+				users.add(user);
+			}
+		}
+				
+		return users;
 	}
 
 	public List<User> loadAllMembersPending() {
@@ -104,17 +145,17 @@ public class UserDaoImpl extends BaseDaoImpl {
 			DetachedCriteria crit = DetachedCriteria.forClass(User.class);
 			String ab[] = searchText.split(" ");
 			if (ab.length == 1) {
-				Criterion c1 = Restrictions.like("firstName", "%"+searchText.toLowerCase()+"%").ignoreCase();
-				Criterion c2 = Restrictions.like("lastName", "%"+searchText.toLowerCase()+"%").ignoreCase();
+				Criterion c1 = Restrictions.like("firstName", "%" + searchText.toLowerCase() + "%").ignoreCase();
+				Criterion c2 = Restrictions.like("lastName", "%" + searchText.toLowerCase() + "%").ignoreCase();
 				Criterion c3 = Restrictions.eq("status", (short) 1);
 				crit.add(Restrictions.or(c1, c2));
 				crit.add(Restrictions.and(c3));
 				return (List<User>) getHibernateTemplate().findByCriteria(crit);
 			} else {// take first 2
-				Criterion c1 = Restrictions.like("firstName", "%"+ab[0].toLowerCase()+"%").ignoreCase();
-				Criterion c2 = Restrictions.like("lastName", "%"+ab[1].toLowerCase()+"%").ignoreCase();
-				Criterion c3 = Restrictions.like("firstName", "%"+ab[1].toLowerCase()+"%").ignoreCase();
-				Criterion c4 = Restrictions.like("lastName", "%"+ab[0].toLowerCase()+"%").ignoreCase();
+				Criterion c1 = Restrictions.like("firstName", "%" + ab[0].toLowerCase() + "%").ignoreCase();
+				Criterion c2 = Restrictions.like("lastName", "%" + ab[1].toLowerCase() + "%").ignoreCase();
+				Criterion c3 = Restrictions.like("firstName", "%" + ab[1].toLowerCase() + "%").ignoreCase();
+				Criterion c4 = Restrictions.like("lastName", "%" + ab[0].toLowerCase() + "%").ignoreCase();
 				Criterion c5 = Restrictions.eq("status", (short) 1);
 				crit.add(Restrictions.or(c1, c2, c3, c4));
 				crit.add(Restrictions.and(c5));
@@ -139,5 +180,4 @@ public class UserDaoImpl extends BaseDaoImpl {
 		List l = getHibernateTemplate().findByCriteria(crit);
 		return l;
 	}
-
 }

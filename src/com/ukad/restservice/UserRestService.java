@@ -2,11 +2,14 @@ package com.ukad.restservice;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,11 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ukad.listener.MySessionListener;
 import com.ukad.model.Event;
 import com.ukad.model.Mail;
 import com.ukad.model.Transaction;
 import com.ukad.security.model.Contribution;
 import com.ukad.security.model.Search;
+import com.ukad.security.model.SessionHistory;
 import com.ukad.security.model.User;
 import com.ukad.security.model.YearlySummary;
 import com.ukad.security.service.UserService;
@@ -36,30 +41,102 @@ public class UserRestService {
 	@Autowired
 	UserService userService;
 	@Autowired
+	MySessionListener mySessionListener;
+	@Autowired
 	ServletContext context;
+	@Autowired
+	private HttpServletRequest request;
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody User login(@RequestBody User user) {
 		System.out.println("User Login :" + user);
-		return userService.getUser(user.getUserName(), user.getPassword());
+		user = userService.getUser(user.getUserName(), user.getPassword());
+		
+		if (user != null) {
+			Long sessionHistoryId = (Long)request.getSession().getAttribute("sessionHistoryId");
+			if (sessionHistoryId == null)
+				addGuestCount();
+			sessionHistoryId = (Long)request.getSession().getAttribute("sessionHistoryId");
+			
+			request.getSession().setAttribute("userId", user.getId());
+			if (sessionHistoryId != null) {
+				SessionHistory sh = (SessionHistory) userService.getById(SessionHistory.class, sessionHistoryId);
+				sh.setUser(user);
+				userService.update(sh, user);	
+			}		}
+		
+		return user;
+	}
+
+	
+	@RequestMapping(value = "/addGuestCount", method = RequestMethod.POST, headers = "Accept=application/json")
+	public void addGuestCount() {
+		MySessionListener.sessions.add(request.getSession().getId());
+		
+		SessionHistory sessionHistory = new SessionHistory();
+		sessionHistory.setBeginDate(new Date());
+		sessionHistory.setUser(null);
+		sessionHistory.setSessionId(request.getSession().getId());
+		sessionHistory.setHostIp(request.getRemoteAddr());
+		sessionHistory.setHostName(request.getRemoteHost());
+		sessionHistory.setLanguage(request.getLocalName());
+		sessionHistory.setOsuser(request.getRemoteUser());
+		sessionHistory.setBrowser(request.getHeader("User-Agent"));
+		userService.save(sessionHistory);
+		
+		request.getSession().setAttribute("sessionHistoryId", sessionHistory.getId());	
+	}
+	
+	
+	@RequestMapping(value = "/getGuestCount", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody Long getGuestCount() {
+		return (long) MySessionListener.sessions.size();
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody Boolean logout() {
+		System.out.println("User Logout :" + request.getSession().getAttribute("userId"));
+
+		mySessionListener.sessionDestroyed(request);
+		
+		request.getSession().setAttribute("userId", null);
+		request.getSession().setAttribute("sessionHistoryId", null);
+		
+		return true;
+	}
+	
+	@RequestMapping(value = "/getMessagingUsers", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<User> getMessagingUsers() {
+		
+		List<User> members = userService.loadAllMembersWithOnlineStatus();
+		
+		return members;
 	}
 
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody User createUser(@RequestBody User user) {
 		user.setUserName(user.getEmail());
 		user.setMembershipDate(new Date());
+
+		Calendar date = new GregorianCalendar();
+		date.set(Calendar.HOUR_OF_DAY, 0);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+		
+		user.setMembershipRenewDate(date.getTime());
 		userService.add(user);
 		System.out.println("User Created:" + user);
 		try {
 			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV bien recue", mail, "ukadtogo@gmail.com",
-					user.getEmail(), "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
+			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV bien recue", mail, "agwedc@gmail.com",
+					user.getEmail(), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
 
 			mail = "<blockquote><h2><b>Nom: " + user.getLastName() + "</b></h2><h2><b>Prenom:" + user.getFirstName()
 					+ "</b></h2><h2><b>E-mail:" + user.getEmail()
-					+ "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.ukadtogo.com \" target=\"\">www.ukadtogo.com </a></b></div></blockquote>";
+					+ "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.agwedc.com \" target=\"\">www.agwedc.com </a></b></div></blockquote>";
 			SimpleMail.sendMail("Demand d'adhesion de " + user.getFirstName() + " " + user.getLastName(), mail,
-					"ukadtogo@gmail.com", "ukadtogo@gmail.com", "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
+					"agwedc@gmail.com", "agwedc@gmail.com", "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -68,26 +145,30 @@ public class UserRestService {
 
 		return userService.getUser(user.getUserName(), user.getPassword());
 	}
-	
-	
+
 	@RequestMapping(value = "/makePayment", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody String makePayment(@RequestBody Transaction tran) {
 		System.out.println("makePayment called:" + tran);
-		
-		
+
 		try {
 			userService.save(tran);
 			/*
-			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV bien recue", mail, "ukadtogo@gmail.com",
-					user.getEmail(), "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
-
-			mail = "<blockquote><h2><b>Nom: " + user.getLastName() + "</b></h2><h2><b>Prenom:" + user.getFirstName()
-					+ "</b></h2><h2><b>E-mail:" + user.getEmail()
-					+ "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.ukadtogo.com \" target=\"\">www.ukadtogo.com </a></b></div></blockquote>";
-			SimpleMail.sendMail("Demand d'adhesion de " + user.getFirstName() + " " + user.getLastName(), mail,
-					"ukadtogo@gmail.com", "ukadtogo@gmail.com", "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
-					*/
+			 * String mail =
+			 * "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>"
+			 * ; SimpleMail.sendMail(
+			 * "Votre demande d'adhesion a UKAD eV bien recue", mail,
+			 * "agwedc@gmail.com", user.getEmail(), "smtp.gmail.com",
+			 * "agwedc@gmail.com", "agwedc123");
+			 * 
+			 * mail = "<blockquote><h2><b>Nom: " + user.getLastName() +
+			 * "</b></h2><h2><b>Prenom:" + user.getFirstName() +
+			 * "</b></h2><h2><b>E-mail:" + user.getEmail() +
+			 * "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.agwedc.com \" target=\"\">www.agwedc.com </a></b></div></blockquote>"
+			 * ; SimpleMail.sendMail("Demand d'adhesion de " +
+			 * user.getFirstName() + " " + user.getLastName(), mail,
+			 * "agwedc@gmail.com", "agwedc@gmail.com", "smtp.gmail.com",
+			 * "agwedc@gmail.com", "agwedc123");
+			 */
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -98,25 +179,29 @@ public class UserRestService {
 		return "Success";
 	}
 
-	
 	@RequestMapping(value = "/saveExpense", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody String saveExpense(@RequestBody Transaction tran) {
 		System.out.println("saveExpense called:" + tran);
-		
-		
+
 		try {
 			userService.save(tran);
 			/*
-			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV bien recue", mail, "ukadtogo@gmail.com",
-					user.getEmail(), "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
-
-			mail = "<blockquote><h2><b>Nom: " + user.getLastName() + "</b></h2><h2><b>Prenom:" + user.getFirstName()
-					+ "</b></h2><h2><b>E-mail:" + user.getEmail()
-					+ "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.ukadtogo.com \" target=\"\">www.ukadtogo.com </a></b></div></blockquote>";
-			SimpleMail.sendMail("Demand d'adhesion de " + user.getFirstName() + " " + user.getLastName(), mail,
-					"ukadtogo@gmail.com", "ukadtogo@gmail.com", "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
-					*/
+			 * String mail =
+			 * "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>"
+			 * ; SimpleMail.sendMail(
+			 * "Votre demande d'adhesion a UKAD eV bien recue", mail,
+			 * "agwedc@gmail.com", user.getEmail(), "smtp.gmail.com",
+			 * "agwedc@gmail.com", "agwedc123");
+			 * 
+			 * mail = "<blockquote><h2><b>Nom: " + user.getLastName() +
+			 * "</b></h2><h2><b>Prenom:" + user.getFirstName() +
+			 * "</b></h2><h2><b>E-mail:" + user.getEmail() +
+			 * "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.agwedc.com \" target=\"\">www.agwedc.com </a></b></div></blockquote>"
+			 * ; SimpleMail.sendMail("Demand d'adhesion de " +
+			 * user.getFirstName() + " " + user.getLastName(), mail,
+			 * "agwedc@gmail.com", "agwedc@gmail.com", "smtp.gmail.com",
+			 * "agwedc@gmail.com", "agwedc123");
+			 */
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -126,7 +211,6 @@ public class UserRestService {
 
 		return "Success";
 	}
-
 
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody User saveUser(@RequestBody User user) {
@@ -190,7 +274,7 @@ public class UserRestService {
 		System.out.println("User list Requested -getPending ");
 		return userService.loadAllMembersPending();
 	}
-	
+
 	@RequestMapping(value = "/getLeaders", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<User> getLeaders() {
 		System.out.println("User list Requested -getPending ");
@@ -209,9 +293,9 @@ public class UserRestService {
 		user.setStatus((short) 1);
 		userService.update(user, user);
 		try {
-			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2><span style=\"color: inherit;\">Nous somme heureux de vous annoncer que votre demande d'adhesion a ete acceptee. Restez aux nouvelles de l'association en visitant <a href=\"www.ukadtogo.com\" target=\"\">www.ukadtogo.com</a> </span><br/></h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV Approvee", mail, "ukadtogo@gmail.com",
-					user.getEmail(), "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
+			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2><span style=\"color: inherit;\">Nous somme heureux de vous annoncer que votre demande d'adhesion a ete acceptee. Restez aux nouvelles de l'association en visitant <a href=\"www.agwedc.com\" target=\"\">www.agwedc.com</a> </span><br/></h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
+			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV Approvee", mail, "agwedc@gmail.com",
+					user.getEmail(), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -226,9 +310,9 @@ public class UserRestService {
 		user.setStatus((short) 1);
 		userService.update(user, user);
 		try {
-			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2><span style=\"color: inherit;\">Nous somme desole de vous annoncer que votre demande d'adhesion a ete rejetee. Restez aux nouvelles de l'association en visitant <a href=\"www.ukadtogo.com\" target=\"\">www.ukadtogo.com</a> </span><br/></h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV Rejetee", mail, "ukadtogo@gmail.com",
-					user.getEmail(), "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
+			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2><span style=\"color: inherit;\">Nous somme desole de vous annoncer que votre demande d'adhesion a ete rejetee. Restez aux nouvelles de l'association en visitant <a href=\"www.agwedc.com\" target=\"\">www.agwedc.com</a> </span><br/></h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
+			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV Rejetee", mail, "agwedc@gmail.com",
+					user.getEmail(), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -252,7 +336,7 @@ public class UserRestService {
 
 		try {
 			SimpleMail.sendMail(mail.getSubject(), mail.getBody(), mail.getSender().getEmail(),
-					sb.substring(0, sb.length() - 1), "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
+					sb.substring(0, sb.length() - 1), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
 
 			mail.setStatus((short) 1);
 			userService.save(mail, mail.getSender());
@@ -274,7 +358,7 @@ public class UserRestService {
 
 		Event event = (Event) userService.getById(Event.class, mail.getEventId());
 
-		event.setReport(mail.getBody()); 
+		event.setReport(mail.getBody());
 
 		List<User> users = userService.loadAllMembers();
 		StringBuffer sb = new StringBuffer();
@@ -285,7 +369,7 @@ public class UserRestService {
 
 		try {
 			SimpleMail.sendMail(mail.getSubject(), mail.getBody(), mail.getSender().getEmail(),
-					sb.substring(0, sb.length() - 1), "smtp.gmail.com", "ukadtogo@gmail.com", "ukadtogo123");
+					sb.substring(0, sb.length() - 1), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
 
 			mail.setStatus((short) 1);
 			userService.save(mail, mail.getSender());
@@ -297,7 +381,7 @@ public class UserRestService {
 
 		return "Success";
 	}
-	
+
 	@RequestMapping(value = "/getYearlySummary", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<YearlySummary> getYearlySummary() {
 		System.out.println("YearlySummary list Requested - YearlySummary");
@@ -309,20 +393,18 @@ public class UserRestService {
 		System.out.println("YearlySummary list Requested - getAllExpenses");
 		return userService.getAllExpenses();
 	}
-	
+
 	@RequestMapping(value = "/deleteExpense", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody String deleteExpense(@RequestBody Transaction exp) {
 		System.out.println("delete deleteExpense:" + exp);
 		userService.delete(exp);
 		return "Success";
 	}
-	
+
 	@RequestMapping(value = "/getContributions", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<Contribution> getContributions() {
 		System.out.println("getContributions list Requested - getContributions");
 		return userService.getContributions();
 	}
-
-
 
 }

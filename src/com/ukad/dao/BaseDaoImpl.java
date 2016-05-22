@@ -272,8 +272,25 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport imple
 
 	@Override
 	public BaseEntity findByColumn(Class cl, String columnName, Integer columnValue) {
-		// TODO Auto-generated method stub
-		return null;
+		BaseEntity entity = null;
+		DetachedCriteria crit = DetachedCriteria.forClass(cl);
+		crit.add(Restrictions.eq(columnName, columnValue.shortValue()));
+		List l = getHibernateTemplate().findByCriteria(crit);
+
+		if (l.size() > 0)
+			entity = (BaseEntity) l.get(0);
+
+		return entity;
+	}
+	
+	@Override
+	public List<BaseEntity> loadAllByColumn(Class cl, String columnName, Integer columnValue) {
+		BaseEntity entity = null;
+		DetachedCriteria crit = DetachedCriteria.forClass(cl);
+		crit.add(Restrictions.eq(columnName, columnValue.shortValue()));
+		List l = getHibernateTemplate().findByCriteria(crit);
+
+		return l;
 	}
 
 	@Override
@@ -351,7 +368,7 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport imple
 		Contribution ys;
 		for (Object[] obj : objects) {
 			ys = new Contribution();
-			ys.setMember( (String) obj[0]);
+			ys.setMember((String) obj[0]);
 			ys.setAmount(new Double(obj[1].toString()));
 			yss.add(ys);
 		}

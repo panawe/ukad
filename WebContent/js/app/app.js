@@ -6798,16 +6798,30 @@ require('./_timeline');
     'use strict';
 
     angular.module('app')
-        .run([ '$rootScope', '$state', '$stateParams',
-            function ($rootScope, $state, $stateParams) {
+        .run([ '$http', '$rootScope', '$state', '$stateParams',
+            function ($http, $rootScope, $state, $stateParams) {
                 $rootScope.$state = $state;
                 $rootScope.$stateParams = $stateParams;
+                
+            	if ($rootScope.count == null) {	
+            		$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/addGuestCount', data : null }).
+        	        success(function (data, status, headers, config) {
+        	        	$log.info("Call Successful");    	                 
+        	        }).error(function (data, status, headers, config) {
+        	            $log.info("Call Failed");
+        	        });
+            	
+            		$rootScope.count = 'true';
+            	}
+                
             }
         ])
         .config(
         [ '$stateProvider', '$urlRouterProvider',
             function ($stateProvider, $urlRouterProvider) {
 
+        	
+        	
                 $urlRouterProvider
                     .otherwise('/pages/main');
 
@@ -6864,6 +6878,24 @@ require('./_timeline');
                     }).state('pages.projects', {
                         url: '/projects',
                         templateUrl: 'pages/projects.html' 
+                    }).state('pages.sponsors', {
+                        url: '/sponsors',
+                        templateUrl: 'pages/sponsors.html' 
+					}).state('pages.donate', {
+                        url: '/donate',
+                        templateUrl: 'pages/donate.html' 
+                    }).state('pages.cancelDonate', {
+                        url: '/cancelDonate',
+                        templateUrl: 'pages/cancelDonate.html'                     
+                    }).state('pages.announces', {
+                        url: '/announces',
+                        templateUrl: 'pages/announces.html' 
+                    }).state('pages.weblinks', {
+                        url: '/weblinks',
+                        templateUrl: 'pages/weblinks.html' 
+                    }).state('pages.fees', {
+                        url: '/fees',
+                        templateUrl: 'pages/fees.html' 
                     }).state('pages.cotiser', {
                         url: '/cotiser',
                         templateUrl: 'pages/cotiser.html' 

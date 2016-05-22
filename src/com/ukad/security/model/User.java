@@ -20,6 +20,7 @@ import org.hibernate.annotations.FetchMode;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ukad.model.BaseEntity;
 import com.ukad.model.Position;
+
 @Entity
 @Table(name = "USERS")
 public class User extends BaseEntity {
@@ -32,38 +33,52 @@ public class User extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "POSITION_ID", nullable = true)
 	private Position position;
-	
+
 	@Column(name = "USER_NAME")
 	private String userName;
-	
+
 	@Column(name = "PASSWORD")
 	private String password;
 
 	@Column(name = "FIRST_NAME")
 	private String firstName;
-	
+
 	@Column(name = "LAST_NAME")
 	private String lastName;
-	
+
 	@Column(name = "E_MAIL")
 	private String email;
-	
+
 	@Column(name = "PHONE")
 	private String phone;
-	
+
 	@Column(name = "PIC")
 	private String pic;
-	
-	@Column(name="ADDRESS")
+
+	@Column(name = "ADDRESS")
 	private String address;
-	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="MM/dd/yyyy")
-	@Column(name="MEMBERSHIP_DATE")
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
+	@Column(name = "MEMBERSHIP_DATE")
 	private Date membershipDate;
 	
-	@Column(name="CITY")
+	@Column(name = "MEMBERSHIP_RENEW_DATE")
+	private Date membershipRenewDate;	
+
+	@Column(name = "CITY")
 	private String city;
+
+	@Transient
+	private boolean isOnline;
 	
+	public Date getMembershipRenewDate() {
+		return membershipRenewDate;
+	}
+
+	public void setMembershipRenewDate(Date membershipRenewDate) {
+		this.membershipRenewDate = membershipRenewDate;
+	}
+
 	public Date getMembershipDate() {
 		return membershipDate;
 	}
@@ -96,24 +111,35 @@ public class User extends BaseEntity {
 		this.pic = pic;
 	}
 
-	@Column(name="CAN_APPROVE")
-	private Short canApprove=0;
-	
-	@Column(name="CURRENT_LOCALE")
+	@Column(name = "CAN_APPROVE")
+	private Short canApprove = 0;
+
+	@Column(name = "CURRENT_LOCALE")
 	private String currentLocale;
 
-	@Column(name="CSV_DELIMITER")
+	@Column(name = "CSV_DELIMITER")
 	private String csvDelimiter;
-	
+
 	@Transient
-	private boolean teacher=false;
-	
+	private boolean teacher = false;
+
 	@Transient
-	private boolean student=false;
-	
+	private boolean student = false;
+
 	@Transient
 	private String allergy;
 	
+	@Transient
+	private Double fee=0.0;
+
+	public Double getFee() {
+		return fee;
+	}
+
+	public void setFee(Double fee) {
+		this.fee = fee;
+	}
+
 	@Transient
 	private byte[] image;
 
@@ -134,11 +160,11 @@ public class User extends BaseEntity {
 	}
 
 	public boolean getCanApprove() {
-		return canApprove==1?true:false;
+		return canApprove == 1 ? true : false;
 	}
 
 	public void setCanApprove(boolean canApprove) {
-		this.canApprove = canApprove==true?(short)1:0;
+		this.canApprove = canApprove == true ? (short) 1 : 0;
 	}
 
 	public boolean isTeacher() {
@@ -161,15 +187,18 @@ public class User extends BaseEntity {
 	public Long getId() {
 		return id;
 	}
-	/*@OneToMany
-	@JoinColumn(name = "USER_ID")
-	@Fetch(FetchMode.SELECT)
-	private Set<RolesUser> rolesUser;*/
-	
-	private Short status=0;
-	
+	/*
+	 * @OneToMany
+	 * 
+	 * @JoinColumn(name = "USER_ID")
+	 * 
+	 * @Fetch(FetchMode.SELECT) private Set<RolesUser> rolesUser;
+	 */
+
+	private Short status = 0;
+
 	private String pageSkin;
-	
+
 	public String getPageSkin() {
 		return pageSkin;
 	}
@@ -186,13 +215,12 @@ public class User extends BaseEntity {
 		this.status = status;
 	}
 
-/*	public Set<RolesUser> getRolesUser() {
-		return rolesUser;
-	}
-
-	public void setRolesUser(Set<RolesUser> rolesUser) {
-		this.rolesUser = rolesUser;
-	}*/
+	/*
+	 * public Set<RolesUser> getRolesUser() { return rolesUser; }
+	 * 
+	 * public void setRolesUser(Set<RolesUser> rolesUser) { this.rolesUser =
+	 * rolesUser; }
+	 */
 
 	public void setId(Long id) {
 		this.id = id;
@@ -253,7 +281,7 @@ public class User extends BaseEntity {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
+
 	public String getCurrentLocale() {
 		return currentLocale;
 	}
@@ -270,9 +298,17 @@ public class User extends BaseEntity {
 		this.csvDelimiter = csvDelimiter;
 	}
 
+	public boolean isOnline() {
+		return isOnline;
+	}
+
+	public void setOnline(boolean isOnline) {
+		this.isOnline = isOnline;
+	}
+
 	@Override
 	public boolean equals(Object o) {
-		
+
 		if (this == o)
 			return true;
 		if (o == null)
@@ -280,12 +316,13 @@ public class User extends BaseEntity {
 		if (!(o instanceof User))
 			return false;
 		User that = (User) o;
-		return getId().equals(that.getId()); 
+		return getId().equals(that.getId());
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return id + " " + userName + " " + firstName + " " + lastName;
 	}
 
+	
 }
