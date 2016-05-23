@@ -244,8 +244,8 @@ INSERT INTO POSITION (POSITION_ID,NAME,CREATE_DATE,MOD_DATE,MOD_BY) VALUES
 
 INSERT INTO USERS (COUNTRY_ID,STATUS,USER_ID,pageSkin,`USER_NAME`, `PASSWORD`, `FIRST_NAME`, `LAST_NAME`, `E_MAIL`, `CREATE_DATE`,`MEMBERSHIP_DATE`,  `MOD_DATE`, `MOD_BY`, `PHONE`, `POSITION_ID`, CAN_APPROVE,PIC)
 VALUES (5,2,1,'Rouge','donateur.anonyme@anonyme.com','123','Donateur','Anonyme','donateur.anonyme@anonyme.com',now(),now(), now(),1,'-',1,0,'0.jpg'),
-(5,1,2,'Rouge','alberto.consultant@gmail.com','123','Alberto','Mounguengui','alberto.consultant@gmail.com',now(),now(), now(),1,'+1 678-314-5397',1,1,'1.jpg'),
-(5,1,3,'Rouge','agwedc@gmail.com','123','A.G.W.E','DC','agwedc@gmail.com',now(),now(), now(),1,'+49 12 34 56 78',1,1,'2.jpg'),
+(5,1,2,'Rouge','panawe@gmail.com','123','Panawe','Batanado','panawe@gmail.com',now(),now(), now(),1,'+1 678-314-5397',1,1,'1.jpg'),
+(5,1,3,'Rouge','arelboutg@gmail.com','123','ARELBOU','','arelboutg@gmail.com',now(),now(), now(),1,'+49 12 34 56 78',1,1,'2.jpg'),
 (5,1,4,'Rouge','ericgbekou@hotmail.com','123','Eric','Egbekou','egbekou@hotmail.com',now(),now(), now(),1,'+228 12 34 56 78',1,1,'3.jpg');
 
 INSERT INTO PAYMENT_TYPE (  PAYMENT_TYPE_ID       , NAME       , FREQUENCY     , CREATE_DATE       , MOD_DATE      , MOD_BY  )
@@ -263,11 +263,11 @@ VALUES(3,'Don','YEAR',NOW(),NOW(),1),
 INSERT INTO CONFIGURATION (CONFIGURATION_ID,NAME,VALUE,DESCRIPTION,DATA_TYPE, CREATE_DATE,MOD_DATE,MOD_BY) VALUES
 (1,'ANNUAL_FEE','20','Frais Annuel de Membre','String',NOW(),NOW(),1),
 (2,'PAY_ONLINE','0','Payer a l''Enregistrement','Boolean',NOW(),NOW(),1),
-(3,'ORG_EMAIL','ukadtogo@gmail.com','E-MAIL','String',NOW(),NOW(),1),
+(3,'ORG_EMAIL','arelboutg@gmail.com','E-MAIL','String',NOW(),NOW(),1),
 (4,'ORG_SMTP','smtp.gmail.com','SMTP','String',NOW(),NOW(),1),
-(5,'ORG_WEBSITE','www.ukadtogo.com','Web site','String',NOW(),NOW(),1),
-(6,'ORG_EMAIL_PASSWORD','ukadtogo123','E-MAIL PASSWORD ','String',NOW(),NOW(),1),
-(7,'ORG_NAME','U.K.A.D e.V.','Nom de l''organisation','String',NOW(),NOW(),1),
-(8,'ORG_ADDRESS','123 Rue des coteaux, Sherbrook CA.','Adresse de l''organisation','String',NOW(),NOW(),1) ; 
+(5,'ORG_WEBSITE','www.arelbou.com','Web site','String',NOW(),NOW(),1),
+(6,'ORG_EMAIL_PASSWORD','arelboutg123','E-MAIL PASSWORD','String',NOW(),NOW(),1),
+(7,'ORG_NAME','ARELBOU.','Nom de l''organisation','String',NOW(),NOW(),1),
+(8,'ORG_ADDRESS','123 Avenue Akei, Lome, Togo.','Adresse de l''organisation','String',NOW(),NOW(),1) ; 
 
 COMMIT;

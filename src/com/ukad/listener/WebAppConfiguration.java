@@ -59,12 +59,12 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 
 		/*	
-		 dataSource.setUrl("jdbc:mysql://569b062789f5cf15b600002a-esoftsystems.rhcloud.com:55136/ukad")	;	 
-		 dataSource.setUsername("adminNS2PNM8");
-		 dataSource.setPassword("FijgbfVYcX7m");
+		 dataSource.setUrl("jdbc:mysql://127.9.190.2:3306/arelbou")	;	 
+		 dataSource.setUsername("adminQXJBNXC");
+		 dataSource.setPassword("kN1nuqbGpQ_r");
 
 		 */
-		  dataSource.setUrl("jdbc:mysql://localhost:3306/ukad");
+		  dataSource.setUrl("jdbc:mysql://localhost:3306/arelbou");
 		  dataSource.setUsername("root"); 
 		  dataSource.setPassword("admin");
 		   
