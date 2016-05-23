@@ -85,12 +85,13 @@ public class UserDaoImpl extends BaseDaoImpl {
 			Configuration be= (Configuration) findByColumn(Configuration.class,"name","ANNUAL_FEE");
 			Configuration be2= (Configuration) findByColumn(Configuration.class,"name","PAY_ONLINE");
 			
-			if(user.getMembershipRenewDate()==null||user.getMembershipRenewDate().before(new Date())){
-				 user.setFee(new Double(be.getValue()));
+			if(user.getMembershipRenewDate()==null||user.getMembershipRenewDate().before(new Date())){				 
 				 if(!be2.getValue().trim().equals("1")){ 
 					 user.setFee(0.0);
+				 }else{
+					 user.setFee(new Double(be.getValue()));
+					 user.setStatus((short) 0);
 				 }
-				 user.setStatus((short) 0);
 			}
 		}
 

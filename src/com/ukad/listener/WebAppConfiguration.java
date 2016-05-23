@@ -67,7 +67,7 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		  dataSource.setUrl("jdbc:mysql://localhost:3306/ukad");
 		  dataSource.setUsername("root"); 
 		  dataSource.setPassword("admin");
-		  
+		   
 		 
 		Properties connectionProperties = new Properties();
 		connectionProperties.setProperty("defaultTransactionIsolation", "2");

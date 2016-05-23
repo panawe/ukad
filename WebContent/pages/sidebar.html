@@ -15,9 +15,9 @@
 						ng-show="::advertisement.hasImage::"
 						ng-repeat="advertisement in activeAdvertisements">
 						<a href="::advertisement.link::"
-							ng-click="openInNewTab(::advertisement.link::)"> <img
-							src="::advertisement.imagePath::" max-height="200px"> </image>
-						</a> 
+							ng-click="openInNewTab(::advertisement.link::)"> 
+							<img src="::advertisement.imagePath::" style="max-height:200px; width:100%;" />  
+						</a>
 					</div>
 				</div>
 				<!-- Controls -->
@@ -106,8 +106,8 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="e in displayedCollection2">
-						<td><a href="" ng-click="showUserModal(e)">::e.title::</a></td>
-						<td><a href="" ng-click="showUserModal(e)">::e.startsAt|date:'medium'::</a></td>
+						<td><a href="" ng-click="showEventModal(e)">::e.title::</a></td>
+						<td><a href="" ng-click="showEventModal(e)">::e.startsAt|date:'medium'::</a></td>
 					</tr>
 				</tbody>
 				<tfoot>
@@ -121,17 +121,17 @@
 			</table>
 
 		</div>
-	</section>
-
-	<!--/modal-->
+		
+		
+		<!--/modal-->
 	<div id="myEventModal" class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
+		aria-labelledby="myEventModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-info">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">X</button>
-					<h1 id="myModalLabel" class="text-center"></h1>
+					<h1 id="myEventModalLabel" class="text-center"></h1>
 				</div>
 				<div class="modal-body">
 					<div class="container-fluid">
@@ -170,4 +170,7 @@
 	</div>
 
 	<!--/modal-->
+	</section>
+
+	
 </div>

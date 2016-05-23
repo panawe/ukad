@@ -62,7 +62,6 @@ public class User extends BaseEntity {
 	@Column(name = "MEMBERSHIP_DATE")
 	private Date membershipDate;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
 	@Column(name = "MEMBERSHIP_RENEW_DATE")
 	private Date membershipRenewDate;	
 
@@ -132,11 +131,6 @@ public class User extends BaseEntity {
 	
 	@Transient
 	private Double fee=0.0;
-	
-	
-	public void setCanApprove(Short canApprove) {
-		this.canApprove = canApprove;
-	}
 
 	public Double getFee() {
 		return fee;
@@ -193,7 +187,13 @@ public class User extends BaseEntity {
 	public Long getId() {
 		return id;
 	}
-	
+	/*
+	 * @OneToMany
+	 * 
+	 * @JoinColumn(name = "USER_ID")
+	 * 
+	 * @Fetch(FetchMode.SELECT) private Set<RolesUser> rolesUser;
+	 */
 
 	private Short status = 0;
 
@@ -214,6 +214,13 @@ public class User extends BaseEntity {
 	public void setStatus(Short status) {
 		this.status = status;
 	}
+
+	/*
+	 * public Set<RolesUser> getRolesUser() { return rolesUser; }
+	 * 
+	 * public void setRolesUser(Set<RolesUser> rolesUser) { this.rolesUser =
+	 * rolesUser; }
+	 */
 
 	public void setId(Long id) {
 		this.id = id;

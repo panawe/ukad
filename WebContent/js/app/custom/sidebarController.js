@@ -92,9 +92,9 @@
 								/**
 								 * Begin Show Modal
 								 */
-								$scope.showUserModal = function(event) {
+								$scope.showEventModal = function(event) {
 									$scope.currEvent = event;
-									$('#myModalLabel').text(event.title);
+									$('#myEventModalLabel').text(event.title);
 									$('#myEventModal').modal('show');
 								}
 								/**
