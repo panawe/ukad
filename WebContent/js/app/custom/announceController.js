@@ -118,12 +118,90 @@
   * End get all Announces
   */
   
-   var url = $location.url();
-	$log.info('URL='+url);
-	
-	if(url=='/pages/announces'){
-		$scope.getAllAnnounces();
-	}  	  	  	                  
+  
+	   /**
+       * Start get Announces with Album
+       * Get the list of Announces
+       */
+        $scope.getAllAnnouncesWithAlbum = function() {
+              
+             $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/announce/getAllAnnouncesWithAlbum', data: null }).
+             success(function (data, status, headers, config) {
+                      $log.info("Call get All Announces with album Successful"); 
+                  	$scope.announcesWithAlbum=data;
+                      $log.info($scope);
+                      
+             }).error(function (data, status, headers, config) {
+                      $log.info("Call get All Announce with album Failed");
+                      $log.info($scope);
+             });
+
+        };
+  	 /**
+  	  * End get all Announces with Album
+  	  */
+
+        
+		/**
+		 * Start get Album Photo Get the list photo of
+		 * Announces
+		 */
+		$scope.getAnnounceAlbum = function(aAnnounce) {
+			//report too big for cookies
+			
+			$cookieStore.remove("theAnnounce");
+			$cookieStore.put('theAnnounce', aAnnounce);
+			$http(
+					{
+						method : 'POST',
+						url : 'http://localhost:8080/ukadtogo/service/announce/getAnnounceAlbum',
+						data : aAnnounce
+					})
+					.success(
+							function(data, status,
+									headers, config) {
+								$log
+										.info("Call get All Announces photo Successful");
+								$scope.AnnouncePictures = data;
+								$log.info($scope);
+								$scope.theAnnounce = aAnnounce;			
+								//$scope.apply();
+
+							})
+					.error(
+							function(data, status,
+									headers, config) {
+								$log
+										.info("Call get All Announce phot Failed");
+								$log.info($scope);
+							});
+
+		};
+		/**
+		 * End get all Announces album photos
+		 */
+		
+          
+		var url = $location.url();
+		$log.info('URL='+url);
+		
+		if(url=='/pages/main') {
+			$scope.getAllAnnouncesWithAlbum();
+			$cookieStore.remove("announceAlbum_reload");
+		}
+		else if(url=='/pages/announces'){
+			$scope.getAllAnnounces();
+		}  
+		else if(url=='/pages/announceAlbum' &&  ($scope.AnnouncePictures == null || $scope.AnnouncePictures == '')){								
+			if ($cookieStore.get('announceAlbum_reload'))
+				$scope.getAnnounceAlbum($cookieStore.get('theAnnounce'));		
+												
+			if (!$cookieStore.get('announceAlbum_reload')) {
+				$cookieStore.put('announceAlbum_reload', "true");
+				window.location.reload();
+			}
+		}
+		
 }])
 
 })();

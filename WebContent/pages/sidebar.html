@@ -113,11 +113,11 @@
 		</div>
 	</section>
 
-	<section class="panel panel-info">
+	<section class="panel panel-info" ng-controller="announceCtrl">
 		<header class="panel-heading">
 			<h3 class="panel-title">Announces</h3>
 		</header>
-		<div class="panel-body">
+		<div class="panel-body" >
 
 			<table st-table="displayedCollection3" st-safe-src="activeAnnounces"
 				class="table table-striped" cellspacing="0" width="100%">
@@ -128,14 +128,13 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="a in displayedCollection3">
-						<td><a href="" ng-click="showAnnounceModal(a)">::a.title::</a></td>
+						<td><a href=""  ng-click="getAnnounceAlbum(a)">::a.title::</a></td>
 					</tr>
 				</tbody>
 				<tfoot>
 					<tr>
 						<td colspan="3" class="text-center">
-							<div st-pagination="" st-items-by-page="5"
-								st-displayed-pages="100"></div>
+							<div st-pagination="" st-items-by-page="5" st-displayed-pages="100"></div>
 						</td>
 					</tr>
 				</tfoot>

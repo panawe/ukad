@@ -451,10 +451,10 @@
 	  	  	  	            	 /**
 	  	  	  	            	  * End get all Events album photos or report
 	  	  	  	            	  */
-	  	  	  	                      
+	  	  	  	                       
 								
 								var url = $location.url();
-								$log.info('URL='+url);
+								$log.info('URL=' + url);
 								
 								if(url=='/pages/main'){
 									
