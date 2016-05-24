@@ -34,7 +34,7 @@
 
 								var uploader = $scope.uploader = new FileUploader(
 										{
-											url : 'http://localhost:8080/ukadtogo/service/event/receiveFile'
+											url : 'http://www.arelbou.com/service/event/receiveFile'
 										});
 
 								// FILTERS
@@ -134,7 +134,7 @@
 										$http(
 												{
 													method : 'POST',
-													url : 'http://localhost:8080/ukadtogo/service/user/saveReportAndMail',
+													url : 'http://www.arelbou.com/service/user/saveReportAndMail',
 													data : email
 												})
 												.success(
@@ -179,7 +179,7 @@
 		  	  	                 */
 		  	  	                      $scope.getAllEventsWithAlbum = function() {
 		  	  	                            
-		  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithAlbum', data: null }).
+		  	  	                           $http({ method: 'POST', url: 'http://www.arelbou.com/service/event/getAllEventsWithAlbum', data: null }).
 		  	  	                           success(function (data, status, headers, config) {
 		  	  	                                    $log.info("Call get All Events with album Successful"); 
 		  	  	                                	$scope.eventsWithAlbum=data;
@@ -279,7 +279,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/getAllEvents',
+												url : 'http://www.arelbou.com/service/event/getAllEvents',
 												data : null
 											})
 											.success(
@@ -319,7 +319,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/createEvent',
+												url : 'http://www.arelbou.com/service/event/createEvent',
 												data : this.theEvent
 											})
 											.success(
@@ -366,7 +366,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/deleteEvent',
+												url : 'http://www.arelbou.com/service/event/deleteEvent',
 												data : aEvent
 											})
 											.success(
@@ -405,7 +405,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/getEventAlbum',
+												url : 'http://www.arelbou.com/service/event/getEventAlbum',
 												data : aEvent
 											})
 											.success(
@@ -436,7 +436,7 @@
 	  	  	  	                 */
 	  	  	  	                      $scope.getAllEventsWithAlbumOrRepport = function() {
  	  	  	                            
-	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithAlbumOrRepport', data: null }).
+	  	  	  	                           $http({ method: 'POST', url: 'http://www.arelbou.com/service/event/getAllEventsWithAlbumOrRepport', data: null }).
 	  	  	  	                           success(function (data, status, headers, config) {
 	  	  	  	                                    $log.info("Call get All Events with album Successful"); 
 	  	  	  	                                	$scope.eventsWithAlbumReport=data;
