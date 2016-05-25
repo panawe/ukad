@@ -32,7 +32,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://www.arelbou.com/service/announce/getActiveAnnounces',
+												url : 'http://localhost:8080/ukadtogo/service/announce/getActiveAnnounces',
 												data : null
 											})
 											.success(
@@ -63,7 +63,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://www.arelbou.com/service/event/getFutureEvents',
+												url : 'http://localhost:8080/ukadtogo/service/event/getFutureEvents',
 												data : null
 											})
 											.success(
@@ -120,7 +120,7 @@
 									$http(
 										{
 											method : 'POST',
-											url : 'http://www.arelbou.com/service/marketing/getActiveMarketings',
+											url : 'http://localhost:8080/ukadtogo/service/marketing/getActiveMarketings',
 											data : null
 										})
 									.success(

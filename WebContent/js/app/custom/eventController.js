@@ -14,9 +14,10 @@
 							'$http',
 							'FileUploader',
 							'$location',
+							 '$interval', '$sce',
 							'moment',
 							function($scope, $state, $window, $cookieStore,
-									$log, $http, FileUploader, $location,
+									$log, $http, FileUploader, $location, $interval, $sce,
 									moment) {
 
 								$scope.theEvent = $cookieStore.get('theEvent');
@@ -26,7 +27,20 @@
 								$scope.eventSaveSubmitted = false;
 								$scope.submitted = false;
 								
-													
+								/**
+								 * Delay
+								 */
+								
+								$interval(function(){ 
+									$scope.ready=true;
+								},1000);
+											
+								/**
+								 * 
+								 */
+								$scope.getIframeSrc = function (videoId) {
+									  return $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + videoId);
+								};
 								
 								/**
 								 * Start File uploader
@@ -34,7 +48,7 @@
 
 								var uploader = $scope.uploader = new FileUploader(
 										{
-											url : 'http://www.arelbou.com/service/event/receiveFile'
+											url : 'http://localhost:8080/ukadtogo/service/event/receiveFile'
 										});
 
 								// FILTERS
@@ -134,7 +148,7 @@
 										$http(
 												{
 													method : 'POST',
-													url : 'http://www.arelbou.com/service/user/saveReportAndMail',
+													url : 'http://localhost:8080/ukadtogo/service/user/saveReportAndMail',
 													data : email
 												})
 												.success(
@@ -179,7 +193,7 @@
 		  	  	                 */
 		  	  	                      $scope.getAllEventsWithAlbum = function() {
 		  	  	                            
-		  	  	                           $http({ method: 'POST', url: 'http://www.arelbou.com/service/event/getAllEventsWithAlbum', data: null }).
+		  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithAlbum', data: null }).
 		  	  	                           success(function (data, status, headers, config) {
 		  	  	                                    $log.info("Call get All Events with album Successful"); 
 		  	  	                                	$scope.eventsWithAlbum=data;
@@ -279,7 +293,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://www.arelbou.com/service/event/getAllEvents',
+												url : 'http://localhost:8080/ukadtogo/service/event/getAllEvents',
 												data : null
 											})
 											.success(
@@ -319,7 +333,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://www.arelbou.com/service/event/createEvent',
+												url : 'http://localhost:8080/ukadtogo/service/event/createEvent',
 												data : this.theEvent
 											})
 											.success(
@@ -366,7 +380,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://www.arelbou.com/service/event/deleteEvent',
+												url : 'http://localhost:8080/ukadtogo/service/event/deleteEvent',
 												data : aEvent
 											})
 											.success(
@@ -405,7 +419,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://www.arelbou.com/service/event/getEventAlbum',
+												url : 'http://localhost:8080/ukadtogo/service/event/getEventAlbum',
 												data : aEvent
 											})
 											.success(
@@ -436,7 +450,7 @@
 	  	  	  	                 */
 	  	  	  	                      $scope.getAllEventsWithAlbumOrRepport = function() {
  	  	  	                            
-	  	  	  	                           $http({ method: 'POST', url: 'http://www.arelbou.com/service/event/getAllEventsWithAlbumOrRepport', data: null }).
+	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithAlbumOrRepport', data: null }).
 	  	  	  	                           success(function (data, status, headers, config) {
 	  	  	  	                                    $log.info("Call get All Events with album Successful"); 
 	  	  	  	                                	$scope.eventsWithAlbumReport=data;

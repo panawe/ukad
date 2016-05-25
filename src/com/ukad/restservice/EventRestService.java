@@ -145,7 +145,15 @@ public class EventRestService {
 			if (dir.exists()) {
 				fileCount = dir.listFiles().length;
 			}
-			if (fileCount > 0) {
+			if (fileCount > 0 || (e.getAlbumNote()!=null&&!e.getAlbumNote().equals(""))) {
+				if(fileCount>0){
+					e.setHasPhoto(true);
+				}
+				if(e.getAlbumNote()!=null&&!e.getAlbumNote().equals("")){
+					e.setHasYoutube(true);
+					String albumNote=e.getAlbumNote();
+					e.setVideoId((albumNote==null||albumNote.equals(""))?null:albumNote.split("/")[albumNote.split("/").length-1]);
+				}
 				retList.add(e);
 			}
 		}

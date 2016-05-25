@@ -126,7 +126,11 @@ public class UserDaoImpl extends BaseDaoImpl {
 				user.setUserName((String) row[1]);
 				user.setPassword((String) row[2]);
 				user.setFirstName((String) row[3]);
+				try{
 				user.setLastName(((String) row[4]).substring(0, 1));
+				}catch (Exception e){
+					user.setLastName("");
+				}
 				user.setOnline(true);
 				
 				users.add(user);
