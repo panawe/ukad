@@ -1,14 +1,14 @@
 <div ng-include="'pages/menubg.html'"></div>
 
-<div class="bg-white" ng-controller="eventCtrl">
+<div class="bg-white" >
 
 	<div class="container">
 
 		<div class="row">
-			<div class="item col-lg-9 col-md-6 col-xs-12">
+			<div class="item col-lg-9 col-md-6 col-xs-12" ng-controller="eventCtrl">
 				<h2>Photo Album ::theEvent.title::</h2>
 
-				<div class="panel panel-default">
+				<div class="panel panel-default"  ng-if="EventPictures && ready">
 					<div class="carousel-preview">
 						<div class="owl-carousel owl-thumb" data-sync="#owl-preview-1"
 							id="owl-thumb-1">

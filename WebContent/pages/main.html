@@ -51,32 +51,19 @@
 
 		<div class="row">
 			<div class="item col-lg-9 col-md-6 col-xs-12">
+
 				<div class="page-section" ng-controller="eventCtrl">
 					<div class="text-center">
 						<i class="fa fa-picture-o fa-5x text-green-300"></i>
-						<h1 class="text-h2">Photos albums et Videos des rencontres</h1>
+						<h1 class="text-h2">Photos albums des rencontres</h1>
 						<hr />
-					</div> 
+					</div>
 
 					<div ng-if="eventsWithAlbum && ready">
-						<div class="slick-basic slick-slider" >
+						<div class="slick-basic slick-slider">
 
 							<div class="item" ng-repeat="aEvent in eventsWithAlbum"
 								style="max-width: 246px; max-height: 500px;">
-
-
-								<div class="panel panel-default relative"
-									ng-show="::aEvent.hasYoutube::">
-									 
-									<div class="cover hover overlay margin-none"
-										style="max-height: 163px; max-width: 246px;">
-										<iframe width="246px"  ng-src="::getIframeSrc(aEvent.videoId)::" allowfullscreen > </iframe>
-
-									</div>
-									<div class="panel-body">
-										<h4 class="margin-v-0-5">::aEvent.title::</h4>
-									</div>
-								</div>
 
 								<div class="panel panel-default relative"
 									ng-show="::aEvent.hasPhoto::">
@@ -94,6 +81,43 @@
 												class="btn btn-circle btn-white"><i class="fa fa-eye"></i></span>
 										</span>
 										</a>
+
+									</div>
+									<div class="panel-body">
+										<h4 class="margin-v-0-5">::aEvent.title::</h4>
+									</div>
+								</div>
+
+
+							</div>
+
+
+						</div>
+					</div>
+					<!-- // END .owl-basic -->
+
+				</div>
+
+
+				<div class="page-section" ng-controller="eventCtrl">
+					<div class="text-center">
+						<i class="fa fa-camera-retro fa-5x text-green-300"></i>
+						<h1 class="text-h2">Videos des rencontres</h1>
+						<hr />
+					</div>
+
+					<div ng-if="eventsWithVideo && ready">
+						<div class="slick-basic slick-slider">
+
+							<div class="item" ng-repeat="aEvent in eventsWithVideo"
+								style="max-width: 246px; max-height: 500px;">
+								<div class="panel panel-default relative"
+									ng-show="::aEvent.hasYoutube::">
+									<div class="cover hover overlay margin-none"
+										style="max-height: 163px; max-width: 246px;">
+										<iframe width="246px"
+											ng-src="::getIframeSrc(aEvent.videoId)::" allowfullscreen>
+										</iframe>
 
 									</div>
 									<div class="panel-body">

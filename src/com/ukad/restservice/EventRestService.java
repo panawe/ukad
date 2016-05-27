@@ -145,17 +145,29 @@ public class EventRestService {
 			if (dir.exists()) {
 				fileCount = dir.listFiles().length;
 			}
-			if (fileCount > 0 || (e.getAlbumNote()!=null&&!e.getAlbumNote().equals(""))) {
-				if(fileCount>0){
-					e.setHasPhoto(true);
-				}
+			if (fileCount > 0 ) {				 
+				e.setHasPhoto(true);
+				retList.add(e);
+			}
+		}
+		Collections.reverse(retList);
+		return retList;
+	}
+
+	
+	@RequestMapping(value = "/getAllEventsWithVideo", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<Event> getAllEventsWithVideo() {
+		System.out.println("Event list Requested - getAllEventsWithAlbum");
+		List<Event> events = eventService.loadAllEvents(Event.class);
+		List<Event> retList = new ArrayList<Event>();
+		for (Event e : events) {
+		 
 				if(e.getAlbumNote()!=null&&!e.getAlbumNote().equals("")){
 					e.setHasYoutube(true);
 					String albumNote=e.getAlbumNote();
 					e.setVideoId((albumNote==null||albumNote.equals(""))?null:albumNote.split("/")[albumNote.split("/").length-1]);
-				}
-				retList.add(e);
-			}
+					retList.add(e);
+				}			 
 		}
 		Collections.reverse(retList);
 		return retList;

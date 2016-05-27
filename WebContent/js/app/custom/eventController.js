@@ -210,7 +210,28 @@
 		  	  	            	 /**
 		  	  	            	  * End get all Events with Album
 		  	  	            	  */
-		  	  	                      
+
+								  	   /**
+				  	  	                 * Start get Events with Video
+				  	  	                 * Get the list of Events
+				  	  	                 */
+				  	  	                      $scope.getAllEventsWithVideo = function() {
+				  	  	                            
+				  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithVideo', data: null }).
+				  	  	                           success(function (data, status, headers, config) {
+				  	  	                                    $log.info("Call get All Events with Video Successful"); 
+				  	  	                                	$scope.eventsWithVideo=data;
+				  	  	                                    $log.info($scope);
+				  	  	                                    
+				  	  	                           }).error(function (data, status, headers, config) {
+				  	  	                                    $log.info("Call get All Event with Video Failed");
+				  	  	                                    $log.info($scope);
+				  	  	                           });
+				  	  	              
+				  	  	                      };
+				  	  	            	 /**
+				  	  	            	  * End get all Events with Video
+				  	  	            	  */
 								/**
 								 * Begin Event Calendar
 								 */
@@ -473,20 +494,22 @@
 								if(url=='/pages/main'){
 									
 									$scope.getAllEventsWithAlbum();
-									$cookieStore.remove("eventAlbum_reload");
+									$scope.getAllEventsWithVideo();
+									//$cookieStore.remove("eventAlbum_reload");
 								}else if(url=='/pages/eventAlbum' &&  ($scope.EventPictures==null||$scope.EventPictures=='')){								
-									if ($cookieStore.get('eventAlbum_reload'))
+									//if ($cookieStore.get('eventAlbum_reload'))
 										$scope.getEventAlbum($cookieStore.get('theEvent'));		
-																		
+											
+									/**
 									if (!$cookieStore.get('eventAlbum_reload')) {
 										$cookieStore.put('eventAlbum_reload', "true");
 										window.location.reload();
-									}
+									}*/
 								}else if(url=='/pages/eventCalendar'||url=='/pages/events'){
 									$scope.getAllEvents();
 								}else if(url=='/pages/meetings'){
 									$scope.getAllEventsWithAlbumOrRepport();
-									$cookieStore.remove("eventAlbum_reload");									
+									//$cookieStore.remove("eventAlbum_reload");									
 								}
 								
 
