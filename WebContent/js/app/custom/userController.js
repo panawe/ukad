@@ -14,10 +14,10 @@
 							'$http',
 							'FileUploader',
 							'$location',
-							'moment', 
+							'moment',
 							function($scope, $state, $window, $cookieStore,
 									$log, $http, FileUploader, $location,
-									moment ) {
+									moment) {
 					            //function to open links in new tabs
 					            $scope.openInNewTab = function(link){
 					                    $window.open(link, '_blank');
@@ -691,7 +691,17 @@
 								/**
 								 * End Show Modal
 								 */
-								
+
+								/**
+								 * Begin Default IMG
+								 */
+								$scope.getDefaultPersonImage = function() {
+									 
+									$('#personImage').src='image/members/default-avatar.png'; 
+								}
+								/**
+								 * End Default IMG
+								 */
 								/**
 								 * Start get All users Get the list of members
 								 */

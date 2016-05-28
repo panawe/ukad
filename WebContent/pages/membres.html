@@ -10,9 +10,10 @@
 					<div class="row" id="userList">
 						<div ng-repeat="u in users" class="col-xs-4 col-sm-2">
 							<a href="" ng-click="showUserModal(u)"><img
-								src="images/members/::u.id::.jpg" alt="Pas d'image"
-								class="img-thumbnail img-responsive img-circle"
-								max-width="120px"></a>
+								fallback-src="images/members/default-avatar.png"
+								src="images/members/::u.id::.jpg"
+								class="img-thumbnail img-responsive img-circle" id="personImage"
+								max-width="50px"></a>
 							<h5 class="text-center">
 								<strong>::u.firstName+' '+u.lastName:: </strong>
 							</h5>
@@ -22,41 +23,117 @@
 						</div>
 					</div>
 
-					<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
+					<div class="row">
+
+						<div class="tree">
+							<ul>
+								<li><a href="#"><img src="images/members/guy-1.jpg"
+										alt="Pas d'image"
+										class="img-thumbnail img-responsive img-circle"
+										max-width="120px"></a>
+									<ul>
+										<li><a href="#"><img src="images/members/woman-1.jpg"
+												alt="Pas d'image"
+												class="img-thumbnail img-responsive img-circle"
+												max-width="120px"></a>
+											<ul>
+												<li><a href="#">Grand Child</a></li>
+											</ul></li>
+										<li><a href="#">Child</a>
+											<ul>
+												<li><a href="#">Grand Child</a></li>
+												<li><a href="#">Grand Child</a>
+													<ul>
+														<li><a href="#">Great Grand Child</a></li>
+														<li><a href="#">Great Grand Child</a></li>
+														<li><a href="#">Great Grand Child</a>
+															<ul>
+																<li><a href="#">Great Great Grand Child</a></li>
+																<li><a href="#">Great Great Grand Child</a></li>
+																<li><a href="#">Great Great Grand Child</a></li>
+															</ul></li>
+													</ul></li>
+												<li><a href="#">Grand Child</a></li>
+											</ul></li>
+									</ul></li>
+							</ul>
+						</div>
+
+					</div>
+
+					<div id="myModal" class="modal fade" tabindex="-1" role="dialog"  
 						aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header bg-info">
 									<button type="button" class="close" data-dismiss="modal"
 										aria-hidden="true">X</button>
-									<h1 id="myModalLabel" class="text-center"></h1>
-								</div>
-								<div class="modal-body">
-									<div class="container-fluid">
-										<div class="row">
-											<div class="col-xs-4 col-sm-2">
-												<img src="images/members/::currUser.id::.jpg"
-													alt="Pas d'image"
-													class="img-thumbnail img-responsive img-circle">
-											</div>
+									<div class="row">
+										<div class="col-xs-2 col-sm-2 col-md-2">
+											<img src="images/members/::currUser.id::.jpg"
+												fallback-src="images/members/default-avatar.png"
+												max-width="50px"
+												class="img-thumbnail img-responsive img-circle">
 										</div>
-										<hr>
-										<div class="row">
-											<h4 class="text-center" ng-show="currUser.city">
+										<div class="col-xs-1 col-sm-1 col-md-1"></div>
+										<div class="col-xs-8 col-sm-8 col-md-8">
+											<strong><h4 id="myModalLabel" class="text-justify"></h4></strong>
+											<h4 class="text-justify" ng-show="currUser.city">
 												<i class="fa fa-fw fa-map-marker fa-2x"></i>::currUser.city::
 											</h4>
-											<h4 class="text-center" ng-show="currUser.phone">
+											<h4 class="text-justify" ng-show="currUser.phone">
 												<i class="fa fa-fw fa-phone fa-2x"></i> ::currUser.phone::
 											</h4>
-											<h4 class="text-center" ng-show="currUser.email">
+											<h4 class="text-justify" ng-show="currUser.email">
 												<i class="fa fa-fw fa-envelope-o fa-2x"></i><a
 													ng-href="mailto: ::currUser.email::">::currUser.email::</a>
 											</h4>
-											<h4 class="text-center">
+											<h4 class="text-justify">
 												<i class="fa fa-fw fa-user fa-2x"></i> Membre depuis
 												::currUser.membershipDate|date::
 											</h4>
 										</div>
+									</div>
+
+								</div>
+								<div class="modal-body">
+									<div class="container-fluid">
+										<div class="row">
+											<div class="tree">
+												<ul>
+													<li><a href="#"><img
+															src="images/members/guy-1.jpg" alt="Pas d'image"
+															class="img-thumbnail img-responsive img-circle"
+															max-width="120px"></a>
+														<ul>
+															<li><a href="#"><img
+																	src="images/members/woman-1.jpg" alt="Pas d'image"
+																	class="img-thumbnail img-responsive img-circle"
+																	max-width="120px"></a>
+																<ul>
+																	<li><a href="#">Grand Child</a></li>
+																</ul></li>
+															<li><a href="#">Child</a>
+																<ul>
+																	<li><a href="#">Grand Child</a></li>
+																	<li><a href="#">Grand Child</a>
+																		<ul>
+																			<li><a href="#">Great Grand Child</a></li>
+																			<li><a href="#">Great Grand Child</a></li>
+																			<li><a href="#">Great Grand Child</a>
+																				<ul>
+																					<li><a href="#">Great Great Grand Child</a></li>
+																					<li><a href="#">Great Great Grand Child</a></li>
+																					<li><a href="#">Great Great Grand Child</a></li>
+																				</ul></li>
+																		</ul></li>
+																	<li><a href="#">Grand Child</a></li>
+																</ul></li>
+														</ul></li>
+												</ul>
+											</div>
+										</div>
+
 									</div>
 								</div>
 								<div class="modal-footer bg-info">
@@ -66,54 +143,6 @@
 							</div>
 						</div>
 					</div>
-					<!--/modal-->
-
-
-					<!--  
-			<div class="panel panel-default">
-				<table st-table="users"  
-					class="table table-striped" cellspacing="0" width="100%">
-					<thead>
-						<tr>
-
-							<th colspan="5"><input st-search placeholder="Rechercher un membre"
-								class="input-sm form-control" type="search" /></th>
-						</tr>
-						<tr>
-							<th>Nom</th>
-							<th>Prenom</th>
-							<th>E-mail</th>
-							<th>Position</th>
-							<th>Telephone</th>
-							<th>Ville de residence</th>
-							<th>Membre depuis</th>
-							 
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="aUser in users">
-							<td>::aUser.lastName::</pbtd>
-							<td>::aUser.firstName::</td>
-							<td><a ng-href="mailto: ::aUser.email::">::aUser.email::</a></td>
-							<td>::aUser.position.name::</td>
-							<td>::aUser.phone::</td>
-							<td>::aUser.city::</td>
-							<td>::aUser.createDate|date::</td>
-						</tr>
-
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="7" class="text-center">
-								<div st-pagination="" st-items-by-page="20"
-									st-displayed-pages="100"></div>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-				 
-			</div>
--->
 
 				</div>
 			</div>
@@ -123,15 +152,10 @@
 				</div>
 			</div>
 		</div>
-
 		<br />
-
-
 		<!-- // END .container -->
-
 	</div>
 	<!-- // END .bg-white -->
-
 </div>
 <!-- // END #content -->
 

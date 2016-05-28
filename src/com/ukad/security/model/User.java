@@ -19,6 +19,7 @@ import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ukad.model.BaseEntity;
+import com.ukad.model.Country;
 import com.ukad.model.Position;
 
 @Entity
@@ -64,6 +65,21 @@ public class User extends BaseEntity {
 	
 	@Column(name = "MEMBERSHIP_RENEW_DATE")
 	private Date membershipRenewDate;	
+	
+	@Column(name = "BIRTH_DATE")
+	private Date birthDate;	
+
+	@ManyToOne
+	@JoinColumn(name = "MUM", nullable = true)
+	private User mum;
+	
+	@ManyToOne
+	@JoinColumn(name = "COUNTRY_ID", nullable = true)
+	private Country country;
+	
+	@ManyToOne
+	@JoinColumn(name = "DAD", nullable = true)
+	private User dad;
 
 	@Column(name = "CITY")
 	private String city;
@@ -322,6 +338,38 @@ public class User extends BaseEntity {
 	@Override
 	public String toString() {
 		return id + " " + userName + " " + firstName + " " + lastName;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public User getMum() {
+		return mum;
+	}
+
+	public void setMum(User mum) {
+		this.mum = mum;
+	}
+
+	public Country getCountry() {
+		return country;
+	}
+
+	public void setCountry(Country country) {
+		this.country = country;
+	}
+
+	public User getDad() {
+		return dad;
+	}
+
+	public void setDad(User dad) {
+		this.dad = dad;
 	}
 
 	
