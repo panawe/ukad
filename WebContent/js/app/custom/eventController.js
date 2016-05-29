@@ -495,21 +495,21 @@
 									
 									$scope.getAllEventsWithAlbum();
 									$scope.getAllEventsWithVideo();
-									//$cookieStore.remove("eventAlbum_reload");
+									$cookieStore.remove("eventAlbum_reload");
 								}else if(url=='/pages/eventAlbum' &&  ($scope.EventPictures==null||$scope.EventPictures=='')){								
-									//if ($cookieStore.get('eventAlbum_reload'))
+									if ($cookieStore.get('eventAlbum_reload'))
 										$scope.getEventAlbum($cookieStore.get('theEvent'));		
 											
-									/**
+									
 									if (!$cookieStore.get('eventAlbum_reload')) {
 										$cookieStore.put('eventAlbum_reload', "true");
 										window.location.reload();
-									}*/
+									}
 								}else if(url=='/pages/eventCalendar'||url=='/pages/events'){
 									$scope.getAllEvents();
 								}else if(url=='/pages/meetings'){
 									$scope.getAllEventsWithAlbumOrRepport();
-									//$cookieStore.remove("eventAlbum_reload");									
+									$cookieStore.remove("eventAlbum_reload");									
 								}
 								
 

@@ -72,7 +72,7 @@ public class UserRestService {
 			}
 		}
 
-		return user;
+		return user.minimize();
 	}
 
 	@RequestMapping(value = "/addGuestCount", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -405,6 +405,8 @@ public class UserRestService {
 
 	@RequestMapping(value = "/getChildren", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<User> getChildren(@RequestBody User user) {
+		//reload user as some values are missing
+		user=(User)userService.getById(User.class, user.getId());
 		System.out.println("List Requested - getChildren");
 		List<User> kids = new ArrayList<User>();
 	try{
@@ -429,6 +431,8 @@ public class UserRestService {
 	@RequestMapping(value = "/getSiblings", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody Set<User> getSiblings(@RequestBody User user) {
 		System.out.println("List Requested - getSiblings");
+		//reload user as some values are missing
+				user=(User)userService.getById(User.class, user.getId());
 		Set<User> siblings = new HashSet<User>();
 	 try{ 
 		 List<BaseEntity> l=null;
@@ -463,6 +467,8 @@ public class UserRestService {
 	@RequestMapping(value = "/getSpouses", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<User> getSpouses(@RequestBody User user) {
 		System.out.println("List Requested - getSpouses");
+		//reload user as some values are missing
+		user=(User)userService.getById(User.class, user.getId());
 		List<User> spouses = new ArrayList<User>();
 	try{
 		 List<BaseEntity> l=null;

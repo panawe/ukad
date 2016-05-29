@@ -58,6 +58,10 @@ public class User extends BaseEntity {
 	
 	@Column(name = "MEMBERSHIP_RENEW_DATE")
 	private Date membershipRenewDate;	
+	
+	@Column(name="BIRTH_DATE")
+	private Date birthDate;
+	
 
 	@ManyToOne
 	@JoinColumn(name = "COUNTRY_ORIGIN", nullable = true)
@@ -66,9 +70,6 @@ public class User extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "COUNTRY_RESIDENCE", nullable = true)
 	private Country countryResidence;
-	
-	@Column(name = "CITY")
-	private String city;
 	
 	@ManyToOne
 	@JoinColumn(name = "MUM", nullable = true)
@@ -93,6 +94,14 @@ public class User extends BaseEntity {
 	private boolean isOnline;
 	
 	
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
 	public Country getCountryOrigin() {
 		return countryOrigin;
 	}
@@ -173,13 +182,6 @@ public class User extends BaseEntity {
 		this.membershipDate = membershipDate;
 	}
 
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
 
 	public String getPic() {
 		return pic;
@@ -200,21 +202,6 @@ public class User extends BaseEntity {
 	@Column(name = "CAN_APPROVE")
 	private Short canApprove = 0;
 
-	@Column(name = "CURRENT_LOCALE")
-	private String currentLocale;
-
-	@Column(name = "CSV_DELIMITER")
-	private String csvDelimiter;
-
-	@Transient
-	private boolean teacher = false;
-
-	@Transient
-	private boolean student = false;
-
-	@Transient
-	private String allergy;
-	
 	@Transient
 	private Double fee=0.0;
 
@@ -233,13 +220,6 @@ public class User extends BaseEntity {
 		return image;
 	}
 
-	public String getAllergy() {
-		return allergy;
-	}
-
-	public void setAllergy(String allergy) {
-		this.allergy = allergy;
-	}
 
 	public void setImage(byte[] image) {
 		this.image = image;
@@ -253,33 +233,13 @@ public class User extends BaseEntity {
 		this.canApprove = canApprove == true ? (short) 1 : 0;
 	}
 
-	public boolean isTeacher() {
-		return teacher;
-	}
 
-	public void setTeacher(boolean teacher) {
-		this.teacher = teacher;
-	}
-
-	public boolean isStudent() {
-		return student;
-	}
-
-	public void setStudent(boolean student) {
-		this.student = student;
-	}
 
 	@Override
 	public Long getId() {
 		return id;
 	}
-	/*
-	 * @OneToMany
-	 * 
-	 * @JoinColumn(name = "USER_ID")
-	 * 
-	 * @Fetch(FetchMode.SELECT) private Set<RolesUser> rolesUser;
-	 */
+	
 
 	private Short status = 0;
 
@@ -301,12 +261,6 @@ public class User extends BaseEntity {
 		this.status = status;
 	}
 
-	/*
-	 * public Set<RolesUser> getRolesUser() { return rolesUser; }
-	 * 
-	 * public void setRolesUser(Set<RolesUser> rolesUser) { this.rolesUser =
-	 * rolesUser; }
-	 */
 
 	public void setId(Long id) {
 		this.id = id;
@@ -368,22 +322,6 @@ public class User extends BaseEntity {
 		this.phone = phone;
 	}
 
-	public String getCurrentLocale() {
-		return currentLocale;
-	}
-
-	public void setCurrentLocale(String currentLocale) {
-		this.currentLocale = currentLocale;
-	}
-
-	public String getCsvDelimiter() {
-		return csvDelimiter;
-	}
-
-	public void setCsvDelimiter(String csvDelimiter) {
-		this.csvDelimiter = csvDelimiter;
-	}
-
 	public boolean isOnline() {
 		return isOnline;
 	}
@@ -423,5 +361,16 @@ public class User extends BaseEntity {
 		return id + " " + userName + " " + firstName + " " + lastName;
 	}
 
+	public User minimize(){
+		if(this.mum!=null){
+			this.mum.mum=null;
+			this.mum.dad=null;
+		}
+		if(this.dad!=null){
+			this.dad.mum=null;
+			this.mum.dad=null;
+		}
+		return this;
+	}
 	
 }

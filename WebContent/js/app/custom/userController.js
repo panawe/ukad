@@ -521,7 +521,7 @@
 															headers, config) {
 														
 														$log.info("Call find Members Successful");
-														 $scope.searchResult = data;
+														 $scope.searchResultArrays = $scope.chunk(data, 6);
 														$log.info($scope.searchResult);
 														$location.url('/pages/searchResults');	
 														if($cookieStore.get('searchText')!=$scope.searchText){
@@ -544,6 +544,37 @@
 								 * End Find a user
 								 */
 
+								//simple seach
+								$scope.simpleSearch = function() {
+									$scope.searchResult =null;
+									// $( "#usersearchList" ).refresh(); 
+									
+									$http(
+											{
+												method : 'POST',
+												url : 'http://localhost:8080/ukadtogo/service/user/findMembers',
+												data : {
+													searchText : $scope.searchText
+												}
+											})
+											.success(
+													function(data, status,
+															headers, config) {
+														
+														$log.info("Call find Members Successful");
+														 $scope.searchResultArrays = $scope.chunk(data, 5); 
+
+														
+											}).error(
+													function(data, status,
+															headers, config) {
+														$log
+																.info("Call Find Members Failed");
+														$scope.searchResult = ''; 
+													});
+
+								};
+								
 								/**
 								 * Start approve Member
 								 * 
@@ -1043,6 +1074,11 @@
 								$('#myModalLabel').text(
 										user.firstName + ' '
 												+ user.lastName); 
+							}
+							
+							$scope.refreshTree = function(user) {
+								$scope.currUser = user;
+								$scope.getFamilyTree(user);
 							}
 							
 							$scope.chunk = function(arr, size) {

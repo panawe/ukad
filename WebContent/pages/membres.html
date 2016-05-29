@@ -63,14 +63,17 @@
 												fallback-src="images/members/default-avatar.png"
 												class="img-thumbnail img-responsive img-circle">
 										</div>
-										 
+
 										<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
 											<strong><h6 id="myModalLabel" class="text-justify"></h6></strong>
 											<h6 class="text-justify" ng-show="currUser.cityResidence">
-												<i class="fa fa-fw fa-map-marker fa-2x"></i> Reside a  ::currUser.cityResidence::, ::currUser.countryResidence.name::
+												<i class="fa fa-fw fa-map-marker fa-2x"></i> Reside a
+												::currUser.cityResidence::,
+												::currUser.countryResidence.name::
 											</h6>
 											<h6 class="text-justify" ng-show="currUser.cityOrigin">
-												<i class="fa fa-fw fa-map-marker fa-2x"></i>Originaire de  ::currUser.cityOrigin::, ::currUser.countryOrigin.name::
+												<i class="fa fa-fw fa-map-marker fa-2x"></i>Originaire de
+												::currUser.cityOrigin::, ::currUser.countryOrigin.name::
 											</h6>
 											<h6 class="text-justify" ng-show="currUser.phone">
 												<i class="fa fa-fw fa-phone fa-2x"></i> ::currUser.phone::
@@ -81,7 +84,8 @@
 											</h6>
 											<h6 class="text-justify" ng-show="currUser.status==1">
 												<i class="fa fa-fw fa-user fa-2x"></i> Membre depuis
-												::currUser.membershipDate|date:: <font color="red"> <strong>- ::currUser.position.name::</strong></font>
+												::currUser.membershipDate|date:: <font color="red"> <strong>-
+														::currUser.position.name::</strong></font>
 											</h6>
 											<h6 class="text-justify" ng-show="currUser.status!=1">
 												<i class="fa fa-fw fa-user fa-2x"></i> Non Membre
