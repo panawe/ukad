@@ -2,10 +2,14 @@ package com.ukad.restservice;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -22,10 +26,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ukad.listener.MySessionListener;
+import com.ukad.model.BaseEntity;
 import com.ukad.model.Event;
 import com.ukad.model.Mail;
 import com.ukad.model.Transaction;
 import com.ukad.security.model.Contribution;
+import com.ukad.security.model.Mariage;
 import com.ukad.security.model.Search;
 import com.ukad.security.model.SessionHistory;
 import com.ukad.security.model.User;
@@ -51,28 +57,28 @@ public class UserRestService {
 	public @ResponseBody User login(@RequestBody User user) {
 		System.out.println("User Login :" + user);
 		user = userService.getUser(user.getUserName(), user.getPassword());
-		
+
 		if (user != null) {
-			Long sessionHistoryId = (Long)request.getSession().getAttribute("sessionHistoryId");
+			Long sessionHistoryId = (Long) request.getSession().getAttribute("sessionHistoryId");
 			if (sessionHistoryId == null)
 				addGuestCount();
-			sessionHistoryId = (Long)request.getSession().getAttribute("sessionHistoryId");
-			
+			sessionHistoryId = (Long) request.getSession().getAttribute("sessionHistoryId");
+
 			request.getSession().setAttribute("userId", user.getId());
 			if (sessionHistoryId != null) {
 				SessionHistory sh = (SessionHistory) userService.getById(SessionHistory.class, sessionHistoryId);
 				sh.setUser(user);
-				userService.update(sh, user);	
-			}		}
-		
+				userService.update(sh, user);
+			}
+		}
+
 		return user;
 	}
 
-	
 	@RequestMapping(value = "/addGuestCount", method = RequestMethod.POST, headers = "Accept=application/json")
 	public void addGuestCount() {
 		MySessionListener.sessions.add(request.getSession().getId());
-		
+
 		SessionHistory sessionHistory = new SessionHistory();
 		sessionHistory.setBeginDate(new Date());
 		sessionHistory.setUser(null);
@@ -83,33 +89,32 @@ public class UserRestService {
 		sessionHistory.setOsuser(request.getRemoteUser());
 		sessionHistory.setBrowser(request.getHeader("User-Agent"));
 		userService.save(sessionHistory);
-		
-		request.getSession().setAttribute("sessionHistoryId", sessionHistory.getId());	
+
+		request.getSession().setAttribute("sessionHistoryId", sessionHistory.getId());
 	}
-	
-	
+
 	@RequestMapping(value = "/getGuestCount", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody Long getGuestCount() {
 		return (long) MySessionListener.sessions.size();
 	}
-	
+
 	@RequestMapping(value = "/logout", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody Boolean logout() {
 		System.out.println("User Logout :" + request.getSession().getAttribute("userId"));
 
 		mySessionListener.sessionDestroyed(request);
-		
+
 		request.getSession().setAttribute("userId", null);
 		request.getSession().setAttribute("sessionHistoryId", null);
-		
+
 		return true;
 	}
-	
+
 	@RequestMapping(value = "/getMessagingUsers", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<User> getMessagingUsers() {
-		
+
 		List<User> members = userService.loadAllMembersWithOnlineStatus();
-		
+
 		return members;
 	}
 
@@ -123,21 +128,30 @@ public class UserRestService {
 		date.set(Calendar.MINUTE, 0);
 		date.set(Calendar.SECOND, 0);
 		date.set(Calendar.MILLISECOND, 0);
-		
+
 		user.setMembershipRenewDate(date.getTime());
 		userService.add(user);
 		System.out.println("User Created:" + user);
-		try {			
-			
-			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a "+userService.getConfig("ORG_NAME").getValue()+"  </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a "+userService.getConfig("ORG_NAME").getValue()+" bien recue", mail, userService.getConfig("ORG_EMAIL").getValue(),
-					user.getEmail(), userService.getConfig("ORG_SMTP").getValue(),userService.getConfig("ORG_EMAIL").getValue(), userService.getConfig("ORG_EMAIL_PASSWORD").getValue());
+		try {
+
+			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a "
+					+ userService.getConfig("ORG_NAME").getValue()
+					+ "  </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
+			SimpleMail.sendMail(
+					"Votre demande d'adhesion a " + userService.getConfig("ORG_NAME").getValue() + " bien recue", mail,
+					userService.getConfig("ORG_EMAIL").getValue(), user.getEmail(),
+					userService.getConfig("ORG_SMTP").getValue(), userService.getConfig("ORG_EMAIL").getValue(),
+					userService.getConfig("ORG_EMAIL_PASSWORD").getValue());
 
 			mail = "<blockquote><h2><b>Nom: " + user.getLastName() + "</b></h2><h2><b>Prenom:" + user.getFirstName()
 					+ "</b></h2><h2><b>E-mail:" + user.getEmail()
-					+ "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\""+userService.getConfig("ORG_WEBSITE").getValue()+" \" target=\"\">"+userService.getConfig("ORG_WEBSITE").getValue()+" </a></b></div></blockquote>";
+					+ "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\""
+					+ userService.getConfig("ORG_WEBSITE").getValue() + " \" target=\"\">"
+					+ userService.getConfig("ORG_WEBSITE").getValue() + " </a></b></div></blockquote>";
 			SimpleMail.sendMail("Demand d'adhesion de " + user.getFirstName() + " " + user.getLastName(), mail,
-					userService.getConfig("ORG_EMAIL").getValue(), userService.getConfig("ORG_EMAIL").getValue(), userService.getConfig("ORG_SMTP").getValue(), userService.getConfig("ORG_EMAIL").getValue(), userService.getConfig("ORG_EMAIL_PASSWORD").getValue());
+					userService.getConfig("ORG_EMAIL").getValue(), userService.getConfig("ORG_EMAIL").getValue(),
+					userService.getConfig("ORG_SMTP").getValue(), userService.getConfig("ORG_EMAIL").getValue(),
+					userService.getConfig("ORG_EMAIL_PASSWORD").getValue());
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -260,9 +274,14 @@ public class UserRestService {
 		try {
 			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2><span style=\"color: inherit;\">Nous somme "
 					+ "heureux de vous annoncer que votre demande d'adhesion a ete acceptee. Restez aux nouvelles de l'association en visitant"
-					+ " <a href=\""+userService.getConfig("ORG_WEBSITE").getValue()+"\" target=\"\">"+userService.getConfig("ORG_WEBSITE").getValue()+"</a> </span><br/></h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a "+userService.getConfig("ORG_NAME").getValue()+" Approvee", mail, userService.getConfig("ORG_EMAIL").getValue(),
-					user.getEmail(),userService.getConfig("ORG_SMTP").getValue(), userService.getConfig("ORG_EMAIL").getValue(), userService.getConfig("ORG_EMAIL_PASSWORD").getValue());
+					+ " <a href=\"" + userService.getConfig("ORG_WEBSITE").getValue() + "\" target=\"\">"
+					+ userService.getConfig("ORG_WEBSITE").getValue()
+					+ "</a> </span><br/></h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
+			SimpleMail.sendMail(
+					"Votre demande d'adhesion a " + userService.getConfig("ORG_NAME").getValue() + " Approvee", mail,
+					userService.getConfig("ORG_EMAIL").getValue(), user.getEmail(),
+					userService.getConfig("ORG_SMTP").getValue(), userService.getConfig("ORG_EMAIL").getValue(),
+					userService.getConfig("ORG_EMAIL_PASSWORD").getValue());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -279,10 +298,13 @@ public class UserRestService {
 		try {
 			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2><span style=\"color: inherit;\">Nous somme desole de vous annoncer que "
 					+ "votre demande d'adhesion a ete rejetee. Restez aux nouvelles de l'association en visitant"
-					+ " <a href=\""+ userService.getConfig("ORG_WEBSITE").getValue()+"\" target=\"\">"+ userService.getConfig("ORG_WEBSITE").getValue()+"</a> </span><br/></h2><h2>Encore une fois, "
+					+ " <a href=\"" + userService.getConfig("ORG_WEBSITE").getValue() + "\" target=\"\">"
+					+ userService.getConfig("ORG_WEBSITE").getValue() + "</a> </span><br/></h2><h2>Encore une fois, "
 					+ "merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV Rejetee", mail,  userService.getConfig("ORG_EMAI").getValue(),
-					user.getEmail(),  userService.getConfig("ORG_SMTP").getValue(),  userService.getConfig("ORG_EMAIL").getValue(),  userService.getConfig("ORG_EMAIL_PASSWORD").getValue());
+			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV Rejetee", mail,
+					userService.getConfig("ORG_EMAI").getValue(), user.getEmail(),
+					userService.getConfig("ORG_SMTP").getValue(), userService.getConfig("ORG_EMAIL").getValue(),
+					userService.getConfig("ORG_EMAIL_PASSWORD").getValue());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -306,7 +328,9 @@ public class UserRestService {
 
 		try {
 			SimpleMail.sendMail(mail.getSubject(), mail.getBody(), mail.getSender().getEmail(),
-					sb.substring(0, sb.length() - 1),  userService.getConfig("ORG_SMTP").getValue(),  userService.getConfig("ORG_EMAIL").getValue(),  userService.getConfig("ORG_EMAIL_PASSWORD").getValue());
+					sb.substring(0, sb.length() - 1), userService.getConfig("ORG_SMTP").getValue(),
+					userService.getConfig("ORG_EMAIL").getValue(),
+					userService.getConfig("ORG_EMAIL_PASSWORD").getValue());
 
 			mail.setStatus((short) 1);
 			userService.save(mail, mail.getSender());
@@ -339,7 +363,9 @@ public class UserRestService {
 
 		try {
 			SimpleMail.sendMail(mail.getSubject(), mail.getBody(), mail.getSender().getEmail(),
-					sb.substring(0, sb.length() - 1),  userService.getConfig("ORG_SMTP").getValue(),  userService.getConfig("ORG_EMAIL").getValue(),  userService.getConfig("ORG_EMAIL_PASSWORD").getValue());
+					sb.substring(0, sb.length() - 1), userService.getConfig("ORG_SMTP").getValue(),
+					userService.getConfig("ORG_EMAIL").getValue(),
+					userService.getConfig("ORG_EMAIL_PASSWORD").getValue());
 
 			mail.setStatus((short) 1);
 			userService.save(mail, mail.getSender());
@@ -377,4 +403,98 @@ public class UserRestService {
 		return userService.getContributions();
 	}
 
+	@RequestMapping(value = "/getChildren", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<User> getChildren(@RequestBody User user) {
+		System.out.println("List Requested - getChildren");
+		List<User> kids = new ArrayList<User>();
+	try{
+		List<BaseEntity> l=null;
+		if (user.getSex().equals("M")) {
+		 
+			l=userService.loadAllByColumn(User.class, "dad.id", user.getId());
+		} else {
+			l= userService.loadAllByColumn(User.class, "mum.id", user.getId());
+		}
+		if(l!=null){
+			for (BaseEntity b:l){
+				kids.add((User) b);
+			}
+		}
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+		return kids;
+	}
+
+	@RequestMapping(value = "/getSiblings", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody Set<User> getSiblings(@RequestBody User user) {
+		System.out.println("List Requested - getSiblings");
+		Set<User> siblings = new HashSet<User>();
+	 try{ 
+		 List<BaseEntity> l=null;
+			if(user.getDad()!=null){
+				l=userService.loadAllByColumn(User.class, "dad.id",user.getDad().getId());
+				if(l!=null){
+					for (BaseEntity b:l){
+						//same Mum
+						if(!user.equals((User) b) &&(user.getMum()!=null &&((User) b).getMum().equals(user.getMum()) ))
+							siblings.add((User) b);
+					}
+				}
+			}
+			if(user.getMum()!=null){
+				l=userService.loadAllByColumn(User.class, "mum.id",user.getMum().getId()); 
+				if(l!=null){
+					for (BaseEntity b:l){
+						if(!user.equals((User) b)&&(user.getDad()!=null &&((User) b).getDad().equals(user.getDad()) ))
+							siblings.add((User) b);
+					}
+				}
+				
+			}
+			
+			
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+		return siblings;
+	}
+
+	@RequestMapping(value = "/getSpouses", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<User> getSpouses(@RequestBody User user) {
+		System.out.println("List Requested - getSpouses");
+		List<User> spouses = new ArrayList<User>();
+	try{
+		 List<BaseEntity> l=null;
+		 if (user.getSex().equals("M")) {
+		 
+			l=userService.loadAllByColumn(Mariage.class, "husband.id",user.getId());
+			if(l!=null){
+				for (BaseEntity b:l){
+					spouses.add(((Mariage) b).getWife());
+				}
+			}
+		} else {
+			l =userService.loadAllByColumn(Mariage.class, "wife.id",user.getId());
+			if(l!=null){
+				for (BaseEntity b:l){
+					spouses.add(((Mariage) b).getHusband());
+				}
+			}
+		}
+		
+		
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+		return spouses;
+	}
+
+	@RequestMapping(value = "/getParents", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<User> getParents(@RequestBody User user) {
+		System.out.println("List Requested - getParents");
+		userService.findByColumn(User.class, "mum", "");
+
+		return userService.loadAllMembers();
+	}
 }

@@ -93,7 +93,7 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
 		sessionBuilder.scanPackages("com.ukad.model");
 		sessionBuilder.scanPackages("com.ukad.security.model");
-		sessionBuilder.setProperty("hibernate.show_sql", "false");
+		sessionBuilder.setProperty("hibernate.show_sql", "true");
 		sessionBuilder.setProperty("checkWriteOperations", "false");
 		sessionBuilder.setProperty("flushMode", "COMMIT");
 		return sessionBuilder.buildSessionFactory();

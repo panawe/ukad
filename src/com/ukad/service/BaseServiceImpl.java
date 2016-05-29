@@ -225,6 +225,11 @@ public class BaseServiceImpl implements BaseService {
 	public List<BaseEntity> loadAllByColumn(Class cl, String columnName, Integer columnValue) {
 		return baseDao.loadAllByColumn(cl, columnName, columnValue);
 	}
+	
+	@Override
+	public List<BaseEntity> loadAllByColumn(Class cl, String columnName, Long columnValue) {
+		return baseDao.loadAllByColumn(cl, columnName, columnValue);
+	}
 
 	@Override
 	public Configuration getConfig(String prop) {

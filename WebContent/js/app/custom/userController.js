@@ -487,7 +487,7 @@
 											function(data, status, headers,
 													config) {
 												$log.info("Call Successful");
-												$scope.users = data;
+												$scope.userArrays = $scope.chunk(data, 6);
 												$log.info($scope);
 											}).error(
 											function(data, status, headers,
@@ -683,6 +683,7 @@
 								 */
 								$scope.showUserModal = function(user) {
 									$scope.currUser = user;
+									$scope.getFamilyTree(user);
 									$('#myModalLabel').text(
 											user.firstName + ' '
 													+ user.lastName);
@@ -1031,6 +1032,98 @@
 												});
 
 							};
+							
+							
+							/**
+							 * Begin Show Modal
+							 */
+							$scope.refreshModal = function(user) {
+								$scope.currUser = user;
+								$scope.getFamilyTree(user);
+								$('#myModalLabel').text(
+										user.firstName + ' '
+												+ user.lastName); 
+							}
+							
+							$scope.chunk = function(arr, size) {
+								 var newArr = [];
+								  for (var i=0; i<arr.length; i+=size) {
+								    newArr.push(arr.slice(i, i+size));
+								  }
+								 return newArr;
+							}
+							
+							/**
+							 * End Show Modal
+							 */
+							
+							$scope.getFamilyTree = function(user) {
+
+								$http(
+										{
+											method : 'POST',
+											url : 'http://localhost:8080/ukadtogo/service/user/getSiblings',
+											data : user
+										})
+										.success(
+												function(data, status,
+														headers, config) {
+													$log.info("Call get getSiblings");
+													$scope.siblings = data;
+
+												})
+										.error(
+												function(data, status,
+														headers, config) {
+
+													$log.info("Call get getSiblings Failed");
+													$log.info($scope);
+												});
+								
+								$http(
+										{
+											method : 'POST',
+											url : 'http://localhost:8080/ukadtogo/service/user/getChildren',
+											data : user
+										})
+										.success(
+												function(data, status,
+														headers, config) {
+													$log.info("Call get getChildren");
+													$scope.children = data;
+
+												})
+										.error(
+												function(data, status,
+														headers, config) {
+
+													$log.info("Call get getChildren Failed");
+													$log.info($scope);
+												});
+
+								$http(
+										{
+											method : 'POST',
+											url : 'http://localhost:8080/ukadtogo/service/user/getSpouses',
+											data : user
+										})
+										.success(
+												function(data, status,
+														headers, config) {
+													$log.info("Call get getSpouses");
+													$scope.spouses = data;
+
+												})
+										.error(
+												function(data, status,
+														headers, config) {
+
+													$log.info("Call get getSpouses Failed");
+													$log.info($scope);
+												});
+
+							};
+							
 							
 							$scope.getContributions();
 							//Fix for refresh

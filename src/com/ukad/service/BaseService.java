@@ -89,6 +89,7 @@ public interface BaseService {
 	public List<BaseEntity> loadAllByColumn(Class cl, String columnName, Integer columnValue);
 	
 	public Configuration getConfig(String prop);
+	public List<BaseEntity> loadAllByColumn(Class cl, String columnName, Long columnValue) ;
 	
 
 }

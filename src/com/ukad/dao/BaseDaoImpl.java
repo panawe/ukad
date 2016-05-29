@@ -275,7 +275,7 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport imple
 	public BaseEntity findByColumn(Class cl, String columnName, Integer columnValue) {
 		BaseEntity entity = null;
 		DetachedCriteria crit = DetachedCriteria.forClass(cl);
-		crit.add(Restrictions.eq(columnName, columnValue.shortValue()));
+		crit.add(Restrictions.eq(columnName, new Long(columnValue)));
 		List l = getHibernateTemplate().findByCriteria(crit);
 
 		if (l.size() > 0)
@@ -289,6 +289,16 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport imple
 		BaseEntity entity = null;
 		DetachedCriteria crit = DetachedCriteria.forClass(cl);
 		crit.add(Restrictions.eq(columnName, columnValue.shortValue()));
+		List l = getHibernateTemplate().findByCriteria(crit);
+
+		return l;
+	}
+	
+	@Override
+	public List<BaseEntity> loadAllByColumn(Class cl, String columnName, Long columnValue) {
+		BaseEntity entity = null;
+		DetachedCriteria crit = DetachedCriteria.forClass(cl);
+		crit.add(Restrictions.eq(columnName, columnValue));
 		List l = getHibernateTemplate().findByCriteria(crit);
 
 		return l;

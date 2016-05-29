@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ukad.model.BaseEntity;
 
 @Entity
@@ -30,9 +31,11 @@ public class Mariage extends BaseEntity {
 	@JoinColumn(name = "WIFE")
 	private User wife;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
 	@Column(name = "MARIAGE_DATE")
 	private Date mariageDate;	
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
 	@Column(name = "DIVORCE_DATE")
 	private Date divorceDate;	
 
