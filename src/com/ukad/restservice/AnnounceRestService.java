@@ -20,18 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ukad.model.Advertisement;
 import com.ukad.model.Announce;
-import com.ukad.model.Event;
-import com.ukad.model.Project;
-import com.ukad.model.Sponsor;
-import com.ukad.model.Weblink;
-import com.ukad.security.model.User;
-import com.ukad.security.service.UserService;
-import com.ukad.service.AdvertisementService;
 import com.ukad.service.AnnounceService;
-import com.ukad.service.EventService;
-import com.ukad.util.SimpleMail;
 
 @RestController
 @RequestMapping("/service/announce")
@@ -149,7 +139,7 @@ public class AnnounceRestService {
 		String storageDirectory = null;
 
 		if (context != null) {
-			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "events";
+			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "announces";	
 		}
 		List<String> retList = new ArrayList<String>();
 
