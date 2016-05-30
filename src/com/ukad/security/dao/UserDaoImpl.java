@@ -157,22 +157,38 @@ public class UserDaoImpl extends BaseDaoImpl {
 			if (ab.length == 1) {
 				Criterion c1 = Restrictions.like("firstName", "%" + searchText.toLowerCase() + "%").ignoreCase();
 				Criterion c2 = Restrictions.like("lastName", "%" + searchText.toLowerCase() + "%").ignoreCase();
-				Criterion c3 = Restrictions.eq("status", (short) 1);
+				//Criterion c3 = Restrictions.eq("status", (short) 1);
 				crit.add(Restrictions.or(c1, c2));
-				crit.add(Restrictions.and(c3));
+				//crit.add(Restrictions.and(c3));
 				return (List<User>) getHibernateTemplate().findByCriteria(crit);
 			} else {// take first 2
 				Criterion c1 = Restrictions.like("firstName", "%" + ab[0].toLowerCase() + "%").ignoreCase();
 				Criterion c2 = Restrictions.like("lastName", "%" + ab[1].toLowerCase() + "%").ignoreCase();
 				Criterion c3 = Restrictions.like("firstName", "%" + ab[1].toLowerCase() + "%").ignoreCase();
 				Criterion c4 = Restrictions.like("lastName", "%" + ab[0].toLowerCase() + "%").ignoreCase();
-				Criterion c5 = Restrictions.eq("status", (short) 1);
+				//Criterion c5 = Restrictions.eq("status", (short) 1);
 				crit.add(Restrictions.or(c1, c2, c3, c4));
-				crit.add(Restrictions.and(c5));
+				//crit.add(Restrictions.and(c5));
 				return (List<User>) getHibernateTemplate().findByCriteria(crit);
 			}
 
 		}
+	}
+	
+	public List<User> findMembers(String firstName, String lastName, String login, String email) {
+
+ 
+			DetachedCriteria crit = DetachedCriteria.forClass(User.class);
+	 
+				Criterion c1 = Restrictions.eq("firstName", firstName).ignoreCase();
+				Criterion c2 = Restrictions.eq("lastName", lastName).ignoreCase();
+				Criterion c3 = Restrictions.eq("userName", login).ignoreCase();
+				Criterion c4 = Restrictions.eq("email", email).ignoreCase();
+				//Criterion c3 = Restrictions.eq("status", (short) 1);
+				crit.add(Restrictions.and(c1, c2));
+				crit.add(Restrictions.or(c3,c4));
+				return (List<User>) getHibernateTemplate().findByCriteria(crit);
+
 	}
 
 	public List<User> getLeaders() {

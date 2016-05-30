@@ -140,4 +140,12 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	public List<User> loadAllMembersWithOnlineStatus() {
 		return userDao.loadAllUsersWithOnlineStatus();
 	}
+
+	@Override
+	public List<User> findMembers(String firstName, String lastName, String login, String email) {
+		// TODO Auto-generated method stub
+		return userDao.findMembers(firstName, lastName, login, email);
+	}
+	
+	
 }

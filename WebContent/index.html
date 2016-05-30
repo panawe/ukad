@@ -130,7 +130,25 @@
 								<form role="form" ng-submit="createUser()">
 									<div class="row">
 										<div class="col-md-6">
-											<div class="form-group form-control-default">
+											<div class="form-group form-control-default required">
+												<label for="userName">Nom d'utilisateur</label> <input
+													ng-model="newUser.userName" type="text"
+													class="form-control" id="userName"
+													placeholder="Nom d'utilisateur">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group form-control-default required">
+												<label for="cityOrigin">Ville/Village d'origine</label> <input
+													ng-model="newUser.cityOrigin" type="text"
+													class="form-control" id="cityOrigin"
+													placeholder="Ville/Village d'origine">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group form-control-default required">
 												<label for="exampleInputFirstName">Prenom</label> <input
 													ng-model="newUser.firstName" type="text"
 													class="form-control" id="exampleInputFirstName"
@@ -138,7 +156,7 @@
 											</div>
 										</div>
 										<div class="col-md-6">
-											<div class="form-group form-control-default">
+											<div class="form-group form-control-default required">
 												<label for="exampleInputLastName">Nom</label> <input
 													ng-model="newUser.lastName" type="text"
 													class="form-control" id="exampleInputLastName"
@@ -158,6 +176,14 @@
 											placeholder="Password">
 									</div>
 									<button type="submit" class="btn btn-primary">Enregistrer</button>
+									<div class="alert alert-danger"
+												ng-show="failedLogin">
+												<button type="button" class="close" data-dismiss="alert">
+													<span aria-hidden="true">&times;</span><span
+														class="sr-only">Fermer</span>
+												</button>
+												::theUserMessage::
+											</div>
 								</form>
 							</div></li>
 
@@ -177,8 +203,7 @@
 								<li ng-show="theUser.status==1"><a href="#pages/email"><i
 										class="fa fa-wrench"></i>Nouvelles</a></li>
 								<li ng-show="theUser.canApprove && theUser.status==1"><a
-									href="#pages/approveMembers"><i class="fa fa-wrench"></i>Approver
-										les membres</a></li>
+									href="#pages/approveMembers"><i class="fa fa-wrench"></i>Administrer les Membres</a></li>
 								<li ng-show="theUser.status==1"><a href="#pages/cotiser"><i
 										class="fa fa-wrench"></i>Cotisation</a></li>
 								<li ng-show="theUser.canApprove && theUser.status==1"><a
@@ -238,7 +263,7 @@
 											</div>
 											<div class="media-body">
 												<div class="contact-name">::onlineMember.firstName::
-													::onlineMember.lastName::</div> 
+													::onlineMember.lastName::</div>
 											</div>
 										</div>
 								</a></li>
@@ -345,9 +370,9 @@
 	<script src="js/app/custom/sidebarController.js"></script>
 	<script src="js/app/custom/sponsorController.js"></script>
 	<script src="js/app/custom/announceController.js"></script>
-	<script src="js/app/custom/weblinkController.js"></script>	
+	<script src="js/app/custom/weblinkController.js"></script>
 	<script src="js/app/custom/directives.js"></script>
-	
+
 </body>
 
 </html>

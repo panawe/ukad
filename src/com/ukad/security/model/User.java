@@ -46,9 +46,6 @@ public class User extends BaseEntity {
 	@Column(name = "PHONE")
 	private String phone;
 
-	@Column(name = "PIC")
-	private String pic;
-
 	@Column(name = "ADDRESS")
 	private String address;
 
@@ -59,9 +56,9 @@ public class User extends BaseEntity {
 	@Column(name = "MEMBERSHIP_RENEW_DATE")
 	private Date membershipRenewDate;	
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
 	@Column(name="BIRTH_DATE")
-	private Date birthDate;
-	
+	private Date birthDate;	
 
 	@ManyToOne
 	@JoinColumn(name = "COUNTRY_ORIGIN", nullable = true)
@@ -82,7 +79,7 @@ public class User extends BaseEntity {
 	private String sex;
 	
 	@Column(name ="ALIVE")
-	private Short alive;	
+	private Short alive=1;	
 
 	@Column(name = "CITY_ORIGIN")
 	private String cityOrigin;
@@ -93,7 +90,19 @@ public class User extends BaseEntity {
 	@Transient
 	private boolean isOnline;
 	
+	@Transient
+	private String data;
 	
+	
+	
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
 	public Date getBirthDate() {
 		return birthDate;
 	}
@@ -142,12 +151,12 @@ public class User extends BaseEntity {
 		this.sex = sex;
 	}
 
-	public Short getAlive() {
-		return alive;
+	public boolean getAlive() {
+		return alive == 1 ? true : false;
 	}
 
-	public void setAlive(Short alive) {
-		this.alive = alive;
+	public void setAlive(boolean alive) {
+		this.alive = this.alive = alive == true ? (short) 1 : 0;
 	}
 
 	public User getMum() {
@@ -183,10 +192,6 @@ public class User extends BaseEntity {
 	}
 
 
-	public String getPic() {
-		return pic;
-	}
-
 	public String getAddress() {
 		return address;
 	}
@@ -195,9 +200,6 @@ public class User extends BaseEntity {
 		this.address = address;
 	}
 
-	public void setPic(String pic) {
-		this.pic = pic;
-	}
 
 	@Column(name = "CAN_APPROVE")
 	private Short canApprove = 0;

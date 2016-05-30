@@ -70,9 +70,10 @@ public class UserRestService {
 				sh.setUser(user);
 				userService.update(sh, user);
 			}
+			return user.minimize();
 		}
-
-		return user.minimize();
+		return null;
+		
 	}
 
 	@RequestMapping(value = "/addGuestCount", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -120,7 +121,28 @@ public class UserRestService {
 
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody User createUser(@RequestBody User user) {
-		user.setUserName(user.getEmail());
+		
+		List<User> users= userService.findMembers(user.getFirstName(), user.getLastName(), user.getUserName(), user.getEmail());
+		
+		if(users!=null && users.size()>0){
+			return null;
+		}
+		if(user.getUserName()==null){
+			user.setUserName(user.getFirstName().toLowerCase().replaceAll(" ", "")+"."+user.getLastName().toLowerCase().replaceAll(" ", ""));
+		}
+		if(user.getPassword()==null){
+			user.setPassword("123");
+		}
+		if(user.getMembershipDate()==null){
+			user.setMembershipDate(new Date());
+		}
+		if(user.getBirthDate()==null){
+			user.setBirthDate(new Date());
+		}
+		if(user.getMembershipRenewDate()==null){
+			user.setMembershipDate(new Date());
+		}
+		 
 		user.setMembershipDate(new Date());
 
 		Calendar date = new GregorianCalendar();
@@ -193,6 +215,21 @@ public class UserRestService {
 
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody User saveUser(@RequestBody User user) {
+		if(user.getUserName()==null){
+			user.setUserName(user.getFirstName().toLowerCase().replaceAll(" ", "")+"."+user.getLastName().toLowerCase().replaceAll(" ", ""));
+		}
+		if(user.getPassword()==null){
+			user.setPassword("123");
+		}
+		if(user.getMembershipDate()==null){
+			user.setMembershipDate(new Date());
+		}
+		if(user.getBirthDate()==null){
+			user.setBirthDate(new Date());
+		}
+		if(user.getMembershipRenewDate()==null){
+			user.setMembershipDate(new Date());
+		}
 		userService.add(user);
 		return userService.getUser(user.getUserName(), user.getPassword());
 	}
@@ -405,102 +442,214 @@ public class UserRestService {
 
 	@RequestMapping(value = "/getChildren", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<User> getChildren(@RequestBody User user) {
-		//reload user as some values are missing
-		user=(User)userService.getById(User.class, user.getId());
+		// reload user as some values are missing
+		// user=(User)userService.getById(User.class, user.getId());
 		System.out.println("List Requested - getChildren");
 		List<User> kids = new ArrayList<User>();
-	try{
-		List<BaseEntity> l=null;
-		if (user.getSex().equals("M")) {
-		 
-			l=userService.loadAllByColumn(User.class, "dad.id", user.getId());
-		} else {
-			l= userService.loadAllByColumn(User.class, "mum.id", user.getId());
-		}
-		if(l!=null){
-			for (BaseEntity b:l){
-				kids.add((User) b);
+		try {
+			List<BaseEntity> l = null;
+			if (user.getSex().equals("M")) {
+
+				l = userService.loadAllByColumn(User.class, "dad.id", user.getId());
+			} else {
+				l = userService.loadAllByColumn(User.class, "mum.id", user.getId());
 			}
+			if (l != null) {
+				for (BaseEntity b : l) {
+					kids.add((User) b);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-	}catch(Exception e){
-		e.printStackTrace();
-	}
 		return kids;
 	}
 
 	@RequestMapping(value = "/getSiblings", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody Set<User> getSiblings(@RequestBody User user) {
 		System.out.println("List Requested - getSiblings");
-		//reload user as some values are missing
-				user=(User)userService.getById(User.class, user.getId());
+		// reload user as some values are missing
+		// user=(User)userService.getById(User.class, user.getId());
 		Set<User> siblings = new HashSet<User>();
-	 try{ 
-		 List<BaseEntity> l=null;
-			if(user.getDad()!=null){
-				l=userService.loadAllByColumn(User.class, "dad.id",user.getDad().getId());
-				if(l!=null){
-					for (BaseEntity b:l){
-						//same Mum
-						if(!user.equals((User) b) &&(user.getMum()!=null &&((User) b).getMum().equals(user.getMum()) ))
+		try {
+			List<BaseEntity> l = null;
+			if (user.getDad() != null) {
+				l = userService.loadAllByColumn(User.class, "dad.id", user.getDad().getId());
+				if (l != null) {
+					for (BaseEntity b : l) {
+						// same Mum
+						if (!user.equals((User) b)
+								&& (user.getMum() != null && ((User) b).getMum().equals(user.getMum())))
 							siblings.add((User) b);
 					}
 				}
 			}
-			if(user.getMum()!=null){
-				l=userService.loadAllByColumn(User.class, "mum.id",user.getMum().getId()); 
-				if(l!=null){
-					for (BaseEntity b:l){
-						if(!user.equals((User) b)&&(user.getDad()!=null &&((User) b).getDad().equals(user.getDad()) ))
+			if (user.getMum() != null) {
+				l = userService.loadAllByColumn(User.class, "mum.id", user.getMum().getId());
+				if (l != null) {
+					for (BaseEntity b : l) {
+						if (!user.equals((User) b)
+								&& (user.getDad() != null && ((User) b).getDad().equals(user.getDad())))
 							siblings.add((User) b);
 					}
 				}
-				
+
 			}
-			
-			
-	}catch(Exception e){
-		e.printStackTrace();
-	}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return siblings;
 	}
 
 	@RequestMapping(value = "/getSpouses", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<User> getSpouses(@RequestBody User user) {
 		System.out.println("List Requested - getSpouses");
-		//reload user as some values are missing
-		user=(User)userService.getById(User.class, user.getId());
+		// reload user as some values are missing
+		// user=(User)userService.getById(User.class, user.getId());
 		List<User> spouses = new ArrayList<User>();
-	try{
-		 List<BaseEntity> l=null;
-		 if (user.getSex().equals("M")) {
-		 
-			l=userService.loadAllByColumn(Mariage.class, "husband.id",user.getId());
-			if(l!=null){
-				for (BaseEntity b:l){
-					spouses.add(((Mariage) b).getWife());
+		try {
+			List<BaseEntity> l = null;
+			if (user.getSex().equals("M")) {
+
+				l = userService.loadAllByColumn(Mariage.class, "husband.id", user.getId());
+				if (l != null) {
+					for (BaseEntity b : l) {
+						spouses.add(((Mariage) b).getWife());
+					}
+				}
+			} else {
+				l = userService.loadAllByColumn(Mariage.class, "wife.id", user.getId());
+				if (l != null) {
+					for (BaseEntity b : l) {
+						spouses.add(((Mariage) b).getHusband());
+					}
 				}
 			}
-		} else {
-			l =userService.loadAllByColumn(Mariage.class, "wife.id",user.getId());
-			if(l!=null){
-				for (BaseEntity b:l){
-					spouses.add(((Mariage) b).getHusband());
-				}
-			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-		
-	}catch(Exception e){
-		e.printStackTrace();
-	}
 		return spouses;
 	}
 
-	@RequestMapping(value = "/getParents", method = RequestMethod.POST, headers = "Accept=application/json")
-	public @ResponseBody List<User> getParents(@RequestBody User user) {
-		System.out.println("List Requested - getParents");
-		userService.findByColumn(User.class, "mum", "");
+	@RequestMapping(value = "/saveFamLink", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody String saveFamLink(@RequestBody User user) {
+		System.out.println("Requested - sameFamLink");
 
-		return userService.loadAllMembers();
+		String data[] = user.getData().split(",");
+		if (data[1].equals("0")) {// remove all links
+			User second = (User) userService.getById(User.class, new Long(data[0]));
+			String message = "Vous n'aviez aucun lien de toute facon";
+			// not my kid
+			if (second.getMum() != null && second.getMum().equals(user)) {
+				message = "Vous n'ete plus sa maman";
+				second.setMum(null);
+				userService.save(second);
+			}
+			if (second.getDad() != null && second.getDad().equals(user)) {
+				message = "Vous n'ete plus son papa";
+				second.setDad(null);
+				userService.save(second);
+			}
+
+			if (user.getMum() != null && user.getMum().equals(second)) {				
+				//reload user
+				user = (User) userService.getById(User.class, user.getId());
+				user.setMum(null);
+				userService.save(user);
+				message = "Elle n'est plus votre maman";
+			}
+			if (user.getDad() != null && user.getDad().equals(second)) {				
+				//reload user
+				user = (User) userService.getById(User.class, user.getId());
+				user.setDad(null);
+				userService.save(user);
+				message = "Il n'est plus votre papa";
+			}
+
+			try {
+				List<BaseEntity> l = null;
+				if (user.getSex().equals("M")) {
+					l = userService.loadAllByColumn(Mariage.class, "husband.id", user.getId());
+					if (l != null) {
+						for (BaseEntity b : l) {
+							if (((Mariage) b).getWife().equals(second)) {
+								userService.delete(b);
+								message = "Vous n'etes plus maries";
+								break;
+							}
+							;
+						}
+					}
+				} else {
+					l = userService.loadAllByColumn(Mariage.class, "wife.id", user.getId());
+					if (l != null) {
+						for (BaseEntity b : l) {
+							if (((Mariage) b).getHusband().equals(second)) {
+								userService.delete(b);
+								message = "Vous n'etes plus maries";
+								break;
+							}
+							;
+						}
+					}
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return message;
+		} else if (data[1].equals("1")) {// son
+			User second = (User) userService.getById(User.class, new Long(data[0]));
+			if (user.getSex().equals("M")) {
+				second.setDad(user);
+				userService.save(second);
+			} else {
+				second.setMum(user);
+				userService.save(second);
+			}
+			return "Vous avez un enfant";
+		} else if (data[1].equals("2")) {// Epouse
+			User second = (User) userService.getById(User.class, new Long(data[0]));
+			Mariage ma = new Mariage();
+			ma.setHusband(user);
+			ma.setWife(second);
+			try {
+				userService.save(ma);
+			} catch (Exception e) {
+				return "Vous etes deja maries";
+			}
+			return "Vous avez une femme";
+		} else if (data[1].equals("3")) {// Epoux
+			User second = (User) userService.getById(User.class, new Long(data[0]));
+			Mariage ma = new Mariage();
+			ma.setHusband(second);
+			ma.setWife(user);
+			try {
+				userService.save(ma);
+			} catch (Exception e) {
+				return "Vous etes deja maries";
+			}
+			return "Vous avez un mari";
+		} else if (data[1].equals("4")) {// Maman
+			User second = (User) userService.getById(User.class, new Long(data[0]));
+			// reload user
+			user = (User) userService.getById(User.class, user.getId());
+			user.setMum(second);
+			userService.save(user);
+
+			return "Vous etes maman!";
+		} else if (data[1].equals("5")) {// Papa
+			User second = (User) userService.getById(User.class, new Long(data[0]));
+			// reload user
+			user = (User) userService.getById(User.class, user.getId());
+			user.setDad(second);
+			userService.save(user);
+			return "Vous avez un papa!";
+		} else {
+
+			return "Operation non connue";
+		}
 	}
 }

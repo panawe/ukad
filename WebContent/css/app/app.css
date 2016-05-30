@@ -923,7 +923,7 @@ html.app-mobile #content .container-fluid {
   padding: 10px;
 }
 .navbar .dropdown-menu.dropdown-size-280 {
-  min-width: 280px;
+  min-width: 480px;
 }
 .navbar-form .bootstrap-switch {
   margin: 1px 0;

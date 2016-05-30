@@ -10,15 +10,15 @@
 						<h2>Profile</h2>
 					</div>
 
-					<div id="exTab3" class="container">
+					<div id="exTab3" >
 						<ul class="nav nav-pills">
 							<li class="active"><a href="#1b" data-toggle="tab"
 								ng-click="resetUserMessage()">Information Generale</a></li>
 							<li><a href="#2b" data-toggle="tab"
 								ng-click="resetUserMessage()">Contact</a></li>
 							<li><a href="#2c" data-toggle="tab"
-								ng-click="resetUserMessage(); getFamilyTree(theUser);">Famille</a></li>
-							<li><a href="#3b" data-toggle="tab">Changer l'image du
+								ng-click="resetUserMessage(); refreshTree(theUser);">Famille</a></li>
+							<li><a href="#3b" data-toggle="tab" ng-click="setCurrent(theUser)">Changer l'image du
 									profile</a></li>
 
 						</ul>
@@ -35,12 +35,22 @@
 									</div>
 									<div class="row">
 										<div class="col-md-6">
-											<div class="form-group form-control-default">
+											<div class="form-group form-control-default required">
 												<label for="firstName">Prenom:</label> <input
 													ng-model="theUser.firstName" type="text"
 													class="form-control" id="firstName" placeholder="Prenom">
 											</div>
 										</div>
+										<div class="col-md-6">
+											<div class="form-group form-control-default required">
+												<label for="lastName">Nom:</label> <input
+													ng-model="theUser.lastName" type="text"
+													class="form-control" id="lastName" placeholder="Nom">
+											</div>
+										</div>
+									</div>
+									<div class="row">
+
 										<div class="col-md-6">
 											<div class="form-group form-control-default">
 												<label for="Naissance">Naissance:</label> <input
@@ -48,16 +58,6 @@
 													class="form-control datepicker">
 											</div>
 										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group form-control-default">
-												<label for="lastName">Nom:</label> <input
-													ng-model="theUser.lastName" type="text"
-													class="form-control" id="lastName" placeholder="Nom">
-											</div>
-										</div>
-
 										<div class="col-md-6">
 											<div class="form-group form-control-default">
 												<label for="Membredepuis">Membre depuis:</label> <input
@@ -69,7 +69,7 @@
 									</div>
 									<div class="row">
 										<div class="col-md-6">
-											<div class="form-group form-control-default">
+											<div class="form-group form-control-default required">
 												<label for="sex">Sex:</label> <select name="selectSex"
 													class="form-control" ng-model="theUser.sex" data-size="2">
 													<option value="M">Homme</option>
@@ -77,16 +77,24 @@
 												</select>
 											</div>
 										</div>
-										
+
 										<div class="col-md-6" ng-show="theUser.canApprove">
 											<div class="form-group form-control-default">
-												<label for="sex">Administrateur:</label> <input id="canChange"
-												ng-model="theUser.canApprove" type="checkbox"
-												data-label="suffix" class="checkbox" />
+												<label for="sex">Administrateur:</label> <input
+													id="canChange" ng-model="theUser.canApprove"
+													type="checkbox" data-label="suffix" class="checkbox" />
 											</div>
 										</div>
 									</div>
 									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group form-control-default">
+												<label for="username">Nom d'utilisateur:</label> <input
+													ng-model="theUser.userName" type="text" class="form-control"
+													id="username" placeholder=Nom d'utilisateur>
+											</div>
+										</div>
+										
 										<div class="col-md-6">
 											<div class="form-group form-control-default">
 												<label for="emailAddress">Email:</label> <input
@@ -102,6 +110,13 @@
 													ng-model="theUser.password" type="password"
 													class="form-control" id="password"
 													placeholder="Mot de Passe" />
+											</div>
+										</div>
+										<div class="col-md-6" ng-show="theUser.canApprove">
+											<div class="form-group form-control-default required">
+												<label for="alive">En vie:</label> <input
+													id="alive" ng-model="theUser.alive"
+													type="checkbox" data-label="suffix" class="checkbox" />
 											</div>
 										</div>
 									</div>
@@ -688,7 +703,7 @@
 
 										</form>
 									</div>
- 								</div>
+								</div>
 
 								<div class="row">
 
@@ -707,23 +722,19 @@
 														<h6 class="text-justify">::u.firstName+'
 															'+u.lastName::</h6>
 														<h6 class="text-justify">::u.cityResidence:: ,
-															::u.countryResidence.name::</h6>
-														
-														<strong>C'est quoi le lien?</strong>
-														<br/>
-														<button ng-click="saveUser(theUser)" type="submit"
+															::u.countryResidence.name::</h6> <strong>C'est quoi
+															le lien?</strong> <br />
+														<button ng-click="saveFamLink(u.id,5)" type="submit"
 															class="btn btn-success">Papa</button>
-														<button ng-click="saveUser(theUser)" type="submit"
-															class="btn btn-success">Maman</button>
-														<br/>	
-															<button ng-click="saveUser(theUser)" type="submit"
+														<button ng-click="saveFamLink(u.id,4)" type="submit"
+															class="btn btn-success">Maman</button> <br />
+														<button ng-click="saveFamLink(u.id,3)" type="submit"
 															class="btn btn-warning">Epoux</button>
-														<button ng-click="saveUser(theUser)" type="submit"
-															class="btn btn-warning">Epouse</button>
-														<br/>
-														<button ng-click="saveUser(theUser)" type="submit"
-															class="btn btn-info">Enfant</button>	
-														<button ng-click="saveUser(theUser)" type="submit"
+														<button ng-click="saveFamLink(u.id,2)" type="submit"
+															class="btn btn-warning">Epouse</button> <br />
+														<button ng-click="saveFamLink(u.id,1)" type="submit"
+															class="btn btn-info">Enfant</button>
+														<button ng-click="saveFamLink(u.id,0)" type="submit"
 															class="btn btn-danger">Aucun</button></td>
 
 												</tr>
@@ -739,6 +750,14 @@
 											</tfoot>
 										</table>
 										<!-- // Data table -->
+
+										<div class="alert alert-success" ng-show="theUserMessage">
+											<button type="button" class="close" data-dismiss="alert">
+												<span aria-hidden="true">&times;</span><span class="sr-only">Fermer</span>
+											</button>
+											::theUserMessage::
+										</div>
+
 									</div>
 
 

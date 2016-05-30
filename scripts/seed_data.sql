@@ -242,11 +242,12 @@ INSERT INTO POSITION (POSITION_ID,NAME,CREATE_DATE,MOD_DATE,MOD_BY) VALUES
 (8,'Charge a l''organisation et de la discipline',NOW(),NOW(),1),
 (9,'Commissaire aux comptes',NOW(),NOW(),1);
 
-INSERT INTO USERS (COUNTRY_ID,STATUS,USER_ID,pageSkin,`USER_NAME`, `PASSWORD`, `FIRST_NAME`, `LAST_NAME`, `E_MAIL`, `CREATE_DATE`,`MEMBERSHIP_DATE`,  `MOD_DATE`, `MOD_BY`, `PHONE`, `POSITION_ID`, CAN_APPROVE,PIC)
-VALUES (5,2,1,'Rouge','donateur.anonyme@anonyme.com','123','Donateur','Anonyme','donateur.anonyme@anonyme.com',now(),now(), now(),1,'-',1,0,'0.jpg'),
-(5,1,2,'Rouge','panawe@gmail.com','123','Panawe','Batanado','panawe@gmail.com',now(),now(), now(),1,'+1 678-314-5397',1,1,'1.jpg'),
-(5,1,3,'Rouge','arelboutg@gmail.com','123','ARELBOU','','arelboutg@gmail.com',now(),now(), now(),1,'+49 12 34 56 78',1,1,'2.jpg'),
-(5,1,4,'Rouge','ericgbekou@hotmail.com','123','Eric','Egbekou','egbekou@hotmail.com',now(),now(), now(),1,'+228 12 34 56 78',1,1,'3.jpg');
+
+INSERT INTO USERS (MEMBERSHIP_RENEW_DATE,STATUS,USER_ID,`USER_NAME`, `PASSWORD`, `FIRST_NAME`, `LAST_NAME`, `E_MAIL`, `CREATE_DATE`,`MEMBERSHIP_DATE`,  `MOD_DATE`, `MOD_BY`, `PHONE`, `POSITION_ID`, CAN_APPROVE,
+BIRTH_DATE, DAD, MUM, CITY_ORIGIN,CITY_RESIDENCE,COUNTRY_ORIGIN,COUNTRY_RESIDENCE, ALIVE, SEX)
+VALUES(NOW(),1,1,'donateur.anonyme@anonyme.com','123','Donateur','Anonyme','donateur.anonyme@anonyme.com',now(),now(), now(),1,null,1,1,NOW(),null,null,'Lama Bou', 'Atlanta', 215,64,1,'M'),
+(NOW(),1,2,'panawe','123','Panawe','Batanado','panawe@gmail.com',now(),now(), now(),1,null,1,1,NOW(),null,null,'Lama Bou', 'Atlanta', 215,64,1,'M');
+
 
 INSERT INTO PAYMENT_TYPE (  PAYMENT_TYPE_ID       , NAME       , FREQUENCY     , CREATE_DATE       , MOD_DATE      , MOD_BY  )
 VALUES(1,'Cotisation Mensuelle','MONTH',NOW(),NOW(),1);

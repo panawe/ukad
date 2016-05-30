@@ -38,4 +38,5 @@ public interface UserService extends BaseService {
 	public List<Contribution> getContributions();
 	
 	public List<User> loadAllMembersWithOnlineStatus();
+	public List<User> findMembers(String firstName, String lastName, String login, String email);
 }
