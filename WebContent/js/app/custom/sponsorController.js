@@ -47,13 +47,11 @@
      * Start select Sponsor
      * 
      */
-          $scope.selectSponsor = function(aSponsor) {
-        	  
-        	  $scope.theSponsor = aSponsor;
-        	  
-        	  
+          $scope.selectSponsor = function(aSponsor) {        	  
+        	  $scope.theSponsor = aSponsor; 
         	  $scope.sponsorSelected = true;
-              $log.info($scope.theSponsor.status); 
+        	  $log.info("$scope.sponsorSelected= "+$scope.sponsorSelected); 
+             // $log.info($scope.theSponsor.status); 
              	  	              
           };
 	 /**
@@ -146,7 +144,7 @@
 	
 		var advertisementUploader = $scope.advertisementUploader = new FileUploader(
 		{
-			url : 'http://localhost:8080/ukadtogo/service/advertisement/receiveFile'
+			url : 'http://localhost:8080/ukadtogo/service/marketing/receiveFile'
 		});
 	
 		// FILTERS
@@ -179,7 +177,7 @@
  	    $scope.createAdvertisement = function() {  
       	$scope.advertisementSaveSubmitted = true;	   
       	this.theAdvertisement.sponsorId = this.theSponsor.id
-      	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/advertisement/createAdvertisement', data: this.theAdvertisement }).
+      	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/marketing/createMarketing', data: this.theAdvertisement }).
       	success(function (data, status, headers, config) {
             $log.info("Call Create Advertisement Successful"); 
             $scope.advertisementSelected = true;
@@ -238,7 +236,7 @@
        */
         $scope.getAllAdvertisementsBySponsor = function() {
               
-             $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/advertisement/getAllAdvertisementsBySponsor', data: this.theSponsor.id }).
+             $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/marketing/getAllMarketingsBySponsor', data: this.theSponsor.id }).
              success(function (data, status, headers, config) {
                     $log.info("Call get All Advertisement for sponsor Successful"); 
                   	$scope.advertisements = data;

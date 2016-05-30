@@ -19,31 +19,10 @@
 									$log, $http, FileUploader, $location,
 									moment) {
 
-								$scope.getContributions = function() {
-
-									$http(
-											{
-												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/getContributions',
-												data : null
-											})
-											.success(
-													function(data, status,
-															headers, config) {
-														$log.info("Call get getContributions");
-														$scope.contributions = data;
-
-													})
-											.error(
-													function(data, status,
-															headers, config) {
-
-														$log.info("Call get getContributions Failed");
-														$log.info($scope);
-													});
-
-								};
-								
+								   //function to open links in new tabs
+					            $scope.openInNewTab = function(link){
+					                    $window.open(link, '_blank');
+					                };
 
 								/**
 								 * Start get announces
@@ -116,7 +95,7 @@
 								$scope.showUserModal = function(event) {
 									$scope.currEvent = event;
 									$('#myModalLabel').text(event.title);
-									$('#myModal').modal('show');
+									$('#myEventModal').modal('show');
 								}
 								/**
 								 * End show Modal
@@ -141,7 +120,7 @@
 									$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/advertisement/getActiveAdvertisements',
+											url : 'http://localhost:8080/ukadtogo/service/marketing/getActiveMarketings',
 											data : null
 										})
 									.success(
@@ -150,23 +129,6 @@
 											$log
 													.info("Call get Active Advertisements Successful");
 											$scope.activeAdvertisements = data;
-											//for(var i = 0 ; i < activeAdvertisements.length; i++) {
-												//if (i == 0) {
-												//	$('<div class="item active"><img src="images/advertisements/'
-												//    		+ activeAdvertisements[i].id + '/' + activeAdvertisements[i].id + "_1.jpg"
-												//    		+ '"><div class="carousel-caption"></div>   </div>').appendTo('#carousel-inner_adv');
-												//}
-												//else {
-												//	$('<div class="item"><img src="images/advertisements/'
-											   // 		+ activeAdvertisements[i].id + '/' + activeAdvertisements[i].id + "_1.jpg"
-											    //		+ '"><div class="carousel-caption"></div>   </div>').appendTo('#carousel-inner_adv');
-												//}
-											    //$('<li data-target="#carousel-example-generic_adv" data-slide-to="'+i+'"></li>')
-											    //.appendTo('#carousel-indicators_adv')
-
-											 // }
-											 // $('#carousel-indicators_adv > li').first().addClass('active');
-											 // $('#carousel-example-generic_adv').carousel();
 											  
 											$log.info($scope);
 										})
@@ -183,8 +145,7 @@
 								
 								
 								
-								$scope.getFutureEvents();
-								$scope.getContributions();
+								$scope.getFutureEvents();								
 								$scope.getActiveAnnounces();
 								$scope.getAdvertisements();
 								

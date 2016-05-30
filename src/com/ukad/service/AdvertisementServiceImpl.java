@@ -15,7 +15,7 @@ public class AdvertisementServiceImpl extends BaseServiceImpl implements Adverti
 	@Override
 	public List<Advertisement> loadActiveAdvertisements(Class<Advertisement> class1) {
 		// TODO Auto-generated method stub
-		List<BaseEntity> advts = (List<BaseEntity>) loadAllByColumn(class1, "status", 0);
+		List<BaseEntity> advts = (List<BaseEntity>) loadAllByColumn(class1, "status", 1);
 		List<Advertisement> advertisements = null;
 		if (advts != null) {
 			advertisements = new ArrayList<Advertisement>();

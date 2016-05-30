@@ -33,6 +33,9 @@ public class Advertisement extends BaseEntity {
 	
 	@Column(name = "DESCRIPTION")
 	private String description;
+	
+	@Column(name="LINK")
+	private String link;
 
 	@Column(name = "STATUS")
 	private Short status;
@@ -57,7 +60,22 @@ public class Advertisement extends BaseEntity {
 	@Transient
 	private String imagePath;
 
+	public boolean getStatus() {
+		return status == 1 ? true : false;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status == true ? (short) 1 : 0;
+	}
 	
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -82,14 +100,6 @@ public class Advertisement extends BaseEntity {
 		this.description = description;
 	}
 	
-	public Short getStatus() {
-		return status;
-	}
-
-	public void setStatus(Short status) {
-		this.status = status;
-	}
-
 	public Date getBeginDate() {
 		return beginDate;
 	}
@@ -133,9 +143,9 @@ public class Advertisement extends BaseEntity {
 	@Transient
 	public String getStatusDescription() {
 		String desc = "";
-		if (status == 0)
+		if (status == 1)
 			desc = "Active";
-		else if (status == 1)
+		else if (status == 0)
 			desc = "Desactive";
 		
 		return desc;
