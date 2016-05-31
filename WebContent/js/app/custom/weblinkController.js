@@ -13,7 +13,7 @@
   	        $scope.theUser = $cookieStore.get('theUser');
   	         
   	         var weblinkUploader = $scope.weblinkUploader = new FileUploader({
-  	 	            url: 'http://www.arelbou.com/service/weblink/receiveFile'
+  	 	            url: 'http://localhost:8080/ukadtogo/service/weblink/receiveFile'
   	 	        });
   	 	        
   	 	
@@ -37,7 +37,7 @@
   	 	        
   	 	    $scope.createWeblink = function() {  
   	 	      	$scope.weblinkSaveSubmitted=true;	      	
-  	 	      	$http({ method: 'POST', url: 'http://www.arelbou.com/service/weblink/createWeblink', data: this.theWeblink }).
+  	 	      	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/weblink/createWeblink', data: this.theWeblink }).
   	 	      	success(function (data, status, headers, config) {
   	                    $log.info("Call Create Weblink Successful"); 
   	                    $scope.weblinkSelected=true;
@@ -102,7 +102,7 @@
  */
   $scope.getAllWeblinks = function() {
         
-       $http({ method: 'POST', url: 'http://www.arelbou.com/service/weblink/getAllWeblinks', data: null }).
+       $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/weblink/getAllWeblinks', data: null }).
        success(function (data, status, headers, config) {
                 $log.info("Call get All Weblink Successful"); 
             	$scope.weblinks = data;
@@ -121,7 +121,7 @@
    */
     $scope.getActiveWeblinks = function() {
           
-         $http({ method: 'POST', url: 'http://www.arelbou.com/service/weblink/getActiveWeblinks', data: null }).
+         $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/weblink/getActiveWeblinks', data: null }).
          success(function (data, status, headers, config) {
                   $log.info("Call get Active Weblink Successful"); 
               	  $scope.activeWeblinks = data;

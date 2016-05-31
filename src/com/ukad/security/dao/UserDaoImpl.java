@@ -180,10 +180,10 @@ public class UserDaoImpl extends BaseDaoImpl {
  
 			DetachedCriteria crit = DetachedCriteria.forClass(User.class);
 	 
-				Criterion c1 = Restrictions.eq("firstName", firstName).ignoreCase();
-				Criterion c2 = Restrictions.eq("lastName", lastName).ignoreCase();
-				Criterion c3 = Restrictions.eq("userName", login).ignoreCase();
-				Criterion c4 = Restrictions.eq("email", email).ignoreCase();
+				Criterion c1 = Restrictions.eq("firstName", firstName==null?"#":firstName).ignoreCase();
+				Criterion c2 = Restrictions.eq("lastName", lastName==null?"#":lastName).ignoreCase();
+				Criterion c3 = Restrictions.eq("userName", login==null?"#":login).ignoreCase();
+				Criterion c4 = Restrictions.eq("email", email==null?"#":email).ignoreCase();
 				//Criterion c3 = Restrictions.eq("status", (short) 1);
 				crit.add(Restrictions.and(c1, c2));
 				crit.add(Restrictions.or(c3,c4));

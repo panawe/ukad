@@ -214,7 +214,20 @@ public class UserRestService {
 	}
 
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST, headers = "Accept=application/json")
-	public @ResponseBody User saveUser(@RequestBody User user) {
+	public @ResponseBody User saveUser(@RequestBody User user) throws Exception {
+		
+		if(user.getFirstName()==null ||user.getLastName()==null||user.getSex()==null||user.getCityOrigin()==null||user.getCityResidence()==null||
+				user.getCountryOrigin()==null||user.getCityResidence()==null){
+			throw new Exception("Missing Required fields");
+		}
+		
+		if(user.getId()==null){//new User
+			List<User> users= userService.findMembers(user.getFirstName(), user.getLastName(), user.getUserName(), user.getEmail());		
+			if(users!=null && users.size()>0){
+				throw new Exception("User Exists");
+			}
+		}
+		
 		if(user.getUserName()==null){
 			user.setUserName(user.getFirstName().toLowerCase().replaceAll(" ", "")+"."+user.getLastName().toLowerCase().replaceAll(" ", ""));
 		}
@@ -231,7 +244,8 @@ public class UserRestService {
 			user.setMembershipDate(new Date());
 		}
 		userService.add(user);
-		return userService.getUser(user.getUserName(), user.getPassword());
+		return user.minimize();
+		//return userService.getUser(user.getUserName(), user.getPassword());
 	}
 
 	@RequestMapping(value = "/receiveFile", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -479,7 +493,7 @@ public class UserRestService {
 					for (BaseEntity b : l) {
 						// same Mum
 						if (!user.equals((User) b)
-								&& (user.getMum() != null && ((User) b).getMum().equals(user.getMum())))
+								&& (((User) b).getMum() != null && ((User) b).getMum().equals(user.getMum())))
 							siblings.add((User) b);
 					}
 				}
@@ -489,7 +503,7 @@ public class UserRestService {
 				if (l != null) {
 					for (BaseEntity b : l) {
 						if (!user.equals((User) b)
-								&& (user.getDad() != null && ((User) b).getDad().equals(user.getDad())))
+								&& (((User) b).getDad() != null && ((User) b).getDad().equals(user.getDad())))
 							siblings.add((User) b);
 					}
 				}
@@ -538,17 +552,20 @@ public class UserRestService {
 		System.out.println("Requested - sameFamLink");
 
 		String data[] = user.getData().split(",");
+		
 		if (data[1].equals("0")) {// remove all links
+			// reload user
+			user = (User) userService.getById(User.class, user.getId());
 			User second = (User) userService.getById(User.class, new Long(data[0]));
 			String message = "Vous n'aviez aucun lien de toute facon";
 			// not my kid
 			if (second.getMum() != null && second.getMum().equals(user)) {
-				message = "Vous n'ete plus sa maman";
+				message = user.getFirstName()+" n'est plus maman de "+second.getFirstName();
 				second.setMum(null);
 				userService.save(second);
 			}
 			if (second.getDad() != null && second.getDad().equals(user)) {
-				message = "Vous n'ete plus son papa";
+				message = user.getFirstName()+" n'est plus papa de "+second.getFirstName();
 				second.setDad(null);
 				userService.save(second);
 			}
@@ -558,14 +575,14 @@ public class UserRestService {
 				user = (User) userService.getById(User.class, user.getId());
 				user.setMum(null);
 				userService.save(user);
-				message = "Elle n'est plus votre maman";
+				message = second.getFirstName()+" n'est plus maman de "+user.getFirstName();
 			}
 			if (user.getDad() != null && user.getDad().equals(second)) {				
 				//reload user
 				user = (User) userService.getById(User.class, user.getId());
 				user.setDad(null);
 				userService.save(user);
-				message = "Il n'est plus votre papa";
+				message = second.getFirstName()+" n'est plus papa de "+user.getFirstName();
 			}
 
 			try {
@@ -605,48 +622,68 @@ public class UserRestService {
 			if (user.getSex().equals("M")) {
 				second.setDad(user);
 				userService.save(second);
+				return user.getFirstName()+" est maintenant Papa de "+second.getFirstName();
 			} else {
 				second.setMum(user);
 				userService.save(second);
+				return user.getFirstName()+" est maintenant Maman de "+second.getFirstName();
 			}
-			return "Vous avez un enfant";
+			
 		} else if (data[1].equals("2")) {// Epouse
 			User second = (User) userService.getById(User.class, new Long(data[0]));
+			if(second.getSex()!=null&&user.getSex()!=null&&second.getSex().equals(user.getSex())){
+				return user.getFirstName()+" et "+second.getFirstName() +" sont de meme sexe! Pas de mariage gay ici :-(";
+			}
+			if(second.getSex()!=null&&second.getSex().equals("M")){
+				return second.getFirstName()+" ne peux pas etre une epouse. C'est un homme!";
+			}
 			Mariage ma = new Mariage();
 			ma.setHusband(user);
 			ma.setWife(second);
 			try {
 				userService.save(ma);
 			} catch (Exception e) {
-				return "Vous etes deja maries";
+				return user.getFirstName()+" et "+second.getFirstName() +" sont deja Mari et femme";
 			}
-			return "Vous avez une femme";
+			return user.getFirstName()+" et "+second.getFirstName() +" sont maintenant Mari et femme";
 		} else if (data[1].equals("3")) {// Epoux
 			User second = (User) userService.getById(User.class, new Long(data[0]));
+			if(second.getSex()!=null&&user.getSex()!=null&&second.getSex().equals(user.getSex())){
+				return user.getFirstName()+" et "+second.getFirstName() +" sont de meme sexe! Pas de mariage gay ici :-(";
+			}
+			if(second.getSex()!=null&&second.getSex().equals("F")){
+				return second.getFirstName()+" ne peux pas etre un epoux. C'est une femme!";
+			}
 			Mariage ma = new Mariage();
 			ma.setHusband(second);
 			ma.setWife(user);
 			try {
 				userService.save(ma);
 			} catch (Exception e) {
-				return "Vous etes deja maries";
+				return user.getFirstName()+" et "+second.getFirstName() +" sont deja Mari et femme";
 			}
-			return "Vous avez un mari";
+			return user.getFirstName()+" et "+second.getFirstName() +" sont maintenant Mari et femme";
 		} else if (data[1].equals("4")) {// Maman
 			User second = (User) userService.getById(User.class, new Long(data[0]));
 			// reload user
 			user = (User) userService.getById(User.class, user.getId());
+			if(second.getSex()!=null&&second.getSex().equals("P")){
+				return second.getFirstName()+" ne peux pas etre une maman. C'est un homme!";
+			}
 			user.setMum(second);
 			userService.save(user);
 
-			return "Vous etes maman!";
+			return second.getFirstName()+" est maintenant Maman de "+user.getFirstName();
 		} else if (data[1].equals("5")) {// Papa
 			User second = (User) userService.getById(User.class, new Long(data[0]));
 			// reload user
 			user = (User) userService.getById(User.class, user.getId());
+			if(second.getSex()!=null&&second.getSex().equals("F")){
+				return second.getFirstName()+" ne peux pas etre un Papa. C'est une femme!";
+			}
 			user.setDad(second);
 			userService.save(user);
-			return "Vous avez un papa!";
+			return second.getFirstName()+" est maintenant Papa de "+user.getFirstName();
 		} else {
 
 			return "Operation non connue";

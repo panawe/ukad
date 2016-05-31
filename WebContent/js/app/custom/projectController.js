@@ -13,7 +13,7 @@
   	       $scope.theUser = $cookieStore.get('theUser');
   	         
   	         var projectUploader = $scope.projectUploader = new FileUploader({
-  	 	            url: 'http://www.arelbou.com/service/project/receiveFile'
+  	 	            url: 'http://localhost:8080/ukadtogo/service/project/receiveFile'
   	 	        });
   	 	        
   	 	
@@ -37,7 +37,7 @@
   	 	        
   	 	    $scope.createProject = function() {  
   	 	      	$scope.projectSaveSubmitted=true;	      	
-  	 	      	$http({ method: 'POST', url: 'http://www.arelbou.com/service/project/createProject', data: this.theProject }).
+  	 	      	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/createProject', data: this.theProject }).
   	 	      	success(function (data, status, headers, config) {
   	                     $log.info("Call Create Project Successful"); 
   	                     $scope.projectSelected=true;
@@ -104,7 +104,7 @@
  */
   $scope.getAllProjects = function() {
         
-       $http({ method: 'POST', url: 'http://www.arelbou.com/service/project/getAllProjects', data: null }).
+       $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/getAllProjects', data: null }).
        success(function (data, status, headers, config) {
                 $log.info("Call get All Projects Successful"); 
             	$scope.projects = data;
@@ -128,7 +128,7 @@
     */
          $scope.getProjectAlbum = function(aProject) {
  	          
-              $http({ method: 'POST', url: 'http://www.arelbou.com/service/project/getProjectAlbum', data: aProject }).
+              $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/getProjectAlbum', data: aProject }).
               success(function (data, status, headers, config) {
                        $log.info("Call getProjectAlbum Successful"); 
                    	$scope.projectPictures=data;
@@ -155,7 +155,7 @@
            */
         $scope.getAllProjectsWithAlbum = function() {
             
-            $http({ method: 'POST', url: 'http://www.arelbou.com/service/project/getAllProjectsWithAlbum', data: null }).
+            $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/project/getAllProjectsWithAlbum', data: null }).
             success(function (data, status, headers, config) {
                      $log.info("Call getAllProjectsWithAlbum Successful"); 
                   $scope.projectsWithAlbum=data;

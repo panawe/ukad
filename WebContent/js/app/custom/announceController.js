@@ -13,7 +13,7 @@
   	        $scope.theUser = $cookieStore.get('theUser');
   	         
   	         var announceUploader = $scope.announceUploader = new FileUploader({
-  	 	            url: 'http://www.arelbou.com/service/announce/receiveFile'
+  	 	            url: 'http://localhost:8080/ukadtogo/service/announce/receiveFile'
   	 	        });
   	 	        
   	 	
@@ -37,7 +37,7 @@
   	 	        
   	 	    $scope.createAnnounce = function() {  
   	 	      	$scope.announceSaveSubmitted=true;	      	
-  	 	      	$http({ method: 'POST', url: 'http://www.arelbou.com/service/announce/createAnnounce', data: this.theAnnounce }).
+  	 	      	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/announce/createAnnounce', data: this.theAnnounce }).
   	 	      	success(function (data, status, headers, config) {
   	                    $log.info("Call Create Announce Successful"); 
   	                    $scope.announceSelected=true;
@@ -102,7 +102,7 @@
  */
   $scope.getAllAnnounces = function() {
         
-       $http({ method: 'POST', url: 'http://www.arelbou.com/service/announce/getAllAnnounces', data: null }).
+       $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/announce/getAllAnnounces', data: null }).
        success(function (data, status, headers, config) {
                 $log.info("Call get All Announces Successful"); 
             	$scope.announces = data;

@@ -15,7 +15,7 @@
    	 	        
   	 	    $scope.createSponsor = function() {  
   	 	      	$scope.sponsorSaveSubmitted=true;	      	
-  	 	      	$http({ method: 'POST', url: 'http://www.arelbou.com/service/sponsor/createSponsor', data: this.theSponsor }).
+  	 	      	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/sponsor/createSponsor', data: this.theSponsor }).
   	 	      	success(function (data, status, headers, config) {
   	                     $log.info("Call Create Sponsor Successful"); 
   	                     $scope.sponsorSelected = true;
@@ -82,7 +82,7 @@
 		$http(
 				{
 					method : 'POST',
-					url : 'http://www.arelbou.com/service/sponsor/deleteSponsor',
+					url : 'http://localhost:8080/ukadtogo/service/sponsor/deleteSponsor',
 					data : aSponsor
 				})
 				.success(
@@ -115,7 +115,7 @@
  */
   $scope.getAllSponsors = function() {
         
-       $http({ method: 'POST', url: 'http://www.arelbou.com/service/sponsor/getAllSponsors', data: null }).
+       $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/sponsor/getAllSponsors', data: null }).
        success(function (data, status, headers, config) {
                 $log.info("Call get All Sponsors Successful"); 
             	$scope.sponsors = data;
@@ -144,7 +144,7 @@
 	
 		var advertisementUploader = $scope.advertisementUploader = new FileUploader(
 		{
-			url : 'http://www.arelbou.com/service/marketing/receiveFile'
+			url : 'http://localhost:8080/ukadtogo/service/marketing/receiveFile'
 		});
 	
 		// FILTERS
@@ -177,7 +177,7 @@
  	    $scope.createAdvertisement = function() {  
       	$scope.advertisementSaveSubmitted = true;	   
       	this.theAdvertisement.sponsorId = this.theSponsor.id
-      	$http({ method: 'POST', url: 'http://www.arelbou.com/service/marketing/createMarketing', data: this.theAdvertisement }).
+      	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/marketing/createMarketing', data: this.theAdvertisement }).
       	success(function (data, status, headers, config) {
             $log.info("Call Create Advertisement Successful"); 
             $scope.advertisementSelected = true;
@@ -236,7 +236,7 @@
        */
         $scope.getAllAdvertisementsBySponsor = function() {
               
-             $http({ method: 'POST', url: 'http://www.arelbou.com/service/marketing/getAllMarketingsBySponsor', data: this.theSponsor.id }).
+             $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/marketing/getAllMarketingsBySponsor', data: this.theSponsor.id }).
              success(function (data, status, headers, config) {
                     $log.info("Call get All Advertisement for sponsor Successful"); 
                   	$scope.advertisements = data;
