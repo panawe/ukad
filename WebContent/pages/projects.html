@@ -8,10 +8,10 @@
 					<div class="container">
 						<h2>Les Projets</h2>
 					</div>
-					<div id="exTab3" class="container">
+					<div id="exTab3">
 						<ul class="nav nav-pills">
-							<li class="active"><a href="#1b" data-toggle="tab">Ajouter un Projet
-									</a></li>
+							<li class="active"><a href="#1b" data-toggle="tab">Ajouter
+									un Projet </a></li>
 							<li><a href="#2b" ng-click="getAllProjects()"
 								data-toggle="tab">Les realisations</a></li>
 							<li><a href="#3b" data-toggle="tab">Charger les images
@@ -50,11 +50,13 @@
 										</div>
 										<div class="col-md-6">
 											<div class="form-group form-control-default">
-												<label for="projectDescription">Description</label>
-												<textarea rows="4" cols="50"
-													ng-model="theProject.description" type="text"
-													class="form-control" id="projectDescription"
-													placeholder="Description" />
+												<div class="input-group">
+													<div class="input-group-addon">CFA</div>
+													<input type="text" class="form-control"
+														ng-model="theProject.budget" id="budjet"
+														placeholder="Budjet">
+													<div class="input-group-addon">.00</div>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -68,16 +70,20 @@
 											</div>
 										</div>
 										<div class="col-md-6">
-											<div class="form-group form-control-default">
-												<div class="input-group">
-													<div class="input-group-addon">&euro;</div>
-													<input type="text" class="form-control"
-														ng-model="theProject.budget" id="budjet"
-														placeholder="Budjet">
-													<div class="input-group-addon">.00</div>
-												</div>
+											<div class="form-group">
+												<label for="status">Etat d'avancement</label> <select
+													name="select" class="form-control"
+													ng-model="theProject.status" data-style="btn-white"
+													data-size="5">
+													<option value="0">Pas Commence</option>
+													<option value="1">En Cours</option>
+													<option value="2">Annule</option>
+													<option value="3">Termine</option>
+													<option value="4">Reporte</option>
+												</select>
 											</div>
 										</div>
+										
 									</div>
 
 									<div class="row">
@@ -113,20 +119,13 @@
 													class="form-control datepicker">
 											</div>
 										</div>
-									</div>
+									</div> 
+
+
 									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="status">Etat d'avancement</label> <select
-													name="select" class="form-control"
-													ng-model="theProject.status" data-style="btn-white"
-													data-size="5">
-													<option value="0">Pas Commence</option>
-													<option value="1">En Cours</option>
-													<option value="2">Annule</option>
-													<option value="3">Termine</option>
-													<option value="4">Reporte</option>
-												</select>
+										<div class="col-md-12 col-lg-12">
+											<div class="container lighter">
+												<div text-angular ng-model="theProject.description"></div>
 											</div>
 										</div>
 									</div>
@@ -155,7 +154,6 @@
 											</tr>
 											<tr>
 												<th>Titre</th>
-												<th>Description</th>
 												<th>Sponsors</th>
 												<th>Budjet</th>
 												<th>Debut Projete</th>
@@ -171,9 +169,8 @@
 										<tbody>
 											<tr ng-repeat="aProject in displayedCollection">
 												<td>::aProject.title::</td>
-												<td>::aProject.description::</td>
 												<td>::aProject.sponsors::</td>
-												<td>::aProject.budget|currency:"&euro;"::</td>
+												<td>::aProject.budget|currency:" CFA "::</td>
 												<td>::aProject.projectedStartDate::</td>
 												<td>::aProject.projectedEndDate::</td>
 												<td>::aProject.startDate::</td>

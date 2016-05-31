@@ -144,7 +144,8 @@
 					<div class="row">
 						<div ng-repeat="u in leaders" class="col-xs-4 col-sm-2 col-md-2 col-lg-2">
 							<a href="" ng-click="showUserModal(u)"><img
-								src="images/members/::u.id::.jpg" alt="Pas d'image"
+								src="images/members/::u.id::.jpg" 
+								fallback-src="images/members/default-avatar.png"
 								class="img-thumbnail img-responsive img-circle"></a>
 							<h5 class="text-justify">
 								<strong>::u.firstName+' '+u.lastName:: - <font

@@ -83,9 +83,6 @@ public class EventRestService {
 	public @ResponseBody Event createEvent(@RequestBody Event event) {
 		System.out.println("Event Created:" + event);
 		try {
-			if (event.getAlbumNote() == null) {
-				event.setAlbumNote(event.getTitle());
-			}
 			String eventBeginEnd = event.getBeginEndDateTime();
 			if (eventBeginEnd != null && eventBeginEnd.contains("-")) {
 				event.setStartsAt(new Date(Date.parse(eventBeginEnd.split("-")[0])));
@@ -208,6 +205,25 @@ public class EventRestService {
 		return retList;
 	}
 
+	@RequestMapping(value = "/getAllEventsWithRepport", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<Event> getAllEventsWithRepport() {
+		System.out.println("Event list Requested - getAllEventsWithRepport");
+		List<Event> events = eventService.loadAllEvents(Event.class);
+	
+		List<Event> retList = new ArrayList<Event>();
+		for (Event e : events) {
+		
+			if (e.getReport() != null) {
+				e.setHasReport(true);
+			}
+			if (e.isHasReport()) {
+				retList.add(e);
+			}
+
+		}
+		Collections.reverse(retList);
+		return retList;
+	}
 	@RequestMapping(value = "/getEventAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<String> getEventAlbum(@RequestBody Event event) {
 		System.out.println("getEventAlbum Event:" + event);

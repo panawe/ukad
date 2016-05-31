@@ -151,12 +151,13 @@ public class User extends BaseEntity {
 		this.sex = sex;
 	}
 
+	//Deceiced on the UI
 	public boolean getAlive() {
-		return alive == 1 ? true : false;
+		return alive == 1 ? false : true;
 	}
-
-	public void setAlive(boolean alive) {
-		this.alive = this.alive = alive == true ? (short) 1 : 0;
+	//Deceiced on the UI
+	public void setAlive(boolean deceived) {
+		this.alive = deceived == true ? (short) 0 : 1;
 	}
 
 	public User getMum() {

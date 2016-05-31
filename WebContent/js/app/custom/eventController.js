@@ -471,7 +471,7 @@
 	  	  	  	                 */
 	  	  	  	                      $scope.getAllEventsWithAlbumOrRepport = function() {
  	  	  	                            
-	  	  	  	                           $http({ method: 'POST', url: 'http://www.arelbou.com/service/event/getAllEventsWithAlbumOrRepport', data: null }).
+	  	  	  	                           $http({ method: 'POST', url: 'http://www.arelbou.com/service/event/getAllEventsWithRepport', data: null }).
 	  	  	  	                           success(function (data, status, headers, config) {
 	  	  	  	                                    $log.info("Call get All Events with album Successful"); 
 	  	  	  	                                	$scope.eventsWithAlbumReport=data;
