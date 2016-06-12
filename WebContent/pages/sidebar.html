@@ -17,7 +17,7 @@
 						<a href="::advertisement.link::"
 							ng-click="openInNewTab(::advertisement.link::)"> <img
 							src="::advertisement.imagePath::" max-height="200px"> </image>
-						</a> 
+						</a>
 					</div>
 				</div>
 				<!-- Controls -->
@@ -121,53 +121,54 @@
 			</table>
 
 		</div>
-	</section>
 
+		<!--/modal-->
+		<div id="myEventModal" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header bg-info">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">X</button>
+						<h1 id="myModalLabel" class="text-center"></h1>
+					</div>
+					<div class="modal-body">
+						<div class="container-fluid">
+							<div class="row">
 
-	<!--/modal-->
-	<div id="myEventModal" class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header bg-info">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">X</button>
-					<h1 id="myModalLabel" class="text-center"></h1>
-				</div>
-				<div class="modal-body">
-					<div class="container-fluid">
-						<div class="row">
+								<h4 class="text-justify" ng-show="currEvent.description">
+									<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.description::
+								</h4>
 
-							<h4 class="text-justify" ng-show="currEvent.description">
-								<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.description::
-							</h4>
+							</div>
+							<hr>
+							<div class="row">
+								<h4 class="text-justify" ng-show="currEvent.city">
+									<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.city::
+								</h4>
+								<h4 class="text-justify" ng-show="currEvent.address">
+									<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.address::
+								</h4>
+								<h4 class="text-justify" ng-show="currEvent.startsAt">
+									<i class="fa fa-fw fa-clock-o fa-2x"></i>
+									::currEvent.startsAt|date:'medium'::
+								</h4>
+								<h4 class="text-justify" ng-show="currEvent.endsAt">
+									<i class="fa fa-fw fa-clock-o fa-2x"></i>::currEvent.endsAt|date:'medium'::
+								</h4>
 
-						</div>
-						<hr>
-						<div class="row">
-							<h4 class="text-justify" ng-show="currEvent.city">
-								<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.city::
-							</h4>
-							<h4 class="text-justify" ng-show="currEvent.address">
-								<i class="fa fa-fw fa-map-marker fa-2x"></i>::currEvent.address::
-							</h4>
-							<h4 class="text-justify" ng-show="currEvent.startsAt">
-								<i class="fa fa-fw fa-clock-o fa-2x"></i>
-								::currEvent.startsAt|date:'medium'::
-							</h4>
-							<h4 class="text-justify" ng-show="currEvent.endsAt">
-								<i class="fa fa-fw fa-clock-o fa-2x"></i>::currEvent.endsAt|date:'medium'::
-							</h4>
-
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="modal-footer bg-info">
-					<button class="btn btn-lg btn-default center-block"
-						data-dismiss="modal" aria-hidden="true">Fermer</button>
+					<div class="modal-footer bg-info">
+						<button class="btn btn-lg btn-default center-block"
+							data-dismiss="modal" aria-hidden="true">Fermer</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+
+	</section>
+
 
 </div>
