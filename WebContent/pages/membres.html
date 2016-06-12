@@ -5,22 +5,50 @@
 			<div class="item col-lg-9 col-md-6 col-xs-12">
 				<div class="page-section">
 
-					<h1 class="page-section-heading">Nos Chers Membres</h1>
+					<h1 class="page-section-heading">Les Membres d'A.G.W.E</h1>
+					<div class="panel panel-default">
+						<!-- Data table -->
+						<table st-table="displayedCollection" st-safe-src="userArrays"
+							class="table table-striped" cellspacing="0" width="100%">
+							<thead>
+								<tr>
 
-					<div class="row" id="userList">
-						<div ng-repeat="u in users" class="col-xs-4 col-sm-2">
-							<a href="" ng-click="showUserModal(u)"><img
-								src="images/members/::u.id::.jpg" alt="Pas d'image"
-								class="img-thumbnail img-responsive img-circle"
-								max-width="120px"></a>
-							<h5 class="text-center">
-								<strong>::u.firstName+' '+u.lastName:: </strong>
-							</h5>
-							<h5 class="text-center">::u.position.name:: depuis
-								::u.membershipDate|date:'yyyy'::</h5>
-							<hr>
-						</div>
+									<th colspan="5"><input st-search
+										placeholder="Rechercher un membre"
+										class="input-sm form-control" type="search" /></th>
+								</tr>
+								<tr>
+									<th></th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="rowOfUsers in displayedCollection">
+									<td ng-repeat="u in rowOfUsers"><a href=""
+										ng-click="showUserModal(u)"><img
+											fallback-src="images/members/default-avatar.png"
+											src="images/members/::u.id::.jpg"
+											class="img-thumbnail img-responsive img-circle"
+											id="personImage" width="70px"></a>
+										<h6 class="text-justify">::u.firstName+' '+u.lastName::</h6>
+										<h6 class="text-justify">::u.position.name:: depuis
+											::u.membershipDate|date:'yyyy'::</h6></td>
+
+								</tr>
+
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="5" class="text-center">
+										<div st-pagination="" st-items-by-page="4"
+											st-displayed-pages="100"></div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+						<!-- // Data table -->
 					</div>
+
 
 					<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
 						aria-labelledby="myModalLabel" aria-hidden="true">
@@ -36,7 +64,7 @@
 										<div class="row">
 											<div class="col-xs-4 col-sm-2">
 												<img src="images/members/::currUser.id::.jpg"
-													alt="Pas d'image"
+													fallback-src="images/members/default-avatar.png"
 													class="img-thumbnail img-responsive img-circle">
 											</div>
 										</div>
@@ -67,53 +95,6 @@
 						</div>
 					</div>
 					<!--/modal-->
-
-
-					<!--  
-			<div class="panel panel-default">
-				<table st-table="users"  
-					class="table table-striped" cellspacing="0" width="100%">
-					<thead>
-						<tr>
-
-							<th colspan="5"><input st-search placeholder="Rechercher un membre"
-								class="input-sm form-control" type="search" /></th>
-						</tr>
-						<tr>
-							<th>Nom</th>
-							<th>Prenom</th>
-							<th>E-mail</th>
-							<th>Position</th>
-							<th>Telephone</th>
-							<th>Ville de residence</th>
-							<th>Membre depuis</th>
-							 
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="aUser in users">
-							<td>::aUser.lastName::</pbtd>
-							<td>::aUser.firstName::</td>
-							<td><a ng-href="mailto: ::aUser.email::">::aUser.email::</a></td>
-							<td>::aUser.position.name::</td>
-							<td>::aUser.phone::</td>
-							<td>::aUser.city::</td>
-							<td>::aUser.createDate|date::</td>
-						</tr>
-
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="7" class="text-center">
-								<div st-pagination="" st-items-by-page="20"
-									st-displayed-pages="100"></div>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-				 
-			</div>
--->
 
 				</div>
 			</div>

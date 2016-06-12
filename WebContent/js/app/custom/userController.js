@@ -62,6 +62,14 @@
 							                          {id:8,name:"Charge a l'organisation et de la discipline"},
 							                          {id:9,name:'Commissaire aux comptes'} 
 							                         ];
+							         
+							 		$scope.chunk = function(arr, size) {
+										 var newArr = [];
+										  for (var i=0; i<arr.length; i+=size) {
+										    newArr.push(arr.slice(i, i+size));
+										  }
+										 return newArr;
+									}
 
 							          /**
 							                 * Start create Payment
@@ -487,7 +495,7 @@
 											function(data, status, headers,
 													config) {
 												$log.info("Call Successful");
-												$scope.users = data;
+												$scope.userArrays = $scope.chunk(data, 6);
 												$log.info($scope);
 											}).error(
 											function(data, status, headers,
@@ -521,7 +529,7 @@
 															headers, config) {
 														
 														$log.info("Call find Members Successful");
-														 $scope.searchResult = data;
+														 $scope.searchResultArrays = $scope.chunk(data, 6);
 														$log.info($scope.searchResult);
 														$location.url('/pages/searchResults');	
 														if($cookieStore.get('searchText')!=$scope.searchText){
