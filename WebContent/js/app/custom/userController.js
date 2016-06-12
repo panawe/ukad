@@ -62,11 +62,19 @@
 							                          {id:8,name:"Charge a l'organisation et de la discipline"},
 							                          {id:9,name:'Commissaire aux comptes'} 
 							                         ];
+							         
+							 		$scope.chunk = function(arr, size) {
+										 var newArr = [];
+										  for (var i=0; i<arr.length; i+=size) {
+										    newArr.push(arr.slice(i, i+size));
+										  }
+										 return newArr;
+									}
 
 							          /**
 							                 * Start create Payment
 							                 */
-							                $scope.makePayment = function() {  
+							                $scope.makeUserPayment = function() {  
 							                	var transaction={amount:this.amount,
 							                			comment:this.comment,
 							                			year:this.year,
@@ -131,10 +139,10 @@
 							                     $scope.drawPayments();
 							                     $scope.drawContributions();
 							                     if(data=='Success'){
-							                    	 $scope.thePaymentMessage='Payement Effectue succes';
+							                    	 $scope.thePaymentMessage='Depense sauvegardee succes';
 							                    	 
 							                     }else{
-							                    	 $scope.thePaymentMessage='Le payement a echoue';
+							                    	 $scope.thePaymentMessage='Sauvegarde Depense a echoue';
 							                    	 $scope.paymentSaved=false;
 							                     }
 							                    
@@ -273,6 +281,7 @@
 
 														} else {
 															$scope.failedLogin = true;
+															$scope.loginMessage="Nom d'utilisateur/mot de passe invalide.";
 														}
 
 														$cookieStore
@@ -295,6 +304,7 @@
 																'theUser', '');
 														$scope.theUser = null;
 														$scope.failedLogin = true;
+														$scope.loginMessage="La connection a echoue.";
 														$log.info($scope);
 													});
 
@@ -303,6 +313,55 @@
 								 * End Log in
 								 */
 
+								/**
+								 * Send password
+								 */
+								$scope.sendPassword = function() {
+									$scope.loginMessage='';
+									var User = {
+										"userName" : $scope.userName,
+										"password" : $scope.password
+									};
+
+									$http(
+											{
+												method : 'POST',
+												url : 'http://localhost:8080/ukadtogo/service/user/sendPassword',
+												data : User
+											})
+											.success(
+													function(data, status,
+															headers, config) {
+														$log
+																.info("Call Successful"); 
+														if(data=='Success'){
+															
+															$scope.loginMessage="Votre Mot de passe vous a ete envoye.";
+														}else{
+															$scope.loginMessage="Cet e-mail n'existe pas.";
+														}
+														
+														$scope.failedLogin = true;
+   
+
+													})
+											.error(
+													function(data, status,
+															headers, config) {
+														$log
+																.info("Call Failed");
+														$scope.loginMessage="Erreur systeme.";
+														$cookieStore.put(
+																'theUser', '');
+														$scope.theUser = null;
+														$scope.failedLogin = true; 
+													});
+
+								};
+								/**
+								 * End send password
+								 */
+								
 								/**
 								 * Start Logout
 								 */
@@ -487,7 +546,7 @@
 											function(data, status, headers,
 													config) {
 												$log.info("Call Successful");
-												$scope.users = data;
+												$scope.userArrays = $scope.chunk(data, 6);
 												$log.info($scope);
 											}).error(
 											function(data, status, headers,
@@ -521,7 +580,7 @@
 															headers, config) {
 														
 														$log.info("Call find Members Successful");
-														 $scope.searchResult = data;
+														 $scope.searchResultArrays = $scope.chunk(data, 6);
 														$log.info($scope.searchResult);
 														$location.url('/pages/searchResults');	
 														if($cookieStore.get('searchText')!=$scope.searchText){
@@ -1022,6 +1081,36 @@
 
 							};
 							
+							//simple seach
+							$scope.userSearch = function() {
+								$scope.searchResult =null;
+								// $( "#usersearchList" ).refresh(); 
+								
+								$http(
+										{
+											method : 'POST',
+											url : 'http://localhost:8080/ukadtogo/service/user/findMembers',
+											data : {
+												searchText : $scope.searchCrit
+											}
+										})
+										.success(
+												function(data, status,
+														headers, config) {
+													
+													$log.info("Call find Members Successful");
+													 $scope.searchResults = data; 
+
+													
+										}).error(
+												function(data, status,
+														headers, config) {
+													$log
+															.info("Call Find Members Failed");
+													$scope.searchResult = ''; 
+												});
+
+							};
 							$scope.getContributions();
 							//Fix for refresh
 								var url = $location.url();

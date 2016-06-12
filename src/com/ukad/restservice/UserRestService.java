@@ -51,28 +51,51 @@ public class UserRestService {
 	public @ResponseBody User login(@RequestBody User user) {
 		System.out.println("User Login :" + user);
 		user = userService.getUser(user.getUserName(), user.getPassword());
-		
+
 		if (user != null) {
-			Long sessionHistoryId = (Long)request.getSession().getAttribute("sessionHistoryId");
+			Long sessionHistoryId = (Long) request.getSession().getAttribute("sessionHistoryId");
 			if (sessionHistoryId == null)
 				addGuestCount();
-			sessionHistoryId = (Long)request.getSession().getAttribute("sessionHistoryId");
-			
+			sessionHistoryId = (Long) request.getSession().getAttribute("sessionHistoryId");
+
 			request.getSession().setAttribute("userId", user.getId());
 			if (sessionHistoryId != null) {
 				SessionHistory sh = (SessionHistory) userService.getById(SessionHistory.class, sessionHistoryId);
 				sh.setUser(user);
-				userService.update(sh, user);	
-			}		}
-		
+				userService.update(sh, user);
+			}
+		}
+
 		return user;
 	}
 
-	
+	@RequestMapping(value = "/sendPassword", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody String sendPassword(@RequestBody User user) {
+		System.out.println("User sendPassword :" + user);
+
+		try {
+			user = (User) userService.findByColumn(User.class, "userName", user.getUserName());
+			if (user != null) {
+				String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2>Vous avez demander a recevoir votre mot de passe sur cet e-mail </h2>"
+						+ "<h2>Le Voici: <strong>" + user.getPassword() + "</strong></h2>"
+						+ "<h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
+				SimpleMail.sendMail("Votre Mot de passe A.G.W.E", mail, "agwedc@gmail.com", user.getEmail(),
+						"smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
+				return "Success";
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Failure";
+		}
+
+		return "Failure";
+	}
+
 	@RequestMapping(value = "/addGuestCount", method = RequestMethod.POST, headers = "Accept=application/json")
 	public void addGuestCount() {
 		MySessionListener.sessions.add(request.getSession().getId());
-		
+
 		SessionHistory sessionHistory = new SessionHistory();
 		sessionHistory.setBeginDate(new Date());
 		sessionHistory.setUser(null);
@@ -83,33 +106,32 @@ public class UserRestService {
 		sessionHistory.setOsuser(request.getRemoteUser());
 		sessionHistory.setBrowser(request.getHeader("User-Agent"));
 		userService.save(sessionHistory);
-		
-		request.getSession().setAttribute("sessionHistoryId", sessionHistory.getId());	
+
+		request.getSession().setAttribute("sessionHistoryId", sessionHistory.getId());
 	}
-	
-	
+
 	@RequestMapping(value = "/getGuestCount", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody Long getGuestCount() {
 		return (long) MySessionListener.sessions.size();
 	}
-	
+
 	@RequestMapping(value = "/logout", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody Boolean logout() {
 		System.out.println("User Logout :" + request.getSession().getAttribute("userId"));
 
 		mySessionListener.sessionDestroyed(request);
-		
+
 		request.getSession().setAttribute("userId", null);
 		request.getSession().setAttribute("sessionHistoryId", null);
-		
+
 		return true;
 	}
-	
+
 	@RequestMapping(value = "/getMessagingUsers", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<User> getMessagingUsers() {
-		
+
 		List<User> members = userService.loadAllMembersWithOnlineStatus();
-		
+
 		return members;
 	}
 
@@ -123,13 +145,13 @@ public class UserRestService {
 		date.set(Calendar.MINUTE, 0);
 		date.set(Calendar.SECOND, 0);
 		date.set(Calendar.MILLISECOND, 0);
-		
+
 		user.setMembershipRenewDate(date.getTime());
 		userService.add(user);
 		System.out.println("User Created:" + user);
 		try {
 			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV bien recue", mail, "agwedc@gmail.com",
+			SimpleMail.sendMail("Votre demande d'adhesion a A.G.W.E  bien recue", mail, "agwedc@gmail.com",
 					user.getEmail(), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
 
 			mail = "<blockquote><h2><b>Nom: " + user.getLastName() + "</b></h2><h2><b>Prenom:" + user.getFirstName()
@@ -152,23 +174,6 @@ public class UserRestService {
 
 		try {
 			userService.save(tran);
-			/*
-			 * String mail =
-			 * "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>"
-			 * ; SimpleMail.sendMail(
-			 * "Votre demande d'adhesion a UKAD eV bien recue", mail,
-			 * "agwedc@gmail.com", user.getEmail(), "smtp.gmail.com",
-			 * "agwedc@gmail.com", "agwedc123");
-			 * 
-			 * mail = "<blockquote><h2><b>Nom: " + user.getLastName() +
-			 * "</b></h2><h2><b>Prenom:" + user.getFirstName() +
-			 * "</b></h2><h2><b>E-mail:" + user.getEmail() +
-			 * "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.agwedc.com \" target=\"\">www.agwedc.com </a></b></div></blockquote>"
-			 * ; SimpleMail.sendMail("Demand d'adhesion de " +
-			 * user.getFirstName() + " " + user.getLastName(), mail,
-			 * "agwedc@gmail.com", "agwedc@gmail.com", "smtp.gmail.com",
-			 * "agwedc@gmail.com", "agwedc123");
-			 */
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -185,23 +190,6 @@ public class UserRestService {
 
 		try {
 			userService.save(tran);
-			/*
-			 * String mail =
-			 * "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a U.K.A.D e.V. </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>"
-			 * ; SimpleMail.sendMail(
-			 * "Votre demande d'adhesion a UKAD eV bien recue", mail,
-			 * "agwedc@gmail.com", user.getEmail(), "smtp.gmail.com",
-			 * "agwedc@gmail.com", "agwedc123");
-			 * 
-			 * mail = "<blockquote><h2><b>Nom: " + user.getLastName() +
-			 * "</b></h2><h2><b>Prenom:" + user.getFirstName() +
-			 * "</b></h2><h2><b>E-mail:" + user.getEmail() +
-			 * "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.agwedc.com \" target=\"\">www.agwedc.com </a></b></div></blockquote>"
-			 * ; SimpleMail.sendMail("Demand d'adhesion de " +
-			 * user.getFirstName() + " " + user.getLastName(), mail,
-			 * "agwedc@gmail.com", "agwedc@gmail.com", "smtp.gmail.com",
-			 * "agwedc@gmail.com", "agwedc123");
-			 */
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -294,7 +282,7 @@ public class UserRestService {
 		userService.update(user, user);
 		try {
 			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2><span style=\"color: inherit;\">Nous somme heureux de vous annoncer que votre demande d'adhesion a ete acceptee. Restez aux nouvelles de l'association en visitant <a href=\"www.agwedc.com\" target=\"\">www.agwedc.com</a> </span><br/></h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV Approvee", mail, "agwedc@gmail.com",
+			SimpleMail.sendMail("Votre demande d'adhesion a A.G.W.E Approvee", mail, "agwedc@gmail.com",
 					user.getEmail(), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -311,7 +299,7 @@ public class UserRestService {
 		userService.update(user, user);
 		try {
 			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2><span style=\"color: inherit;\">Nous somme desole de vous annoncer que votre demande d'adhesion a ete rejetee. Restez aux nouvelles de l'association en visitant <a href=\"www.agwedc.com\" target=\"\">www.agwedc.com</a> </span><br/></h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a UKAD eV Rejetee", mail, "agwedc@gmail.com",
+			SimpleMail.sendMail("Votre demande d'adhesion a A.G.W.E  Rejetee", mail, "agwedc@gmail.com",
 					user.getEmail(), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -15,7 +15,7 @@
 						<div id="contribution-bar" class="height-150"></div>
 					</div>
 
-					<div id="exTab3" class="container" ng-show="theUser.canApprove">
+					<div id="exTab3" ng-show="theUser.canApprove">
 						<ul class="nav nav-pills">
 							<li class="active"><a href="#1b" data-toggle="tab">Cotisation</a></li>
 							<li><a href="#2b" data-toggle="tab">Depenses</a></li>
@@ -23,19 +23,28 @@
 
 						<div class="tab-content clearfix">
 							<div class="tab-pane active" id="1b">
-								<h5 class="page-section-heading">Choisissez un membre pour
-									enregistrer un payement</h5>
+								<div class="row">
+									<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+										<form ng-submit="userSearch()">
+											<div class="search-1">
+												<div class="input-group">
+													<span class="input-group-addon"><i
+														class="icon-search"></i></span> <input ng-model="searchCrit"
+														type="text" class="form-control form-control-w-250"
+														placeholder="Trouver un membre...">
+												</div>
+											</div>
+
+										</form>
+									</div>
+								</div>
 								<div class="panel panel-default">
 									<!-- Data table -->
-									<table st-table="displayedCollection" st-safe-src="users"
-										class="table table-striped" cellspacing="0" width="100%">
+									<table st-table="displayedCollection"
+										st-safe-src="searchResults" class="table table-striped"
+										cellspacing="0" width="100%">
 										<thead>
-											<tr>
 
-												<th colspan="5"><input st-search
-													placeholder="Rechercher un membre"
-													class="input-sm form-control" type="search" /></th>
-											</tr>
 											<tr>
 												<th>Nom</th>
 												<th>Prenom</th>
@@ -51,7 +60,10 @@
 										<tbody>
 											<tr ng-repeat="aUser in displayedCollection">
 												<td>::aUser.lastName::</pbtd>
-												<td>::aUser.firstName::</td>
+
+
+
+													<td>::aUser.firstName::</td>
 												<td><a ng-href="mailto: ::aUser.email::">::aUser.email::</a></td>
 												<td>::aUser.position.name::</td>
 												<td>::aUser.phone::</td>
@@ -77,15 +89,14 @@
 									</table>
 									<!-- // Data table -->
 								</div>
-
-
-								<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
-									aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
+							<div id="myModal" class="modal fade" tabindex="-1"
+														role="dialog" aria-labelledby="myModalLabel"
+														aria-hidden="true">
+														<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header bg-info">
 												<button type="button" class="close" data-dismiss="modal"
-													aria-hidden="true">X</button>
+																		aria-hidden="true">X</button>
 												<h1 id="myModalLabel" class="text-center"></h1>
 											</div>
 											<div class="modal-body">
@@ -93,8 +104,8 @@
 													<div class="row">
 														<div class="col-xs-4 col-sm-2">
 															<img src="images/members/::currUser.id::.jpg"
-																alt="Pas d'image"
-																class="img-thumbnail img-responsive img-circle">
+																					fallback-src="images/members/default-avatar.png"
+																					class="img-thumbnail img-responsive img-circle">
 														</div>
 													</div>
 													<hr>
@@ -104,29 +115,29 @@
 														<div class="col-md-2">
 
 															<label for="theYear"> Annee </label> <select
-																name="theYear" id="theYear" ng-model="year">
+																					name="theYear" id="theYear" ng-model="year">
 																<option ng-repeat="y in years" value="::y.name::">::y.name::</option>
 															</select>
 
 
 														</div>
-														<div class="col-md-3">
+														<div class="col-md-2">
 
 															<label for="theMonth"> Mois </label> <select
-																name="theMonth" id="theMonth" ng-model="month">
+																					name="theMonth" id="theMonth" ng-model="month">
 																<option ng-repeat="y in months" value="::y.name::">::y.name::</option>
 															</select>
 
 														</div>
-														<div class="col-md-3">
+														<div class="col-md-4">
 
 															<label for="thePaymentType"> Type de payement </label> <select
-																name="thePaymentType" id="thePaymentType"
-																ng-model="paymentType">
+																					name="thePaymentType" id="thePaymentType"
+																					ng-model="paymentType">
 																<option ng-repeat="y in paymentTypes" value="::y.id::">::y.name::</option>
 															</select>
-
-
+														</div>
+														<div class="col-md-4">
 														</div>
 
 													</div>
@@ -136,8 +147,8 @@
 															<div class="input-group">
 																<div class="input-group-addon">$</div>
 																<input type="text" class="form-control"
-																	ng-model="amount" id="exampleInputAmount"
-																	placeholder="Montant">
+																						ng-model="amount" id="exampleInputAmount"
+																						placeholder="Montant">
 																<div class="input-group-addon">.00</div>
 															</div>
 
@@ -146,25 +157,25 @@
 															<div class="input-group">
 																<div class="input-group-addon">Commentaire</div>
 																<input ng-model="comment" type="text"
-																	class="form-control" id="Comment"
-																	placeholder="Commentaire">
+																						class="form-control" id="Comment"
+																						placeholder="Commentaire">
 															</div>
 														</div>
 													</div>
 													<div class="row">
 														<div class="alert alert-success"
-															ng-show="paymentSaved &&paymentSaveSubmitted">
+																				ng-show="paymentSaved &&paymentSaveSubmitted">
 															<button type="button" class="close" data-dismiss="alert">
 																<span aria-hidden="true">&times;</span><span
-																	class="sr-only">Fermer</span>
+																						class="sr-only">Fermer</span>
 															</button>
 															::thePaymentMessage::
 														</div>
 														<div class="alert alert-danger"
-															ng-show="!paymentSaved &&paymentSaveSubmitted">
+																				ng-show="!paymentSaved &&paymentSaveSubmitted">
 															<button type="button" class="close" data-dismiss="alert">
 																<span aria-hidden="true">&times;</span><span
-																	class="sr-only">Fermer</span>
+																						class="sr-only">Fermer</span>
 															</button>
 															::thePaymentMessage::
 														</div>
@@ -177,15 +188,16 @@
 
 											<div class="modal-footer bg-info">
 												<button ng-click="clearPayment()" class="btn btn-danger"
-													data-dismiss="modal" aria-hidden="true">Fermer</button>
-												<button class="btn btn-success" ng-click="makePayment()">Sauvegarder</button>
+																		data-dismiss="modal" aria-hidden="true">Fermer</button>
+												<button class="btn btn-success" ng-click="makeUserPayment()">Sauvegarder</button>
 											</div>
 										</div>
 									</div>
 								</div>
 								<!--/modal-->
 
-							</div>
+							
+												</div>
 							<div class="tab-pane" id="2b">
 								<div class="row">
 
@@ -196,7 +208,7 @@
 											<option ng-repeat="y in years" value="::y.name::">::y.name::</option>
 										</select>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
 
 										<label for="theMonth"> Mois </label> <select name="theMonth"
 											id="theMonth" ng-model="month">
@@ -211,6 +223,8 @@
 											ng-model="expenseType">
 											<option ng-repeat="y in expenseTypes" value="::y.id::">::y.name::</option>
 										</select>
+									</div>
+									<div class="col-md-4">
 									</div>
 
 								</div>
@@ -281,6 +295,7 @@
 										<tbody>
 											<tr ng-repeat="exp in rowCollection">
 												<td>::exp.year::</pbtd>
+												
 												<td>::exp.month::</td>
 												<td>::exp.amount::</td>
 												<td>::exp.paymentType.name::</td>

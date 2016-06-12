@@ -1,120 +1,153 @@
 <div ng-include="'pages/menubg.html'"></div>
-<div class="bg-white" ng-controller="userCtrl">
+<div class="bg-white">
 
-	<div class="container">
-		<h2>Recherche dans nom ou prenom du membre contenant
-			::searchText::</h2>
-	</div>
-
-	<div class="container">
+	<div class="container" ng-controller="userCtrl">
 		<div class="row">
 			<div class="item col-lg-9 col-md-6 col-xs-12">
-				<div class="row" id="usersearchList">
-					<div ng-repeat="u in searchResult" class="col-xs-4 col-sm-2">
-						<a href="" ng-click="showUserModal(u)"><img
-							src="images/members/::u.id::.jpg" alt="Pas d'image"
-							class="img-thumbnail img-responsive img-circle"></a>
-						<h5 class="text-center">
-							<strong>::u.firstName+' '+u.lastName:: </strong>
-						</h5>
-						<h5 class="text-center">::u.position.name:: depuis
-							::u.membershipDate|date:'yyyy'::</h5>
-						<hr>
+				<div class="page-section">
+
+					<h2 class="page-section-heading">Recherche avec nom ou prenom
+						contenant ::searchText::</h2>
+
+					<div class="panel panel-default">
+						<!-- Data table -->
+						<table st-table="displayedCollection"
+							st-safe-src="searchResultArrays" class="table table-striped"
+							cellspacing="0" width="100%">
+							<thead>
+								<tr>
+
+									<th colspan="5"><input st-search
+										placeholder="Rechercher un membre"
+										class="input-sm form-control" type="search" /></th>
+								</tr>
+								<tr>
+									<th></th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="rowOfUsers in displayedCollection">
+									<td ng-repeat="u in rowOfUsers"><a href=""
+										ng-click="showUserModal(u)"><img
+											fallback-src="images/members/default-avatar.png"
+											src="images/members/::u.id::.jpg"
+											class="img-thumbnail img-responsive img-circle"
+											id="personImage" width="70px"></a>
+										<h6 class="text-justify">::u.firstName+' '+u.lastName::</h6>
+										<h6 class="text-justify">::u.position.name:: depuis
+											::u.membershipDate|date:'yyyy'::</h6></td>
+
+								</tr>
+
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="5" class="text-center">
+										<div st-pagination="" st-items-by-page="4"
+											st-displayed-pages="100"></div>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+						<!-- // Data table -->
 					</div>
-				</div>
 
-				<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
-					aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header bg-info">
-								<button type="button" class="close" data-dismiss="modal"
-									aria-hidden="true">X</button>
-								<h1 id="myModalLabel" class="text-center"></h1>
-							</div>
-							<div class="modal-body">
-								<div class="container-fluid">
-									<div class="row">
-										<div class="col-xs-4 col-sm-2">
-											<img src="images/members/::currUser.id::.jpg"
-												alt="Pas d'image"
-												class="img-thumbnail img-responsive img-circle">
-										</div>
-									</div>
-									<hr>
-									<div class="row">
-										<h4 class="text-center" ng-show="currUser.city">
-											<i class="fa fa-fw fa-map-marker fa-2x"></i>::currUser.city::
-										</h4>
-										<h4 class="text-center" ng-show="currUser.phone">
-											<i class="fa fa-fw fa-phone fa-2x"></i> ::currUser.phone::
-										</h4>
-										<h4 class="text-center" ng-show="currUser.email">
-											<i class="fa fa-fw fa-envelope-o fa-2x"></i>
-											::currUser.email::
-										</h4>
-										<h4 class="text-center">
-											<i class="fa fa-fw fa-user fa-2x"></i> Membre depuis
-											::currUser.membershipDate|date::
-										</h4>
-									</div>
-									<hr ng-show="theUser.canApprove">
-									<div class="row" ng-show="theUser.canApprove">
 
-										<div class="col-md-4 col-sm-2">
-
-											<label for="canChange">Admin</label> <input id="canChange"
-												ng-model="currUser.canApprove" type="checkbox"
-												data-label="suffix" class="checkbox" />
-
-										</div>
-										<div class="col-md-4 col-sm-2">
-											<label for="theMonth"> Position </label> <select
-												name="position" id="position"
-												ng-model="currUser.position.id">
-												<option ng-repeat="y in positions" value="::y.id::">::y.name::</option>
-											</select>
-										</div>
-										<div class="col-md-4 col-sm-2">
-
-											<label for="memerShipDate">Membre Depuis</label> <input
-												enabled="true" id="memerShipDate" type="text"
-												ng-model="currUser.membershipDate"
-												class="form-control datepicker">
-										</div>
-									</div>
-									<hr ng-show="theUser.canApprove">
-									<div class="row" ng-show="theUser.canApprove">
-										<div class="alert alert-success"
-											ng-show="!failedLogin&&saveUserSubmitted">
-											<button type="button" class="close" data-dismiss="alert">
-												<span aria-hidden="true">&times;</span><span class="sr-only">Fermer</span>
-											</button>
-											::theUserMessage::
-										</div>
-										<div class="alert alert-danger"
-											ng-show="failedLogin&&saveUserSubmitted">
-											<button type="button" class="close" data-dismiss="alert">
-												<span aria-hidden="true">&times;</span><span class="sr-only">Fermer</span>
-											</button>
-											::theUserMessage::
-										</div>
-									</div>
-
+					<div id="myModal" class="modal fade" tabindex="-1" role="dialog"
+						aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header bg-info">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">X</button>
+									<h1 id="myModalLabel" class="text-center"></h1>
 								</div>
-							</div>
+								<div class="modal-body">
+									<div class="container-fluid">
+										<div class="row">
+											<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+												<img src="images/members/::currUser.id::.jpg"
+													fallback-src="images/members/default-avatar.png"
+													class="img-thumbnail img-responsive img-circle">
+											</div>
+											<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+												<h4 class="text-justify" ng-show="currUser.city">
+													<i class="fa fa-fw fa-map-marker fa-2x"></i>::currUser.city::
+												</h4>
+												<h4 class="text-justify" ng-show="currUser.phone">
+													<i class="fa fa-fw fa-phone fa-2x"></i> ::currUser.phone::
+												</h4>
+												<h4 class="text-justify" ng-show="currUser.email">
+													<i class="fa fa-fw fa-envelope-o fa-2x"></i>
+													::currUser.email::
+												</h4>
+												<h4 class="text-justify">
+													<i class="fa fa-fw fa-user fa-2x"></i> Membre depuis
+													::currUser.membershipDate|date::
+												</h4>
+											</div>
+										</div>
+										<hr ng-show="theUser.canApprove">
+										<div class="row" ng-show="theUser.canApprove">
 
-							<div class="modal-footer bg-info">
-								<button class="btn btn-danger" data-dismiss="modal"
-									aria-hidden="true">Fermer</button>
-								<button ng-show="theUser.canApprove" class="btn btn-success"
-									ng-click="saveAUser(currUser)">Sauvegarder</button>
-							</div>
+											<div class="col-md-2 col-sm-2">
 
+												<label for="canChange">Admin</label> <input id="canChange"
+													ng-model="currUser.canApprove" type="checkbox"
+													data-label="suffix" class="checkbox" />
+
+											</div>
+											<div class="col-md-6 col-sm-6">
+												<label for="theMonth"> Position </label> <select
+													name="position" id="position"
+													ng-model="currUser.position.id">
+													<option ng-repeat="y in positions" value="::y.id::">::y.name::</option>
+												</select>
+											</div>
+											<div class="col-md-4 col-sm-4">
+
+												<label for="memerShipDate">Membre Depuis</label> <input
+													enabled="true" id="memerShipDate" type="text"
+													ng-model="currUser.membershipDate"
+													class="form-control datepicker">
+											</div>
+										</div>
+										<hr ng-show="theUser.canApprove">
+										<div class="row" ng-show="theUser.canApprove">
+											<div class="alert alert-success"
+												ng-show="!failedLogin&&saveUserSubmitted">
+												<button type="button" class="close" data-dismiss="alert">
+													<span aria-hidden="true">&times;</span><span
+														class="sr-only">Fermer</span>
+												</button>
+												::theUserMessage::
+											</div>
+											<div class="alert alert-danger"
+												ng-show="failedLogin&&saveUserSubmitted">
+												<button type="button" class="close" data-dismiss="alert">
+													<span aria-hidden="true">&times;</span><span
+														class="sr-only">Fermer</span>
+												</button>
+												::theUserMessage::
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+								<div class="modal-footer bg-info">
+									<button class="btn btn-danger" data-dismiss="modal"
+										aria-hidden="true">Fermer</button>
+									<button ng-show="theUser.canApprove" class="btn btn-success"
+										ng-click="saveAUser(currUser)">Sauvegarder</button>
+								</div>
+
+							</div>
 						</div>
 					</div>
+					<!--/modal-->
 				</div>
-				<!--/modal-->
 			</div>
 			<div class="item col-lg-3 col-md-6 col-xs-12">
 				<div class="page-section">
@@ -122,10 +155,9 @@
 				</div>
 			</div>
 		</div>
-
+		<br />
+		<!-- // END .container -->
 	</div>
-	<!--/container-->
-
 
 </div>
 <!-- // END .bg-white -->
