@@ -66,7 +66,7 @@
 							          /**
 							                 * Start create Payment
 							                 */
-							                $scope.makePayment = function() {  
+							                $scope.makeUserPayment = function() {  
 							                	var transaction={amount:this.amount,
 							                			comment:this.comment,
 							                			year:this.year,

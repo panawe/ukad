@@ -110,7 +110,7 @@
 
 
 														</div>
-														<div class="col-md-3">
+														<div class="col-md-2">
 
 															<label for="theMonth"> Mois </label> <select
 																name="theMonth" id="theMonth" ng-model="month">
@@ -118,15 +118,15 @@
 															</select>
 
 														</div>
-														<div class="col-md-3">
+														<div class="col-md-4">
 
 															<label for="thePaymentType"> Type de payement </label> <select
 																name="thePaymentType" id="thePaymentType"
 																ng-model="paymentType">
 																<option ng-repeat="y in paymentTypes" value="::y.id::">::y.name::</option>
 															</select>
-
-
+														</div>
+														<div class="col-md-4">
 														</div>
 
 													</div>
@@ -178,7 +178,7 @@
 											<div class="modal-footer bg-info">
 												<button ng-click="clearPayment()" class="btn btn-danger"
 													data-dismiss="modal" aria-hidden="true">Fermer</button>
-												<button class="btn btn-success" ng-click="makePayment()">Sauvegarder</button>
+												<button class="btn btn-success" ng-click="makeUserPayment()">Sauvegarder</button>
 											</div>
 										</div>
 									</div>
@@ -196,7 +196,7 @@
 											<option ng-repeat="y in years" value="::y.name::">::y.name::</option>
 										</select>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
 
 										<label for="theMonth"> Mois </label> <select name="theMonth"
 											id="theMonth" ng-model="month">
@@ -211,6 +211,8 @@
 											ng-model="expenseType">
 											<option ng-repeat="y in expenseTypes" value="::y.id::">::y.name::</option>
 										</select>
+									</div>
+									<div class="col-md-4">
 									</div>
 
 								</div>
