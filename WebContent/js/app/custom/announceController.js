@@ -94,7 +94,42 @@
 	 /**
 	  * End clear Announce
 	  */
-                   
+    
+          /**
+			 * Start Delete Announce
+			 * 
+			 */
+			$scope.deleteAnnounce = function(aAnnounce) {
+				aAnnounce.deleted = false;
+				$http(
+						{
+							method : 'POST',
+							url : 'http://localhost:8080/ukadtogo/service/announce/deleteAnnounce',
+							data : aAnnounce
+						})
+						.success(
+								function(data, status,
+										headers, config) {
+									$log
+											.info("Call deleteAnnounce Successful");
+									aAnnounce.deleted = true;
+									$log.info($scope);
+								})
+						.error(
+								function(data, status,
+										headers, config) {
+									$log
+											.info("Call deleteAnnounce Failed");
+									$log.info($scope);
+
+								});
+
+			};
+			/**
+			 * End Delete
+			 */
+			
+			
  	  	  	                      
 /**
  * Start get Announces
@@ -181,7 +216,90 @@
 		 * End get all Announces album photos
 		 */
 		
-          
+		/**
+		 * Start get Album Photo Get the list photo of
+		 * Announces
+		 */
+		$scope.getNextAnnounceAlbum = function(id) {
+			var aAnnounce = {
+					id : id,
+					};
+			
+			$cookieStore.remove("theAnnounce");
+			$http(
+					{
+						method : 'POST',
+						url : 'http://localhost:8080/ukadtogo/service/announce/getNextAnnounceAlbum',
+						data : aAnnounce
+					})
+					.success(
+							function(data, status,
+									headers, config) {
+								$log
+										.info("Call get All Announces photo Successful");
+								if (data != "") {
+									$scope.theAnnounce = data;
+									$cookieStore.put('theAnnounce', data);		
+									window.location.reload();
+								}
+
+							})
+					.error(
+							function(data, status,
+									headers, config) {
+								$log
+										.info("Call get All Announce phot Failed");
+								$log.info($scope);
+							});
+
+		};
+		/**
+		 * End get all Announces album photos
+		 */
+		
+		/**
+		 * Start get Album Photo Get the list photo of
+		 * Announces
+		 */
+		$scope.getPreviousAnnounceAlbum = function(id) {
+			var aAnnounce = {
+					id : id,
+					};
+			
+			$cookieStore.remove("theAnnounce");
+			
+			$http(
+					{
+						method : 'POST',
+						url : 'http://localhost:8080/ukadtogo/service/announce/getPreviousAnnounceAlbum',
+						data : aAnnounce
+					})
+					.success(
+							function(data, status,
+									headers, config) {
+								$log
+										.info("Call get All Announces photo Successful");
+								if (data != "") {
+									$scope.theAnnounce = data;
+									$cookieStore.put('theAnnounce', data);	
+									window.location.reload();
+								}
+
+							})
+					.error(
+							function(data, status,
+									headers, config) {
+								$log
+										.info("Call get All Announce phot Failed");
+								$log.info($scope);
+							});
+
+		};
+		/**
+		 * End get all Announces album photos
+		 */
+		
+		
 		var url = $location.url();
 		$log.info('URL='+url);
 		

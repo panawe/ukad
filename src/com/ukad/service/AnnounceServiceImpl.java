@@ -19,10 +19,26 @@ public class AnnounceServiceImpl extends BaseServiceImpl implements AnnounceServ
 		// TODO Auto-generated method stub
 		List<BaseEntity> ances = (List<BaseEntity>) loadAllByColumn(class1, "status", 0);
 		List<Announce> announces = null;
+		
+		Announce previousAnnounce = null;
+		
+		Announce announce = null;
 		if (ances != null) {
 			announces = new ArrayList<Announce>();
+			
 			for (BaseEntity ance : ances) {
-				announces.add((Announce)ance);
+				announce = (Announce)ance;
+				if (previousAnnounce != null) {
+					previousAnnounce.setNextId(announce.getId());
+					previousAnnounce.setNextTitle(announce.getTitle());
+					previousAnnounce.setNextDescription(announce.getDescription());
+					announce.setPreviousId(previousAnnounce.getId());
+					previousAnnounce.setPreviousTitle(previousAnnounce.getTitle());
+					previousAnnounce.setPreviousDescription(previousAnnounce.getDescription());
+				}
+				
+				announces.add(announce);
+				previousAnnounce = announce;
 			}
 
 		}
@@ -43,4 +59,5 @@ public class AnnounceServiceImpl extends BaseServiceImpl implements AnnounceServ
 		}
 		return announces;
 	}
+	
 }

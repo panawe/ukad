@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ukad.dao.BaseDao;
+import com.ukad.model.Announce;
 import com.ukad.model.BaseEntity;
 import com.ukad.model.News;
 import com.ukad.security.model.Menu;
@@ -223,5 +224,13 @@ public class BaseServiceImpl implements BaseService {
 	@Override
 	public List<BaseEntity> loadAllByColumn(Class cl, String columnName, Integer columnValue) {
 		return baseDao.loadAllByColumn(cl, columnName, columnValue);
+	}
+	
+	public Announce getNextAnnounce(Long announceId) {
+		return baseDao.getNextAnnounce(announceId);
+	}
+	
+	public Announce getPreviousAnnounce(Long announceId) {
+		return baseDao.getPreviousAnnounce(announceId);
 	}
 }

@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import com.ukad.model.Announce;
 import com.ukad.model.BaseEntity;
 import com.ukad.model.News;
 import com.ukad.security.model.Contribution;
@@ -376,4 +377,56 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport imple
 		return yss;
 	}
 
+	
+	public Announce getNextAnnounce(Long announceId) {
+
+		String sqlQuery = "SELECT a.announce_id, a.title, a.description, a.status, a.begin_date, a.end_date"
+				+ " FROM announce a WHERE a.announce_id = "
+				+ "(SELECT min(announce_id) FROM announce WHERE announce_id > :announceId) ";
+
+		// int parameterIndex = 0;
+		Session session = getHibernateTemplate().getSessionFactory().openSession();
+		Query query = session.createSQLQuery(sqlQuery.replaceAll(":announceId", announceId.toString()));
+		
+		List<Object[]> objects = query.list();
+
+		Announce announce = null;
+		for (Object[] obj : objects) {
+			announce = new Announce();
+			announce.setId(Long.valueOf(obj[0].toString()));
+			announce.setTitle(obj[1].toString());
+			announce.setDescription(obj[2].toString());
+			announce.setStatus(Short.valueOf(obj[3].toString()));
+			announce.setBeginDate((Date)obj[4]);
+			announce.setEndDate((Date)obj[5]);
+		}
+
+		return announce;
+	}
+	
+	public Announce getPreviousAnnounce(Long announceId) {
+
+		String sqlQuery = "SELECT a.announce_id, a.title, a.description, a.status, a.begin_date, a.end_date"
+				+ " FROM announce a WHERE a.announce_id = "
+				+ "(SELECT max(announce_id) FROM announce WHERE announce_id < :announceId) ";
+
+		// int parameterIndex = 0;
+		Session session = getHibernateTemplate().getSessionFactory().openSession();
+		Query query = session.createSQLQuery(sqlQuery.replaceAll(":announceId", announceId.toString()));
+		
+		List<Object[]> objects = query.list();
+
+		Announce announce = null;
+		for (Object[] obj : objects) {
+			announce = new Announce();
+			announce.setId(Long.valueOf(obj[0].toString()));
+			announce.setTitle(obj[1].toString());
+			announce.setDescription(obj[2].toString());
+			announce.setStatus(Short.valueOf(obj[3].toString()));
+			announce.setBeginDate((Date)obj[4]);
+			announce.setEndDate((Date)obj[5]);
+		}
+
+		return announce;
+	}
 }
