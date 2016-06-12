@@ -139,10 +139,10 @@
 							                     $scope.drawPayments();
 							                     $scope.drawContributions();
 							                     if(data=='Success'){
-							                    	 $scope.thePaymentMessage='Payement Effectue succes';
+							                    	 $scope.thePaymentMessage='Depense sauvegardee succes';
 							                    	 
 							                     }else{
-							                    	 $scope.thePaymentMessage='Le payement a echoue';
+							                    	 $scope.thePaymentMessage='Sauvegarde Depense a echoue';
 							                    	 $scope.paymentSaved=false;
 							                     }
 							                    
@@ -281,6 +281,7 @@
 
 														} else {
 															$scope.failedLogin = true;
+															$scope.loginMessage="Nom d'utilisateur/mot de passe invalide.";
 														}
 
 														$cookieStore
@@ -303,6 +304,7 @@
 																'theUser', '');
 														$scope.theUser = null;
 														$scope.failedLogin = true;
+														$scope.loginMessage="La connection a echoue.";
 														$log.info($scope);
 													});
 
@@ -311,6 +313,55 @@
 								 * End Log in
 								 */
 
+								/**
+								 * Send password
+								 */
+								$scope.sendPassword = function() {
+									$scope.loginMessage='';
+									var User = {
+										"userName" : $scope.userName,
+										"password" : $scope.password
+									};
+
+									$http(
+											{
+												method : 'POST',
+												url : 'http://localhost:8080/ukadtogo/service/user/sendPassword',
+												data : User
+											})
+											.success(
+													function(data, status,
+															headers, config) {
+														$log
+																.info("Call Successful"); 
+														if(data=='Success'){
+															
+															$scope.loginMessage="Votre Mot de passe vous a ete envoye.";
+														}else{
+															$scope.loginMessage="Cet e-mail n'existe pas.";
+														}
+														
+														$scope.failedLogin = true;
+   
+
+													})
+											.error(
+													function(data, status,
+															headers, config) {
+														$log
+																.info("Call Failed");
+														$scope.loginMessage="Erreur systeme.";
+														$cookieStore.put(
+																'theUser', '');
+														$scope.theUser = null;
+														$scope.failedLogin = true; 
+													});
+
+								};
+								/**
+								 * End send password
+								 */
+								
 								/**
 								 * Start Logout
 								 */
@@ -1030,6 +1081,36 @@
 
 							};
 							
+							//simple seach
+							$scope.userSearch = function() {
+								$scope.searchResult =null;
+								// $( "#usersearchList" ).refresh(); 
+								
+								$http(
+										{
+											method : 'POST',
+											url : 'http://localhost:8080/ukadtogo/service/user/findMembers',
+											data : {
+												searchText : $scope.searchCrit
+											}
+										})
+										.success(
+												function(data, status,
+														headers, config) {
+													
+													$log.info("Call find Members Successful");
+													 $scope.searchResults = data; 
+
+													
+										}).error(
+												function(data, status,
+														headers, config) {
+													$log
+															.info("Call Find Members Failed");
+													$scope.searchResult = ''; 
+												});
+
+							};
 							$scope.getContributions();
 							//Fix for refresh
 								var url = $location.url();

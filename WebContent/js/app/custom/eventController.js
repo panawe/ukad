@@ -13,10 +13,10 @@
 							'$log',
 							'$http',
 							'FileUploader',
-							'$location',
+							'$location','$sce',
 							'moment',
 							function($scope, $state, $window, $cookieStore,
-									$log, $http, FileUploader, $location,
+									$log, $http, FileUploader, $location,$sce,
 									moment) {
 
 								$scope.theEvent = $cookieStore.get('theEvent');
@@ -26,7 +26,9 @@
 								$scope.eventSaveSubmitted = false;
 								$scope.submitted = false;
 								
-													
+								$scope.getIframeSrc = function (videoId) {
+									  return $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + videoId);
+								};					
 								
 								/**
 								 * Start File uploader
