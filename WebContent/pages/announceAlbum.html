@@ -4,6 +4,18 @@
 
 	<div class="container">
 		<div class="row">
+			<div class="col-xs-6 col-xs-4 centered">
+				<button type="button" class="btn btn-success btn-xs" ng-click="getPreviousAnnounceAlbum(theAnnounce.id)">
+					<span class="glyphicon glyphicon-upload"></span>Precedent</button>
+			</div>
+			<div class="col-xs-6 col-xs-4"></div>
+			<div class="col-xs-6 col-xs-2">
+				<button type="button" class="btn btn-success btn-xs" ng-click="getNextAnnounceAlbum(theAnnounce.id)">
+					<span class="glyphicon glyphicon-upload"></span>Suivant</button>
+			</div>
+		</div>
+	
+		<div class="row">
 			<div class="item col-lg-9 col-md-6 col-xs-12">
 				<h2>::theAnnounce.title::</h2>
 

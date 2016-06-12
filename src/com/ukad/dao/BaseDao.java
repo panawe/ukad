@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.ukad.model.Announce;
 import com.ukad.model.BaseEntity;
 import com.ukad.model.News;
 import com.ukad.security.model.Menu;
@@ -67,5 +68,9 @@ public interface BaseDao {
 	public List<YearlySummary> getYearlySmry();
 
 	public List<BaseEntity> loadAllByColumn(Class cl, String columnName, Integer columnValue);
+	
+	public Announce getNextAnnounce(Long announceId);
+	
+	public Announce getPreviousAnnounce(Long announceId);
 
 }

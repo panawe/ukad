@@ -157,5 +157,21 @@ public class AnnounceRestService {
 
 	}
 
+	@RequestMapping(value = "/getNextAnnounceAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody Announce getNextAnnounceAlbum(@RequestBody Announce announce) {
+		System.out.println("getNextAnnounceAlbum Announce:" + announce);
+		Announce nextAnnounce = this.announceService.getNextAnnounce(announce.getId());
+		return nextAnnounce;
 
+	}
+
+	
+	@RequestMapping(value = "/getPreviousAnnounceAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody Announce getPreviousAnnounceAlbum(@RequestBody Announce announce) {
+		System.out.println("getPreviousAnnounceAlbum Announce:" + announce);
+		Announce previousAnnounce = this.announceService.getPreviousAnnounce(announce.getId());
+
+		return previousAnnounce;
+
+	}
 }
