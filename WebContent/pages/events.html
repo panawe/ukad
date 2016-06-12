@@ -14,8 +14,9 @@
 						<li class="active" ng-show="theUser.canApprove"><a href="#1b"
 							data-toggle="tab">Ajouter un evenement</a></li>
 
-						<li><a href="#2b" data-toggle="tab">Les evenements</a></li>
-
+						<li><a href="#2b" ng-click="getAllEvents()"
+								data-toggle="tab">Les evenements</a></li>
+						
 						<li ng-show="theUser.canApprove"><a href="#3b"
 							data-toggle="tab">Charger les images d'un evenement</a></li>
 

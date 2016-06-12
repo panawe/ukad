@@ -116,6 +116,40 @@
   };
   
   /**
+	 * Start Delete Announce
+	 * 
+	 */
+	$scope.deleteWeblink = function(aWeblink) {
+		aWeblink.deleted = false;
+		$http(
+				{
+					method : 'POST',
+					url : 'http://localhost:8080/ukadtogo/service/weblink/deleteWeblink',
+					data : aWeblink
+				})
+				.success(
+						function(data, status,
+								headers, config) {
+							$log
+									.info("Call deleteWeblink Successful");
+							aWeblink.deleted = true;
+							$log.info($scope);
+						})
+				.error(
+						function(data, status,
+								headers, config) {
+							$log
+									.info("Call deleteWeblink Failed");
+							$log.info($scope);
+
+						});
+
+	};
+	/**
+	 * End Delete
+	 */
+	
+  /**
    * Start get Weblinks
    * Get the list of Weblinks
    */
