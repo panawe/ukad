@@ -66,7 +66,7 @@
 							          /**
 							                 * Start create Payment
 							                 */
-							                $scope.makePayment = function() {  
+							                $scope.makeUserPayment = function() {  
 							                	var transaction={amount:this.amount,
 							                			comment:this.comment,
 							                			year:this.year,
@@ -893,7 +893,7 @@
 											                "currency": "USD",
 											                "total": $scope.amount
 											            },
-											            "description": "Don pour l'Association des Gabonais de Washington, D.C et ses Environs (A.G.W.E)."
+											            "description": "Don pour ARELBOU"
 											        }
 											    ],
 											    "redirectUrls": {
@@ -942,7 +942,7 @@
 											                "currency": "USD",
 											                "total": $scope.theUser.fee
 											            },
-											            "description": "Frais Annuel de membre pour l'Association des Gabonais de Washington, D.C et ses Environs (A.G.W.E)."
+											            "description": "Frais Annuel de membre pour ARELBOU."
 											        }
 											    ],
 											    "redirectUrls": {
@@ -1002,6 +1002,7 @@
 													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
 												});
 							};
+
 
 							/**
 							 * Start get Events Get the list of Events

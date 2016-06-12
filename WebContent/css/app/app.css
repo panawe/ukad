@@ -23654,7 +23654,7 @@ hr {
   margin: 15px 0;
 }
 .page-section {
-  padding: 40px 0;
+  padding: 10px 0;
 }
 .page-section.half {
   padding: 16px 0;
@@ -29114,7 +29114,7 @@ fieldset[disabled] .owl-preview .owl-controls .owl-nav > div {
   background: #26a69a;
 }
 .slick-slider {
-  padding-bottom: 35px;
+  padding-bottom: 5px;
   margin: 0;
 }
 .slick-slider .item > * {

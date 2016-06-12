@@ -164,26 +164,39 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-group form-control-default required">
-										<label for="exampleInputEmail1">Addresse Email</label> <input
-											ng-model="newUser.email" type="email" class="form-control"
-											id="exampleInputEmail1" placeholder="Email">
+									<div class="row">
+										<div class="form-group form-control-default required">
+											<label for="exampleInputEmail1">Addresse Email</label> <input
+												ng-model="newUser.email" type="email" class="form-control"
+												id="exampleInputEmail1" placeholder="Email">
+										</div>
 									</div>
-									<div class="form-group form-control-default required">
-										<label for="exampleInputPassword1">Mot de passe</label> <input
-											ng-model="newUser.password" type="password"
-											class="form-control" id="exampleInputPassword1"
-											placeholder="Mot de passe">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group form-control-default required">
+												<label for="exampleInputPassword1">Mot de passe</label> <input
+													ng-model="newUser.password" type="password"
+													class="form-control" id="exampleInputPassword1"
+													placeholder="Mot de passe">
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group form-control-default required">
+												<label for="sex">Sex:</label> <select name="selectSex"
+													class="form-control" ng-model="newUser.sex" data-size="2">
+													<option value="M">Homme</option>
+													<option value="F">Femme</option>
+												</select>
+											</div>
+										</div>
 									</div>
 									<button type="submit" class="btn btn-primary">Enregistrer</button>
-									<div class="alert alert-danger"
-												ng-show="failedLogin">
-												<button type="button" class="close" data-dismiss="alert">
-													<span aria-hidden="true">&times;</span><span
-														class="sr-only">Fermer</span>
-												</button>
-												::theUserMessage::
-											</div>
+									<div class="alert alert-danger" ng-show="failedLogin">
+										<button type="button" class="close" data-dismiss="alert">
+											<span aria-hidden="true">&times;</span><span class="sr-only">Fermer</span>
+										</button>
+										::theUserMessage::
+									</div>
 								</form>
 							</div></li>
 
@@ -203,7 +216,8 @@
 								<li ng-show="theUser.status==1"><a href="#pages/email"><i
 										class="fa fa-wrench"></i>Nouvelles</a></li>
 								<li ng-show="theUser.canApprove && theUser.status==1"><a
-									href="#pages/approveMembers"><i class="fa fa-wrench"></i>Administrer les Membres</a></li>
+									href="#pages/approveMembers"><i class="fa fa-wrench"></i>Administrer
+										les Membres</a></li>
 								<li ng-show="theUser.status==1"><a href="#pages/cotiser"><i
 										class="fa fa-wrench"></i>Cotisation</a></li>
 								<li ng-show="theUser.canApprove && theUser.status==1"><a

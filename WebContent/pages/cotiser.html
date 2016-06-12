@@ -14,8 +14,8 @@
 						<span class="label label-primary">Cotisations par membres</span>
 						<div id="contribution-bar" class="height-150"></div>
 					</div>
-
-					<div id="exTab3" class="container" ng-show="theUser.canApprove">
+					
+					<div id="exTab3" ng-show="theUser.canApprove">
 						<ul class="nav nav-pills">
 							<li class="active"><a href="#1b" data-toggle="tab">Cotisation</a></li>
 							<li><a href="#2b" data-toggle="tab">Depenses</a></li>
@@ -23,19 +23,27 @@
 
 						<div class="tab-content clearfix">
 							<div class="tab-pane active" id="1b">
-								<h5 class="page-section-heading">Choisissez un membre pour
-									enregistrer un payement</h5>
+								<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<form ng-submit="userSearch()">
+								<div class="search-1">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="icon-search"></i></span>
+										<input ng-model="searchCrit" type="text"
+											class="form-control form-control-w-250"
+											placeholder="Trouver un Lama dou...">
+									</div>
+								</div>
+
+							</form>
+						</div>
+					</div>
 								<div class="panel panel-default">
 									<!-- Data table -->
-									<table st-table="displayedCollection" st-safe-src="users"
+									<table st-table="displayedCollection" st-safe-src="searchResults"
 										class="table table-striped" cellspacing="0" width="100%">
 										<thead>
-											<tr>
-
-												<th colspan="5"><input st-search
-													placeholder="Rechercher un membre"
-													class="input-sm form-control" type="search" /></th>
-											</tr>
+											
 											<tr>
 												<th>Nom</th>
 												<th>Prenom</th>
@@ -110,7 +118,7 @@
 
 
 														</div>
-														<div class="col-md-3">
+														<div class="col-md-2">
 
 															<label for="theMonth"> Mois </label> <select
 																name="theMonth" id="theMonth" ng-model="month">
@@ -118,15 +126,15 @@
 															</select>
 
 														</div>
-														<div class="col-md-3">
+														<div class="col-md-4">
 
 															<label for="thePaymentType"> Type de payement </label> <select
 																name="thePaymentType" id="thePaymentType"
 																ng-model="paymentType">
 																<option ng-repeat="y in paymentTypes" value="::y.id::">::y.name::</option>
 															</select>
-
-
+														</div>
+														<div class="col-md-4">
 														</div>
 
 													</div>
@@ -134,11 +142,11 @@
 													<div class="row">
 														<div class="form-group form-control-default">
 															<div class="input-group">
-																<div class="input-group-addon">$</div>
+																 
 																<input type="text" class="form-control"
 																	ng-model="amount" id="exampleInputAmount"
 																	placeholder="Montant">
-																<div class="input-group-addon">.00</div>
+																<div class="input-group-addon">CFA</div>
 															</div>
 
 														</div>
@@ -178,7 +186,7 @@
 											<div class="modal-footer bg-info">
 												<button ng-click="clearPayment()" class="btn btn-danger"
 													data-dismiss="modal" aria-hidden="true">Fermer</button>
-												<button class="btn btn-success" ng-click="makePayment()">Sauvegarder</button>
+												<button class="btn btn-success" ng-click="makeUserPayment()">Sauvegarder</button>
 											</div>
 										</div>
 									</div>
@@ -217,10 +225,10 @@
 								<div class="row">
 									<div class="form-group form-control-default">
 										<div class="input-group">
-											<div class="input-group-addon">$</div>
+											
 											<input type="text" class="form-control" ng-model="amount"
 												id="exampleInputAmount" placeholder="Montant">
-											<div class="input-group-addon">.00</div>
+											<div class="input-group-addon">CFA</div>
 										</div>
 
 									</div>
