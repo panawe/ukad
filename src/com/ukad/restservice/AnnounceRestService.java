@@ -20,18 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ukad.model.Advertisement;
 import com.ukad.model.Announce;
-import com.ukad.model.Event;
-import com.ukad.model.Project;
-import com.ukad.model.Sponsor;
-import com.ukad.model.Weblink;
-import com.ukad.security.model.User;
-import com.ukad.security.service.UserService;
-import com.ukad.service.AdvertisementService;
 import com.ukad.service.AnnounceService;
-import com.ukad.service.EventService;
-import com.ukad.util.SimpleMail;
 
 @RestController
 @RequestMapping("/service/announce")
@@ -46,7 +36,7 @@ public class AnnounceRestService {
 	@RequestMapping(value = "/receiveFile", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 
 	public @ResponseBody String receiveFile(@RequestParam("file") MultipartFile file,
-			@RequestParam("aannounceId") String announceId) {
+			@RequestParam("announceId") String announceId) {
 		System.out.println("Received ");
 		if (!file.isEmpty()) {
 			try {
@@ -58,7 +48,7 @@ public class AnnounceRestService {
 				int fileCount = 0;
 				if (context != null) {
 
-					storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "advertisements"
+					storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "announces"
 							+ File.separator + announceId;
 					File dir = new File(storageDirectory);
 					if (!dir.exists()) {
@@ -117,5 +107,55 @@ public class AnnounceRestService {
 		
 		return announces;
 	}
+	
+	@RequestMapping(value = "/getAllAnnouncesWithAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<Announce> getAllAnnouncesWithAlbum() {
+		System.out.println("Announce list Requested - getAllAnnouncesWithAlbum");
+		List<Announce> announces = (List<Announce>) announceService.loadActiveAnnounces(Announce.class);
+		String storageDirectory = null;
+
+		if (context != null) {
+			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "announces";
+		}
+		List<Announce> retList = new ArrayList<Announce>();
+		for (Announce a : announces) {
+			File dir = new File(storageDirectory + File.separator + a.getId());
+			int fileCount = 0;
+			if (dir.exists()) {
+				fileCount = dir.listFiles().length;
+			}
+			if (fileCount > 0) {
+				retList.add(a);
+			}
+		}
+		Collections.reverse(retList);
+		return retList;
+	}
+
+	
+	@RequestMapping(value = "/getAnnounceAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<String> getAnnounceAlbum(@RequestBody Announce announce) {
+		System.out.println("getAnnounceAlbum Announce:" + announce);
+		String storageDirectory = null;
+
+		if (context != null) {
+			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "announces";	
+		}
+		List<String> retList = new ArrayList<String>();
+
+		File dir = new File(storageDirectory + File.separator + announce.getId());
+
+		if (dir.exists()) {
+			File[] files = dir.listFiles();
+			for (File file : files) {
+				retList.add(file.getName());
+			}
+		}
+
+		Collections.reverse(retList);
+		return retList;
+
+	}
+
 
 }
