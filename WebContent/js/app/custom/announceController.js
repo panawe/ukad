@@ -1,8 +1,8 @@
 (function () {
     'use strict';
     
-    angular.module('app').controller('announceCtrl', [ '$scope', '$state','$window','$cookieStore','$log','$http','FileUploader','$location','moment', 
-                          function ($scope, $state,$window, $cookieStore,$log,$http,FileUploader,$location,moment) {
+    angular.module('app').controller('announceCtrl', [ '$scope', '$state','$window','$cookieStore','$log','$http','FileUploader','$location','moment','$interval', 
+                          function ($scope, $state,$window, $cookieStore,$log,$http,FileUploader,$location,moment,$interval) {
   	 	   /**
   	        * Start create Announce
   	        */
@@ -11,6 +11,14 @@
   	        $scope.announceSaved=false;
   	        $scope.announceSaveSubmitted=false;
   	        $scope.theUser = $cookieStore.get('theUser');
+  	        
+  	      /**
+			 * Delay
+			 */
+			
+			$interval(function(){ 
+				$scope.ready=true;
+			},1000);
   	         
   	         var announceUploader = $scope.announceUploader = new FileUploader({
   	 	            url: 'http://localhost:8080/ukadtogo/service/announce/receiveFile'

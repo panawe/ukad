@@ -14,9 +14,11 @@
 							'$http',
 							'FileUploader',
 							'$location','$sce',
+							 '$interval',
 							'moment',
 							function($scope, $state, $window, $cookieStore,
 									$log, $http, FileUploader, $location,$sce,
+									  $interval ,
 									moment) {
 
 								$scope.theEvent = $cookieStore.get('theEvent');
@@ -25,6 +27,14 @@
 								$scope.eventSaved = false;
 								$scope.eventSaveSubmitted = false;
 								$scope.submitted = false;
+
+								/**
+								 * Delay
+								 */
+								
+								$interval(function(){ 
+									$scope.ready=true;
+								},1000);
 								
 								$scope.getIframeSrc = function (videoId) {
 									  return $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + videoId);
@@ -453,13 +463,34 @@
 	  	  	  	            	 /**
 	  	  	  	            	  * End get all Events album photos or report
 	  	  	  	            	  */
-	  	  	  	                       
+	  	  	  	                    
+	  	  	  	                /**
+				  	  	                 * Start get Events with Video
+				  	  	                 * Get the list of Events
+				  	  	                 */
+				  	  	                      $scope.getAllEventsWithVideo = function() {
+				  	  	                            
+				  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithVideo', data: null }).
+				  	  	                           success(function (data, status, headers, config) {
+				  	  	                                    $log.info("Call get All Events with Video Successful"); 
+				  	  	                                	$scope.eventsWithVideo=data;
+				  	  	                                    $log.info($scope);
+				  	  	                                    
+				  	  	                           }).error(function (data, status, headers, config) {
+				  	  	                                    $log.info("Call get All Event with Video Failed");
+				  	  	                                    $log.info($scope);
+				  	  	                           });
+				  	  	              
+				  	  	                      };
+				  	  	            	 /**
+				  	  	            	  * End get all Events with Video
+				  	  	            	  */
 								
 								var url = $location.url();
 								$log.info('URL=' + url);
 								
 								if(url=='/pages/main'){
-									
+									$scope.getAllEventsWithVideo();
 									$scope.getAllEventsWithAlbum();
 									$cookieStore.remove("eventAlbum_reload");
 								}else if(url=='/pages/eventAlbum' &&  ($scope.EventPictures==null||$scope.EventPictures=='')){								

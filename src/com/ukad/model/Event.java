@@ -43,6 +43,26 @@ public class Event extends BaseEntity implements Comparable<Event> {
 	private boolean hasPhoto;
 	@Transient
 	private boolean hasReport;
+	@Transient
+	private boolean hasYoutube=false;
+	@Transient
+	private String videoId;
+	
+	public String getVideoId() {
+		return videoId;
+	}
+
+	public void setVideoId(String videoId) {
+		this.videoId = videoId;
+	}
+
+	public boolean isHasYoutube() {
+		return hasYoutube;
+	}
+
+	public void setHasYoutube(boolean hasYoutube) {
+		this.hasYoutube = hasYoutube;
+	}
 
 	public boolean isHasPhoto() {
 		return hasPhoto;
