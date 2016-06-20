@@ -25,8 +25,11 @@ import com.ukad.model.BaseEntity;
 import com.ukad.model.Configuration;
 import com.ukad.model.Transaction;
 import com.ukad.security.model.RolesUser;
+import com.ukad.security.model.Contribution;
+import com.ukad.security.model.Donation;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.User;
+import com.ukad.security.model.YearlySummary;
 
 @Repository("userDao")
 @Scope("singleton")
@@ -81,11 +84,11 @@ public class UserDaoImpl extends BaseDaoImpl {
 		if (list.size() > 0) {
 
 			user = (User) list.get(0);
-			
-			Configuration be= (Configuration) findByColumn(Configuration.class,"name","ANNUAL_FEE");
-			if(user.getMembershipRenewDate()==null||user.getMembershipRenewDate().before(new Date())){
-				 user.setFee(new Double(be.getValue()));
-				 user.setStatus((short) 0);
+
+			Configuration be = (Configuration) findByColumn(Configuration.class, "name", "ANNUAL_FEE");
+			if (user.getMembershipRenewDate() == null || user.getMembershipRenewDate().before(new Date())) {
+				user.setFee(new Double(be.getValue()));
+				user.setStatus((short) 0);
 			}
 		}
 
@@ -100,21 +103,21 @@ public class UserDaoImpl extends BaseDaoImpl {
 
 		return l;
 	}
-	
+
 	public List<User> loadAllUsersWithOnlineStatus() {
 		final String sql = "SELECT DISTINCT  U.USER_ID, U.USER_NAME, U.PASSWORD, U.FIRST_NAME, U.LAST_NAME FROM USERS U INNER JOIN SESSION_HISTORY SH ON "
 				+ "SH.USER_ID = U.USER_ID WHERE SH.END_DATE IS NULL AND SH.BEGIN_DATE > "
 				+ "DATE_SUB(CURDATE(), INTERVAL 1 DAY) ORDER BY U.FIRST_NAME, U.LAST_NAME ";
-		
+
 		Session session = getHibernateTemplate().getSessionFactory().openSession();
 		Query query = session.createSQLQuery(sql);
 
 		List<Object[]> objects = query.list();
 
 		List<User> users = new ArrayList<User>();
-		
-		if(objects!=null){
-			for(Object[] row : objects){
+
+		if (objects != null) {
+			for (Object[] row : objects) {
 				User user = new User();
 				user.setId(((BigInteger) row[0]).longValue());
 				user.setUserName((String) row[1]);
@@ -122,11 +125,11 @@ public class UserDaoImpl extends BaseDaoImpl {
 				user.setFirstName((String) row[3]);
 				user.setLastName(((String) row[4]).substring(0, 1));
 				user.setOnline(true);
-				
+
 				users.add(user);
 			}
 		}
-				
+
 		return users;
 	}
 
@@ -179,5 +182,32 @@ public class UserDaoImpl extends BaseDaoImpl {
 		crit.addOrder(Order.desc("createDate"));
 		List l = getHibernateTemplate().findByCriteria(crit);
 		return l;
+	}
+
+	public List<Donation> getDonations() {
+		String sqlQuery = "SELECT  SUM(AMOUNT) INN  FROM TRANSACTION WHERE IO=1";
+
+		// int parameterIndex = 0;
+		Session session = getHibernateTemplate().getSessionFactory().openSession();
+		Query query = session.createSQLQuery(sqlQuery);
+		// query.setParameter(parameterIndex, year);
+
+		List<Object> objects = query.list();
+
+		List<Donation> dons = new ArrayList<Donation>();
+		Configuration conf = (Configuration) findByColumn(Configuration.class, "name", "DONATION_TARGET");
+
+		Donation don;
+		don = new Donation();
+		if (conf != null) {
+			don.setGoal(new Double(conf.getValue()));
+		} else {
+			don.setGoal(0.0);
+		}
+		don.setDonation(new Double( objects.get(0).toString()));
+		don.setDescription("Contributions");
+
+		dons.add(don);
+		return dons;
 	}
 }

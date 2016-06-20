@@ -5,6 +5,7 @@ import java.util.List;
 import com.ukad.model.BaseEntity;
 import com.ukad.model.Transaction;
 import com.ukad.security.model.Contribution;
+import com.ukad.security.model.Donation;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.Roles;
 import com.ukad.security.model.User;
@@ -38,4 +39,6 @@ public interface UserService extends BaseService {
 	public List<Contribution> getContributions();
 	
 	public List<User> loadAllMembersWithOnlineStatus();
+
+	public List<Donation> getDonations();
 }

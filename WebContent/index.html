@@ -40,7 +40,7 @@
 							class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand" href="#/"><img src="images/logo.png"
-						alt="" height="100%" /></a>
+						alt="" height="200%" /></a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -55,7 +55,7 @@
 								<li class="active"><a href="#pages/statuts">Nos Status</a></li>
 								<li><a href="#pages/reglements">Nos Reglements
 										Interieurs</a></li>
-								<li><a href="#pages/membres">Nos Membres</a></li>
+								<li ng-show="theUser.id>0"><a href="#pages/membres">Nos Membres</a></li>
 							</ul></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown">Activites <span class="caret"></span></a>
@@ -68,7 +68,7 @@
 							</ul></li>
 					</ul>
 					<form class="navbar-form navbar-left margin-none"
-						ng-submit="findMembers()">
+						ng-submit="findMembers()" ng-show="theUser.id>0">
 						<div class="search-1">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="icon-search"></i></span>

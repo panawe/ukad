@@ -1111,7 +1111,33 @@
 												});
 
 							};
-							$scope.getContributions();
+							
+							
+					        $scope.drawDonations = function() {
+					        	
+					        	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getDonations', data: null }).
+					   success(function (data, status, headers, config) {
+					            $log.info("Call get getDonation"); 
+					            $( "#donation-bar" ).empty(); 
+					   	      Morris.Bar({
+						  	  	  	  element: 'donation-bar',
+						  	  	  	  data:data,
+						  	  	  	  xkey: 'description',
+						  	  	  	  ykeys: ['donation', 'goal'],
+						  	  	  	  labels: ['Actuel', 'Goal']
+						  	  	  	});
+					           
+					   }).error(function (data, status, headers, config) {						   		 
+					            $log.info("Call get getDonation");
+					            $log.info($scope);
+					   });	  	  	  	  	    
+
+					        };
+
+							
+							
+					        $scope.drawDonations();
+							//$scope.getContributions();
 							//Fix for refresh
 								var url = $location.url();
 								$log.info('URL='+url); 
