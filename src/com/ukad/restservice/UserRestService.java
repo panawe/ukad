@@ -80,8 +80,8 @@ public class UserRestService {
 				String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2>Vous avez demander a recevoir votre mot de passe sur cet e-mail </h2>"
 						+ "<h2>Le Voici: <strong>" + user.getPassword() + "</strong></h2>"
 						+ "<h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-				SimpleMail.sendMail("Votre Mot de passe A.G.W.E", mail, "agwedc@gmail.com", user.getEmail(),
-						"smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
+				SimpleMail.sendMail("Votre Mot de passe A.G.W.E", mail, "agwe@agwedc.com", user.getEmail(),
+						"smtp.office365.com", "agwe@agwedc.com", "agwedc123!");
 				return "Success";
 			}
 		} catch (Exception e) {
@@ -152,14 +152,14 @@ public class UserRestService {
 		System.out.println("User Created:" + user);
 		try {
 			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2>Nous avons bien recu votre demande d'adhesion a A.G.W.E </h2><h2>Votre demande va etre etudier et vous serez notifie d'ici peu.</h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a A.G.W.E  bien recue", mail, "agwedc@gmail.com",
-					user.getEmail(), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
+			SimpleMail.sendMail("Votre demande d'adhesion a A.G.W.E  bien recue", mail, "agwe@agwedc.com",
+					user.getEmail(), "smtp.office365.com", "agwe@agwedc.com", "agwedc123!");
 
 			mail = "<blockquote><h2><b>Nom: " + user.getLastName() + "</b></h2><h2><b>Prenom:" + user.getFirstName()
 					+ "</b></h2><h2><b>E-mail:" + user.getEmail()
-					+ "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"localhost:8080/ukadtogo \" target=\"\">localhost:8080/ukadtogo </a></b></div></blockquote>";
+					+ "</b></h2><div><b>Veuillez Approver en allant sur le site: <a href=\"www.agwedc.com \" target=\"\">www.agwedc.com </a></b></div></blockquote>";
 			SimpleMail.sendMail("Demand d'adhesion de " + user.getFirstName() + " " + user.getLastName(), mail,
-					"agwedc@gmail.com", "agwedc@gmail.com", "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
+					"agwe@agwedc.com", "agwe@agwedc.com", "smtp.office365.com", "agwe@agwedc.com", "agwedc123!");
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -282,9 +282,9 @@ public class UserRestService {
 		user.setStatus((short) 1);
 		userService.update(user, user);
 		try {
-			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2><span style=\"color: inherit;\">Nous somme heureux de vous annoncer que votre demande d'adhesion a ete acceptee. Restez aux nouvelles de l'association en visitant <a href=\"localhost:8080/ukadtogo\" target=\"\">localhost:8080/ukadtogo</a> </span><br/></h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a A.G.W.E Approvee", mail, "agwedc@gmail.com",
-					user.getEmail(), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
+			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2><span style=\"color: inherit;\">Nous somme heureux de vous annoncer que votre demande d'adhesion a ete acceptee. Restez aux nouvelles de l'association en visitant <a href=\"www.agwedc.com\" target=\"\">www.agwedc.com</a> </span><br/></h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
+			SimpleMail.sendMail("Votre demande d'adhesion a A.G.W.E Approvee", mail, "agwe@agwedc.com",
+					user.getEmail(), "smtp.office365.com", "agwe@agwedc.com", "agwedc123!");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -299,9 +299,9 @@ public class UserRestService {
 		user.setStatus((short) 1);
 		userService.update(user, user);
 		try {
-			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2><span style=\"color: inherit;\">Nous somme desole de vous annoncer que votre demande d'adhesion a ete rejetee. Restez aux nouvelles de l'association en visitant <a href=\"localhost:8080/ukadtogo\" target=\"\">localhost:8080/ukadtogo</a> </span><br/></h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
-			SimpleMail.sendMail("Votre demande d'adhesion a A.G.W.E  Rejetee", mail, "agwedc@gmail.com",
-					user.getEmail(), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
+			String mail = "<blockquote><h2><b>Cher Membre</b></h2><h2><span style=\"color: inherit;\">Nous somme desole de vous annoncer que votre demande d'adhesion a ete rejetee. Restez aux nouvelles de l'association en visitant <a href=\"www.agwedc.com\" target=\"\">www.agwedc.com</a> </span><br/></h2><h2>Encore une fois, merci de votre interet en notre association.</h2><h2><b>Le President.</b></h2></blockquote>";
+			SimpleMail.sendMail("Votre demande d'adhesion a A.G.W.E  Rejetee", mail, "agwe@agwedc.com",
+					user.getEmail(), "smtp.office365.com", "agwe@agwedc.com", "agwedc123!");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -324,8 +324,8 @@ public class UserRestService {
 		}
 
 		try {
-			SimpleMail.sendMail(mail.getSubject(), mail.getBody(), mail.getSender().getEmail(),
-					sb.substring(0, sb.length() - 1), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
+			SimpleMail.sendMail(mail.getSubject(), mail.getBody(), "agwe@agwedc.com",
+					sb.substring(0, sb.length() - 1), "smtp.office365.com", "agwe@agwedc.com", "agwedc123!");
 
 			mail.setStatus((short) 1);
 			userService.save(mail, mail.getSender());
@@ -357,8 +357,8 @@ public class UserRestService {
 		}
 
 		try {
-			SimpleMail.sendMail(mail.getSubject(), mail.getBody(), mail.getSender().getEmail(),
-					sb.substring(0, sb.length() - 1), "smtp.gmail.com", "agwedc@gmail.com", "agwedc123");
+			SimpleMail.sendMail(mail.getSubject(), mail.getBody(), "agwe@agwedc.com",
+					sb.substring(0, sb.length() - 1), "smtp.office365.com", "agwe@agwedc.com", "agwedc123!");
 
 			mail.setStatus((short) 1);
 			userService.save(mail, mail.getSender());

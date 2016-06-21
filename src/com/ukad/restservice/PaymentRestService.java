@@ -128,8 +128,8 @@ public class PaymentRestService {
 
 			// ###Redirect URLs
 			RedirectUrls redirectUrls = new RedirectUrls();
-			redirectUrls.setCancelUrl("http://localhost:8080/ukadtogo/#/pages/cancelDonate");
-			redirectUrls.setReturnUrl("http://localhost:8080/ukadtogo/#/pages/donate");
+			redirectUrls.setCancelUrl("http://www.agwedc.com/#/pages/cancelDonate");
+			redirectUrls.setReturnUrl("http://www.agwedc.com/#/pages/donate");
 			payment.setRedirectUrls(redirectUrls);
 
 			createdPayment = payment.create(apiContext);
@@ -186,8 +186,8 @@ public class PaymentRestService {
 
 			// ###Redirect URLs
 			RedirectUrls redirectUrls = new RedirectUrls();
-			redirectUrls.setCancelUrl("http://localhost:8080/ukadtogo/#/pages/cancelDonate");
-			redirectUrls.setReturnUrl("http://localhost:8080/ukadtogo/#/pages/fees");
+			redirectUrls.setCancelUrl("http://www.agwedc.com/#/pages/cancelDonate");
+			redirectUrls.setReturnUrl("http://www.agwedc.com/#/pages/fees");
 			payment.setRedirectUrls(redirectUrls);
 
 			createdPayment = payment.create(apiContext);
@@ -325,8 +325,8 @@ public class PaymentRestService {
 
 				
 				SimpleMail.sendMail("Merci pour votre Don de $"+ph.getAmount()+" a A.G.W.E", mail,
-						"agwedc@gmail.com", ph.getEmail(), "smtp.gmail.com", "agwedc@gmail.com",
-						"agwedc123");
+						"agwe@agwedc.com", ph.getEmail(), "smtp.office365.com", "agwe@agwedc.com",
+						"agwedc123!");
 
 			} catch (Exception e) {
 				LOGGER.error(e);
@@ -467,8 +467,8 @@ public class PaymentRestService {
 
 				
 				SimpleMail.sendMail("Merci d'avoir paye vos frais de membre annuel de "+ph.getAmount()+" a A.G.W.E", mail,
-						"agwedc@gmail.com", ph.getEmail(), "smtp.gmail.com", "agwedc@gmail.com",
-						"agwedc123");
+						"agwe@agwedc.com", ph.getEmail(), "smtp.office365.com", "agwe@agwedc.com",
+						"agwedc123!");
 
 			} catch (Exception e) {
 				LOGGER.error(e);

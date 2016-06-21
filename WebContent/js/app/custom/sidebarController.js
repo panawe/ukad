@@ -32,7 +32,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/announce/getActiveAnnounces',
+												url : 'http://www.agwedc.com/service/announce/getActiveAnnounces',
 												data : null
 											})
 											.success(
@@ -63,7 +63,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/getFutureEvents',
+												url : 'http://www.agwedc.com/service/event/getFutureEvents',
 												data : null
 											})
 											.success(
@@ -120,7 +120,7 @@
 									$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/marketing/getActiveMarketings',
+											url : 'http://www.agwedc.com/service/marketing/getActiveMarketings',
 											data : null
 										})
 									.success(

@@ -20,9 +20,11 @@ public class SimpleMail {
 		props.setProperty("mail.transport.protocol", "smtp");
 		props.setProperty("mail.host", mailHost);
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
-		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.socketFactory.port", "587");
+		props.put("mail.smtp.starttls.enable", "true");
+		//props.put("mail.smtp.user", "Association Des Gabonais De Washington Dc Et Ses Environs (A.G.W.E)");
+		//props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.timeout", "10000");
 		props.put("mail.smtp.connectiontimeout", "10000");
 		props.put("mail.smtp.socketFactory.fallback", "false");
@@ -36,7 +38,7 @@ public class SimpleMail {
 		});
 
 		MimeMessage message = new MimeMessage(session);
-		message.setFrom(new InternetAddress(sender));
+		message.setFrom(new InternetAddress(sender,"Association Des Gabonais De Washington Dc Et Ses Environs (A.G.W.E)"));
 		message.setSubject(subject);
 		message.setContent(body, "text/html");
 		if (recipients.indexOf(',') > 0)
