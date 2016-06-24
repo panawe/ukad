@@ -10,12 +10,12 @@
 								votre payement</i>
 							<hr />
 							<div class="invoice-title">
-								<h2>Recu - une copie vous a ete envoyee a l'email suivant:
-									::pay.email::</h2>
-								<h3 class="pull-right">Payement # ::pay.paymentId::</h3>
+							<h2 ng-hide="pay">Le recu vous a ete envoye dans votre e-mail.</h2>
+								<h2 ng-show="pay">Recu - une copie vous a ete envoyee a l'email suivant: ::pay.email::</h2>
+								<h3 class="pull-right" ng-show="pay">Don # ::pay.paymentId::</h3> 
 							</div>
 							<hr>
-							<div class="row">
+							<div class="row" ng-show="pay">
 								<div class="col-xs-6">
 									<address>
 										<strong>Payeur:</strong><br> ::pay.firstName||'
@@ -32,7 +32,7 @@
 									</address>
 								</div>
 							</div>
-							<div class="row">
+							<div class="row" ng-show="pay">
 								<div class="col-xs-6">
 									<address>
 										<strong>Mode de payment:</strong><br>
@@ -50,7 +50,7 @@
 					</div>
 					<br/>
 					<button class="btn btn-success" ng-click="submitFee()" ng-show="!paymentId">Payer</button>
-					<div class="row">
+					<div class="row" ng-show="!paymentId">
 						<div class="col-md-12">
 							<div class="panel panel-default">
 								<div class="panel-heading">

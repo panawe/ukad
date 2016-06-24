@@ -897,7 +897,7 @@
 							 * Start get Events Get the list of Events
 							 */
 							$scope.submitDonation = function() {
-
+								if ($scope.amount>0.0) {
 								$http(
 										{
 											method : 'POST',
@@ -938,6 +938,8 @@
 													$window.location.href="http://www.agwedc.com/#/pages/cancelDonate";
 
 												});
+								
+								}
 
 							};
 
@@ -993,8 +995,8 @@
 							/**
 							 * Start get Events Get the list of Events
 							 */
-							$scope.makePayment = function() {
-
+							$scope.makePayment = function() {							
+								//$cookieStore.remove("pay");
 								$http(
 										{
 											method : 'POST',
@@ -1010,8 +1012,10 @@
 												function(data, status,
 														headers, config) {
 													$log.info("Call get Make Payment Successful");	
+													//$cookieStore.put('pay', data);
 													$scope.pay=data;
-													$log.info(data); 
+													$log.info($scope.pay);  
+													$cookieStore.remove("processingPay");
 													//$window.location.href=data;
 												})
 										.error(
@@ -1019,15 +1023,18 @@
 														headers, config) {
 													$log.info("Call Make payment Failed");
 													$log.info($scope); 
+													//$cookieStore.remove("pay");
+													$cookieStore.remove("processingPay");
 													$window.location.href="http://www.agwedc.com/#/pages/cancelDonate";
 												});
+								
 							};
 
 							/**
 							 * Start get Events Get the list of Events
 							 */
 							$scope.payFee = function() {
-
+								//$cookieStore.remove("pay");
 								$http(
 										{
 											method : 'POST',
@@ -1042,9 +1049,11 @@
 										.success(
 												function(data, status,
 														headers, config) {
-													$log.info("Call get Make Payment Successful");	
+													$log.info("Call get Make Payment Successful");
 													$scope.pay=data;
-													$log.info(data); 
+													//$cookieStore.put('pay', data);
+													$log.info($scope.pay); 
+													$cookieStore.remove("processingPay");
 													//$window.location.href=data;
 												})
 										.error(
@@ -1052,6 +1061,8 @@
 														headers, config) {
 													$log.info("Call Make payment Failed");
 													$log.info($scope); 
+													//$cookieStore.remove("pay");
+													$cookieStore.remove("processingPay");
 													$window.location.href="http://www.agwedc.com/#/pages/cancelDonate";
 												});
 							};
@@ -1134,6 +1145,37 @@
 
 					        };
 
+							/**
+							 * Start get Events Get the list of Events
+							 */
+							$scope.getPay = function() {							
+								
+								$http(
+										{
+											method : 'POST',
+											url : 'http://www.agwedc.com/service/payment/getPay',
+											data : {													
+												paymentId:$scope.paymentId,
+												token:$scope.token,
+												PayerID:$scope.PayerID,
+												userId:typeof $scope.theUser=='undefined'?1:$scope.theUser.id 
+											}
+										})
+										.success(
+												function(data, status,
+														headers, config) {
+													$log.info("Call get getPay Successful");	
+													$scope.pay=data;
+													$log.info($scope.pay); 
+												})
+										.error(
+												function(data, status,
+														headers, config) {
+													$log.info("Call getPay Failed");
+													$window.location.href="http://www.agwedc.com/#/pages/cancelDonate";
+												});
+								
+							};
 							
 							
 					        $scope.drawDonations();
@@ -1165,23 +1207,31 @@
 									$scope.paymentId = $location.search().paymentId;
 									$scope.token = $location.search().token; 
 									$scope.PayerID = $location.search().PayerID; 
+									//$scope.pay=$cookieStore.get('pay');
 									
 									$log.info('PayerID='+$scope.PayerID);
 									$log.info('paymentId='+$scope.paymentId);
 									$log.info('token='+$scope.token);
-									$scope.makePayment();
+									if (!$cookieStore.get('processingPay')) {
+										$cookieStore.put('processingPay', "true");
+										$scope.makePayment();
+									}
+									
 								}else if(url.startsWith('/pages/fees')){
 									$scope.paymentId = $location.search().paymentId;
 									$scope.token = $location.search().token; 
 									$scope.PayerID = $location.search().PayerID; 
+									//$scope.pay=$cookieStore.get('pay');
 									$log.info('PayerID='+$scope.PayerID);
 									$log.info('paymentId='+$scope.paymentId);
 									$log.info('token='+$scope.token);
 									$log.info('theUser='+$scope.theUser);
 									if(typeof $scope.paymentId!='undefined'){
-										$scope.payFee();
-									}
-									
+										if (!$cookieStore.get('processingPay')) {
+											$cookieStore.put('processingPay', "true");
+											$scope.payFee();
+										}									
+									}									
 								}
 
 							} ])
