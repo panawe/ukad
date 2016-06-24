@@ -17,6 +17,7 @@ import com.ukad.security.dao.UserDaoImpl;
 import com.ukad.security.model.Roles;
 import com.ukad.security.model.RolesUser;
 import com.ukad.security.model.Contribution;
+import com.ukad.security.model.Donation;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.User;
 import com.ukad.service.*;
@@ -139,5 +140,11 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	@Override
 	public List<User> loadAllMembersWithOnlineStatus() {
 		return userDao.loadAllUsersWithOnlineStatus();
+	}
+
+	@Override
+	public List<Donation> getDonations() {
+		// TODO Auto-generated method stub
+		return userDao.getDonations();
 	}
 }

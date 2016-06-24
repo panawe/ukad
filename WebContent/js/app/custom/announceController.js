@@ -21,7 +21,7 @@
 			},1000);
   	         
   	         var announceUploader = $scope.announceUploader = new FileUploader({
-  	 	            url: 'http://localhost:8080/ukadtogo/service/announce/receiveFile'
+  	 	            url: 'http://www.agwedc.com/service/announce/receiveFile'
   	 	        });
   	 	        
   	 	
@@ -45,7 +45,7 @@
   	 	        
   	 	    $scope.createAnnounce = function() {  
   	 	      	$scope.announceSaveSubmitted=true;	      	
-  	 	      	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/announce/createAnnounce', data: this.theAnnounce }).
+  	 	      	$http({ method: 'POST', url: 'http://www.agwedc.com/service/announce/createAnnounce', data: this.theAnnounce }).
   	 	      	success(function (data, status, headers, config) {
   	                    $log.info("Call Create Announce Successful"); 
   	                    $scope.announceSelected=true;
@@ -112,7 +112,7 @@
 				$http(
 						{
 							method : 'POST',
-							url : 'http://localhost:8080/ukadtogo/service/announce/deleteAnnounce',
+							url : 'http://www.agwedc.com/service/announce/deleteAnnounce',
 							data : aAnnounce
 						})
 						.success(
@@ -145,7 +145,7 @@
  */
   $scope.getAllAnnounces = function() {
         
-       $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/announce/getAllAnnounces', data: null }).
+       $http({ method: 'POST', url: 'http://www.agwedc.com/service/announce/getAllAnnounces', data: null }).
        success(function (data, status, headers, config) {
                 $log.info("Call get All Announces Successful"); 
             	$scope.announces = data;
@@ -168,7 +168,7 @@
        */
         $scope.getAllAnnouncesWithAlbum = function() {
               
-             $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/announce/getAllAnnouncesWithAlbum', data: null }).
+             $http({ method: 'POST', url: 'http://www.agwedc.com/service/announce/getAllAnnouncesWithAlbum', data: null }).
              success(function (data, status, headers, config) {
                       $log.info("Call get All Announces with album Successful"); 
                   	$scope.announcesWithAlbum=data;
@@ -197,7 +197,7 @@
 			$http(
 					{
 						method : 'POST',
-						url : 'http://localhost:8080/ukadtogo/service/announce/getAnnounceAlbum',
+						url : 'http://www.agwedc.com/service/announce/getAnnounceAlbum',
 						data : aAnnounce
 					})
 					.success(
@@ -237,7 +237,7 @@
 			$http(
 					{
 						method : 'POST',
-						url : 'http://localhost:8080/ukadtogo/service/announce/getNextAnnounceAlbum',
+						url : 'http://www.agwedc.com/service/announce/getNextAnnounceAlbum',
 						data : aAnnounce
 					})
 					.success(
@@ -279,7 +279,7 @@
 			$http(
 					{
 						method : 'POST',
-						url : 'http://localhost:8080/ukadtogo/service/announce/getPreviousAnnounceAlbum',
+						url : 'http://www.agwedc.com/service/announce/getPreviousAnnounceAlbum',
 						data : aAnnounce
 					})
 					.success(

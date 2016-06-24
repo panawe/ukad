@@ -8,7 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 public class SpringRestTestClient {
 
-	public static final String REST_SERVICE_URI = "http://localhost:8080/ukadtogo";
+	public static final String REST_SERVICE_URI = "http://www.agwedc.com";
 
 	/* GET */
 	@SuppressWarnings("unchecked")

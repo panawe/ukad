@@ -1,0 +1,48 @@
+------Todo for 6/19--------------------
+1- Send instruction to Alberto to retrieve paypal Client Id/Client Secret and complete payment feature -- Panawe
+2- Send events/photos -- Alberto
+3- Complete donation graph -- Panawe
+4- Review ticket sales and www.eventbrite.com -- Eric
+
+
+-------Update from last week 6/12 -----
+On a besoins de:
+1- Logo, Status, reglement interieur -- Done
+	
+2- Create le nom de domaine agwedc.com + Email access -- Done
+
+3- heberger sur un serveur definitif --Done
+
+
+4- Frais de membre : $120 -- in progress
+
+
+5- Lien facebook, twitter, linkedin and Google + de l'association -- Done
+ 
+
+6- Des donnees: -- in progress
+   - Photos
+   - videos
+   - Membres
+   - Sponsor
+   - Donateur
+ 
+
+On doit changer:
+1- enlever les donnateur et mettre un graph des dons. -- in progress
+
+2- Enlever toutes les occurrence de UKAD -- Done
+
+3- Le public ne doivent pas voir les membres- Recherche + Liste -- Done
+
+Whishlist:
+1- Vente de billet en ligne -- In progress (ref. www.eventbrite.com)
+2- Support de deux langues: Anglais + Francais. --Not started
+
+----------------------------------
+
+
+
+
+
+

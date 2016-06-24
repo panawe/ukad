@@ -42,7 +42,7 @@
 				<div class="form-group form-control-default">
 					<div class="input-group">
 						<div class="input-group-addon">$</div>
-						<input type="number" class="form-control" ng-model="amount"
+						<input   class="form-control" ng-model="amount"
 							id="exampleInputAmount" placeholder="Montant">
 						<div class="input-group-addon">
 							<button class="btn btn-success">Donner</button>
@@ -52,35 +52,8 @@
 				</div>
 			</form>
 
-
-			<table st-table="displayedCollection" st-safe-src="contributions"
-				class="table table-striped" cellspacing="0" width="100%">
-				<thead>
-					<tr>
-
-						<th colspan="5">Merci a tous nos genereux donateurs</th>
-					</tr>
-					<tr>
-						<th>Nom</th>
-						<th>Montant</th>
-
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="donateur in displayedCollection">
-						<td>::donateur.member::</td>
-						<td>::donateur.amount | currency::</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="3" class="text-center">
-							<div st-pagination="" st-items-by-page="5"
-								st-displayed-pages="100"></div>
-						</td>
-					</tr>
-				</tfoot>
-			</table>
+			<div id="donation-bar" class="height-150"></div>
+			
 		</div>
 	</section>
 

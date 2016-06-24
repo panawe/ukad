@@ -128,8 +128,8 @@ public class PaymentRestService {
 
 			// ###Redirect URLs
 			RedirectUrls redirectUrls = new RedirectUrls();
-			redirectUrls.setCancelUrl("http://localhost:8080/ukadtogo/#/pages/cancelDonate");
-			redirectUrls.setReturnUrl("http://localhost:8080/ukadtogo/#/pages/donate");
+			redirectUrls.setCancelUrl("http://www.agwedc.com/#/pages/cancelDonate");
+			redirectUrls.setReturnUrl("http://www.agwedc.com/#/pages/donate");
 			payment.setRedirectUrls(redirectUrls);
 
 			createdPayment = payment.create(apiContext);
@@ -186,8 +186,8 @@ public class PaymentRestService {
 
 			// ###Redirect URLs
 			RedirectUrls redirectUrls = new RedirectUrls();
-			redirectUrls.setCancelUrl("http://localhost:8080/ukadtogo/#/pages/cancelDonate");
-			redirectUrls.setReturnUrl("http://localhost:8080/ukadtogo/#/pages/fees");
+			redirectUrls.setCancelUrl("http://www.agwedc.com/#/pages/cancelDonate");
+			redirectUrls.setReturnUrl("http://www.agwedc.com/#/pages/fees");
 			payment.setRedirectUrls(redirectUrls);
 
 			createdPayment = payment.create(apiContext);
@@ -210,7 +210,39 @@ public class PaymentRestService {
 		return null;
 	}
 
-	
+	@RequestMapping(value = "/getPay", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody PaymentHistory getPay(@RequestBody Object data)   {
+		String paymentId = null;
+		String token = null;
+		String payerId = null;
+		Long userId = null;
+		try {
+			String theData[] = data.toString().replaceAll("\\{", "").replaceAll("\\}", "").split(",");
+			for (String a : theData) {
+				String b[] = a.split("=");
+				if (b[0].trim().equals("paymentId")) {
+					paymentId = b[1];
+				} else if (b[0].trim().equals("token")) {
+					token = b[1];
+				} else if (b[0].trim().equals("PayerID")) {
+					payerId = b[1];
+				} else if (b[0].trim().equals("userId")) {
+					userId = b[1] == null ? null : new Long(b[1]);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		PaymentHistory ph = null;
+		try {
+			ph = (PaymentHistory) paymentService.findByColumn(PaymentHistory.class, "paymentId", paymentId);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return ph;
+	}
+	 
 	@RequestMapping(value = "/makePayment", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody PaymentHistory makePayment(@RequestBody Object data) throws PayPalRESTException {
 		String paymentId = null;
@@ -256,92 +288,138 @@ public class PaymentRestService {
 		}
 		PaymentHistory ph = null;
 		try {
+			ph = (PaymentHistory) paymentService.findByColumn(PaymentHistory.class, "paymentId", paymentId);
+			if (ph == null) {
 
-			Payment payment = new Payment();
-			payment.setId(paymentId);
-			PaymentExecution paymentExecute = new PaymentExecution();
-			paymentExecute.setPayerId(payerId);
-			Payment resultPayment = payment.execute(apiContext, paymentExecute);
-			ph = new PaymentHistory(resultPayment);
-			if (userId != null && userId > 0) {
-				User user = (User) paymentService.getById(User.class, userId);
-				ph.setUser(user);
-			}
-			// 3 == Don.
-			PaymentType pType = (PaymentType) paymentService.getById(PaymentType.class, 3L);
-			ph.setPaymentType(pType);
-			ph.setPaymentId(paymentId);
-			paymentService.save(ph);
-			Transaction trans = new Transaction(ph);
-			paymentService.save(trans);
-			LOGGER.debug(trans);
-			LOGGER.debug(ph);
-			LOGGER.debug(resultPayment);
-			try {
-				// send e-mail
-				String mail = 				"<div class=\"row\">                                                 "+
-						"		<div class=\"col-xs-12\">                                                        "+
-						"			<i class=\"fa fa-thumbs-up fa-5x text-green-300\"> Merci pour                "+
-						"				votre don!</i>                                                           "+
-						"			<hr />                                                                       "+
-						"			<div class=\"invoice-title\">                                                "+
-						"				<h2>Recu</h2>                                                            "+
-						"				<h3 class=\"pull-right\">Don #"+ ph.getPaymentId()+ "</h3>                    "+
-						"				<h3 class=\"pull-right\"><strong>Montant $"+ ph.getAmount()+ "</strong></h3>                    "+
-						"			</div>                                                                       "+
-						"			<hr>                                                                         "+
-						"			<div class=\"row\">                                                          "+
-						"				<div class=\"col-xs-6\">                                                 "+
-						"					<address>                                                            "+
-						"						<strong>Donateur:</strong><br>"+ ph.getFirstName()+" "+ph.getLastName()+" <br>"+
-						ph.getBaLine1()+"<br>"+ph.getBaLine2()+"<br>"+ph.getBaCity()+", "+ph.getBaState()+" "+ph.getBaPostalCode()
-						+"<br>"+ph.getBaCountryCode() +
-						"					</address>                                                           "+
-						"				</div> <br>                                                                  "+
-						"				<div class=\"col-xs-6 text-right\">                                      "+
-						"					<address>                                                            "+
-						"						<strong>En faveur de:</strong><br> Association des               "+
-						"						Gabonais de Washington, D.C et ses Environs (A.G.W.E). <br>      "+
-						"						1234 Main<br> Washington DC, DC 54321                            "+
-						"					</address>                                                           "+
-						"				</div>                                                                   "+
-						"			</div>    <br>                                                                   "+
-						"			<div class=\"row\">                                                          "+
-						"				<div class=\"col-xs-6\">                                                 "+
-						"					<address>                                                            "+
-						"						<strong>Mode de payment:</strong><br>                            "+
-						"						"+ph.getPaymentMethod()+"<br>"+ph.getEmail()+
-						"					</address>                                                           "+
-						"				</div>  <br>                                                                 "+
-						"				<div class=\"col-xs-6 text-right\">                                      "+
-						"					<address>                                                            "+
-						"						<strong>Date de don:</strong><br> "+ph.getCreateDate()+"<br>     "+
-						"						<br>                                                             "+
-						"					</address>                                                           "+
-						"				</div>                                                                   "+
-						"			</div>                                                                       "+
-						"		</div>                                                                           "+
-						"	</div>                                                                               ";
+				Payment payment = new Payment();
+				payment.setId(paymentId);
+				PaymentExecution paymentExecute = new PaymentExecution();
+				paymentExecute.setPayerId(payerId);
+				Payment resultPayment = payment.execute(apiContext, paymentExecute); 
+				ph = new PaymentHistory(resultPayment);
+				if (userId != null && userId > 0) {
+					User user = (User) paymentService.getById(User.class, userId);
+					ph.setUser(user);
+				}
+				// 3 == Don.
+				PaymentType pType = (PaymentType) paymentService.getById(PaymentType.class, 3L);
+				ph.setPaymentType(pType);
+				ph.setPaymentId(paymentId);
+				paymentService.save(ph);
+				Transaction trans = new Transaction(ph);
+				paymentService.save(trans);
+				LOGGER.debug(trans);
+				LOGGER.debug(ph);
+				LOGGER.debug(resultPayment);
+				try {
+					// send e-mail
+					String mail = "<div class=\"row\">                                                 "
+							+ "		<div class=\"col-xs-12\">                                                        "
+							+ "			<i class=\"fa fa-thumbs-up fa-5x text-green-300\"> Merci pour                "
+							+ "				votre don!</i>                                                           "
+							+ "			<hr />                                                                       "
+							+ "			<div class=\"invoice-title\">                                                "
+							+ "				<h2>Recu</h2>                                                            "
+							+ "				<h3 class=\"pull-right\">Don #" + ph.getPaymentId()
+							+ "</h3>                    " + "				<h3 class=\"pull-right\"><strong>Montant $"
+							+ ph.getAmount() + "</strong></h3>                    "
+							+ "			</div>                                                                       "
+							+ "			<hr>                                                                         "
+							+ "			<div class=\"row\">                                                          "
+							+ "				<div class=\"col-xs-6\">                                                 "
+							+ "					<address>                                                            "
+							+ "						<strong>Donateur:</strong><br>" + ph.getFirstName() + " "
+							+ ph.getLastName() + " <br>" + ph.getBaLine1() + "<br>" + ph.getBaLine2() + "<br>"
+							+ ph.getBaCity() + ", " + ph.getBaState() + " " + ph.getBaPostalCode() + "<br>"
+							+ ph.getBaCountryCode()
+							+ "					</address>                                                           "
+							+ "				</div> <br>                                                                  "
+							+ "				<div class=\"col-xs-6 text-right\">                                      "
+							+ "					<address>                                                            "
+							+ "						<strong>En faveur de:</strong><br> Association des               "
+							+ "						Gabonais de Washington, D.C et ses Environs (A.G.W.E). <br>      "
+							+ "						1234 Main<br> Washington DC, DC 54321                            "
+							+ "					</address>                                                           "
+							+ "				</div>                                                                   "
+							+ "			</div>    <br>                                                                   "
+							+ "			<div class=\"row\">                                                          "
+							+ "				<div class=\"col-xs-6\">                                                 "
+							+ "					<address>                                                            "
+							+ "						<strong>Mode de payment:</strong><br>                            "
+							+ "						" + ph.getPaymentMethod() + "<br>" + ph.getEmail()
+							+ "					</address>                                                           "
+							+ "				</div>  <br>                                                                 "
+							+ "				<div class=\"col-xs-6 text-right\">                                      "
+							+ "					<address>                                                            "
+							+ "						<strong>Date de don:</strong><br> " + ph.getCreateDate()
+							+ "<br>     "
+							+ "						<br>                                                             "
+							+ "					</address>                                                           "
+							+ "				</div>                                                                   "
+							+ "			</div>                                                                       "
+							+ "		</div>                                                                           "
+							+ "	</div>                                                                               ";
 
-				
-				SimpleMail.sendMail("Merci pour votre Don de $"+ph.getAmount()+" a A.G.W.E", mail,
-						"agwedc@gmail.com", ph.getEmail(), "smtp.gmail.com", "agwedc@gmail.com",
-						"agwedc123");
+					SimpleMail.sendMail("Merci pour votre Don de $" + ph.getAmount() + " a A.G.W.E", mail,
+							"agwe@agwedc.com", ph.getEmail(), "smtp.office365.com", "agwe@agwedc.com", "agwedc123!");
 
-			} catch (Exception e) {
-				LOGGER.error(e);
+				} catch (Exception e) {
+					LOGGER.error(e);
+				}
+			} else {
+				return ph;
 			}
 
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
-			throw e;
+			if (e.getMessage().contains("PAYMENT_ALREADY_DONE")) {
+				Map<String, String> containerMap = new HashMap<String, String>();
+				containerMap.put("count", "10");
+				com.paypal.api.payments.PaymentHistory phs= Payment.list(accessToken, containerMap);
+				/*
+			
+				try {
+					ph = new PaymentHistory();
+					Map<String, String> containerMap = new HashMap<String, String>();
+					containerMap.put("count", "10");
+					com.paypal.api.payments.PaymentHistory phs= Payment.list(accessToken, containerMap);
+					 
+					if (userId != null && userId > 0) {
+						User user = (User) paymentService.getById(User.class, userId);
+						Calendar date = new GregorianCalendar();
+						// reset hour, minutes, seconds and millis
+						date.set(Calendar.HOUR_OF_DAY, 0);
+						date.set(Calendar.MINUTE, 0);
+						date.set(Calendar.SECOND, 0);
+						date.set(Calendar.MILLISECOND, 0);
+						// next day
+						date.add(Calendar.YEAR, 1);
+						user.setMembershipRenewDate(date.getTime());
+						user.setStatus((short) 1);
+						paymentService.save(user);
+						ph.setUser(user);
+					}
+					// 3 == Frais Annuels.
+					PaymentType pType = (PaymentType) paymentService.getById(PaymentType.class, 2L);
+					ph.setPaymentType(pType);
+					ph.setPaymentId(paymentId);
+					paymentService.save(ph);
+					Transaction trans = new Transaction(ph);
+					paymentService.save(trans);
+					LOGGER.debug(trans);
+					LOGGER.debug(ph); 
+					return ph;
+				} catch (Exception ee) {
+					ee.printStackTrace();
+				}
+			*/} else {
+				throw e;
+			}
 		}
 
 		return ph;
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/payFee", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody PaymentHistory payFee(@RequestBody Object data) throws PayPalRESTException {
 		String paymentId = null;
@@ -386,97 +464,138 @@ public class PaymentRestService {
 			throw e;
 		}
 		PaymentHistory ph = null;
+		Payment resultPayment = null;
 		try {
+			ph = (PaymentHistory) paymentService.findByColumn(PaymentHistory.class, "paymentId", paymentId);
+			if (ph == null) {
+				Payment payment = new Payment();
+				payment.setId(paymentId);
+				PaymentExecution paymentExecute = new PaymentExecution();
+				paymentExecute.setPayerId(payerId);
+				resultPayment = payment.execute(apiContext, paymentExecute);
+				ph = new PaymentHistory(resultPayment);
+				if (userId != null && userId > 0) {
+					User user = (User) paymentService.getById(User.class, userId);
+					Calendar date = new GregorianCalendar();
+					// reset hour, minutes, seconds and millis
+					date.set(Calendar.HOUR_OF_DAY, 0);
+					date.set(Calendar.MINUTE, 0);
+					date.set(Calendar.SECOND, 0);
+					date.set(Calendar.MILLISECOND, 0);
+					// next day
+					date.add(Calendar.YEAR, 1);
+					user.setMembershipRenewDate(date.getTime());
+					user.setStatus((short) 1);
+					paymentService.save(user);
+					ph.setUser(user);
+				}
+				// 3 == Frais Annuels.
+				PaymentType pType = (PaymentType) paymentService.getById(PaymentType.class, 2L);
+				ph.setPaymentType(pType);
+				ph.setPaymentId(paymentId);
+				paymentService.save(ph);
+				Transaction trans = new Transaction(ph);
+				paymentService.save(trans);
+				LOGGER.debug(trans);
+				LOGGER.debug(ph);
+				LOGGER.debug(resultPayment);
+				try {
+					// send e-mail
+					String mail = "<div class=\"row\">                                                 "
+							+ "		<div class=\"col-xs-12\">                                                        "
+							+ "			<i class=\"fa fa-thumbs-up fa-5x text-green-300\"> Merci d'avoir paye vos    "
+							+ "				frais de membre annuel.</i>                                              "
+							+ "			<hr />                                                                       "
+							+ "			<div class=\"invoice-title\">                                                "
+							+ "				<h2>Recu</h2>                                                            "
+							+ "				<h3 class=\"pull-right\">Payement #" + ph.getPaymentId() + "</h3>          "
+							+ "				<h3 class=\"pull-right\"><strong>Montant $" + ph.getAmount()
+							+ "</strong></h3>"
+							+ "			</div>                                                                       "
+							+ "			<hr>                                                                         "
+							+ "			<div class=\"row\">                                                          "
+							+ "				<div class=\"col-xs-6\">                                                 "
+							+ "					<address>                                                            "
+							+ "						<strong>Payeur:</strong><br>" + ph.getFirstName() + " "
+							+ ph.getLastName() + " <br>" + ph.getBaLine1() + "<br>" + ph.getBaLine2() + "<br>"
+							+ ph.getBaCity() + ", " + ph.getBaState() + " " + ph.getBaPostalCode() + "<br>"
+							+ ph.getBaCountryCode()
+							+ "					</address>                                                           "
+							+ "				</div> <br>                                                              "
+							+ "				<div class=\"col-xs-6 text-right\">                                      "
+							+ "					<address>                                                            "
+							+ "						<strong>En faveur de:</strong><br> Association des               "
+							+ "						Gabonais de Washington, D.C et ses Environs (A.G.W.E). <br>      "
+							+ "						1234 Main<br> Washington DC, DC 54321                            "
+							+ "					</address>                                                           "
+							+ "				</div>                                                                   "
+							+ "			</div>    <br>                                                               "
+							+ "			<div class=\"row\">                                                          "
+							+ "				<div class=\"col-xs-6\">                                                 "
+							+ "					<address>                                                            "
+							+ "						<strong>Mode de payment:</strong><br>                            "
+							+ "						" + ph.getPaymentMethod() + "<br>" + ph.getEmail()
+							+ "					</address>                                                           "
+							+ "				</div>  <br>                                                             "
+							+ "				<div class=\"col-xs-6 text-right\">                                      "
+							+ "					<address>                                                            "
+							+ "						<strong>Date de payement:</strong><br> " + ph.getCreateDate()
+							+ "<br>"
+							+ "						<br>                                                             "
+							+ "					</address>                                                           "
+							+ "				</div>                                                                   "
+							+ "			</div>                                                                       "
+							+ "		</div>                                                                           "
+							+ "	</div>                                                                               ";
 
-			Payment payment = new Payment();
-			payment.setId(paymentId);
-			PaymentExecution paymentExecute = new PaymentExecution();
-			paymentExecute.setPayerId(payerId);
-			Payment resultPayment = payment.execute(apiContext, paymentExecute);
-			ph = new PaymentHistory(resultPayment);
-			if (userId != null && userId > 0) {
-				User user = (User) paymentService.getById(User.class, userId);
-				Calendar date = new GregorianCalendar();
-				// reset hour, minutes, seconds and millis
-				date.set(Calendar.HOUR_OF_DAY, 0);
-				date.set(Calendar.MINUTE, 0);
-				date.set(Calendar.SECOND, 0);
-				date.set(Calendar.MILLISECOND, 0);
-				// next day
-				date.add(Calendar.YEAR, 1);
-				user.setMembershipRenewDate(date.getTime());
-				user.setStatus((short) 1);
-				paymentService.save(user);
-				ph.setUser(user);
-			}
-			// 3 == Frais Annuels.
-			PaymentType pType = (PaymentType) paymentService.getById(PaymentType.class, 2L);
-			ph.setPaymentType(pType);
-			ph.setPaymentId(paymentId);
-			paymentService.save(ph);
-			Transaction trans = new Transaction(ph);
-			paymentService.save(trans);
-			LOGGER.debug(trans);
-			LOGGER.debug(ph);
-			LOGGER.debug(resultPayment);
-			try {
-				// send e-mail
-				String mail = 				"<div class=\"row\">                                                 "+
-						"		<div class=\"col-xs-12\">                                                        "+
-						"			<i class=\"fa fa-thumbs-up fa-5x text-green-300\"> Merci d'avoir paye vos    "+
-						"				frais de membre annuel.</i>                                              "+
-						"			<hr />                                                                       "+
-						"			<div class=\"invoice-title\">                                                "+
-						"				<h2>Recu</h2>                                                            "+
-						"				<h3 class=\"pull-right\">Payement #"+ ph.getPaymentId()+ "</h3>          "+
-						"				<h3 class=\"pull-right\"><strong>Montant $"+ ph.getAmount()+ "</strong></h3>"+
-						"			</div>                                                                       "+
-						"			<hr>                                                                         "+
-						"			<div class=\"row\">                                                          "+
-						"				<div class=\"col-xs-6\">                                                 "+
-						"					<address>                                                            "+
-						"						<strong>Payeur:</strong><br>"+ ph.getFirstName()+" "+ph.getLastName()+" <br>"+
-						ph.getBaLine1()+"<br>"+ph.getBaLine2()+"<br>"+ph.getBaCity()+", "+ph.getBaState()+" "+ph.getBaPostalCode()
-						+"<br>"+ph.getBaCountryCode() +
-						"					</address>                                                           "+
-						"				</div> <br>                                                              "+
-						"				<div class=\"col-xs-6 text-right\">                                      "+
-						"					<address>                                                            "+
-						"						<strong>En faveur de:</strong><br> Association des               "+
-						"						Gabonais de Washington, D.C et ses Environs (A.G.W.E). <br>      "+
-						"						1234 Main<br> Washington DC, DC 54321                            "+
-						"					</address>                                                           "+
-						"				</div>                                                                   "+
-						"			</div>    <br>                                                               "+
-						"			<div class=\"row\">                                                          "+
-						"				<div class=\"col-xs-6\">                                                 "+
-						"					<address>                                                            "+
-						"						<strong>Mode de payment:</strong><br>                            "+
-						"						"+ph.getPaymentMethod()+"<br>"+ph.getEmail()+
-						"					</address>                                                           "+
-						"				</div>  <br>                                                             "+
-						"				<div class=\"col-xs-6 text-right\">                                      "+
-						"					<address>                                                            "+
-						"						<strong>Date de payement:</strong><br> "+ph.getCreateDate()+"<br>"+
-						"						<br>                                                             "+
-						"					</address>                                                           "+
-						"				</div>                                                                   "+
-						"			</div>                                                                       "+
-						"		</div>                                                                           "+
-						"	</div>                                                                               ";
+					SimpleMail.sendMail(
+							"Merci d'avoir paye vos frais de membre annuel de " + ph.getAmount() + " a A.G.W.E", mail,
+							"agwe@agwedc.com", ph.getEmail(), "smtp.office365.com", "agwe@agwedc.com", "agwedc123!");
 
-				
-				SimpleMail.sendMail("Merci d'avoir paye vos frais de membre annuel de "+ph.getAmount()+" a A.G.W.E", mail,
-						"agwedc@gmail.com", ph.getEmail(), "smtp.gmail.com", "agwedc@gmail.com",
-						"agwedc123");
-
-			} catch (Exception e) {
-				LOGGER.error(e);
+				} catch (Exception e) {
+					LOGGER.error(e);
+				}
+			} else {
+				return ph;
 			}
 
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
-			throw e;
+			if (e.getMessage().contains("PAYMENT_ALREADY_DONE")) {/*
+				try {
+					ph = new PaymentHistory(resultPayment);
+					if (userId != null && userId > 0) {
+						User user = (User) paymentService.getById(User.class, userId);
+						Calendar date = new GregorianCalendar();
+						// reset hour, minutes, seconds and millis
+						date.set(Calendar.HOUR_OF_DAY, 0);
+						date.set(Calendar.MINUTE, 0);
+						date.set(Calendar.SECOND, 0);
+						date.set(Calendar.MILLISECOND, 0);
+						// next day
+						date.add(Calendar.YEAR, 1);
+						user.setMembershipRenewDate(date.getTime());
+						user.setStatus((short) 1);
+						paymentService.save(user);
+						ph.setUser(user);
+					}
+					// 3 == Frais Annuels.
+					PaymentType pType = (PaymentType) paymentService.getById(PaymentType.class, 2L);
+					ph.setPaymentType(pType);
+					ph.setPaymentId(paymentId);
+					paymentService.save(ph);
+					Transaction trans = new Transaction(ph);
+					paymentService.save(trans);
+					LOGGER.debug(trans);
+					LOGGER.debug(ph);
+					LOGGER.debug(resultPayment);
+					return ph;
+				} catch (Exception ee) {
+					ee.printStackTrace();
+				}
+			*/} else {
+				throw e;
+			}
 		}
 
 		return ph;
