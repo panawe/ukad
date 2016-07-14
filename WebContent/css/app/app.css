@@ -192,8 +192,9 @@
    background-color: #212121;
   color: #757575;
   font-weight: 500;
-  
-  height: 70px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  height: 90px;
   line-height: 22px;
   display: block;
 }
