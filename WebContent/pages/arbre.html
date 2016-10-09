@@ -28,31 +28,29 @@
 									cellspacing="0" width="100%">
 									<thead>
 										<tr>
-											<th>Nom</th>
-											<th>Prenom</th>
-											<th>E-mail</th>
-											<th>Position</th>
-
-											<th>Ville de residence</th>
-											<th>Pays de residence</th>
-											<th>Selectionner</th>
-
+											<th>Resultat</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr ng-repeat="aUser in displayedCollection1">
-											<td>::aUser.lastName::</pbtd>
-											<td>::aUser.firstName::</td>
-											<td><a ng-href="mailto: ::aUser.email::">::aUser.email::</a></td>
-											<td>::aUser.position.name::</td>
-											<td>::aUser.cityResidence::</td>
-											<td>::aUser.countryResidence.name::</td>
-											<td>
-												<button type="button" ng-click="refreshModal(aUser)"
-													class="btn btn-success">
-													<i class="glyphicon glyphicon-ok"> </i>
-												</button>
+											<td><a ng-href="#" ng-click="refreshModal(aUser)">::aUser.lastName
+													+' '+aUser.firstName::
+													</a>
 											</td>
+											<td><a ng-href="#" ng-click="refreshModal(aUser)">
+													<h6 class="text-justify" ng-show="aUser.cityResidence">
+														<i class="fa fa-fw fa-map-marker fa-2x"></i> Reside a
+														::aUser.cityResidence::, ::aUser.countryResidence.name::
+													</h6>
+											</a>
+											</td>
+											<td>
+
+												<h6 class="text-justify" ng-show="aUser.email">
+													<i class="fa fa-fw fa-envelope-o fa-2x"></i><a
+														ng-href="mailto: ::aUser.email::">::aUser.email::</a>
+												</h6></td>
+
 										</tr>
 
 									</tbody>
@@ -125,17 +123,16 @@
 								<li><a href="#">
 										<table cellpadding="0" border="0" cellspacing="0">
 											<tr>
-												<td><a href="#"
-													ng-click="refreshModal(currUser.dad)"> <img
-														src="images/members/::currUser.dad.id::.jpg"
+												<td><a href="#" ng-click="refreshModal(currUser.dad)">
+														<img src="images/members/::currUser.dad.id::.jpg"
 														fallback-src="images/members/default-avatar.png"
 														class="img-thumbnail img-responsive img-circle"
 														id="theChildrePic" width="50px"> <br /> <h7
 															class="text-center"> ::currUser.dad.firstName+'
-														'+currUser.dad.lastName:: </h7></a></td>
-												<td><a href="#"
-													ng-click="refreshModal(currUser.mum)"> <img
-														src="images/members/::currUser.mum.id::.jpg"
+														'+currUser.dad.lastName:: </h7>
+												</a></td>
+												<td><a href="#" ng-click="refreshModal(currUser.mum)">
+														<img src="images/members/::currUser.mum.id::.jpg"
 														fallback-src="images/members/default-avatar.png"
 														class="img-thumbnail img-responsive img-circle"
 														id="theChildrePic" width="50px"> <br /> <h7
@@ -153,9 +150,8 @@
 
 												<table cellpadding="0" border="0" cellspacing="0">
 													<tr>
-														<td><a href="#"
-															ng-click="refreshModal(currUser)"> <img
-																src="images/members/::currUser.id::.jpg"
+														<td><a href="#" ng-click="refreshModal(currUser)">
+																<img src="images/members/::currUser.id::.jpg"
 																fallback-src="images/members/default-avatar.png"
 																class="img-thumbnail img-responsive img-circle"
 																id="theUserPic" width="50px"> <br /> <h7
