@@ -56,8 +56,8 @@ public class FindReplace {
 	        fw.walk("C:\\My Projects\\ukadtogo" );
 	        for(File f:fw.getFiles()){
 	        	try {
-					//fw.replaceFileString("localhost:8080/ukadtogo", "www.arelbou.com", f);
-					fw.replaceFileString("www.arelbou.com", "localhost:8080/ukadtogo", f);
+					 fw.replaceFileString("localhost:8080/ukadtogo", "www.arelbou.com", f);
+					//fw.replaceFileString("www.arelbou.com", "localhost:8080/ukadtogo", f);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

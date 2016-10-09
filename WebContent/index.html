@@ -44,26 +44,17 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="main-nav">
 					<ul class="nav navbar-nav">
-						<li class="dropdown active"><a href="#"
-							class="dropdown-toggle" data-toggle="dropdown">Notre
-								association <span class="caret"></span>
-						</a>
-							<ul class="dropdown-menu">
-								<li class="dropdown-header">ARELBOU</li>
-								<li class="active"><a href="#pages/statuts">Nos Status</a></li>
-								<li><a href="#pages/reglements">Nos Reglements
-										Interieurs</a></li>
-								<li><a href="#pages/membres">Nos Membres</a></li>
-							</ul></li>
-						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown">Activites <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li class="dropdown-header">Activites</li>
-								<li><a href="#pages/projectsEndUser">Nos Projets</a></li>
-								<li><a href="#pages/eventCalendar">Calendrier des
-										Evenements</a></li>
-								<li><a href="#pages/meetings">Rapports de Reunions</a></li>
-							</ul></li>
+						<li><a href="#pages/membres"><span
+								style="background-color: #337ab7; font-size: 1.6rem;"
+								class="label label-primary">Membres</span></a></li>
+
+						<li><a href="#pages/arbre"><span
+								style="background-color: #337ab7; font-size: 1.6rem;"
+								class="label label-primary">Arbre Genealogique</span></a></li>
+
+						<li><a href="#pages/projectsEndUser"><span
+								style="background-color: #337ab7; font-size: 1.6rem;"
+								class="label label-primary">Projets</span></a></li>
 					</ul>
 					<form class="navbar-form navbar-left margin-none"
 						ng-submit="findMembers()">
@@ -72,7 +63,7 @@
 								<span class="input-group-addon"><i class="icon-search"></i></span>
 								<input ng-model="searchText" type="text"
 									class="form-control form-control-w-250"
-									placeholder="Trouver un Lama dou...">
+									placeholder="Chercher un LAMA...">
 							</div>
 						</div>
 					</form>

@@ -28,8 +28,8 @@
 					<p class="lead text-overlay">E-mail:arelboutg@gmail.com |
 						Tel.90 15 68 62</p>
 					<p class="lead text-overlay">
-						<strong>Prochaine Reunion: <font color="red">5
-								Juin 2016</font></strong>
+						<strong> <font color="green"> 
+								A.RE.L.BOU</font></strong>
 					</p>
 				</div>
 			</div>
@@ -54,12 +54,15 @@
 
 				<div class="page-section" ng-controller="eventCtrl">
 					<div class="text-center">
-						<i class="fa fa-picture-o fa-5x text-green-300"></i>
-						<h1 class="text-h2">Photos albums des Evenements et rencontres</h1>
+						<a  href="#pages/photos"><i class="fa fa-picture-o fa-5x text-green-300"></i></a>
+						<a  href="#pages/photos"><h1 class="text-h2">Photos albums des Evenements et rencontres</h1></a>
 						<hr />
 					</div>
 
 					<div ng-if="eventsWithAlbum && ready">
+					
+					
+					
 						<div class="slick-basic slick-slider">
 
 							<div class="item" ng-repeat="aEvent in eventsWithAlbum"
@@ -101,35 +104,47 @@
 
 				<div class="page-section" ng-controller="eventCtrl">
 					<div class="text-center">
-						<i class="fa fa-camera-retro fa-5x text-green-300"></i>
-						<h1 class="text-h2">Videos des Evenements et rencontres</h1>
+						<a  href="#pages/videos"><i class="fa fa-camera-retro fa-5x text-green-300"></i></a>
+						<a  href="#pages/videos"><h1 class="text-h2">Videos des Evenements et rencontres</h1></a>
 						<hr />
 					</div>
 
 					<div ng-if="eventsWithVideo && ready">
-						<div class="slick-basic slick-slider">
+					
+					
+						<!-- Data table -->
+						<table st-table="displayedCollection"
+							st-safe-src="eventsWithVideo" class="table table-striped"
+							cellspacing="0" width="100%">
+							 
+							<tbody>
+								<tr>
+									<td ng-repeat="aEvent in displayedCollection">
 
-							<div class="item" ng-repeat="aEvent in eventsWithVideo"
-								style="max-width: 246px; max-height: 500px;">
-								<div class="panel panel-default relative"
-									ng-show="::aEvent.hasYoutube::">
-									<div class="cover hover overlay margin-none"
-										style="max-height: 163px; max-width: 246px;">
-										<iframe width="246px"
-											ng-src="::getIframeSrc(aEvent.videoId)::" allowfullscreen>
-										</iframe>
+										<div class="panel panel-default relative"
+											ng-show="::aEvent.hasYoutube::">
+											<div class="cover hover overlay margin-none"
+												style="max-height: 163px; max-width: 246px;">
+												<iframe width="240px"
+													ng-src="::getIframeSrc(aEvent.videoId)::" allowfullscreen>
+												</iframe>
 
-									</div>
-									<div class="panel-body">
-										<h4 class="margin-v-0-5">::aEvent.title::</h4>
-									</div>
-								</div>
+											</div>
+											<div class="panel-body">
+												<h4 class="margin-v-0-5">::aEvent.title::</h4>
+											</div>
+										</div>
 
 
-							</div>
+									</td>
 
+								</tr>
 
-						</div>
+							</tbody> 
+						</table>
+						<!-- // Data table -->
+					
+				 
 					</div>
 					<!-- // END .owl-basic -->
 
@@ -209,82 +224,90 @@
 									<div class="container-fluid">
 										<div class="row">
 
-											<div class="tree">
-												<ul>
-													<li><a href="#" ng-click="refreshModal(currUser.dad)">
-															<table cellpadding="0" border="0" cellspacing="0">
-																<tr>
-																	<td><img
-																		src="images/members/::currUser.dad.id::.jpg"
-																		fallback-src="images/members/default-avatar.png"
-																		class="img-thumbnail img-responsive img-circle"
-																		id="theChildrePic" width="50px"> <br /> <h7
-																			class="text-center"> ::currUser.dad.firstName+'
-																		'+currUser.dad.lastName:: </h7></td>
-																	<td><img
-																		src="images/members/::currUser.mum.id::.jpg"
-																		fallback-src="images/members/default-avatar.png"
-																		class="img-thumbnail img-responsive img-circle"
-																		id="theChildrePic" width="50px"> <br /> <h7
-																			class="text-center"> ::+' -
-																		'+currUser.mum.firstName+' '+currUser.mum.lastName:: </h7></td>
-																</tr>
+						<div class="tree">
+							<ul>
+								<li><a href="#">
+										<table cellpadding="0" border="0" cellspacing="0">
+											<tr>
+												<td><a href="#"
+													ng-click="refreshModal(currUser.dad)"> <img
+														src="images/members/::currUser.dad.id::.jpg"
+														fallback-src="images/members/default-avatar.png"
+														class="img-thumbnail img-responsive img-circle"
+														id="theChildrePic" width="50px"> <br /> <h7
+															class="text-center"> ::currUser.dad.firstName+'
+														'+currUser.dad.lastName:: </h7></a></td>
+												<td><a href="#"
+													ng-click="refreshModal(currUser.mum)"> <img
+														src="images/members/::currUser.mum.id::.jpg"
+														fallback-src="images/members/default-avatar.png"
+														class="img-thumbnail img-responsive img-circle"
+														id="theChildrePic" width="50px"> <br /> <h7
+															class="text-center"> ::+' -
+														'+currUser.mum.firstName+' '+currUser.mum.lastName:: </h7>
+												</a></td>
+											</tr>
 
-															</table>
+										</table>
+
+								</a>
+
+									<ul>
+										<li><a href="#">
+
+												<table cellpadding="0" border="0" cellspacing="0">
+													<tr>
+														<td><a href="#"
+															ng-click="refreshModal(currUser)"> <img
+																src="images/members/::currUser.id::.jpg"
+																fallback-src="images/members/default-avatar.png"
+																class="img-thumbnail img-responsive img-circle"
+																id="theUserPic" width="50px"> <br /> <h7
+																	class="text-center"> ::currUser.firstName+'
+																'+currUser.lastName:: </h7>
+
+														</a></td>
+														<td ng-repeat="sp in spouses" ng-if="spouses"><a
+															href="#" ng-click="refreshModal(sp)"> <img
+																src="images/members/::sp.id::.jpg"
+																fallback-src="images/members/default-avatar.png"
+																class="img-thumbnail img-responsive img-circle"
+																id="theChildrePic" width="50px"> <br /> <h7
+																	class="text-center"> ::+' - '+sp.firstName+'
+																'+sp.lastName:: </h7>
+														</a></td>
+													</tr>
+
+												</table>
 
 
-													</a>
-														<ul>
-															<li><a href="#">
 
-																	<table cellpadding="0" border="0" cellspacing="0">
-																		<tr>
-																			<td><img
-																				src="images/members/::currUser.id::.jpg"
-																				fallback-src="images/members/default-avatar.png"
-																				class="img-thumbnail img-responsive img-circle"
-																				id="theUserPic" width="50px"> <br /> <h7
-																					class="text-center"> ::currUser.firstName+'
-																				'+currUser.lastName:: </h7></td>
-																			<td ng-repeat="sp in spouses" ng-if="spouses"><img
-																				src="images/members/::sp.id::.jpg"
-																				fallback-src="images/members/default-avatar.png"
-																				class="img-thumbnail img-responsive img-circle"
-																				id="theChildrePic" width="50px"> <br /> <h7
-																					class="text-center"> ::+' - '+sp.firstName+'
-																				'+sp.lastName:: </h7></td>
-																		</tr>
+										</a>
+											<ul ng-if="children">
+												<li ng-repeat="c in children"><a href="#"
+													ng-click="refreshModal(c)"> <img
+														src="images/members/::c.id::.jpg"
+														fallback-src="images/members/default-avatar.png"
+														class="img-thumbnail img-responsive img-circle"
+														id="theChildrePic" width="50px"> <br /> <h7
+															class="text-center"> ::c.firstName+' '+c.lastName::
+														</h7>
 
-																	</table>
+												</a></li>
+											</ul></li>
+										<li ng-repeat="s in siblings"><a href="#"
+											ng-click="refreshModal(s)"> <img
+												src="images/members/::s.id::.jpg"
+												fallback-src="images/members/default-avatar.png"
+												class="img-thumbnail img-responsive img-circle"
+												id="theSiblingPic" width="50px"> <br /> <h7
+													class="text-center"> ::s.firstName+' '+s.lastName:: </h7>
 
+										</a></li>
+									</ul></li>
+							</ul>
+						</div>
 
-
-															</a>
-																<ul ng-if="children">
-																	<li ng-repeat="c in children"><a href="#"
-																		ng-click="refreshModal(c)"> <img
-																			src="images/members/::c.id::.jpg"
-																			fallback-src="images/members/default-avatar.png"
-																			class="img-thumbnail img-responsive img-circle"
-																			id="theChildrePic" width="50px"> <br /> <h7
-																				class="text-center"> ::c.firstName+'
-																			'+c.lastName:: </h7>
-
-																	</a></li>
-																</ul></li>
-															<li ng-repeat="s in siblings"><a href="#"
-																ng-click="refreshModal(s)"> <img
-																	src="images/members/::s.id::.jpg"
-																	fallback-src="images/members/default-avatar.png"
-																	class="img-thumbnail img-responsive img-circle"
-																	id="theSiblingPic" width="50px"> <br /> <h7
-																		class="text-center"> ::s.firstName+'
-																	'+s.lastName:: </h7>
-
-															</a></li>
-														</ul></li>
-												</ul>
-											</div>
 
 										</div>
 

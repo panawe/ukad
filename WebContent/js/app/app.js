@@ -6804,7 +6804,7 @@ require('./_timeline');
                 $rootScope.$stateParams = $stateParams;
                 
             	if ($rootScope.count == null) {	
-            		$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/addGuestCount', data : null }).
+            		$http({ method: 'POST', url: 'http://www.arelbou.com/service/user/addGuestCount', data : null }).
         	        success(function (data, status, headers, config) {
         	        	$log.info("Call Successful");    	                 
         	        }).error(function (data, status, headers, config) {
@@ -6819,10 +6819,7 @@ require('./_timeline');
         .config(
         [ '$stateProvider', '$urlRouterProvider',
             function ($stateProvider, $urlRouterProvider) {
-
-        	
-        	
-                $urlRouterProvider
+        		$urlRouterProvider
                     .otherwise('/pages/main');
 
                 $stateProvider
@@ -6899,6 +6896,15 @@ require('./_timeline');
                     }).state('pages.cotiser', {
                         url: '/cotiser',
                         templateUrl: 'pages/cotiser.html' 
+                    }).state('pages.photos', {
+                        url: '/photos',
+                        templateUrl: 'pages/photos.html' 
+                    }).state('pages.arbre', {
+                        url: '/arbre',
+                        templateUrl: 'pages/arbre.html' 
+                    }).state('pages.videos', {
+                        url: '/videos',
+                        templateUrl: 'pages/videos.html' 
                     });
 
             }

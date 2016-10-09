@@ -79,7 +79,7 @@
 							                			
 							                	};
 							                	$scope.paymentSaveSubmitted=true;
-							                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/makePayment', data: transaction }).
+							                     $http({ method: 'POST', url: 'http://www.arelbou.com/service/user/makePayment', data: transaction }).
 							                     success(function (data, status, headers, config) {
 							                     $log.info("Call makePayment Successful");  
 							                     $scope.paymentSaved=true; 
@@ -124,7 +124,7 @@
 							                			
 							                	};
 							                	$scope.paymentSaveSubmitted=true;
-							                     $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/saveExpense', data: transaction }).
+							                     $http({ method: 'POST', url: 'http://www.arelbou.com/service/user/saveExpense', data: transaction }).
 							                     success(function (data, status, headers, config) {
 							                     $log.info("Call makePayment Successful");  
 							                     $scope.paymentSaved=true; 
@@ -190,7 +190,7 @@
 							             */
 							        $scope.drawPayments = function() {
 							        	
-							        	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getYearlySummary', data: null }).
+							        	$http({ method: 'POST', url: 'http://www.arelbou.com/service/user/getYearlySummary', data: null }).
 							   success(function (data, status, headers, config) {
 							            $log.info("Call get getYearlySummary"); 
 							            $( "#bar-example" ).empty(); 
@@ -216,7 +216,7 @@
 
 								var userProfileUploader = $scope.userProfileUploader = new FileUploader(
 										{
-											url : 'http://localhost:8080/ukadtogo/service/user/receiveFile'
+											url : 'http://www.arelbou.com/service/user/receiveFile'
 										});
 
 								// FILTERS
@@ -259,7 +259,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/login',
+												url : 'http://www.arelbou.com/service/user/login',
 												data : User
 											})
 											.success(
@@ -282,7 +282,7 @@
 														$log.info($scope);
 														if($scope.theUser.fee>0.0){
 															$scope.theUser.status=0;
-															$window.location.href="http://localhost:8080/ukadtogo/#/pages/fees";
+															$window.location.href="http://www.arelbou.com/#/pages/fees";
 														}
 
 													})
@@ -307,7 +307,7 @@
 								 * Start Logout
 								 */
 								$scope.logout=function(){
-							        $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/logout' }).
+							        $http({ method: 'POST', url: 'http://www.arelbou.com/service/user/logout' }).
 							        success(function (data, status, headers, config) {
 							        	$log.info("Call Successful"); 
 							            $cookieStore.put('theUser',data);
@@ -334,7 +334,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/createUser',
+												url : 'http://www.arelbou.com/service/user/createUser',
 												data : $scope.newUser
 											})
 											.success(
@@ -352,7 +352,7 @@
 													$log.info($scope);
 													if($scope.theUser.directToPayFee){
 														$scope.theUser.status=0;
-														$window.location.href="http://localhost:8080/ukadtogo/#/pages/fees";
+														$window.location.href="http://www.arelbou.com/#/pages/fees";
 													}
 
 														} else {
@@ -389,7 +389,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/saveUser',
+												url : 'http://www.arelbou.com/service/user/saveUser',
 												data : aUser
 											})
 											.success(
@@ -447,7 +447,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/getAllMembers',
+												url : 'http://www.arelbou.com/service/user/getAllMembers',
 												data : null
 											}).success(
 											function(data, status, headers,
@@ -477,7 +477,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/findMembers',
+												url : 'http://www.arelbou.com/service/user/findMembers',
 												data : {
 													searchText : $scope.searchText
 												}
@@ -488,7 +488,7 @@
 														
 														$log.info("Call find Members Successful");
 														 $scope.searchResultArrays = $scope.chunk(data, 6);
-														$log.info($scope.searchResult);
+														//$log.info($scope.searchResult);
 														$location.url('/pages/searchResults');	
 														if($cookieStore.get('searchText')!=$scope.searchText){
 															$cookieStore.put('searchText',$scope.searchText);
@@ -518,7 +518,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/findMembers',
+												url : 'http://www.arelbou.com/service/user/findMembers',
 												data : {
 													searchText : $scope.searchText
 												}
@@ -549,7 +549,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/findMembers',
+												url : 'http://www.arelbou.com/service/user/findMembers',
 												data : {
 													searchText : $scope.searchCrit
 												}
@@ -572,6 +572,7 @@
 
 								};
 								
+					 
 								/**
 								 * Start approve Member
 								 * 
@@ -581,7 +582,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/approveMember',
+												url : 'http://www.arelbou.com/service/user/approveMember',
 												data : aUser
 											}).success(
 											function(data, status, headers,
@@ -611,7 +612,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/rejectMember',
+												url : 'http://www.arelbou.com/service/user/rejectMember',
 												data : aUser
 											}).success(
 											function(data, status, headers,
@@ -641,7 +642,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/getPendingMembers',
+												url : 'http://www.arelbou.com/service/user/getPendingMembers',
 												data : $scope.mailContent
 											}).success(
 											function(data, status, headers,
@@ -677,7 +678,7 @@
 							          		 $scope.mailSent=false;
 							             } else{
 
-							                 $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/sendMail', data: email}).
+							                 $http({ method: 'POST', url: 'http://www.arelbou.com/service/user/sendMail', data: email}).
 							                 success(function (data, status, headers, config) {
 							                          $log.info("Call Successful"); 
 							                        $scope.email=null;
@@ -721,6 +722,11 @@
 								 * End Show Modal
 								 */
 
+								$scope.refreshFamilyTree = function(user) {
+									$scope.currUser = user;
+									$scope.getFamilyTree(user); 
+								}
+								
 								/**
 								 * Begin Default IMG
 								 */
@@ -739,7 +745,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/getLeaders',
+												url : 'http://www.arelbou.com/service/user/getLeaders',
 												data : null
 											}).success(
 											function(data, status, headers,
@@ -766,7 +772,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/getAllExpenses',
+												url : 'http://www.arelbou.com/service/user/getAllExpenses',
 												data : null
 											}).success(
 											function(data, status, headers,
@@ -794,7 +800,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/user/deleteExpense',
+												url : 'http://www.arelbou.com/service/user/deleteExpense',
 												data : exp
 											})
 											.success(
@@ -826,7 +832,7 @@
 					             */
 					        $scope.drawContributions = function() {
 					        	
-					        	$http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/user/getContributions', data: null }).
+					        	$http({ method: 'POST', url: 'http://www.arelbou.com/service/user/getContributions', data: null }).
 					   success(function (data, status, headers, config) {
 					            $log.info("Call get getContributions"); 
 					            $( "#contribution-bar" ).empty(); 
@@ -852,7 +858,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/user/getContributions',
+											url : 'http://www.arelbou.com/service/user/getContributions',
 											data : null
 										})
 										.success(
@@ -881,7 +887,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/payment/createPayment',
+											url : 'http://www.arelbou.com/service/payment/createPayment',
 											data : {
 											    "intent": "sale",
 											    "payer": {
@@ -897,8 +903,8 @@
 											        }
 											    ],
 											    "redirectUrls": {
-											        return_url: "http://localhost:8080/ukadtogo/#/pages/donate",
-											        cancel_url: "http://localhost:8080/ukadtogo/#/pages/cancelDonate"
+											        return_url: "http://www.arelbou.com/#/pages/donate",
+											        cancel_url: "http://www.arelbou.com/#/pages/cancelDonate"
 											    }
 											}
 										})
@@ -915,7 +921,7 @@
 														headers, config) {
 													$log.info("Call Create payment Failed");
 													$log.info($scope); 
-													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
+													$window.location.href="http://www.arelbou.com/#/pages/cancelDonate";
 
 												});
 
@@ -930,7 +936,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/payment/submitFee',
+											url : 'http://www.arelbou.com/service/payment/submitFee',
 											data : {
 											    "intent": "sale",
 											    "payer": {
@@ -946,8 +952,8 @@
 											        }
 											    ],
 											    "redirectUrls": {
-											        return_url: "http://localhost:8080/ukadtogo/#/pages/fees",
-											        cancel_url: "http://localhost:8080/ukadtogo/#/pages/cancelDonate"
+											        return_url: "http://www.arelbou.com/#/pages/fees",
+											        cancel_url: "http://www.arelbou.com/#/pages/cancelDonate"
 											    }
 											}
 										})
@@ -964,7 +970,7 @@
 														headers, config) {
 													$log.info("Call Create payment Failed");
 													$log.info($scope); 
-													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
+													$window.location.href="http://www.arelbou.com/#/pages/cancelDonate";
 
 												});
 
@@ -978,7 +984,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/payment/makePayment',
+											url : 'http://www.arelbou.com/service/payment/makePayment',
 											data : {													
 												paymentId:$scope.paymentId,
 												token:$scope.token,
@@ -999,7 +1005,7 @@
 														headers, config) {
 													$log.info("Call Make payment Failed");
 													$log.info($scope); 
-													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
+													$window.location.href="http://www.arelbou.com/#/pages/cancelDonate";
 												});
 							};
 
@@ -1012,7 +1018,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/payment/payFee',
+											url : 'http://www.arelbou.com/service/payment/payFee',
 											data : {													
 												paymentId:$scope.paymentId,
 												token:$scope.token,
@@ -1033,7 +1039,7 @@
 														headers, config) {
 													$log.info("Call Make payment Failed");
 													$log.info($scope); 
-													$window.location.href="http://localhost:8080/ukadtogo/#/pages/cancelDonate";
+													$window.location.href="http://www.arelbou.com/#/pages/cancelDonate";
 												});
 							};
 							
@@ -1042,7 +1048,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/user/getContributions',
+											url : 'http://www.arelbou.com/service/user/getContributions',
 											data : null
 										})
 										.success(
@@ -1103,7 +1109,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/user/getSiblings',
+											url : 'http://www.arelbou.com/service/user/getSiblings',
 											data : user
 										})
 										.success(
@@ -1124,7 +1130,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/user/getChildren',
+											url : 'http://www.arelbou.com/service/user/getChildren',
 											data : user
 										})
 										.success(
@@ -1145,7 +1151,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/user/getSpouses',
+											url : 'http://www.arelbou.com/service/user/getSpouses',
 											data : user
 										})
 										.success(
@@ -1171,7 +1177,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/user/saveFamLink',
+											url : 'http://www.arelbou.com/service/user/saveFamLink',
 											data : $scope.theUser
 										})
 										.success(
@@ -1195,7 +1201,7 @@
 								$http(
 										{
 											method : 'POST',
-											url : 'http://localhost:8080/ukadtogo/service/user/saveFamLink',
+											url : 'http://www.arelbou.com/service/user/saveFamLink',
 											data : $scope.currUser
 										})
 										.success(

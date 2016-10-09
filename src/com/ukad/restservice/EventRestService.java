@@ -150,6 +150,39 @@ public class EventRestService {
 		Collections.reverse(retList);
 		return retList;
 	}
+	
+	@RequestMapping(value = "/getTop5EventsWithAlbum", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<Event> getTop5EventsWithAlbum() {
+		System.out.println("Event list Requested - getTop5EventsWithAlbum");
+		List<Event> events = eventService.loadAllEvents(Event.class);
+		String storageDirectory = null;
+
+		if (context != null) {
+
+			storageDirectory = context.getRealPath("/") + File.separator + "images" + File.separator + "events";
+
+		}
+		List<Event> retList = new ArrayList<Event>();
+		Collections.reverse(events);
+		int count=0;
+		for (Event e : events) {
+			File dir = new File(storageDirectory + File.separator + e.getId());
+			int fileCount = 0;
+			if (dir.exists()) {
+				fileCount = dir.listFiles().length;
+			}
+			if (fileCount > 0 ) {
+				count++;
+				e.setHasPhoto(true);
+				retList.add(e);
+				if(count>=4){
+					break;
+				}
+			}
+		}
+		//Collections.reverse(retList);
+		return retList;
+	}
 
 	
 	@RequestMapping(value = "/getAllEventsWithVideo", method = RequestMethod.POST, headers = "Accept=application/json")
@@ -169,7 +202,29 @@ public class EventRestService {
 		Collections.reverse(retList);
 		return retList;
 	}
-
+	@RequestMapping(value = "/getTop5EventsWithVideo", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<Event> getTop5EventsWithVideo() {
+		System.out.println("Event list Requested - getAllEventsWithAlbum");
+		List<Event> events = eventService.loadAllEvents(Event.class);
+		List<Event> retList = new ArrayList<Event>();
+		Collections.reverse(events);
+		int count=0;
+		for (Event e : events) {
+		 
+				if(e.getAlbumNote()!=null&&!e.getAlbumNote().equals("")){
+					count++;
+					e.setHasYoutube(true);
+					String albumNote=e.getAlbumNote();
+					e.setVideoId((albumNote==null||albumNote.equals(""))?null:albumNote.split("/")[albumNote.split("/").length-1]);
+					retList.add(e);
+					if(count>=4){
+						break;
+					}
+				}			 
+		}
+		
+		return retList;
+	}
 	@RequestMapping(value = "/getAllEventsWithAlbumOrRepport", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody List<Event> getAllEventsWithAlbumOrRepport() {
 		System.out.println("Event list Requested - getAllEventsWithAlbumOrRepport");

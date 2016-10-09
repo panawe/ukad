@@ -27,6 +27,14 @@
 								$scope.eventSaveSubmitted = false;
 								$scope.submitted = false;
 								
+								$scope.chunk = function(arr, size) {
+									 var newArr = [];
+									  for (var i=0; i<arr.length; i+=size) {
+									    newArr.push(arr.slice(i, i+size));
+									  }
+									 return newArr;
+								}
+								
 								/**
 								 * Delay
 								 */
@@ -48,7 +56,7 @@
 
 								var uploader = $scope.uploader = new FileUploader(
 										{
-											url : 'http://localhost:8080/ukadtogo/service/event/receiveFile'
+											url : 'http://www.arelbou.com/service/event/receiveFile'
 										});
 
 								// FILTERS
@@ -148,7 +156,7 @@
 										$http(
 												{
 													method : 'POST',
-													url : 'http://localhost:8080/ukadtogo/service/user/saveReportAndMail',
+													url : 'http://www.arelbou.com/service/user/saveReportAndMail',
 													data : email
 												})
 												.success(
@@ -185,7 +193,26 @@
 								/**
 								 * End saveReportAndMail
 								 */
-								
+							  	   /**
+		  	  	                 * Start get Events with Album
+		  	  	                 * Get the list of Events
+		  	  	                 */
+		  	  	                      $scope.getTop5EventsWithAlbum = function() {
+		  	  	                            
+		  	  	                           $http({ method: 'POST', url: 'http://www.arelbou.com/service/event/getTop5EventsWithAlbum', data: null }).
+		  	  	                           success(function (data, status, headers, config) {
+		  	  	                                    $log.info("Call get All Events with album Successful"); 
+		  	  	                                	$scope.eventsWithAlbum=data;
+		  	  	                                    $log.info($scope);
+		  	                                     //$cookieStore.put('eventsWithAlbum',data);
+		  	  	                                    
+		  	  	                           }).error(function (data, status, headers, config) {
+		  	  	                                    $log.info("Call get All Event with album Failed");
+		  	  	                                    $log.info($scope);
+		  	                                     //$cookieStore.put('eventsWithAlbum',null);
+		  	  	                           });
+		  	  	              
+		  	  	                      };								
 								
 							  	   /**
 		  	  	                 * Start get Events with Album
@@ -193,10 +220,10 @@
 		  	  	                 */
 		  	  	                      $scope.getAllEventsWithAlbum = function() {
 		  	  	                            
-		  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithAlbum', data: null }).
+		  	  	                           $http({ method: 'POST', url: 'http://www.arelbou.com/service/event/getAllEventsWithAlbum', data: null }).
 		  	  	                           success(function (data, status, headers, config) {
 		  	  	                                    $log.info("Call get All Events with album Successful"); 
-		  	  	                                	$scope.eventsWithAlbum=data;
+		  	  	                                	$scope.eventsWithAlbumArray= $scope.chunk(data, 4); 
 		  	  	                                    $log.info($scope);
 		  	                                     //$cookieStore.put('eventsWithAlbum',data);
 		  	  	                                    
@@ -210,17 +237,34 @@
 		  	  	            	 /**
 		  	  	            	  * End get all Events with Album
 		  	  	            	  */
-
 								  	   /**
 				  	  	                 * Start get Events with Video
 				  	  	                 * Get the list of Events
 				  	  	                 */
 				  	  	                      $scope.getAllEventsWithVideo = function() {
 				  	  	                            
-				  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithVideo', data: null }).
+				  	  	                           $http({ method: 'POST', url: 'http://www.arelbou.com/service/event/getAllEventsWithVideo', data: null }).
 				  	  	                           success(function (data, status, headers, config) {
 				  	  	                                    $log.info("Call get All Events with Video Successful"); 
-				  	  	                                	$scope.eventsWithVideo=data;
+				  	  	                                    $scope.eventsWithVideoArray= $scope.chunk(data, 4); 
+				  	  	                                    $log.info($scope);
+				  	  	                                    
+				  	  	                           }).error(function (data, status, headers, config) {
+				  	  	                                    $log.info("Call get All Event with Video Failed");
+				  	  	                                    $log.info($scope);
+				  	  	                           });
+				  	  	              
+				  	  	                      };
+								  	   /**
+				  	  	                 * Start get Events with Video
+				  	  	                 * Get the list of Events
+				  	  	                 */
+				  	  	                      $scope.getTop5EventsWithVideo = function() {
+				  	  	                            
+				  	  	                           $http({ method: 'POST', url: 'http://www.arelbou.com/service/event/getTop5EventsWithVideo', data: null }).
+				  	  	                           success(function (data, status, headers, config) {
+				  	  	                                    $log.info("Call get All Events with Video Successful"); 
+				  	  	                                	$scope.eventsWithVideo=data; 
 				  	  	                                    $log.info($scope);
 				  	  	                                    
 				  	  	                           }).error(function (data, status, headers, config) {
@@ -314,7 +358,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/getAllEvents',
+												url : 'http://www.arelbou.com/service/event/getAllEvents',
 												data : null
 											})
 											.success(
@@ -354,7 +398,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/createEvent',
+												url : 'http://www.arelbou.com/service/event/createEvent',
 												data : this.theEvent
 											})
 											.success(
@@ -401,7 +445,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/deleteEvent',
+												url : 'http://www.arelbou.com/service/event/deleteEvent',
 												data : aEvent
 											})
 											.success(
@@ -440,7 +484,7 @@
 									$http(
 											{
 												method : 'POST',
-												url : 'http://localhost:8080/ukadtogo/service/event/getEventAlbum',
+												url : 'http://www.arelbou.com/service/event/getEventAlbum',
 												data : aEvent
 											})
 											.success(
@@ -471,7 +515,7 @@
 	  	  	  	                 */
 	  	  	  	                      $scope.getAllEventsWithAlbumOrRepport = function() {
  	  	  	                            
-	  	  	  	                           $http({ method: 'POST', url: 'http://localhost:8080/ukadtogo/service/event/getAllEventsWithRepport', data: null }).
+	  	  	  	                           $http({ method: 'POST', url: 'http://www.arelbou.com/service/event/getAllEventsWithRepport', data: null }).
 	  	  	  	                           success(function (data, status, headers, config) {
 	  	  	  	                                    $log.info("Call get All Events with album Successful"); 
 	  	  	  	                                	$scope.eventsWithAlbumReport=data;
@@ -491,10 +535,16 @@
 								var url = $location.url();
 								$log.info('URL='+url);
 								
-								if(url=='/pages/main'){
-									
+								if(url=='/pages/photos'){
 									$scope.getAllEventsWithAlbum();
+									$cookieStore.remove("eventAlbum_reload");
+								}if(url=='/pages/videos'){
 									$scope.getAllEventsWithVideo();
+									$cookieStore.remove("eventAlbum_reload");
+								}if(url=='/pages/main'){
+									
+									$scope.getTop5EventsWithAlbum();
+									$scope.getTop5EventsWithVideo();
 									$cookieStore.remove("eventAlbum_reload");
 								}else if(url=='/pages/eventAlbum' &&  ($scope.EventPictures==null||$scope.EventPictures=='')){								
 									if ($cookieStore.get('eventAlbum_reload'))
