@@ -371,7 +371,7 @@ public class User extends BaseEntity {
 		}
 		if(this.dad!=null){
 			this.dad.mum=null;
-			this.mum.dad=null;
+			this.dad.dad=null;
 		}
 		return this;
 	}
