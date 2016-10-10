@@ -19,48 +19,56 @@ import com.ukad.util.Utils;
 
 @Entity
 @Table(name = "PAYMENT_HISTORY")
-public class PaymentHistory extends BaseEntity  {
+public class PaymentHistory extends BaseEntity {
 
-	public PaymentHistory(){super();};
-	public PaymentHistory(Payment pay){
-		payerId=pay.getId();
-		paymentMethod=pay.getPayer().getPaymentMethod();
-		payerStatus=pay.getPayer().getStatus();
-		email=pay.getPayer().getPayerInfo().getEmail();
-		firstName=pay.getPayer().getPayerInfo().getFirstName();
-		lastName=pay.getPayer().getPayerInfo().getLastName();
-		payerId=pay.getPayer().getPayerInfo().getPayerId();
-		phone=pay.getPayer().getPayerInfo().getPhone();
-		countryCode=pay.getPayer().getPayerInfo().getCountryCode();
-		
-		baLine1=pay.getPayer().getPayerInfo().getBillingAddress().getLine1();
-		baLine2=pay.getPayer().getPayerInfo().getBillingAddress().getLine2();
-		baCity=pay.getPayer().getPayerInfo().getBillingAddress().getCity();
-		baCountryCode=pay.getPayer().getPayerInfo().getBillingAddress().getCountryCode();
-		baState=pay.getPayer().getPayerInfo().getBillingAddress().getState();
-		baPostalCode=pay.getPayer().getPayerInfo().getBillingAddress().getPostalCode();
-		
-		spLine1=pay.getPayer().getPayerInfo().getShippingAddress().getLine1();
-		spLine2=pay.getPayer().getPayerInfo().getShippingAddress().getLine2();
-		spCity=pay.getPayer().getPayerInfo().getShippingAddress().getCity();
-		spCountryCode=pay.getPayer().getPayerInfo().getShippingAddress().getCountryCode();
-		spState=pay.getPayer().getPayerInfo().getShippingAddress().getState();
-		spPostalCode=pay.getPayer().getPayerInfo().getShippingAddress().getPostalCode();
-				
-		cart=pay.getCart();
-		com.paypal.api.payments.Transaction t=pay.getTransactions().get(0);
-		amount=new Double(t.getAmount().getTotal());
-		currency=t.getAmount().getCurrency();		
-		RelatedResources rr=t.getRelatedResources().get(0);
-		paymentMode=rr.getSale().getPaymentMode();
-		transactionState=rr.getSale().getState();
-		protectionEligibility=rr.getOrder()==null?null:rr.getOrder().getProtectionEligibility();
-		protectionEligibilityType=rr.getOrder()==null?null:rr.getOrder().getProtectionEligibilityType();
-		fee=new Double(rr.getSale().getTransactionFee().getValue());
-		merchantId=pay.getPayee()==null?null:pay.getPayee().getMerchantId();
-		description=t.getDescription(); 
-		
+	public PaymentHistory() {
+		super();
+	};
+
+	public PaymentHistory(Payment pay) {
+		payerId = pay.getId();
+		paymentMethod = pay.getPayer().getPaymentMethod();
+		payerStatus = pay.getPayer().getStatus();
+
+		if (pay.getPayer().getPayerInfo() != null) {
+			email = pay.getPayer().getPayerInfo().getEmail();
+			firstName = pay.getPayer().getPayerInfo().getFirstName();
+			lastName = pay.getPayer().getPayerInfo().getLastName();
+			payerId = pay.getPayer().getPayerInfo().getPayerId();
+			phone = pay.getPayer().getPayerInfo().getPhone();
+			countryCode = pay.getPayer().getPayerInfo().getCountryCode();
+			if (pay.getPayer().getPayerInfo().getBillingAddress() != null) {
+				baLine1 = pay.getPayer().getPayerInfo().getBillingAddress().getLine1();
+				baLine2 = pay.getPayer().getPayerInfo().getBillingAddress().getLine2();
+				baCity = pay.getPayer().getPayerInfo().getBillingAddress().getCity();
+				baCountryCode = pay.getPayer().getPayerInfo().getBillingAddress().getCountryCode();
+				baState = pay.getPayer().getPayerInfo().getBillingAddress().getState();
+				baPostalCode = pay.getPayer().getPayerInfo().getBillingAddress().getPostalCode();
+			}
+			if (pay.getPayer().getPayerInfo().getShippingAddress() != null) {
+				spLine1 = pay.getPayer().getPayerInfo().getShippingAddress().getLine1();
+				spLine2 = pay.getPayer().getPayerInfo().getShippingAddress().getLine2();
+				spCity = pay.getPayer().getPayerInfo().getShippingAddress().getCity();
+				spCountryCode = pay.getPayer().getPayerInfo().getShippingAddress().getCountryCode();
+				spState = pay.getPayer().getPayerInfo().getShippingAddress().getState();
+				spPostalCode = pay.getPayer().getPayerInfo().getShippingAddress().getPostalCode();
+			}
+		}
+		cart = pay.getCart();
+		com.paypal.api.payments.Transaction t = pay.getTransactions().get(0);
+		amount = new Double(t.getAmount().getTotal());
+		currency = t.getAmount().getCurrency();
+		RelatedResources rr = t.getRelatedResources().get(0);
+		paymentMode = rr.getSale().getPaymentMode();
+		transactionState = rr.getSale().getState();
+		protectionEligibility = rr.getOrder() == null ? null : rr.getOrder().getProtectionEligibility();
+		protectionEligibilityType = rr.getOrder() == null ? null : rr.getOrder().getProtectionEligibilityType();
+		fee = new Double(rr.getSale().getTransactionFee().getValue());
+		merchantId = pay.getPayee() == null ? null : pay.getPayee().getMerchantId();
+		description = t.getDescription();
+
 	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PAYMENT_HISTORY_ID")
@@ -68,108 +76,108 @@ public class PaymentHistory extends BaseEntity  {
 
 	@Column(name = "PAYMENT_ID")
 	private String paymentId;
-	
-	@Column(name = "PAYMENT_METHOD") 
+
+	@Column(name = "PAYMENT_METHOD")
 	private String paymentMethod;
-	
+
 	@Column(name = "PAYER_STATUS")
 	private String payerStatus;
-	
+
 	@Column(name = "EMAIL")
 	private String email;
-	
+
 	@Column(name = "FIRST_NAME")
 	private String firstName;
-	
+
 	@Column(name = "LAST_NAME")
 	private String lastName;
-	
+
 	@Column(name = "PAYER_ID")
 	private String payerId;
-	
+
 	@Column(name = "PHONE")
 	private String phone;
-	
+
 	@Column(name = "COUNTRY_CODE")
 	private String countryCode;
-	
+
 	@Column(name = "BA_LINE1")
 	private String baLine1;
-	
+
 	@Column(name = "BA_LINE2")
 	private String baLine2;
-	
+
 	@Column(name = "BA_CITY")
 	private String baCity;
-	
+
 	@Column(name = "BA_COUNTRY_CODE")
 	private String baCountryCode;
-	
+
 	@Column(name = "BA_POSTAL_CODE")
 	private String baPostalCode;
-	
-	@Column(name = "BA_STATE")  
+
+	@Column(name = "BA_STATE")
 	private String baState;
-	
+
 	@Column(name = "SP_LINE1")
 	private String spLine1;
-	
+
 	@Column(name = "SP_LINE2")
 	private String spLine2;
-	
+
 	@Column(name = "SP_CITY")
 	private String spCity;
-	
+
 	@Column(name = "SP_COUNTRY_CODE")
 	private String spCountryCode;
-	
-	@Column(name = "SP_POSTAL_CODE")  
+
+	@Column(name = "SP_POSTAL_CODE")
 	private String spPostalCode;
-	
+
 	@Column(name = "SP_STATE")
 	private String spState;
-	
-	@Column(name = "CART") 
+
+	@Column(name = "CART")
 	private String cart;
-	
+
 	@Column(name = "CURRENCY")
 	private String currency;
-	
+
 	@Column(name = "TRANSACTION_STATE")
 	private String transactionState;
-	
+
 	@Column(name = "PAYMENT_MODE")
 	private String paymentMode;
-	
+
 	@Column(name = "PROTECTION_ELIGIBILITY")
 	private String protectionEligibility;
-	
+
 	@Column(name = "PROTECTION_ELIGIBILITY_TYPE")
 	private String protectionEligibilityType;
-	
-	@Column(name = "MERCHANT_ID") 
+
+	@Column(name = "MERCHANT_ID")
 	private String merchantId;
-	
+
 	@Column(name = "DESCRIPTION")
 	private String description;
-	
+
 	@Column(name = "PAYMENT_STATE")
 	private String paymentState;
-	
+
 	@Column(name = "AMOUNT")
 	private Double amount;
-	
+
 	@Column(name = "FEE")
 	private Double fee;
-	 
+
 	@ManyToOne
 	@JoinColumn(name = "USER_ID", nullable = true)
 	private User user;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "PAYMENT_TYPE_ID")
 	private PaymentType paymentType;
- 
+
 	@Override
 	public Long getId() {
 		// TODO Auto-generated method stub
@@ -444,13 +452,14 @@ public class PaymentHistory extends BaseEntity  {
 		this.id = id;
 	}
 
-	
 	public String getPaymentMode() {
 		return paymentMode;
 	}
+
 	public void setPaymentMode(String paymentMode) {
 		this.paymentMode = paymentMode;
 	}
+
 	@Override
 	public String toString() {
 		return "PaymentHistory [id=" + id + ", paymentId=" + paymentId + ", paymentMethod=" + paymentMethod
@@ -465,5 +474,5 @@ public class PaymentHistory extends BaseEntity  {
 				+ ", description=" + description + ", paymentState=" + paymentState + ", amount=" + amount + ", fee="
 				+ fee + ", user=" + user + ", paymentType=" + paymentType + "]";
 	}
- 
+
 }

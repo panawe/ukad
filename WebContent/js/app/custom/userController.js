@@ -883,7 +883,7 @@
 							 * Start get Events Get the list of Events
 							 */
 							$scope.submitDonation = function() {
-
+								if ($scope.amount>0.0) {
 								$http(
 										{
 											method : 'POST',
@@ -924,6 +924,7 @@
 													$window.location.href="http://www.arelbou.com/#/pages/cancelDonate";
 
 												});
+								}
 
 							};
 
@@ -1249,23 +1250,31 @@
 									$scope.paymentId = $location.search().paymentId;
 									$scope.token = $location.search().token; 
 									$scope.PayerID = $location.search().PayerID; 
+									//$scope.pay=$cookieStore.get('pay');
 									
 									$log.info('PayerID='+$scope.PayerID);
 									$log.info('paymentId='+$scope.paymentId);
 									$log.info('token='+$scope.token);
-									$scope.makePayment();
+									if (!$cookieStore.get('processingPay')) {
+										$cookieStore.put('processingPay', "true");
+										$scope.makePayment();
+									}
+									
 								}else if(url.startsWith('/pages/fees')){
 									$scope.paymentId = $location.search().paymentId;
 									$scope.token = $location.search().token; 
 									$scope.PayerID = $location.search().PayerID; 
+									//$scope.pay=$cookieStore.get('pay');
 									$log.info('PayerID='+$scope.PayerID);
 									$log.info('paymentId='+$scope.paymentId);
 									$log.info('token='+$scope.token);
 									$log.info('theUser='+$scope.theUser);
 									if(typeof $scope.paymentId!='undefined'){
-										$scope.payFee();
-									}
-									
+										if (!$cookieStore.get('processingPay')) {
+											$cookieStore.put('processingPay', "true");
+											$scope.payFee();
+										}									
+									}									
 								}
 
 							} ])
