@@ -897,6 +897,7 @@
 							 * Start get Events Get the list of Events
 							 */
 							$scope.submitDonation = function() {
+								$cookieStore.remove('processingPay');
 								if ($scope.amount>0.0) {
 								$http(
 										{
