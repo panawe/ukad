@@ -178,6 +178,18 @@ public class PaymentHistory extends BaseEntity {
 	@JoinColumn(name = "PAYMENT_TYPE_ID")
 	private PaymentType paymentType;
 
+	@ManyToOne
+	@JoinColumn(name = "PROJECT_ID")
+	private Project project;
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
 	@Override
 	public Long getId() {
 		// TODO Auto-generated method stub

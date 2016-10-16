@@ -210,6 +210,27 @@
 
 							        };
 
+							        $scope.drawBudgetCash = function() {
+							        	
+							        	$http({ method: 'POST', url: 'http://www.arelbou.com/service/user/getBudgetCash', data: null }).
+							   success(function (data, status, headers, config) {
+							            $log.info("Call get bar-budget"); 
+							            $( "#bar-budget" ).empty(); 
+							   	      Morris.Bar({
+								  	  	  	  element: 'bar-budget',
+								  	  	  	  data:data,
+								  	  	  	  xkey: 'project',
+								  	  	  	  ykeys: ['budget', 'cash'],
+								  	  	  	  labels: ['Budget', 'Cotisation']
+								  	  	  	});
+							           
+							   }).error(function (data, status, headers, config) {
+								   		 
+							            $log.info("Call get bar-budget Failed");
+							            $log.info($scope);
+							   });	  	  	  	  	    
+
+							        };
 								/**
 								 * Start File uploader
 								 */
@@ -883,7 +904,8 @@
 							 * Start get Events Get the list of Events
 							 */
 							$scope.submitDonation = function() {
-								if ($scope.amount>0.0) {
+								$cookieStore.remove('processingPay');
+								if ($scope.amount>0.0 && $scope.project>0) {
 								$http(
 										{
 											method : 'POST',
@@ -899,7 +921,7 @@
 											                "currency": "USD",
 											                "total": $scope.amount
 											            },
-											            "description": "Don pour ARELBOU"
+											            "description": $scope.project
 											        }
 											    ],
 											    "redirectUrls": {
@@ -1242,6 +1264,8 @@
 									$scope.drawPayments();
 									$scope.drawContributions();
 									$scope.getAllExpenses();
+								}else if(url=='/pages/projectsEndUser'){ 
+									$scope.drawBudgetCash(); 
 								}else if(url=='/pages/approveMembers'){
 									$scope.getPendingMembers();
 								}else if(url=='/pages/main'){									
@@ -1250,8 +1274,6 @@
 									$scope.paymentId = $location.search().paymentId;
 									$scope.token = $location.search().token; 
 									$scope.PayerID = $location.search().PayerID; 
-									//$scope.pay=$cookieStore.get('pay');
-									
 									$log.info('PayerID='+$scope.PayerID);
 									$log.info('paymentId='+$scope.paymentId);
 									$log.info('token='+$scope.token);

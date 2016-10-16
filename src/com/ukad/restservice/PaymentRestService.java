@@ -29,6 +29,7 @@ import com.paypal.api.payments.RedirectUrls;
 import com.ukad.model.Mail;
 import com.ukad.model.PaymentHistory;
 import com.ukad.model.PaymentType;
+import com.ukad.model.Project;
 import com.ukad.model.Transaction;
 import com.ukad.security.model.User;
 import com.ukad.service.EventService;
@@ -113,7 +114,16 @@ public class PaymentRestService {
 			Payer payer = new Payer();
 			payer.setPaymentMethod("paypal");
 			payment.setPayer(payer);
-
+			try {
+				String desc = payment.getTransactions().get(0).getDescription();
+				if (desc != null) {
+					Project proj = (Project) paymentService.getById(Project.class,  (long) Integer.parseInt(desc));
+					payment.getTransactions().get(0).setDescription(proj.getTitle());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				payment.getTransactions().get(0).setDescription("Don Pour ARELBOU");
+			}
 			// ###Redirect URLs
 			RedirectUrls redirectUrls = new RedirectUrls();
 			redirectUrls.setCancelUrl("http://www.arelbou.com/#/pages/cancelDonate");
@@ -134,6 +144,8 @@ public class PaymentRestService {
 				}
 			}
 		} catch (PayPalRESTException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -199,7 +211,7 @@ public class PaymentRestService {
 	}
 
 	@RequestMapping(value = "/getPay", method = RequestMethod.POST, headers = "Accept=application/json")
-	public @ResponseBody PaymentHistory getPay(@RequestBody Object data)   {
+	public @ResponseBody PaymentHistory getPay(@RequestBody Object data) {
 		String paymentId = null;
 		String token = null;
 		String payerId = null;
@@ -225,18 +237,19 @@ public class PaymentRestService {
 		PaymentHistory ph = null;
 		try {
 			ph = (PaymentHistory) paymentService.findByColumn(PaymentHistory.class, "paymentId", paymentId);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return ph;
 	}
-	 
+
 	@RequestMapping(value = "/makePayment", method = RequestMethod.POST, headers = "Accept=application/json")
 	public @ResponseBody PaymentHistory makePayment(@RequestBody Object data) throws PayPalRESTException {
 		String paymentId = null;
 		String token = null;
 		String payerId = null;
 		Long userId = null;
+		System.out.println("Enter public @ResponseBody PaymentHistory makePayment(@RequestBody Object data) throws PayPalRESTException");
 		try {
 			String theData[] = data.toString().replaceAll("\\{", "").replaceAll("\\}", "").split(",");
 			for (String a : theData) {
@@ -262,6 +275,7 @@ public class PaymentRestService {
 		try {
 			PayPalResource.initConfig(is);
 		} catch (PayPalRESTException e) {
+			e.printStackTrace();
 			LOGGER.fatal(e.getMessage());
 			throw e;
 		}
@@ -270,20 +284,25 @@ public class PaymentRestService {
 			accessToken = GenerateAccessToken.getAccessToken();
 			apiContext = new APIContext(accessToken);
 		} catch (PayPalRESTException e) {
+			e.printStackTrace();
 			LOGGER.error(e);
 			e.printStackTrace();
 			throw e;
 		}
+		System.out.println("paymentId="+paymentId);
 		PaymentHistory ph = null;
 		try {
 			ph = (PaymentHistory) paymentService.findByColumn(PaymentHistory.class, "paymentId", paymentId);
+			System.out.println("Payment History="+ph);
 			if (ph == null) {
-
+				
 				Payment payment = new Payment();
 				payment.setId(paymentId);
 				PaymentExecution paymentExecute = new PaymentExecution();
 				paymentExecute.setPayerId(payerId);
-				Payment resultPayment = payment.execute(apiContext, paymentExecute); 
+				System.out.println("Before Executing Payment paymentId="+paymentId);
+				Payment resultPayment = payment.execute(apiContext, paymentExecute);
+				System.out.println("After Executing Payment paymentId="+paymentId);
 				ph = new PaymentHistory(resultPayment);
 				if (userId != null && userId > 0) {
 					User user = (User) paymentService.getById(User.class, userId);
@@ -293,13 +312,27 @@ public class PaymentRestService {
 				PaymentType pType = (PaymentType) paymentService.getById(PaymentType.class, 3L);
 				ph.setPaymentType(pType);
 				ph.setPaymentId(paymentId);
+				try {
+					String desc = ph.getDescription();
+					if (desc != null) {
+						Project project = (Project) paymentService.findByColumn(Project.class, "title", desc); 
+						ph.setProject(project);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				System.out.println("Before Saving Payment History:"+ph);
 				paymentService.save(ph);
+				System.out.println("After Saving Payment History");
 				Transaction trans = new Transaction(ph);
+				System.out.println("Before Saving Transaction ="+trans);
 				paymentService.save(trans);
+				System.out.println("After Saving Transaction ");
 				LOGGER.debug(trans);
 				LOGGER.debug(ph);
 				LOGGER.debug(resultPayment);
 				try {
+					System.out.println("Before sending e-mail to: "+ph.getEmail());
 					// send e-mail
 					String mail = "<div class=\"row\">                                                 "
 							+ "		<div class=\"col-xs-12\">                                                        "
@@ -309,17 +342,24 @@ public class PaymentRestService {
 							+ "			<div class=\"invoice-title\">                                                "
 							+ "				<h2>Recu</h2>                                                            "
 							+ "				<h3 class=\"pull-right\">Don #" + ph.getPaymentId()
-							+ "</h3>                    " + "				<h3 class=\"pull-right\"><strong>Montant $"
+							+ "</h3>                    " 
+							+ "				<h3 class=\"pull-right\"><strong>Montant donne $"
 							+ ph.getAmount() + "</strong></h3>                    "
+									+ "				<h3 class=\"pull-right\"><strong>Frais de transfer: $"
+									+ ph.getFee() + "</strong></h3>                    "
+											+ "				<h3 class=\"pull-right\"><strong>Montant transmis a ARELBOU: $"
+											+ (ph.getAmount()-ph.getFee()) + "</strong></h3>                    "
+
 							+ "			</div>                                                                       "
 							+ "			<hr>                                                                         "
 							+ "			<div class=\"row\">                                                          "
 							+ "				<div class=\"col-xs-6\">                                                 "
 							+ "					<address>                                                            "
 							+ "						<strong>Donateur:</strong><br>" + ph.getFirstName() + " "
-							+ ph.getLastName() +(ph.getBaLine1()!=null? " <br>" + ph.getBaLine1() + "<br>" + ph.getBaLine2() + "<br>"
-							+ ph.getBaCity() + ", " + ph.getBaState() + " " + ph.getBaPostalCode() + "<br>"
-							+ ph.getBaCountryCode():"")
+							+ ph.getLastName()
+							+ (ph.getBaLine1() != null ? " <br>" + ph.getBaLine1() + "<br>" + ph.getBaLine2() + "<br>"
+									+ ph.getBaCity() + ", " + ph.getBaState() + " " + ph.getBaPostalCode() + "<br>"
+									+ ph.getBaCountryCode() : "")
 							+ "					</address>                                                           "
 							+ "				</div> <br>                                                                  "
 							+ "				<div class=\"col-xs-6 text-right\">                                      "
@@ -349,9 +389,11 @@ public class PaymentRestService {
 							+ "	</div>                                                                               ";
 
 					SimpleMail.sendMail("Merci pour votre Don de $" + ph.getAmount() + " a ARELBOU", mail,
-							"arelboutg@gmail.com", ph.getEmail(), "smtp.gmail.com", "arelboutg@gmail.com", "arelboutg123");
-
+							"arelboutg@gmail.com", ph.getEmail(), "smtp.gmail.com", "arelboutg@gmail.com",
+							"arelboutg123");
+					System.out.println("After sending e-mail to: "+ph.getEmail());
 				} catch (Exception e) {
+					e.printStackTrace();
 					LOGGER.error(e);
 				}
 			} else {
@@ -363,11 +405,14 @@ public class PaymentRestService {
 			if (e.getMessage().contains("PAYMENT_ALREADY_DONE")) {
 				Map<String, String> containerMap = new HashMap<String, String>();
 				containerMap.put("count", "10");
-				com.paypal.api.payments.PaymentHistory phs= Payment.list(accessToken, containerMap);
+				com.paypal.api.payments.PaymentHistory phs = Payment.list(accessToken, containerMap);
 			} else {
 				throw e;
 			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
+		System.out.println("Exit public @ResponseBody PaymentHistory makePayment(@RequestBody Object data) throws PayPalRESTException");
 
 		return ph;
 	}
@@ -378,6 +423,7 @@ public class PaymentRestService {
 		String token = null;
 		String payerId = null;
 		Long userId = null;
+		
 		try {
 			String theData[] = data.toString().replaceAll("\\{", "").replaceAll("\\}", "").split(",");
 			for (String a : theData) {
@@ -461,17 +507,23 @@ public class PaymentRestService {
 							+ "			<div class=\"invoice-title\">                                                "
 							+ "				<h2>Recu</h2>                                                            "
 							+ "				<h3 class=\"pull-right\">Payement #" + ph.getPaymentId() + "</h3>          "
-							+ "				<h3 class=\"pull-right\"><strong>Montant $" + ph.getAmount()
-							+ "</strong></h3>"
+							+ "				<h3 class=\"pull-right\"><strong>Montant donne $"
+							+ ph.getAmount() + "</strong></h3>                    "
+									+ "				<h3 class=\"pull-right\"><strong>Frais de transfer: $"
+									+ ph.getFee() + "</strong></h3>                    "
+											+ "				<h3 class=\"pull-right\"><strong>Montant transmis a ARELBOU: $"
+											+ (ph.getAmount()-ph.getFee()) + "</strong></h3>                    "
+
 							+ "			</div>                                                                       "
 							+ "			<hr>                                                                         "
 							+ "			<div class=\"row\">                                                          "
 							+ "				<div class=\"col-xs-6\">                                                 "
 							+ "					<address>                                                            "
 							+ "						<strong>Donateur:</strong><br>" + ph.getFirstName() + " "
-							+ ph.getLastName() +(ph.getBaLine1()!=null? " <br>" + ph.getBaLine1() + "<br>" + ph.getBaLine2() + "<br>"
-							+ ph.getBaCity() + ", " + ph.getBaState() + " " + ph.getBaPostalCode() + "<br>"
-							+ ph.getBaCountryCode():"")
+							+ ph.getLastName()
+							+ (ph.getBaLine1() != null ? " <br>" + ph.getBaLine1() + "<br>" + ph.getBaLine2() + "<br>"
+									+ ph.getBaCity() + ", " + ph.getBaState() + " " + ph.getBaPostalCode() + "<br>"
+									+ ph.getBaCountryCode() : "")
 							+ "					</address>                                                           "
 							+ "				</div> <br>                                                              "
 							+ "				<div class=\"col-xs-6 text-right\">                                      "
@@ -502,7 +554,8 @@ public class PaymentRestService {
 
 					SimpleMail.sendMail(
 							"Merci d'avoir paye vos frais de membre annuel de " + ph.getAmount() + " a ARELBOU", mail,
-							"arelboutg@gmail.com", ph.getEmail(), "smtp.gmail.com", "arelboutg@gmail.com", "arelboutg123");
+							"arelboutg@gmail.com", ph.getEmail(), "smtp.gmail.com", "arelboutg@gmail.com",
+							"arelboutg123");
 
 				} catch (Exception e) {
 					LOGGER.error(e);
@@ -513,8 +566,8 @@ public class PaymentRestService {
 
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
-			if (e.getMessage().contains("PAYMENT_ALREADY_DONE")) { 
-				
+			if (e.getMessage().contains("PAYMENT_ALREADY_DONE")) {
+
 			} else {
 				throw e;
 			}

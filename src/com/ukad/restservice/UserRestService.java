@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ukad.listener.MySessionListener;
 import com.ukad.model.BaseEntity;
+import com.ukad.model.BudgetCash;
 import com.ukad.model.Event;
 import com.ukad.model.Mail;
 import com.ukad.model.Transaction;
@@ -433,6 +434,12 @@ public class UserRestService {
 	public @ResponseBody List<YearlySummary> getYearlySummary() {
 		System.out.println("YearlySummary list Requested - YearlySummary");
 		return userService.getYearlySmry();
+	}
+
+	@RequestMapping(value = "/getBudgetCash", method = RequestMethod.POST, headers = "Accept=application/json")
+	public @ResponseBody List<BudgetCash> getBudgetCash() {
+		System.out.println("BudgetCash list Requested - getBudgetCash");
+		return userService.getBudgetCash();
 	}
 
 	@RequestMapping(value = "/getAllExpenses", method = RequestMethod.POST, headers = "Accept=application/json")

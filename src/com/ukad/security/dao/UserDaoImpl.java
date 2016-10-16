@@ -22,9 +22,11 @@ import org.springframework.stereotype.Repository;
 
 import com.ukad.dao.BaseDaoImpl;
 import com.ukad.model.BaseEntity;
+import com.ukad.model.BudgetCash;
 import com.ukad.model.Configuration;
 import com.ukad.model.Transaction;
 import com.ukad.security.model.RolesUser;
+import com.ukad.security.model.Contribution;
 import com.ukad.security.model.Menu;
 import com.ukad.security.model.User;
 
@@ -205,5 +207,29 @@ public class UserDaoImpl extends BaseDaoImpl {
 		crit.addOrder(Order.desc("createDate"));
 		List l = getHibernateTemplate().findByCriteria(crit);
 		return l;
+	}
+
+	public List<BudgetCash> getBudgetCash() {
+		// TODO Auto-generated method stub
+		String sqlQuery = "SELECT P.TITLE, MAX(P.BUDGET), SUM(IF(AMOUNT IS NULL,0,AMOUNT-IF(FEE IS NULL,0,FEE))) AMT FROM PROJECT P LEFT OUTER JOIN TRANSACTION T ON (P.PROJECT_ID=T.PROJECT_ID) GROUP BY P.TITLE";
+
+		// int parameterIndex = 0;
+		Session session = getHibernateTemplate().getSessionFactory().openSession();
+		Query query = session.createSQLQuery(sqlQuery);
+		// query.setParameter(parameterIndex, year);
+
+		List<Object[]> objects = query.list();
+
+		List<BudgetCash> yss = new ArrayList<BudgetCash>();
+		BudgetCash ys;
+		for (Object[] obj : objects) {
+			ys = new BudgetCash();
+			ys.setProject((String) obj[0]);
+			ys.setBudget(new Double(obj[1].toString()));
+			ys.setCash(new Double(obj[2].toString()));
+			yss.add(ys);
+		}
+
+		return yss;
 	}
 }

@@ -32,6 +32,11 @@ public class Transaction extends BaseEntity {
 		Calendar c = Calendar.getInstance();     
 		year=new Date().getYear();
 		month=c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.FRANCE ) ;
+		project=pay.getProject();
+		firstName=pay.getFirstName();
+		lastName=pay.getLastName();
+		email=pay.getEmail();
+		fee=pay.getFee();
 	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +46,9 @@ public class Transaction extends BaseEntity {
 	@Column(name = "AMOUNT")
 	private Double amount;
 
+	@Column(name = "FEE")
+	private Double fee;
+	
 	@Column(name = "REBATE")
 	private Double rebate;
 
@@ -63,6 +71,59 @@ public class Transaction extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "USER_ID")
 	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "PROJECT_ID")
+	private Project project;
+	
+	@Column(name = "EMAIL")
+	private String email;
+
+	@Column(name = "FIRST_NAME")
+	private String firstName;
+
+	@Column(name = "LAST_NAME")
+	private String lastName;
+
+	public Double getFee() {
+		return fee;
+	}
+
+	public void setFee(Double fee) {
+		this.fee = fee;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
 
 	public String getMonth() {
 		return month;

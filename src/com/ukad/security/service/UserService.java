@@ -3,6 +3,7 @@ package com.ukad.security.service;
 import java.util.List;
 
 import com.ukad.model.BaseEntity;
+import com.ukad.model.BudgetCash;
 import com.ukad.model.Transaction;
 import com.ukad.security.model.Contribution;
 import com.ukad.security.model.Menu;
@@ -39,4 +40,6 @@ public interface UserService extends BaseService {
 	
 	public List<User> loadAllMembersWithOnlineStatus();
 	public List<User> findMembers(String firstName, String lastName, String login, String email);
+
+	public List<BudgetCash> getBudgetCash();
 }

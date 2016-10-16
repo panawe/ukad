@@ -59,16 +59,15 @@ public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 
 		
-		 dataSource.setUrl("jdbc:mysql://127.9.190.2:3306/arelbou")	;	 
+		 dataSource.setUrl("jdbc:mysql://127.9.190.2:3306/arelbou") ;
 		 dataSource.setUsername("adminQXJBNXC");
-		 dataSource.setPassword("kN1nuqbGpQ_r");	
+		 dataSource.setPassword("kN1nuqbGpQ_r");
 		
-		 /*	
-		  dataSource.setUrl("jdbc:mysql://localhost:3306/arelbouprod");
-		  dataSource.setUsername("root"); 
-		  dataSource.setPassword("admin");
-		   */	
-		 
+		 /*
+		dataSource.setUrl("jdbc:mysql://localhost:3306/arelbouprod");
+		dataSource.setUsername("root");
+		dataSource.setPassword("admin");
+		 */
 		Properties connectionProperties = new Properties();
 		connectionProperties.setProperty("defaultTransactionIsolation", "2");
 		connectionProperties.setProperty("initialSize", "10");

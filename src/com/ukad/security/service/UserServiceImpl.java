@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ukad.model.BaseEntity;
+import com.ukad.model.BudgetCash;
 import com.ukad.model.Position;
 import com.ukad.model.Transaction;
 import com.ukad.security.dao.UserDaoImpl;
@@ -145,6 +146,12 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	public List<User> findMembers(String firstName, String lastName, String login, String email) {
 		// TODO Auto-generated method stub
 		return userDao.findMembers(firstName, lastName, login, email);
+	}
+
+	@Override
+	public List<BudgetCash> getBudgetCash() {
+		// TODO Auto-generated method stub
+		return userDao.getBudgetCash();
 	}
 	
 	

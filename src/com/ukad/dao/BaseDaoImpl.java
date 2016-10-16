@@ -366,7 +366,7 @@ public class BaseDaoImpl<T extends BaseEntity> extends HibernateDaoSupport imple
 
 	public List<Contribution> getContributions() {
 
-		String sqlQuery = "SELECT CONCAT_WS(' ',U.FIRST_NAME, U.LAST_NAME) MEMBER, SUM(AMOUNT) AMT FROM TRANSACTION T, USERS U WHERE U.USER_ID=T.USER_ID AND IO=1 GROUP BY CONCAT_WS(' ',U.FIRST_NAME, U.LAST_NAME) ORDER BY AMT DESC";
+		String sqlQuery = "SELECT IF (T.FIRST_NAME IS NOT NULL,CONCAT_WS(' ',T.FIRST_NAME, T.LAST_NAME), CONCAT_WS(' ',U.FIRST_NAME, U.LAST_NAME)) MEMBER, SUM(AMOUNT) AMT FROM TRANSACTION T, USERS U WHERE U.USER_ID=T.USER_ID AND IO=1 GROUP BY IF (T.FIRST_NAME IS NOT NULL,CONCAT_WS(' ',T.FIRST_NAME, T.LAST_NAME), CONCAT_WS(' ',U.FIRST_NAME, U.LAST_NAME)) ORDER BY AMT DESC";
 
 		// int parameterIndex = 0;
 		Session session = getHibernateTemplate().getSessionFactory().openSession();
